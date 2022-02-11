@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GSP_API.Business", "GSP_API
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GSP_API.Infrastructure", "GSP_API.Infrastructure\GSP_API.Infrastructure.csproj", "{DD60E4D9-F120-4AC1-8632-6981667C9AA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "abc", "abc\abc.csproj", "{E990073A-5067-41E9-86CF-29458CEE33E9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashToSHA256", "HashToSHA256\HashToSHA256.csproj", "{B3DD4FA6-4563-4CBA-A24E-10F7B84C49FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{DD60E4D9-F120-4AC1-8632-6981667C9AA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD60E4D9-F120-4AC1-8632-6981667C9AA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD60E4D9-F120-4AC1-8632-6981667C9AA2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E990073A-5067-41E9-86CF-29458CEE33E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E990073A-5067-41E9-86CF-29458CEE33E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E990073A-5067-41E9-86CF-29458CEE33E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E990073A-5067-41E9-86CF-29458CEE33E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3DD4FA6-4563-4CBA-A24E-10F7B84C49FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3DD4FA6-4563-4CBA-A24E-10F7B84C49FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3DD4FA6-4563-4CBA-A24E-10F7B84C49FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3DD4FA6-4563-4CBA-A24E-10F7B84C49FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
