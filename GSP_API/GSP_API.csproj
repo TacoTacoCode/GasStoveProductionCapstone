@@ -28,4 +28,8 @@
 		<ProjectReference Include="..\GSP_API.Business\GSP_API.Business.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Extensions\SQLScript\" />
+	</ItemGroup>
+
 </Project>
