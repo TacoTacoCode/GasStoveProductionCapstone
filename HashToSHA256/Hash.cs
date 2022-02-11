@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Security.Cryptography;
 using System.Text;
+using System.Security.Cryptography;
 
-namespace abc
+namespace HashToSHA256
 {
-    class Program
+    public class Hash
     {
-        static void Main(string[] args)
-        {
-            
-
-            Console.WriteLine(ComputeSha256Hash("admin"));
-        }
         static string ComputeSha256Hash(string rawData)
         {
             // Create a SHA256   
