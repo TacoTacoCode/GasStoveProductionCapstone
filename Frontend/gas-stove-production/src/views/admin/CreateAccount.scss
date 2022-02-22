@@ -3,10 +3,13 @@ html {
 }
 
 .create-account {
-    margin       : 10%;
-    border-radius: 10px;
-    width        : fit-content;
-    height       : fit-content;
+    width            : fit-content;
+    height           : fit-content;
+    position         : fixed;
+    top              : 50%;
+    left             : 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform        : translate(-50%, -50%);
 
     .top-panel {
         background-color       : red;
@@ -242,9 +245,9 @@ html {
 }
 
 .text-data {
-    width      : 95%;
+    width      : 90%;
     height     : 95%;
-    margin-top : -5px;
+    margin-top : -7px;
     border     : 0px;
     word-wrap  : break-word;
     resize     : none;
