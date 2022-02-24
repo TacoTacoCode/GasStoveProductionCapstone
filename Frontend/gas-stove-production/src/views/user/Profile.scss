@@ -1,0 +1,155 @@
+body,
+html {
+    height: 100%;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.top_panel {
+    width : 100%;
+    height: 6ch;
+}
+
+.iconDetails {
+    float : left;
+    height: 4ch;
+}
+
+.container2 {
+    width : 100%;
+    height: auto;
+    margin: 2ch;
+}
+
+.line_panel {
+    background-color: lightgray;
+    width           : 100%;
+    height          : 5px;
+}
+
+.mid_panel {
+    background-color: red;
+    width           : 100%;
+    height          : 100%;
+}
+
+.top-title {
+    height: 4ch;
+}
+
+.top-title1 {
+    margin-left    : 5ch;
+    padding-top    : 0.5ch;
+    width          : 50ch;
+    vertical-align : middle;
+    padding-left   : 2ch;
+    text-decoration: none;
+    color          : black;
+}
+
+/* Create two columns/boxes that floats next to each other */
+nav {
+    float     : left;
+    width     : 20%;
+    background: yellow;
+    height    : 50vh;
+}
+
+/* Style the list inside the menu */
+nav ul {
+    list-style-type: none;
+    padding        : 0;
+}
+
+article {
+    float           : left;
+    width           : 80%;
+    background-color: blue;
+    height          : 10vh;
+}
+
+section::after {
+    content: "";
+    display: table;
+    clear  : both;
+}
+
+.row1 {
+    float           : inline-start;
+    height          : 20ch;
+    width           : 100%;
+    background-color: blue;
+}
+
+.row1:after {
+    content: "";
+    display: table;
+    clear  : both;
+}
+
+.row2 {
+    float           : inline-start;
+    width           : 100%;
+    background-color: green;
+}
+
+.row2:after {
+    content: "";
+    display: table;
+    clear  : both;
+}
+
+.button_nav {
+    height            : 5ch;
+    width             : 75%;
+    border            : none;
+    cursor            : pointer;
+    padding           : 0px 10px;
+    display           : inline-block;
+    outline           : none;
+    position          : relative;
+    overflow          : hidden;
+    -transform        : translateZ(0);
+    -webkit-transition: all 0.35s ease;
+    transition        : all 0.35s ease;
+    -webkit-box-sizing: border-box;
+    box-sizing        : border-box;
+    color             : white;
+    font-weight       : 600;
+    background-color  : red;
+    border-radius     : 20vh;
+    margin-top        : 5%;
+    font-size         : large;
+}
+
+.button_nav:before {
+    opacity           : 0;
+    content           : "";
+    position          : absolute;
+    top               : 0px;
+    bottom            : 0px;
+    left              : 0px;
+    right             : 0px;
+    border-radius     : inherit;
+    background-color  : #ffffff;
+    -webkit-transition: all 0.3s;
+    transition        : all 0.3s;
+    -webkit-transform : translateY(100%);
+    transform         : translateY(100%);
+}
+
+.button_nav:hover,
+.button_nav.hover {
+    background-color: #d41919;
+    color           : #ffffff;
+}
+
+.button_nav:hover:before,
+.button_nav.hover:before {
+    -webkit-transform: translateY(0%);
+    transform        : translateY(0%);
+    opacity          : 0.25;
+}
