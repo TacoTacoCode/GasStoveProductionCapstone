@@ -1,6 +1,9 @@
 import React from "react";
 import { TabLink, Tabs, TabContent } from "react-tabs-redux";
-import './Profile.scss'
+import FooterPage from "../../components/FooterPage";
+import HeaderPage from "../../components/HeaderPage";
+import NavigationColumn from "../../components/NavigationColumn";
+import './Profile.scss';
 
 class Profile extends React.Component {
     state = {
@@ -18,31 +21,15 @@ class Profile extends React.Component {
         return (
             <>
                 {/* Header */}
-                <header className="top_panel">
-                    <a href=".">
-                        <div className='container2'>
-                            <img className='iconDetails' src='http://uyenphat.com.vn/wp-content/themes/ufa/imgs/logo.png' alt='Bếp Ga Uyên Phát' title="UFA Company Managing System" />
-                            <div className="top-title">
-                                <p className="top-title1">UFA Company Managing System</p>
-                            </div>
-                        </div>
-                    </a>
-                </header>
+                <HeaderPage />
                 <div className="line_panel" />
                 {/* Content */}
                 <section className="mid_panel">
                     {/* Left */}
-                    <nav className="column">
-                        <center>
-                            <img className="img_avatar" alt={this.state.name} src={this.state.image} />
-                        </center>
-                        <ul>
-                            <li><center><button className="button_nav">Create Forms</button></center></li>
-                            <li><center><button className="button_nav">Attendance List</button></center></li>
-                            <li><center><button className="button_nav">Request History</button></center></li>
-                            <li><center><button className="button_nav">Daily Report</button></center></li>
-                        </ul>
-                    </nav>
+                    <NavigationColumn
+                        name={this.state.name}
+                        image={this.state.image}
+                    />
                     <div className="row">
                         {/* Right 1 */}
                         <div className="row1">
@@ -76,7 +63,7 @@ class Profile extends React.Component {
                                             </div>
                                             <div className="inline2_row2">
                                                 <span className="span_1">
-                                                    <input type="text" className="textbox_input" defaultValue={this.state.phone} readOnly></input>
+                                                    <input type="number" placeholder={this.state.phone} className="textbox_input" defaultValue={this.state.phone} readOnly={true}></input>
                                                 </span>
                                             </div>
                                         </div>
@@ -86,7 +73,7 @@ class Profile extends React.Component {
                                             </div>
                                             <div className="inline2_row2">
                                                 <span className="span_1">
-                                                    <input type="text" className="textbox_input" defaultValue={this.state.email} readOnly></input>
+                                                    <input type="text" placeholder={this.state.email} className="textbox_input" defaultValue={this.state.email} readOnly={true}></input>
                                                 </span>
                                             </div>
                                         </div>
@@ -96,7 +83,7 @@ class Profile extends React.Component {
                                             </div>
                                             <div className="inline2_row2">
                                                 <span className="span_1">
-                                                    <input type="text" className="textbox_input" defaultValue={this.state.address} readOnly></input>
+                                                    <input type="text" placeholder={this.state.address} className="textbox_input" defaultValue={this.state.address} readOnly={true}></input>
                                                 </span>
                                             </div>
                                         </div>
@@ -106,7 +93,7 @@ class Profile extends React.Component {
                                             </div>
                                             <div className="inline2_row2">
                                                 <span className="span_1">
-                                                    <input type="text" className="textbox_input" defaultValue={this.state.gender} readOnly></input>
+                                                    <input type="text" placeholder={this.state.gender} className="textbox_input" defaultValue={this.state.gender} readOnly={true}></input>
                                                 </span>
                                             </div>
                                         </div>
@@ -118,7 +105,7 @@ class Profile extends React.Component {
                                             </div>
                                             <div className="inline2_row2">
                                                 <span className="span_1">
-                                                    <input type="text" className="textbox_input" defaultValue={this.state.workerID} readOnly></input>
+                                                    <input type="text" placeholder={this.state.workerID} className="textbox_input" defaultValue={this.state.workerID} readOnly={true}></input>
                                                 </span>
                                             </div>
                                         </div>
@@ -128,7 +115,7 @@ class Profile extends React.Component {
                                             </div>
                                             <div className="inline2_row2">
                                                 <span className="span_1">
-                                                    <input type="text" className="textbox_input" defaultValue={this.state.role} readOnly></input>
+                                                    <input type="text" placeholder={this.state.role} className="textbox_input" defaultValue={this.state.role} readOnly={true}></input>
                                                 </span>
                                             </div>
                                         </div>
@@ -140,31 +127,7 @@ class Profile extends React.Component {
                 </section>
                 <div className="line_panel" />
                 {/* Footer */}
-                <footer className="site-footer">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-sm-12 col-md-6">
-                                {/* nhập về công ty uyên phát */}
-                                <h6>About</h6>
-                                <p className="text-justify">Scanfcode.com <i>CODE WANTS TO BE SIMPLE </i> is an initiative  to help the upcoming programmers with the code. Scanfcode focuses on providing the most efficient code or snippets as the code wants to be simple. We will help programmers build up concepts in different programming languages that include C, C++, Java, HTML, CSS, Bootstrap, JavaScript, PHP, Android, SQL and Algorithm.</p>
-                            </div>
-
-                            <div className="col-xs-6 col-md-3" />
-                            <div className="col-xs-6 col-md-3" />
-                        </div>
-                        <hr />
-                    </div>
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-md-8 col-sm-6 col-xs-12">
-                                <p className="copyright-text">Copyright &copy; 2022 All Rights Reserved by&nbsp;
-                                    <a href=".">GSP</a>.
-                                </p>
-                            </div>
-                            <div className="col-md-4 col-sm-6 col-xs-12" />
-                        </div>
-                    </div>
-                </footer>
+                <FooterPage />
             </>
         )
     }
