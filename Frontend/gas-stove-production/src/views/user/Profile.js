@@ -1,5 +1,9 @@
 import React from "react";
-import './Profile.scss'
+import { TabLink, Tabs, TabContent } from "react-tabs-redux";
+import FooterPage from "../../components/FooterPage";
+import HeaderPage from "../../components/HeaderPage";
+import NavigationColumn from "../../components/NavigationColumn";
+import './Profile.scss';
 
 class Profile extends React.Component {
     state = {
@@ -7,39 +11,123 @@ class Profile extends React.Component {
         phone: '0335365325',
         address: '2695 Pham The Hien, Phuong 7, Quan 8, TPHCM',
         email: 'hieudinhW003@gmail.com',
-        gender: '0',
+        gender: 'Male',
         workerID: 'GSP123',
-        role: '1',
+        role: 'Manufacturing Manager',
+        image: 'https://1.bp.blogspot.com/-fZFuHlaPUhs/YGLZa02W4xI/AAAAAAAArDQ/CBAWz3Nr7qU65dmF9oleJoHrpClyTOA-ACNcBGAsYHQ/s0/63af987a2cf528462ae90e36c72f6e96.jpeg',
     };
 
     render() {
         return (
             <>
-                <div className="top_panel">
-                    <a href=".">
-                        <div className='container2'>
-                            <img className='iconDetails' src='http://uyenphat.com.vn/wp-content/themes/ufa/imgs/logo.png' alt='Bếp Ga Uyên Phát' title="UFA Company Managing System" />
-                            <div className="top-title">
-                                <p className="top-title1">UFA Company Managing System</p>
+                {/* Header */}
+                <HeaderPage />
+                <div className="line_panel" />
+                {/* Content */}
+                <section className="mid_panel">
+                    {/* Left */}
+                    <NavigationColumn
+                        name={this.state.name}
+                        image={this.state.image}
+                    />
+                    <div className="row">
+                        {/* Right 1 */}
+                        <div className="row1">
+                            <div className="row1_inside">
+                                <div className="inline_row1">
+                                    <h3 className="row1_h3">&emsp;{this.state.name}</h3>
+                                    <h4 className="row1_h4">&emsp;{this.state.role}</h4>
+                                </div>
+                                <div className="inline_row2">
+                                    <span className="span_1">
+                                        <button className="button_edit_profile">Edit Profile</button>
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </a>
-                </div>
-                <div className="line_panel" />
-                <section className="mid_panel">
-                    <nav className="column">
-                        <ul>
-                            <li><center><button className="button_nav">Create Forms</button></center></li>
-                            <li><center><button className="button_nav">Attendance List</button></center></li>
-                            <li><center><button className="button_nav">Request History</button></center></li>
-                            <li><center><button className="button_nav">Daily Report</button></center></li>
-                        </ul>
-                    </nav>
-                    <div className="row">
-                        <div className="row1">1111111</div>
-                        <div className="row2">2222222</div>
+                        <div className="line_panel" />
+                        {/* Right 2 */}
+                        <div className="row2">
+                            {/* Tab */}
+                            <Tabs className="tabs tabs-1">
+                                <div className="tab-links">
+                                    <TabLink to="tab1">About</TabLink>
+                                    <TabLink to="tab2">Working Information</TabLink>
+                                </div>
+
+                                <div className="content">
+                                    <TabContent for="tab1">
+                                        <div className="row2_inside">
+                                            <div className="inline2_row1">
+                                                <h4 className="row2_h5">Phone</h4>
+                                            </div>
+                                            <div className="inline2_row2">
+                                                <span className="span_1">
+                                                    <input type="number" placeholder={this.state.phone} className="textbox_input" defaultValue={this.state.phone} readOnly={true}></input>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="row2_inside">
+                                            <div className="inline2_row1">
+                                                <h4 className="row2_h5">Email</h4>
+                                            </div>
+                                            <div className="inline2_row2">
+                                                <span className="span_1">
+                                                    <input type="text" placeholder={this.state.email} className="textbox_input" defaultValue={this.state.email} readOnly={true}></input>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="row2_inside">
+                                            <div className="inline2_row1">
+                                                <h4 className="row2_h5">Address</h4>
+                                            </div>
+                                            <div className="inline2_row2">
+                                                <span className="span_1">
+                                                    <input type="text" placeholder={this.state.address} className="textbox_input" defaultValue={this.state.address} readOnly={true}></input>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="row2_inside">
+                                            <div className="inline2_row1">
+                                                <h4 className="row2_h5">Gender</h4>
+                                            </div>
+                                            <div className="inline2_row2">
+                                                <span className="span_1">
+                                                    <input type="text" placeholder={this.state.gender} className="textbox_input" defaultValue={this.state.gender} readOnly={true}></input>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </TabContent>
+                                    <TabContent for="tab2">
+                                        <div className="row2_inside">
+                                            <div className="inline2_row1">
+                                                <h4 className="row2_h5">Worker ID</h4>
+                                            </div>
+                                            <div className="inline2_row2">
+                                                <span className="span_1">
+                                                    <input type="text" placeholder={this.state.workerID} className="textbox_input" defaultValue={this.state.workerID} readOnly={true}></input>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="row2_inside">
+                                            <div className="inline2_row1">
+                                                <h4 className="row2_h5">Role</h4>
+                                            </div>
+                                            <div className="inline2_row2">
+                                                <span className="span_1">
+                                                    <input type="text" placeholder={this.state.role} className="textbox_input" defaultValue={this.state.role} readOnly={true}></input>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </TabContent>
+                                </div>
+                            </Tabs>
+                        </div>
                     </div>
                 </section>
+                <div className="line_panel" />
+                {/* Footer */}
+                <FooterPage />
             </>
         )
     }
