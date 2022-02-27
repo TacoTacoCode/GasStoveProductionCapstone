@@ -1,6 +1,7 @@
 ﻿using GSP_API.Domain.Interfaces;
 using GSP_API.Domain.Repositories.Models;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GSP_API.Business.Services
 {
@@ -13,10 +14,24 @@ namespace GSP_API.Business.Services
         {
             _productComponentRepository = productComponentRepository;
         }
-
-        public IQueryable<Role> CreateProCompo()
+        public async Task<ProductComponent> GetProCompoById(int proCompoId)
         {
-            //IQueryable<Role> list = _productComponentRepository
+            return await _productComponentRepository.GetById(p => p.Id == proCompoId);
+        }
+
+        public async Task<string> AddCompoMate(ProductComponent proCompo)
+        {
+            return await _productComponentRepository.Add(proCompo); ;
+        }
+
+        public async Task<string> UpdateCompoMate(int proCompoId, ProductComponent newProCompo)
+        {
+            var data = await _productComponentRepository.FindById(p => p.Id == proCompoId);
+            if (data != null)
+            {
+                newProCompo.Id = data.Id;
+                await _productComponentRepository.Update(newProCompo);
+            }
             return null;
         }
     }

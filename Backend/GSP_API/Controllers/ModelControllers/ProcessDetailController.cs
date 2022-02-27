@@ -1,0 +1,107 @@
+﻿using AutoMapper;
+using GSP_API.Business.Services;
+using GSP_API.Domain.Repositories.Models;
+using GSP_API.Models.Request;
+using GSP_API.Models.Response;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace GSP_API.Controllers.ModelControllers
+{
+    [ApiController]
+    public class ProcessDetailController : ControllerBase
+    {
+        private readonly ProcessDetailService _processDetailService;
+        private readonly IMapper _mapper;
+
+        public ProcessDetailController(
+             ProcessDetailService processDetailService,
+             IMapper mapper)
+        {
+            _processDetailService = processDetailService;
+            _mapper = mapper;
+        }
+
+        // GET: getAllProcessDetails
+        [HttpGet]
+        [Route("getAllProcessDetails")]
+        public async Task<ActionResult<List<ProcessDetailResponse>>> GetAllProcessDetails()
+        {
+            var data = await _processDetailService.GetAllProcessDetailes();
+            if (data == null)
+            {
+                return BadRequest("Not found");
+            }
+            var list = _mapper.Map<List<ProcessDetailResponse>>(data);
+            return Ok(list);
+        }
+
+        // GET: getProcessDetail/1
+        [HttpGet]
+        [Route("getProcessDetail/{processDetailId}")]
+        public async Task<ActionResult<ProcessDetailResponse>> GetProcessDetailById(int processDetailId)
+        {
+            var data = await _processDetailService.GetProcessDetailById(processDetailId);
+            if (data == null)
+            {
+                return BadRequest("Not found");
+            }
+            var processDetail = _mapper.Map<ProcessDetailResponse>(data);
+            return Ok(processDetail);
+        }
+
+        // POST: AddProcessDetail/[processDetail]
+        [HttpPost]
+        [Route("addProcessDetail")]
+        public async Task<ActionResult> AddProcessDetail([FromBody] ProcessDetailRequest processDetailRequest)
+        {
+            var data = await _processDetailService.AddProcessDetail(_mapper.Map<ProcessDetail>(processDetailRequest));
+            if (data == null)
+            {
+                return BadRequest("Not Found");
+            }
+            return Ok("Add successfully");
+        }
+
+        // PUT: UpdateProcessDetail/1
+        [HttpPut]
+        [Route("updateProcessDetail/{processDetailId}")]
+        public async Task<ActionResult> UpdateProcessDetail(int processDetailId, [FromBody] ProcessDetailRequest newProcessDetail)
+        {
+            var data = await _processDetailService.UpdateProcessDetail(processDetailId, _mapper.Map<ProcessDetail>(newProcessDetail));
+            if (data.Equals(null))
+            {
+                return BadRequest("Not found");
+            }
+            else if (data.Equals("true"))
+            {
+                return Ok("Update Successfully");
+            }
+            return BadRequest(data);
+        }
+
+        // PUT: DelProcessDetail/1
+        [HttpPut]
+        [Route("delProcessDetail/{processDetailId}")]
+        public async Task<ActionResult> DelProcessDetail(int processDetailId)
+        {
+            var data = await _processDetailService.DelProcessDetail(processDetailId);
+            if (data.Equals(null))
+            {
+                return BadRequest("Not found");
+            }
+            else if (data.Equals("true"))
+            {
+                return Ok("Delete Successfully");
+            }
+            return BadRequest(data);
+        }
+
+        //private bool AccountExists(string id)
+        //{
+        //    return _context.Account.Any(e => e.AccountId == id);
+        //}
+    }
+}

@@ -5,7 +5,6 @@ using GSP_API.Business.Services;
 using GSP_API.Domain.Repositories.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GSP_API.Controllers.ModelControllers
@@ -26,10 +25,10 @@ namespace GSP_API.Controllers.ModelControllers
 
         // GET: getImExsOf/sec/1
         [HttpGet]
-        [Route("getImExsOf/sec/{accountId}")]
-        public async Task<ActionResult<List<ImportExportResponse>>> GetImExBySection(int accountId)
+        [Route("getImExsOf/sec/{sectionId}")]
+        public async Task<ActionResult<List<ImportExportResponse>>> GetImExBySection(int sectionId)
         {
-            var data = await _importExportService.GetImExBySection(accountId);
+            var data = await _importExportService.GetImExBySection(sectionId);
             if (data == null)
             {
                 return BadRequest("Not found");

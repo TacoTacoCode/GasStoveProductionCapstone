@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
-// If you have enabled NRTs for your project, then un-comment the following line:
-// #nullable disable
+#nullable disable
 
 namespace GSP_API.Domain.Repositories.Models
 {
@@ -11,8 +9,9 @@ namespace GSP_API.Domain.Repositories.Models
     {
         public Product()
         {
-            OrderDetail = new HashSet<OrderDetail>();
-            ProductComponent = new HashSet<ProductComponent>();
+            ImportExportDetails = new HashSet<ImportExportDetail>();
+            OrderDetails = new HashSet<OrderDetail>();
+            ProductComponents = new HashSet<ProductComponent>();
         }
 
         public string ProductId { get; set; }
@@ -24,7 +23,8 @@ namespace GSP_API.Domain.Repositories.Models
         public DateTime? ExpiryDate { get; set; }
         public string Status { get; set; }
 
-        public virtual ICollection<OrderDetail> OrderDetail { get; set; }
-        public virtual ICollection<ProductComponent> ProductComponent { get; set; }
+        public virtual ICollection<ImportExportDetail> ImportExportDetails { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual ICollection<ProductComponent> ProductComponents { get; set; }
     }
 }

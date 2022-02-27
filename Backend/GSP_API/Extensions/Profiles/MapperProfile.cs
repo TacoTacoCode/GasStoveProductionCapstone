@@ -42,6 +42,9 @@ namespace GSP_API.Extensions.Profiles
             CreateMap<ProcessRequest, Process>();
             CreateMap<Process, ProcessResponse>();
 
+            CreateMap<ProcessDetailRequest, ProcessDetail>();
+            CreateMap<ProcessDetail, ProcessDetailResponse>();
+
             CreateMap<RoleRequest, Role>();
             CreateMap<Role, RoleResponse>();
 

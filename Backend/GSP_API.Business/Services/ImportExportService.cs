@@ -16,9 +16,9 @@ namespace GSP_API.Business.Services
             _importExportRepository = importExportRepository;
         }
 
-        public async Task<List<ImportExport>> GetImExBySection(int accountId)
+        public async Task<List<ImportExport>> GetImExBySection(int sectionId)
         {
-            return await _importExportRepository.GetAll(p => p.AccountId == accountId);
+            return await _importExportRepository.GetAll(p => p.SectionId == sectionId);
         }
 
         public async Task<ImportExport> GetImExtById(int imExId)
@@ -48,7 +48,7 @@ namespace GSP_API.Business.Services
             var data = await _importExportRepository.GetById(p => p.ImportExportId == imExId);
             if (data != null)
             {
-                data.IsAccepted = false;
+                data.Status = "Delete";
                 await _importExportRepository.Update(data);
             }
             return null;
