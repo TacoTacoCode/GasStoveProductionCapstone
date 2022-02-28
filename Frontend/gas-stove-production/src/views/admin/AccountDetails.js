@@ -1,9 +1,7 @@
 import React from "react";
-import './CreateAccount.scss';
-import HeaderPage from "../../components/HeaderPage";
-import FooterPage from "../../components/FooterPage";
+import './AccountDetails.scss';
 
-class CreateAccount extends React.Component {
+class AccountDetails extends React.Component {
     state = {
         name: 'Dinh Nhu Hieu',
         phone: '0335365325',
@@ -33,13 +31,11 @@ class CreateAccount extends React.Component {
     render() {
         return (
             <>
-                <HeaderPage />
                 <div className="create-account">
                     <div className="top-panel">
                         <text className="text-inside text-title">Create an account</text>
                     </div>
                     <div className="bottom-panel">
-                        <text className="label-1">Personal Information</text>
                         <div className="data">
                             {/* Profile Picture */}
                             <div className="data-box-button">
@@ -151,10 +147,9 @@ class CreateAccount extends React.Component {
                         </div>
                     </div>
                 </div>
-                <FooterPage />
             </>
         )
     }
 }
 
-export default CreateAccount;
+export default AccountDetails;

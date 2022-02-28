@@ -3,12 +3,22 @@ html {
 }
 
 .create-account {
+    width            : fit-content;
+    height           : fit-content;
+    position         : fixed;
+    top              : 50%;
+    left             : 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform        : translate(-50%, -50%);
+
     .top-panel {
-        background-color    : red;
-        text-align          : left;
-        padding             : 2%;
-        padding-inline-start: 4%;
-        font-size           : xx-large;
+        background-color       : red;
+        border-top-left-radius : 10px;
+        border-top-right-radius: 10px;
+        text-align             : left;
+        padding                : 2%;
+        padding-inline-start   : 4%;
+        font-size              : xx-large;
     }
 
     .bottom-panel {
@@ -16,11 +26,6 @@ html {
         border-bottom-left-radius : 10px;
         border-bottom-right-radius: 10px;
         height                    : fit-content;
-        width                     : 62%;
-        padding-top               : 1%;
-        margin-left               : 20%;
-        padding-bottom            : 1%;
-
     }
 }
 
@@ -94,7 +99,7 @@ html {
 }
 
 .dropdown-data {
-    width                     : 310px;
+    width                     : 260px;
     height                    : 75px;
     color                     : white;
     font-size                 : medium;
@@ -125,7 +130,7 @@ html {
     transition                : all 0.35s ease;
     -webkit-box-sizing        : border-box;
     box-sizing                : border-box;
-    width                     : 300px;
+    width                     : 265px;
     height                    : 75px;
     color                     : white;
     font-size                 : medium;
@@ -133,9 +138,9 @@ html {
     background-color          : red;
     border-bottom-right-radius: 10px;
     border-top-right-radius   : 10px;
-    margin-left               : -20px;
+    margin-left               : -15px;
     margin-top                : -15px;
-    padding-left              : 20px;
+    padding-left              : 15px;
 }
 
 .dropdown-data:before {
@@ -161,18 +166,17 @@ html {
 }
 
 .data {
-    height       : 9ch;
-    width        : 70%;
+    height       : 90px;
+    width        : 950px;
     display      : flex;
-    position     : relative;
     flex-wrap    : nowrap;
-    padding-block: 1ch;
+    padding-block: 10px;
     align-items  : center;
 
     .data-box-text {
-        margin-inline  : 10ch;
+        margin-inline  : 15px;
         height         : fit-content;
-        width          : 48ch;
+        width          : 450px;
         display        : flex;
         flex-wrap      : nowrap;
         justify-content: center;
@@ -182,7 +186,7 @@ html {
         .small-data-box-1 {
             background-color   : white;
             text-align         : center;
-            width              : 15ch;
+            width              : 150px;
             height             : 65px;
             padding-block-start: 10px;
             border-radius      : 10px;
@@ -194,7 +198,7 @@ html {
             display                   : block;
             text-align                : left;
             margin-left               : -10px;
-            width                     : 300px;
+            width                     : 250px;
             height                    : 65px;
             padding-block-start       : 10px;
             padding-inline-start      : 20px;
@@ -206,9 +210,9 @@ html {
     }
 
     .data-box-button {
-        margin-inline  : 10ch;
+        margin-inline  : 15px;
         height         : fit-content;
-        width          : 48ch;
+        width          : 450px;
         display        : flex;
         flex-wrap      : nowrap;
         justify-content: center;
@@ -218,7 +222,7 @@ html {
         .small-data-box-1 {
             background-color   : white;
             text-align         : center;
-            width              : 15ch;
+            width              : 150px;
             height             : 65px;
             padding-block-start: 10px;
             border-radius      : 10px;
@@ -229,7 +233,7 @@ html {
         .small-data-box-2 {
             text-align                : left;
             margin-left               : -10px;
-            width                     : 300px;
+            width                     : 250px;
             height                    : 75px;
             padding-inline-start      : 20px;
             border-top-right-radius   : 10px;
