@@ -18,17 +18,17 @@ namespace GSP_API.Business.Services
 
         }
 
-        public async Task<Types> GetTypeById(string typeId)
+        public async Task<ItemType> GetTypeById(string typeId)
         {
             return await _typesRepository.GetById(p => p.TypeId == typeId);
         }
       
-        public async Task<string> AddType(Types types)
+        public async Task<string> AddType(ItemType ItemType)
         {
-            return await _typesRepository.Add(types);
+            return await _typesRepository.Add(ItemType);
         }
 
-        public async Task<string> UpdateAccount(string typeId, Types newTypes)
+        public async Task<string> UpdateAccount(string typeId, ItemType newTypes)
         {
             var data = await _typesRepository.FindById(p => p.TypeId == typeId);
             if (data != null)

@@ -2,11 +2,11 @@
 using System.Text;
 using System.Security.Cryptography;
 
-namespace HashToSHA256
+namespace GSP_API.Business.Extensions
 {
     public class Hash
     {
-        static string ComputeSha256Hash(string rawData)
+        public static string ComputeSha256Hash(string rawData)
         {
             // Create a SHA256   
             using (SHA256 sha256Hash = SHA256.Create())

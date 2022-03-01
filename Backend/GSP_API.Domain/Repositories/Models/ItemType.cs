@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace GSP_API.Domain.Repositories.Models
 {
-    public partial class Types
+    public partial class ItemType
     {
-        public Types()
+        public ItemType()
         {
             ImportExports = new HashSet<ImportExport>();
         }

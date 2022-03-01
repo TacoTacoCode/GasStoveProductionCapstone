@@ -6,7 +6,7 @@ using System.Text;
 
 namespace GSP_API.Infrastructure.Repositories
 {
-    public class TypesRepository : Repository<Types>, ITypesRepository
+    public class TypesRepository : Repository<ItemType>, ITypesRepository
     {
         public TypesRepository(DbFactory dbFactory) : base(dbFactory)
         {

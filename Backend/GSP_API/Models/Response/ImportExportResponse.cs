@@ -18,7 +18,7 @@ namespace GSP_API.Models.Response
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public virtual Account Account { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public virtual Types ItemTypeNavigation { get; set; }
+        public virtual ItemType ItemTypeNavigation { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public virtual ICollection<ImportExportDetail> ImportExportDetail { get; set; }
     }

@@ -19,7 +19,7 @@ namespace GSP_API.Domain.Repositories.Models
         public bool? IsImport { get; set; }
         public string Status { get; set; }
 
-        public virtual Types ItemTypeNavigation { get; set; }
+        public virtual ItemType ItemTypeNavigation { get; set; }
         public virtual ICollection<ImportExportDetail> ImportExportDetails { get; set; }
     }
 }

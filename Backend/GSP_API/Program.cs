@@ -13,6 +13,7 @@ namespace GSP_API
     {
         public static void Main(string[] args)
         {
+            //Console.WriteLine(GSP_API.Business.Extensions.Hash.ComputeSha256Hash("admin"));
             CreateHostBuilder(args).Build().Run();
         }
 

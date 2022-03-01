@@ -25,6 +25,7 @@ namespace GSP_API.Domain.Repositories
         public virtual DbSet<ComponentMaterial> ComponentMaterials { get; set; }
         public virtual DbSet<ImportExport> ImportExports { get; set; }
         public virtual DbSet<ImportExportDetail> ImportExportDetails { get; set; }
+        public virtual DbSet<ItemType> ItemTypes { get; set; }
         public virtual DbSet<Material> Materials { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
@@ -34,19 +35,18 @@ namespace GSP_API.Domain.Repositories
         public virtual DbSet<ProductComponent> ProductComponents { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Section> Sections { get; set; }
-        public virtual DbSet<Types> Types { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=ADMIN;Initial Catalog=GSP_DB_test1;Persist Security Info=True;User ID=sa;Password=123456");
+                optionsBuilder.UseSqlServer("Data Source=SE140247;Initial Catalog=GSP_DB_test1;Persist Security Info=True;User ID=sa;Password=38200283tql");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+            modelBuilder.HasAnnotation("Relational:Collation", "Vietnamese_CI_AS");
 
             modelBuilder.Entity<Account>(entity =>
             {
@@ -173,8 +173,6 @@ namespace GSP_API.Domain.Repositories
             {
                 entity.ToTable("ImportExport");
 
-                entity.Property(e => e.ImportExportId).ValueGeneratedNever();
-
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
                 entity.Property(e => e.ItemType)
@@ -217,6 +215,23 @@ namespace GSP_API.Domain.Repositories
                     .WithMany(p => p.ImportExportDetails)
                     .HasForeignKey(d => d.ItemId)
                     .HasConstraintName("FK_ImportExportDetail_Product");
+            });
+
+            modelBuilder.Entity<ItemType>(entity =>
+            {
+                entity.HasKey(e => e.TypeId)
+                    .HasName("PK_Type");
+
+                entity.ToTable("ItemType");
+
+                entity.Property(e => e.TypeId)
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.TypeName)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Material>(entity =>
@@ -296,8 +311,6 @@ namespace GSP_API.Domain.Repositories
             modelBuilder.Entity<ProcessDetail>(entity =>
             {
                 entity.ToTable("ProcessDetail");
-
-                entity.Property(e => e.ProcessDetailId).ValueGeneratedNever();
 
                 entity.Property(e => e.ExpiryDate).HasColumnType("date");
 
@@ -391,18 +404,6 @@ namespace GSP_API.Domain.Repositories
                     .WithMany(p => p.Sections)
                     .HasForeignKey(d => d.SectionLeadId)
                     .HasConstraintName("FK_Section_Account2");
-            });
-
-            modelBuilder.Entity<Types>(entity =>
-            {
-                entity.Property(e => e.TypeId)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .IsFixedLength(true);
-
-                entity.Property(e => e.TypeName)
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
             });
 
             OnModelCreatingPartial(modelBuilder);
