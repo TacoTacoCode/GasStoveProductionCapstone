@@ -12,6 +12,7 @@ namespace GSP_API.Domain.Repositories.Models
         public int? SectionId { get; set; }
         public int? TotalAmount { get; set; }
         public int? FinishedAmount { get; set; }
+        public int? AverageAmount { get; set; }
         public DateTime? ExpiryDate { get; set; }
         public DateTime? FinishedDate { get; set; }
         public string Status { get; set; }

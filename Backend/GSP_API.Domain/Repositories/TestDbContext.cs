@@ -40,6 +40,7 @@ namespace GSP_API.Domain.Repositories
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Data Source=SE140247;Initial Catalog=GSP_DB_test1;Persist Security Info=True;User ID=sa;Password=38200283tql");
             }
         }
@@ -295,6 +296,8 @@ namespace GSP_API.Domain.Repositories
                 entity.ToTable("Process");
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
+
+                entity.Property(e => e.ExpectedFinishDate).HasColumnType("date");
 
                 entity.Property(e => e.ExpiryDate).HasColumnType("date");
 

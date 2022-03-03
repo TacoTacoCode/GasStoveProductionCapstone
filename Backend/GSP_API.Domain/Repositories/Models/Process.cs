@@ -19,6 +19,7 @@ namespace GSP_API.Domain.Repositories.Models
         public DateTime? CreatedDate { get; set; }
         public DateTime? ExpiryDate { get; set; }
         public DateTime? FinishedDate { get; set; }
+        public DateTime? ExpectedFinishDate { get; set; }
         public string Status { get; set; }
 
         public virtual OrderDetail OrderDetail { get; set; }
