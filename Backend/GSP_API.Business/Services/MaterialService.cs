@@ -18,26 +18,25 @@ namespace GSP_API.Business.Services
 
         public async Task<List<Material>> GetAllMaterials()
         {
-            return await _materialRepository.GetAll(p => p.Status == "1");            
+            return await _materialRepository.GetAll(p => p.Status == "1");
         }
 
         public async Task<Material> GetMaterialById(string materialId)
         {
-            return await _materialRepository.GetById(p => p.MaterialId == materialId);            
+            return await _materialRepository.GetById(p => p.MaterialId == materialId);
         }
 
         public async Task<string> AddMaterial(Material material)
-        {            
+        {
             return await _materialRepository.Add(material);
         }
 
-        public async Task<string> UpdateMaterial(string materialId, Material newMaterial)
+        public async Task<string> UpdateMaterial(Material newMaterial)
         {
-            var data = await _materialRepository.FindById(p => p.MaterialId == materialId);
+            var data = await _materialRepository.FindById(p => p.MaterialId == newMaterial.MaterialId);
             if (data != null)
             {
-                newMaterial.MaterialId = data.MaterialId;
-                await _materialRepository.Update(newMaterial);                
+                return await _materialRepository.Update(newMaterial);
             }
             return null;
         }
@@ -48,7 +47,7 @@ namespace GSP_API.Business.Services
             if (data != null)
             {
                 data.Status = "Inactive";
-                await _materialRepository.Update(data);                
+                return await _materialRepository.Update(data);
             }
             return null;
         }

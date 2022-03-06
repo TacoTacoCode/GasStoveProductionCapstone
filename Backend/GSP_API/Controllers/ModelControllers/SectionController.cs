@@ -59,12 +59,12 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok("Add successfully");
         }
 
-        // PUT: UpdateSection/1
+        // PUT: UpdateSection
         [HttpPut]
-        [Route("updateSection/{accountId}")]
-        public async Task<ActionResult> UpdateSection(int accountId, [FromBody] SectionRequest newSection)
+        [Route("updateSection")]
+        public async Task<ActionResult> UpdateSection([FromBody] SectionRequest newSection)
         {
-            var data = await _sectionService.UpdateSection(accountId, _mapper.Map<Section>(newSection));
+            var data = await _sectionService.UpdateSection(_mapper.Map<Section>(newSection));
             if (data.Equals(null))
             {
                 return BadRequest("Not found");

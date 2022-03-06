@@ -24,13 +24,12 @@ namespace GSP_API.Business.Services
             return await _productComponentRepository.Add(proCompo); ;
         }
 
-        public async Task<string> UpdateCompoMate(int proCompoId, ProductComponent newProCompo)
+        public async Task<string> UpdateCompoMate(ProductComponent newProCompo)
         {
-            var data = await _productComponentRepository.FindById(p => p.Id == proCompoId);
+            var data = await _productComponentRepository.FindById(p => p.Id == newProCompo.Id);
             if (data != null)
             {
-                newProCompo.Id = data.Id;
-                await _productComponentRepository.Update(newProCompo);
+                return await _productComponentRepository.Update(newProCompo);
             }
             return null;
         }

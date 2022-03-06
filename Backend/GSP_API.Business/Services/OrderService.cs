@@ -31,14 +31,13 @@ namespace GSP_API.Business.Services
             return await _orderRepository.Add(order);
         }
 
-        public async Task<string> UpdateOrder(int orderId, Order newOrder)
+        public async Task<string> UpdateOrder(Order newOrder)
         {
 
-            var data = await _orderRepository.FindById(p => p.OrderId == orderId);
+            var data = await _orderRepository.FindById(p => p.OrderId == newOrder.OrderId);
             if (data != null)
             {
-                newOrder.OrderId = data.OrderId;
-                await _orderRepository.Update(newOrder);                
+                return await _orderRepository.Update(newOrder);
             }
             return null;
         }
@@ -49,7 +48,7 @@ namespace GSP_API.Business.Services
             if (data != null)
             {
                 data.Status = "Inactive";
-                await _orderRepository.Update(data);                
+                return await _orderRepository.Update(data);
             }
             return null;
         }

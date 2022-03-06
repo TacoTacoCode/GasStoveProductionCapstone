@@ -31,13 +31,12 @@ namespace GSP_API.Business.Services
             return await _productRepository.Add(product);
         }
 
-        public async Task<string> UpdateProduct(string productId, Product newProduct)
+        public async Task<string> UpdateProduct(Product newProduct)
         {
-            var data = await _productRepository.FindById(p => p.ProductId == productId);
+            var data = await _productRepository.FindById(p => p.ProductId == newProduct.ProductId);
             if (data != null)
-            {
-                newProduct.ProductId = data.ProductId;
-                await _productRepository.Update(newProduct);                
+            {                
+                return await  _productRepository.Update(newProduct);                
             }
             return null;
         }
@@ -48,7 +47,7 @@ namespace GSP_API.Business.Services
             if (data != null)
             {
                 data.Status = "Inactive";
-                await _productRepository.Update(data);                
+                return await _productRepository.Update(data);                
             }
             return null;
         }

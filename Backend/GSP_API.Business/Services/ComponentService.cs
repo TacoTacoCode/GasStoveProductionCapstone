@@ -31,14 +31,13 @@ namespace GSP_API.Business.Services
             return await _componentRepository.Add(component);
         }
 
-        public async Task<string> UpdateComponent(string componentId, Component newComponent)
+        public async Task<string> UpdateComponent(Component newComponent)
         {
 
-            var data = await _componentRepository.FindById(p => p.ComponentId == componentId);
+            var data = await _componentRepository.FindById(p => p.ComponentId == newComponent.ComponentId);
             if (data != null)
             {
-                newComponent.ComponentId = data.ComponentId;
-                await _componentRepository.Update(newComponent);                
+                return await _componentRepository.Update(newComponent);
             }
             return null;
         }
@@ -49,7 +48,7 @@ namespace GSP_API.Business.Services
             if (data != null)
             {
                 data.Status = "Inactive";
-                await _componentRepository.Update(data);                
+                return await _componentRepository.Update(data);
             }
             return null;
         }

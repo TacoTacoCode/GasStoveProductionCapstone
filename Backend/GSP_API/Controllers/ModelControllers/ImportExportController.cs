@@ -64,12 +64,29 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok("Add successfully");
         }
 
-        // PUT: UpdateImEx/1
+        // PUT: UpdateImEx
         [HttpPut]
-        [Route("updateImEx/{imExId}")]
-        public async Task<ActionResult> UpdateImEx(int imExId, [FromBody] ImportExportRequest importExportRequest)
+        [Route("updateImEx")]
+        public async Task<ActionResult> UpdateImEx([FromBody] ImportExportRequest importExportRequest)
         {
-            var data = await _importExportService.UpdateImEx(imExId, _mapper.Map<ImportExport>(importExportRequest));
+            var data = await _importExportService.UpdateImEx(_mapper.Map<ImportExport>(importExportRequest));
+            if (data.Equals(null))
+            {
+                return BadRequest("Not found");
+            }
+            else if (data.Equals("true"))
+            {
+                return Ok("Update Successfully");
+            }
+            return BadRequest(data);
+        }
+
+        // PUT: UpdateImExAndDetail
+        [HttpPut]
+        [Route("updateImExAnDetail")]
+        public async Task<ActionResult> UpdateImExAndDetail ([FromBody] ImportExportRequest importExportRequest)
+        {
+            var data = await _importExportService.UpdateImEx(_mapper.Map<ImportExport>(importExportRequest));
             if (data.Equals(null))
             {
                 return BadRequest("Not found");

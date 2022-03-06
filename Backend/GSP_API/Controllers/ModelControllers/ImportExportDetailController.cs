@@ -35,7 +35,7 @@ namespace GSP_API.Controllers.ModelControllers
                 return BadRequest("Not found");
             }
             var list = _mapper.Map<List<ImportExportDetailResponse>>(data);
-            return Ok(data); ;
+            return Ok(list); ;
         }
 
         // GET: getImportExportDetail/1
@@ -55,7 +55,7 @@ namespace GSP_API.Controllers.ModelControllers
         // POST: AddImExDetail/[imExDetail]
         [HttpPost]
         [Route("addImExDetail")]
-        public async Task<ActionResult> AddAImExDetail([FromBody] ImportExportDetailRequest importExportDetailRequest)
+        public async Task<ActionResult> AddImExDetail([FromBody] ImportExportDetailRequest importExportDetailRequest)
         {
             var data = await _importExportDetailService.AddImExDetail(_mapper.Map<ImportExportDetail>(importExportDetailRequest));
             if (data == null)
@@ -65,12 +65,12 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok("Add successfully");
         }
 
-        // PUT: UpdateImportExportDetail/1
+        // PUT: UpdateImportExportDetail
         [HttpPut]
-        [Route("updateImportExportDetail/{imExDetailId}")]
-        public async Task<ActionResult> UpdateImportExportDetail(int imExDetailId, [FromBody] ImportExportDetailRequest importExportDetailRequest)
+        [Route("updateImportExportDetail")]
+        public async Task<ActionResult> UpdateImportExportDetail([FromBody] ImportExportDetailRequest importExportDetailRequest)
         {
-            var data = await _importExportDetailService.UpdateImExDetail(imExDetailId, _mapper.Map<ImportExportDetail>(importExportDetailRequest));
+            var data = await _importExportDetailService.UpdateImExDetail(_mapper.Map<ImportExportDetail>(importExportDetailRequest));
             if (data.Equals(null))
             {
                 return BadRequest("Not found");

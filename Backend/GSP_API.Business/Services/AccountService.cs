@@ -35,13 +35,12 @@ namespace GSP_API.Business.Services
             return await _accountRepository.Add(account);
         }
 
-        public async Task<string> UpdateAccount(int accountId, Account newAccount)
+        public async Task<string> UpdateAccount(Account newAccount)
         {
-            var data = await _accountRepository.FindById(p => p.AccountId == accountId);
+            var data = await _accountRepository.FindById(p => p.AccountId == newAccount.AccountId);
             if (data != null)
-            {
-                newAccount.AccountId = data.AccountId;
-                await _accountRepository.Update(newAccount);
+            {                
+                return await _accountRepository.Update(newAccount);
             }
             return null;
         }
@@ -53,7 +52,7 @@ namespace GSP_API.Business.Services
             {
                 Account delAccount = data;
                 delAccount.IsActive = false;
-                await _accountRepository.Update(delAccount);
+                return await _accountRepository.Update(delAccount);
             }
             return null;
         }

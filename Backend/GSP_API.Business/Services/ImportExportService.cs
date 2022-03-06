@@ -31,14 +31,13 @@ namespace GSP_API.Business.Services
             return await _importExportRepository.Add(imEx);
         }
 
-        public async Task<string> UpdateImEx(int imExId, ImportExport newImEx)
+        public async Task<string> UpdateImEx(ImportExport newImEx)
         {
 
-            var data = await _importExportRepository.FindById(p => p.ImportExportId == imExId);
+            var data = await _importExportRepository.FindById(p => p.ImportExportId == newImEx.ImportExportId);
             if (data != null)
-            {
-                newImEx.ImportExportId = data.ImportExportId;
-                await _importExportRepository.Update(newImEx);
+            {                
+                return await  _importExportRepository.Update(newImEx);
             }
             return null;
         }

@@ -18,12 +18,12 @@ namespace GSP_API.Business.Services
 
         public async Task<List<Process>> GetAllProcesses()
         {
-            return await _processRepository.GetAll(p => p.Status == "1");            
+            return await _processRepository.GetAll(p => p.Status == "1");
         }
 
         public async Task<Process> GetProcessById(int processId)
         {
-            return await _processRepository.GetById(p => p.ProcessId == processId);            
+            return await _processRepository.GetById(p => p.ProcessId == processId);
         }
 
         public async Task<string> AddProcess(Process process)
@@ -31,13 +31,12 @@ namespace GSP_API.Business.Services
             return await _processRepository.Add(process);
         }
 
-        public async Task<string> UpdateProcess(int processId, Process newProcess)
+        public async Task<string> UpdateProcess(Process newProcess)
         {
-            var data = await _processRepository.FindById(p => p.ProcessId == processId);
+            var data = await _processRepository.FindById(p => p.ProcessId == newProcess.ProcessId);
             if (data != null)
             {
-                newProcess.ProcessId = data.ProcessId;
-                await _processRepository.Update(newProcess);                
+                return await _processRepository.Update(newProcess);
             }
             return null;
         }
@@ -48,7 +47,7 @@ namespace GSP_API.Business.Services
             if (data != null)
             {
                 data.Status = "Inactive";
-                await _processRepository.Update(data);                
+                return await _processRepository.Update(data);
             }
             return null;
         }

@@ -66,12 +66,12 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok("Add successfully");
         }
 
-        // PUT: UpdateComponent/1
+        // PUT: UpdateComponent
         [HttpPut]
-        [Route("updateComponent/{componentId}")]
-        public async Task<ActionResult<ComponentResponse>> UpdateComponent(string componentId, [FromBody] ComponentRequest componentRequest)
+        [Route("updateComponent")]
+        public async Task<ActionResult<ComponentResponse>> UpdateComponent([FromBody] ComponentRequest componentRequest)
         {
-            var data = await _componentService.UpdateComponent(componentId, _mapper.Map<Component>(componentRequest));
+            var data = await _componentService.UpdateComponent(_mapper.Map<Component>(componentRequest));
             if (data.Equals(null))
             {
                 return BadRequest("Not found");
