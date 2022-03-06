@@ -18,6 +18,7 @@ namespace GSP_API.Domain.Repositories.Models
         public DateTime? ExpiryDate { get; set; }
         public string Status { get; set; }
         public string Note { get; set; }
+        public bool? IsShorTerm { get; set; }
 
         public virtual Account Account { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }

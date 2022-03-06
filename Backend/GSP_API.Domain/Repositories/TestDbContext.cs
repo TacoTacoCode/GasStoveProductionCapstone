@@ -130,13 +130,9 @@ namespace GSP_API.Domain.Repositories
 
                 entity.Property(e => e.ComponentName).HasMaxLength(100);
 
-                entity.Property(e => e.ExpiryDate).HasColumnType("date");
-
                 entity.Property(e => e.ImageUrl)
                     .HasMaxLength(100)
                     .IsUnicode(false);
-
-                entity.Property(e => e.ManufactuirngDate).HasColumnType("date");
 
                 entity.Property(e => e.Size)
                     .HasMaxLength(50)
@@ -175,6 +171,8 @@ namespace GSP_API.Domain.Repositories
                 entity.ToTable("ImportExport");
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
+
+                entity.Property(e => e.FirstExportDate).HasColumnType("date");
 
                 entity.Property(e => e.ItemType)
                     .HasMaxLength(1)
@@ -216,6 +214,11 @@ namespace GSP_API.Domain.Repositories
                     .WithMany(p => p.ImportExportDetails)
                     .HasForeignKey(d => d.ItemId)
                     .HasConstraintName("FK_ImportExportDetail_Product");
+
+                entity.HasOne(d => d.ProcessDetail)
+                    .WithMany(p => p.ImportExportDetails)
+                    .HasForeignKey(d => d.ProcessDetailId)
+                    .HasConstraintName("FK_ImportExportDetail_ProcessDetail");
             });
 
             modelBuilder.Entity<ItemType>(entity =>
@@ -315,6 +318,8 @@ namespace GSP_API.Domain.Repositories
             {
                 entity.ToTable("ProcessDetail");
 
+                entity.Property(e => e.ExpectedFinishDate).HasColumnType("date");
+
                 entity.Property(e => e.ExpiryDate).HasColumnType("date");
 
                 entity.Property(e => e.FinishedDate).HasColumnType("date");
@@ -340,13 +345,9 @@ namespace GSP_API.Domain.Repositories
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.ExpiryDate).HasColumnType("date");
-
                 entity.Property(e => e.ImageUrl)
                     .HasMaxLength(100)
                     .IsUnicode(false);
-
-                entity.Property(e => e.ManufacturingDate).HasColumnType("date");
 
                 entity.Property(e => e.ProductName).HasMaxLength(100);
 

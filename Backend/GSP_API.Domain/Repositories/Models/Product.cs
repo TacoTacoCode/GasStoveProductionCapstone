@@ -19,9 +19,8 @@ namespace GSP_API.Domain.Repositories.Models
         public int? Amount { get; set; }
         public double? Price { get; set; }
         public string ImageUrl { get; set; }
-        public DateTime? ManufacturingDate { get; set; }
-        public DateTime? ExpiryDate { get; set; }
         public string Status { get; set; }
+        public string Description { get; set; }
 
         public virtual ICollection<ImportExportDetail> ImportExportDetails { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }

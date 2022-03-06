@@ -14,6 +14,7 @@ namespace GSP_API.Domain.Repositories.Models
 
         public int ProcessId { get; set; }
         public int? OrderDetailId { get; set; }
+        public int? NeededAmount { get; set; }
         public int? TotalAmount { get; set; }
         public int? FinishedAmount { get; set; }
         public DateTime? CreatedDate { get; set; }
