@@ -1,0 +1,141 @@
+.App {
+  background-color: #FAFAFA;
+  height          : 100vh;
+}
+
+.App-logo {
+  height        : 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height      : 100vh;
+  display         : flex;
+  flex-direction  : column;
+  align-items     : center;
+  justify-content : center;
+  font-size       : calc(10px + 2vmin);
+  color           : white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.dashboard {
+  padding    : 3%;
+  padding-top: 7%;
+}
+
+.accounts {
+  padding    : 3%;
+  padding-top: 7%;
+}
+
+
+.materials {
+  padding    : 3%;
+  padding-top: 7%;
+}
+
+.products {
+  padding    : 3%;
+  padding-top: 7%;
+}
+
+.components {
+  padding    : 3%;
+  padding-top: 7%;
+}
+
+.navbar {
+  background-color: #fff;
+  height          : 80px;
+  display         : flex;
+  justify-content : start;
+  align-items     : center;
+}
+
+.menu-bars {
+  padding-top  : 0.5rem;
+  padding-right: 2rem;
+  margin-left  : 0.5rem;
+  font-size    : 2rem;
+  background   : none;
+}
+
+.nav-menu {
+  z-index                   : 999;
+  background-color          : #fff;
+  width                     : 22%;
+  height                    : 100vh;
+  display                   : flex;
+  justify-content           : center;
+  position                  : fixed;
+  top                       : 0;
+  left                      : -100%;
+  transition                : 200ms;
+  transition-timing-function: linear;
+}
+
+.nav-menu.active {
+  box-shadow                : 0 0 0 1000vw rgba(0, 0, 0, .50);
+  z-index                   : 999;
+  left                      : 0;
+  transition                : 200ms;
+  transition-timing-function: linear;
+}
+
+.nav-text {
+  width          : 100%;
+  justify-content: start;
+  align-items    : center;
+  padding        : 8px 0px 8px 16px;
+  list-style     : none;
+  height         : 60px;
+}
+
+.nav-menu-items {
+  width: 100%;
+}
+
+.navbar-toggle {
+  padding-top     : 0.6rem;
+  background-color: #fff;
+  width           : 100%;
+  height          : 50px;
+  display         : flex;
+  justify-content : start;
+  align-items     : center;
+}
+
+.popuptitle {
+  font-weight     : 400;
+  font-size       : 20px;
+  font-family     : 'Muli';
+  color           : white;
+  padding-top     : 2%;
+  padding-left    : 2%;
+  height          : 9%;
+  background-color: #e30217;
+  margin          : 0;
+  border-radius   : 15px 15px 0 0;
+  text-align      : left;
+}
