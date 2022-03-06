@@ -18,7 +18,7 @@ namespace GSP_API.Business.Services
 
         public async Task<List<Role>> GetAllRoles()
         {
-            return await _roleRepository.GetAll(p => p.Status == "1");            
+            return await _roleRepository.GetAll(p => p.Status == "1");
         }
 
         public async Task<Role> GetRoleByAccount(Account account)
@@ -31,13 +31,12 @@ namespace GSP_API.Business.Services
             return await _roleRepository.Add(role);
         }
 
-        public async Task<string> UpdateRole(string roleId, Role newRole)
+        public async Task<string> UpdateRole(Role newRole)
         {
-            var data = await _roleRepository.FindById(p => p.RoleId == roleId);
+            var data = await _roleRepository.FindById(p => p.RoleId == newRole.RoleId);
             if (data != null)
             {
-                newRole.RoleId = data.RoleId;
-                await _roleRepository.Update(newRole);
+                return await _roleRepository.Update(newRole);
             }
             return null;
         }
@@ -46,9 +45,9 @@ namespace GSP_API.Business.Services
         {
             var data = await _roleRepository.GetById(p => p.RoleId == roleId);
             if (data != null)
-            {                
+            {
                 //data.IsActive = false;
-                await _roleRepository.Update(data);
+                return await _roleRepository.Update(data);
             }
             return null;
         }

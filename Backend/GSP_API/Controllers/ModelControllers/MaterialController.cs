@@ -65,12 +65,12 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok("Add successfully");
         }
 
-        // PUT: UpdateMaterial/1
+        // PUT: UpdateMaterial
         [HttpPut]
-        [Route("updateMaterial/{materialId}")]
-        public async Task<ActionResult> UpdateMaterial(string materialId, [FromBody] MaterialRequest materialRequest)
+        [Route("updateMaterial")]
+        public async Task<ActionResult> UpdateMaterial([FromBody] MaterialRequest materialRequest)
         {
-            var data = await _materialService.UpdateMaterial(materialId, _mapper.Map<Material>(materialRequest));
+            var data = await _materialService.UpdateMaterial(_mapper.Map<Material>(materialRequest));
             if (data.Equals(null))
             {
                 return BadRequest("Not found");

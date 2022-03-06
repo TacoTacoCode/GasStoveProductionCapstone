@@ -82,11 +82,11 @@ namespace GSP_API.Controllers.ModelControllers
 
         // PUT: UpdateAccount
         [HttpPut]
-        [Route("updateAccount/{accountId}")]
-        public async Task<ActionResult> UpdateAccount(int accountId, [FromBody]AccountRequest accountRequest)
+        [Route("updateAccount")]
+        public async Task<ActionResult> UpdateAccount([FromBody]AccountRequest accountRequest)
         {            
-            var data = await _accountService.UpdateAccount(accountId, _mapper.Map<Account>(accountRequest));
-            if (data.Equals(null))
+            var data = await _accountService.UpdateAccount(_mapper.Map<Account>(accountRequest));
+            if (data == null)
             {
                 return BadRequest("Not found");
             }

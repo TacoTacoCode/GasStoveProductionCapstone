@@ -10,11 +10,11 @@ namespace GSP_API.Business.Services
     public class TypesService
     {
         private readonly ITypesRepository _typesRepository;
-        
+
         public TypesService(
             ITypesRepository typesRepository)
         {
-            _typesRepository = typesRepository;           
+            _typesRepository = typesRepository;
 
         }
 
@@ -22,19 +22,18 @@ namespace GSP_API.Business.Services
         {
             return await _typesRepository.GetById(p => p.TypeId == typeId);
         }
-      
+
         public async Task<string> AddType(ItemType ItemType)
         {
             return await _typesRepository.Add(ItemType);
         }
 
-        public async Task<string> UpdateAccount(string typeId, ItemType newTypes)
+        public async Task<string> UpdateAccount(ItemType newTypes)
         {
-            var data = await _typesRepository.FindById(p => p.TypeId == typeId);
+            var data = await _typesRepository.FindById(p => p.TypeId == newTypes.TypeId);
             if (data != null)
             {
-                newTypes.TypeId = data.TypeId;
-                await _typesRepository.Update(newTypes);
+                return await _typesRepository.Update(newTypes);
             }
             return null;
         }

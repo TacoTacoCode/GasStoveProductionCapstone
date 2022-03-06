@@ -35,14 +35,13 @@ namespace GSP_API.Business.Services
             return await _sectionRepository.Add(section);
         }
 
-        public async Task<string> UpdateSection(int sectionId, Section newSection)
+        public async Task<string> UpdateSection(Section newSection)
         {
 
-            var data = await _sectionRepository.FindById(p => p.SectionId == sectionId);
+            var data = await _sectionRepository.FindById(p => p.SectionId == newSection.SectionId);
             if (data != null)
-            {
-                newSection.SectionId = data.SectionId;
-                await _sectionRepository.Update(newSection);                
+            {                
+                return await  _sectionRepository.Update(newSection);                
             }
             return null;
         }
@@ -53,7 +52,7 @@ namespace GSP_API.Business.Services
             if (data != null)
             {                
                 //data.Status = false;
-                await _sectionRepository.Update(data);                
+                return await _sectionRepository.Update(data);                
             }
             return null;
         }

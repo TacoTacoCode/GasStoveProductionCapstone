@@ -18,12 +18,12 @@ namespace GSP_API.Business.Services
 
         public async Task<List<OrderDetail>> GetOrderDetailsByOrder(int orderId)
         {
-            return await _orderDetailRepository.GetAll(p => p.OrderId == orderId);            
+            return await _orderDetailRepository.GetAll(p => p.OrderId == orderId);
         }
 
         public async Task<OrderDetail> GetOrderDetailById(int orderDetailId)
         {
-            return await _orderDetailRepository.GetById(p => p.OrderDetailId == orderDetailId);           
+            return await _orderDetailRepository.GetById(p => p.OrderDetailId == orderDetailId);
         }
 
         public async Task<string> AddOrderDetail(OrderDetail orderDetail)
@@ -31,13 +31,12 @@ namespace GSP_API.Business.Services
             return await _orderDetailRepository.Add(orderDetail);
         }
 
-        public async Task<string> UpdateOrderDetail(int orderDetailId, OrderDetail newOrderDetail)
+        public async Task<string> UpdateOrderDetail(OrderDetail newOrderDetail)
         {
-            var data = await _orderDetailRepository.FindById(p => p.OrderDetailId == orderDetailId);
+            var data = await _orderDetailRepository.FindById(p => p.OrderDetailId == newOrderDetail.OrderDetailId);
             if (data != null)
             {
-                newOrderDetail.OrderDetailId = data.OrderDetailId;
-                await _orderDetailRepository.Update(newOrderDetail);                
+               return await _orderDetailRepository.Update(newOrderDetail);
             }
             return null;
         }
@@ -48,7 +47,7 @@ namespace GSP_API.Business.Services
             if (data != null)
             {
                 //data.Status = "Inactive";
-                await _orderDetailRepository.Update(data);                
+                return await _orderDetailRepository.Update(data);
             }
             return null;
         }

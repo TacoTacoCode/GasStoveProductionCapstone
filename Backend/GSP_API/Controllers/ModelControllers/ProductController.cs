@@ -65,12 +65,12 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok("Add successfully");
         }
 
-        // PUT: UpdateProduct/1
+        // PUT: UpdateProduct
         [HttpPut]
-        [Route("updateProduct/{productId}")]
+        [Route("updateProduct")]
         public async Task<ActionResult> UpdateProduct(string productId, [FromBody] ProductRequest productRequest)
         {
-            var data = await _productService.UpdateProduct(productId, _mapper.Map<Product>(productRequest));
+            var data = await _productService.UpdateProduct(_mapper.Map<Product>(productRequest));
             if (data.Equals(null))
             {
                 return BadRequest("Not found");

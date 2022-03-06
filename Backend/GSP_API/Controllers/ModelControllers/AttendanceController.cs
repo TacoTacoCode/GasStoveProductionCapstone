@@ -51,12 +51,12 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok("Add successfully");
         }
 
-        // PUT: UpdateAttendance/1
+        // PUT: UpdateAttendance
         [HttpPut]
-        [Route("updateAttendance/{attendanceId}")]
-        public async Task<ActionResult> UpdateAttendance(int attendanceId, [FromBody] AttendanceRequest attendanceRequest)
+        [Route("updateAttendance")]
+        public async Task<ActionResult> UpdateAttendance([FromBody] AttendanceRequest attendanceRequest)
         {
-            var data = await _attendanceService.UpdateAttendance(attendanceId, _mapper.Map<Attendance>(attendanceRequest));
+            var data = await _attendanceService.UpdateAttendance(_mapper.Map<Attendance>(attendanceRequest));
             if (data.Equals(null))
             {
                 return BadRequest("Not found");

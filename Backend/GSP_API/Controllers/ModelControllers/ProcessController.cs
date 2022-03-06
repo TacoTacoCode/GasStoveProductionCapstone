@@ -65,12 +65,12 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok("Add successfully");
         }
 
-        // PUT: UpdateProcess/1
+        // PUT: UpdateProcess
         [HttpPut]
-        [Route("updateProcess/{processId}")]
-        public async Task<ActionResult> UpdateProcess(int processId, [FromBody] ProcessRequest newProcess)
+        [Route("updateProcess")]
+        public async Task<ActionResult> UpdateProcess([FromBody] ProcessRequest newProcess)
         {
-            var data = await _processService.UpdateProcess(processId, _mapper.Map<Process>(newProcess));
+            var data = await _processService.UpdateProcess(_mapper.Map<Process>(newProcess));
             if (data.Equals(null))
             {
                 return BadRequest("Not found");

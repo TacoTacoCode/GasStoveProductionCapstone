@@ -25,13 +25,12 @@ namespace GSP_API.Business.Services
             return await _componentMaterialRepository.Add(compoMate); ;
         }
 
-        public async Task<string> UpdateCompoMate(int compoMateId, ComponentMaterial newCompoMate)
+        public async Task<string> UpdateCompoMate(ComponentMaterial newCompoMate)
         {
-            var data = await _componentMaterialRepository.FindById(p => p.Id == compoMateId);
+            var data = await _componentMaterialRepository.FindById(p => p.Id == newCompoMate.Id);
             if (data != null)
             {
-                newCompoMate.Id = data.Id;
-                await _componentMaterialRepository.Update(newCompoMate);
+                return await _componentMaterialRepository.Update(newCompoMate);
             }
             return null;
         }

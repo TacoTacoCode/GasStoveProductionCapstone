@@ -18,12 +18,12 @@ namespace GSP_API.Business.Services
 
         public async Task<List<ProcessDetail>> GetAllProcessDetailes()
         {
-            return await _processDetailRepository.GetAll(p => p.Status == "1");            
+            return await _processDetailRepository.GetAll(p => p.Status == "1");
         }
 
         public async Task<ProcessDetail> GetProcessDetailById(int processDetailId)
         {
-            return await _processDetailRepository.GetById(p => p.ProcessDetailId == processDetailId);            
+            return await _processDetailRepository.GetById(p => p.ProcessDetailId == processDetailId);
         }
 
         public async Task<string> AddProcessDetail(ProcessDetail processDetail)
@@ -31,13 +31,22 @@ namespace GSP_API.Business.Services
             return await _processDetailRepository.Add(processDetail);
         }
 
-        public async Task<string> UpdateProcessDetail(int processDetailId, ProcessDetail newProcessDetail)
+        public async Task<string> UpdateProcessDetail(ProcessDetail newProcessDetail)
         {
-            var data = await _processDetailRepository.FindById(p => p.ProcessDetailId == processDetailId);
+            var data = await _processDetailRepository.FindById(p => p.ProcessDetailId == newProcessDetail.ProcessDetailId);
             if (data != null)
             {
-                newProcessDetail.ProcessDetailId = data.ProcessDetailId;
-                await _processDetailRepository.Update(newProcessDetail);                
+                return await _processDetailRepository.Update(newProcessDetail);
+            }
+            return null;
+        }
+
+        public async Task<string> UpdateProcessDetailbyImEx(ProcessDetail newProcessDetail)
+        {
+            var data = await _processDetailRepository.FindById(p => p.ProcessDetailId == newProcessDetail.ProcessDetailId);
+            if (data != null)
+            {
+                return await _processDetailRepository.Update(newProcessDetail);
             }
             return null;
         }
@@ -48,7 +57,7 @@ namespace GSP_API.Business.Services
             if (data != null)
             {
                 data.Status = "Inactive";
-                await _processDetailRepository.Update(data);                
+                return await _processDetailRepository.Update(data);
             }
             return null;
         }

@@ -17,12 +17,12 @@ namespace GSP_API.Business.Services
 
         public async Task<List<ImportExportDetail>> GetImExDetailByImEx(int imExId)
         {
-            return await _importExportDetailRepository.GetAll(p => p.ImportExportId == imExId);            
+            return await _importExportDetailRepository.GetAll(p => p.ImportExportId == imExId);
         }
 
         public async Task<ImportExportDetail> GetImExDetailById(int imExDetailId)
         {
-            return await _importExportDetailRepository.GetById(p => p.ImportExportDetailId == imExDetailId);            
+            return await _importExportDetailRepository.GetById(p => p.ImportExportDetailId == imExDetailId);
         }
 
         public async Task<string> AddImExDetail(ImportExportDetail imExDetail)
@@ -30,13 +30,12 @@ namespace GSP_API.Business.Services
             return await _importExportDetailRepository.Add(imExDetail);
         }
 
-        public async Task<string> UpdateImExDetail(int imExDetailId, ImportExportDetail newImExDetail)
+        public async Task<string> UpdateImExDetail(ImportExportDetail newImExDetail)
         {
-            var data = await _importExportDetailRepository.FindById(p => p.ImportExportDetailId == imExDetailId);
+            var data = await _importExportDetailRepository.FindById(p => p.ImportExportDetailId == newImExDetail.ImportExportDetailId);
             if (data != null)
             {
-                newImExDetail.ImportExportDetailId = data.ImportExportDetailId;
-                await _importExportDetailRepository.Update(newImExDetail);                
+                return await _importExportDetailRepository.Update(newImExDetail);
             }
             return null;
         }
@@ -47,7 +46,7 @@ namespace GSP_API.Business.Services
             if (data != null)
             {
                 //data.Status = "Inactive";
-                await _importExportDetailRepository.Update(data);                
+                return await _importExportDetailRepository.Update(data);
             }
             return null;
         }

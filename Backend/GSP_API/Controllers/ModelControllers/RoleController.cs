@@ -51,10 +51,10 @@ namespace GSP_API.Controllers.ModelControllers
 
         // PUT: UpdateRole
         [HttpPut]
-        [Route("updateRole/{accountId}")]
-        public async Task<ActionResult> UpdateRole(string roleId, [FromBody] RoleRequest roleRequest)
+        [Route("updateRole")]
+        public async Task<ActionResult> UpdateRole([FromBody] RoleRequest roleRequest)
         {
-            var data = await _roleService.UpdateRole(roleId, _mapper.Map<Role>(roleRequest));
+            var data = await _roleService.UpdateRole(_mapper.Map<Role>(roleRequest));
             if (data.Equals(null))
             {
                 return BadRequest("Not found");

@@ -34,14 +34,13 @@ namespace GSP_API.Business.Services
             return await _attendanceDetailRepository.Add(attendanceDetail);
         }
 
-        public async Task<string> UpdateAttendanceDetail(int attendanceDetailId, AttendanceDetail newAttendanceDetail)
+        public async Task<string> UpdateAttendanceDetail(AttendanceDetail newAttendanceDetail)
         {
 
-            var data = await _attendanceDetailRepository.FindById(p => p.AttendanceDetailId == attendanceDetailId);
+            var data = await _attendanceDetailRepository.FindById(p => p.AttendanceDetailId == newAttendanceDetail.AttendanceDetailId);
             if (data != null)
             {
-                newAttendanceDetail.AttendanceDetailId = data.AttendanceDetailId;
-                await _attendanceDetailRepository.Update(newAttendanceDetail);                
+                return await _attendanceDetailRepository.Update(newAttendanceDetail);                
             }
             return null;
         }
@@ -52,7 +51,7 @@ namespace GSP_API.Business.Services
             if (data != null)
             {
                 //data.Status = "Inactive";
-                await _attendanceDetailRepository.Update(data);                
+                return await _attendanceDetailRepository.Update(data);                
             }
             return null;
         }
