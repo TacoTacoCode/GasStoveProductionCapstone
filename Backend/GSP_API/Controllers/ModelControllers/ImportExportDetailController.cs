@@ -71,7 +71,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> UpdateImportExportDetail([FromBody] ImportExportDetailRequest importExportDetailRequest)
         {
             var data = await _importExportDetailService.UpdateImExDetail(_mapper.Map<ImportExportDetail>(importExportDetailRequest));
-            if (data.Equals(null))
+            if (data == null)
             {
                 return BadRequest("Not found");
             }
@@ -88,7 +88,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> DelImportExportDetail(int imExDetailId)
         {
             var data = await _importExportDetailService.DelImExDetail(imExDetailId);
-            if (data.Equals(null))
+            if (data == null)
             {
                 return BadRequest("Not found");
             }

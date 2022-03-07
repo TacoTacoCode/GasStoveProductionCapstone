@@ -71,7 +71,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> UpdateProduct(string productId, [FromBody] ProductRequest productRequest)
         {
             var data = await _productService.UpdateProduct(_mapper.Map<Product>(productRequest));
-            if (data.Equals(null))
+            if (data == null)
             {
                 return BadRequest("Not found");
             }
@@ -88,7 +88,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> DelProduct(string productId)
         {
             var data = await _productService.DelProduct(productId);
-            if (data.Equals(null))
+            if (data == null)
             {
                 return BadRequest("Not found");
             }

@@ -70,7 +70,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> UpdateImEx([FromBody] ImportExportRequest importExportRequest)
         {
             var data = await _importExportService.UpdateImEx(_mapper.Map<ImportExport>(importExportRequest));
-            if (data.Equals(null))
+            if (data == null)
             {
                 return BadRequest("Not found");
             }
@@ -87,7 +87,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> UpdateImExAndDetail ([FromBody] ImportExportRequest importExportRequest)
         {
             var data = await _importExportService.UpdateImEx(_mapper.Map<ImportExport>(importExportRequest));
-            if (data.Equals(null))
+            if (data == null)
             {
                 return BadRequest("Not found");
             }
@@ -104,7 +104,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> DelImEx(int imExId)
         {
             var data = await _importExportService.DelImEx(imExId);
-            if (data.Equals(null))
+            if (data == null)
             {
                 return BadRequest("Not found");
             }

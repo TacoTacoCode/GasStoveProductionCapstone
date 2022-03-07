@@ -72,7 +72,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult<ComponentResponse>> UpdateComponent([FromBody] ComponentRequest componentRequest)
         {
             var data = await _componentService.UpdateComponent(_mapper.Map<Component>(componentRequest));
-            if (data.Equals(null))
+            if (data == null)
             {
                 return BadRequest("Not found");
             }
@@ -89,7 +89,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> DelAttendance(string componentId)
         {
             var data = await _componentService.DelComponent(componentId);
-            if (data.Equals(null))
+            if (data == null)
             {
                 return BadRequest("Not found");
             }

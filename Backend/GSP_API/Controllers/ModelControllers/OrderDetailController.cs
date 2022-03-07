@@ -71,7 +71,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> UpdateOrderDetail([FromBody] OrderDetailRequest orderDetailRequest)
         {
             var data = await _orderDetailService.UpdateOrderDetail(_mapper.Map<OrderDetail>(orderDetailRequest));
-            if (data.Equals(null))
+            if (data == null)
             {
                 return BadRequest("Not found");
             }
@@ -88,7 +88,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> DelOrderDetail(int orderDetailId)
         {
             var data = await _orderDetailService.DelOrderDetail(orderDetailId);
-            if (data.Equals(null))
+            if (data == null)
             {
                 return BadRequest("Not found");
             }

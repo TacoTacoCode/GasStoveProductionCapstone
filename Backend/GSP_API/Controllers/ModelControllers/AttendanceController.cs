@@ -57,7 +57,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> UpdateAttendance([FromBody] AttendanceRequest attendanceRequest)
         {
             var data = await _attendanceService.UpdateAttendance(_mapper.Map<Attendance>(attendanceRequest));
-            if (data.Equals(null))
+            if (data == null)
             {
                 return BadRequest("Not found");
             }
@@ -75,7 +75,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> DelAttendance(int attendanceId)
         {
             var data = await _attendanceService.DelAttendance(attendanceId);
-            if (data.Equals(null))
+            if (data == null)
             {
                 return BadRequest("Not found");
             }

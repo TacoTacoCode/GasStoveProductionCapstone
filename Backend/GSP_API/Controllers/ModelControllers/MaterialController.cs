@@ -71,7 +71,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> UpdateMaterial([FromBody] MaterialRequest materialRequest)
         {
             var data = await _materialService.UpdateMaterial(_mapper.Map<Material>(materialRequest));
-            if (data.Equals(null))
+            if (data == null)
             {
                 return BadRequest("Not found");
             }
@@ -88,7 +88,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> DelMaterial(string materialId)
         {
             var data = await _materialService.DelMaterial(materialId);
-            if (data.Equals(null))
+            if (data == null)
             {
                 return BadRequest("Not found");
             }

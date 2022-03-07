@@ -71,7 +71,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> UpdateProcessDetail([FromBody] ProcessDetailRequest newProcessDetail)
         {
             var data = await _processDetailService.UpdateProcessDetail(_mapper.Map<ProcessDetail>(newProcessDetail));
-            if (data.Equals(null))
+            if (data == null)
             {
                 return BadRequest("Not found");
             }
@@ -88,7 +88,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> DelProcessDetail(int processDetailId)
         {
             var data = await _processDetailService.DelProcessDetail(processDetailId);
-            if (data.Equals(null))
+            if (data == null)
             {
                 return BadRequest("Not found");
             }

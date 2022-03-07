@@ -65,7 +65,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> UpdateSection([FromBody] SectionRequest newSection)
         {
             var data = await _sectionService.UpdateSection(_mapper.Map<Section>(newSection));
-            if (data.Equals(null))
+            if (data == null)
             {
                 return BadRequest("Not found");
             }
@@ -82,7 +82,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> DelSection(int sectionId)
         {
             var data = await _sectionService.DelSection(sectionId);
-            if (data.Equals(null))
+            if (data == null)
             {
                 return BadRequest("Not found");
             }

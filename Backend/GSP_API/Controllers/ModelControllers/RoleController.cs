@@ -55,7 +55,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> UpdateRole([FromBody] RoleRequest roleRequest)
         {
             var data = await _roleService.UpdateRole(_mapper.Map<Role>(roleRequest));
-            if (data.Equals(null))
+            if (data == null)
             {
                 return BadRequest("Not found");
             }
@@ -72,7 +72,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> DelRole(string roleId)
         {
             var data = await _roleService.DelRole(roleId);
-            if (data.Equals(null))
+            if (data == null)
             {
                 return BadRequest("Not found");
             }

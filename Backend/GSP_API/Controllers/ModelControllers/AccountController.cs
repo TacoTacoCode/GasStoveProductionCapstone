@@ -103,7 +103,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> DelAccount(int accountId)
         {
             var data = await _accountService.DelAccount(accountId);
-            if (data.Equals(null))
+            if (data == null)
             {
                 return BadRequest("Not found");
             }
