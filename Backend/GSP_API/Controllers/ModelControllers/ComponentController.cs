@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace GSP_API.Controllers.ModelControllers
 {
@@ -104,6 +105,25 @@ namespace GSP_API.Controllers.ModelControllers
         //{
         //    return _context.Account.Any(e => e.AccountId == id);
         //}
+
+        [HttpPost]
+        [Route("uploadFile")]
+        public async Task<IActionResult> Upload([FromBody] string filePath)
+        {
+            try
+            {
+                var componentList = GSP_API.Business.Extensions.Excel.ImportExcel<Component>(filePath);
+                foreach (var compo in componentList)
+                {
+                    await _componentService.AddComponent(compo);
+                }
+                return StatusCode(200, "Import success");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
+        }
     }
 }
 

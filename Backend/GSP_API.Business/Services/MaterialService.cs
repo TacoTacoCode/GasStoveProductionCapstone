@@ -18,7 +18,7 @@ namespace GSP_API.Business.Services
 
         public async Task<List<Material>> GetAllMaterials()
         {
-            return await _materialRepository.GetAll(p => p.Status == "1");
+            return await _materialRepository.GetAll(p => p.Status == "Active");
         }
 
         public async Task<Material> GetMaterialById(string materialId)

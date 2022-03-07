@@ -10,20 +10,19 @@ namespace GSP_API.Business.Services
     {
         private readonly IProductRepository _productRepository;
 
-        public ProductService(
-            IProductRepository productRepository)
+        public ProductService(IProductRepository productRepository)
         {
             _productRepository = productRepository;
         }
 
         public async Task<List<Product>> GetAllProducts()
         {
-           return await _productRepository.GetAll(p => p.Status == "1");            
+            return await _productRepository.GetAll(p => p.Status == "Active");
         }
 
         public async Task<Product> GetProductById(string productId)
         {
-            return await _productRepository.GetById(p => p.ProductId == productId);            
+            return await _productRepository.GetById(p => p.ProductId == productId);
         }
 
         public async Task<string> AddProduct(Product product)
@@ -35,8 +34,8 @@ namespace GSP_API.Business.Services
         {
             var data = await _productRepository.FindById(p => p.ProductId == newProduct.ProductId);
             if (data != null)
-            {                
-                return await  _productRepository.Update(newProduct);                
+            {
+                return await _productRepository.Update(newProduct);
             }
             return null;
         }
@@ -47,9 +46,11 @@ namespace GSP_API.Business.Services
             if (data != null)
             {
                 data.Status = "Inactive";
-                return await _productRepository.Update(data);                
+                return await _productRepository.Update(data);
             }
             return null;
         }
+
+
     }
 }

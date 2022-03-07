@@ -18,7 +18,7 @@ namespace GSP_API.Business.Services
 
         public async Task<List<Component>> GetAllComponents()
         {
-            return await _componentRepository.GetAll(p => p.Status == "1");
+            return await _componentRepository.GetAll(p => p.Status == "Active");
         }
 
         public async Task<Component> GetComponentById(string componentId)

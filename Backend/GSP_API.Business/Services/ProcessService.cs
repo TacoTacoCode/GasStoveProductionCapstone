@@ -18,7 +18,7 @@ namespace GSP_API.Business.Services
 
         public async Task<List<Process>> GetAllProcesses()
         {
-            return await _processRepository.GetAll(p => p.Status == "1");
+            return await _processRepository.GetAll(p => p.Status == "Active");
         }
 
         public async Task<Process> GetProcessById(int processId)
