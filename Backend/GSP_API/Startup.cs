@@ -55,6 +55,7 @@ namespace GSP_API
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger Demo API");
                 options.RoutePrefix = string.Empty;
+                options.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
             });            
         }
     }

@@ -107,22 +107,17 @@ namespace GSP_API.Controllers.ModelControllers
         //}
 
         [HttpPost]
-        [Route("uploadFile")]
+        [Route("uploadFile/component")]
         public async Task<IActionResult> Upload([FromBody] string filePath)
         {
-            try
+            var msg = "Import success";
+            var componentList = GSP_API.Business.Extensions.Excel.ImportExcel<Component>(filePath);
+            var errorDic = await _componentService.AddRange(componentList);
+            if (errorDic.Count != 0)
             {
-                var componentList = GSP_API.Business.Extensions.Excel.ImportExcel<Component>(filePath);
-                foreach (var compo in componentList)
-                {
-                    await _componentService.AddComponent(compo);
-                }
-                return StatusCode(200, "Import success");
+                msg = $"Number of error record: {errorDic.Count}";
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex}");
-            }
+            return StatusCode(200, msg);
         }
     }
 }
