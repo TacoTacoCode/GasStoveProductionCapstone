@@ -105,22 +105,17 @@ namespace GSP_API.Controllers.ModelControllers
         //    return _context.Account.Any(e => e.AccountId == id);
         //}
         [HttpPost]
-        [Route("uploadFile")]
+        [Route("uploadFile/product")]
         public async Task<IActionResult> Upload([FromBody] string filePath)
         {
-            try
+            var msg = "Import success";
+            var productList = GSP_API.Business.Extensions.Excel.ImportExcel<Product>(filePath);
+            var errorDic = await _productService.AddRange(productList);
+            if(errorDic.Count != 0)
             {
-                var productList = GSP_API.Business.Extensions.Excel.ImportExcel<Product>(filePath);
-                foreach (var pro in productList)
-                {
-                    await _productService.AddProduct(pro);
-                }
-                return StatusCode(200,"Import success");
+                msg = $"Number of error record: {errorDic.Count}";
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex}");
-            }
+            return StatusCode(200, msg);
         }
     }
 }

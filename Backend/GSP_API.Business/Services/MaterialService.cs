@@ -33,7 +33,7 @@ namespace GSP_API.Business.Services
 
         public async Task<string> UpdateMaterial(Material newMaterial)
         {
-            var data = await _materialRepository.FindById(p => p.MaterialId == newMaterial.MaterialId);
+            var data = await _materialRepository.FindFirst(p => p.MaterialId == newMaterial.MaterialId);
             if (data != null)
             {
                 return await _materialRepository.Update(newMaterial);
@@ -51,5 +51,31 @@ namespace GSP_API.Business.Services
             }
             return null;
         }
+
+        public async Task<Material> FindMaterialById(string materialId)
+        {
+            return await _materialRepository.FindFirst(p => p.MaterialId == materialId);
+        }
+
+        public async Task<IDictionary<int, Material>> AddRange(List<Material> materials)
+        {
+            var returnDic = new Dictionary<int, Material>();
+            var addList = new List<Material>();
+            foreach (var pro in materials)
+            {
+                var tmp = await FindMaterialById(pro.MaterialId);
+                if (tmp != null)
+                {
+                    returnDic.Add(materials.IndexOf(pro) + 1, pro);
+                }
+                else
+                {
+                    addList.Add(pro);
+                }
+            }
+            await _materialRepository.AddRange(addList);
+            return returnDic;
+        }
+
     }
 }
