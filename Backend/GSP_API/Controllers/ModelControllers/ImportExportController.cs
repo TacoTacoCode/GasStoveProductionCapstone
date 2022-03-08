@@ -110,7 +110,7 @@ namespace GSP_API.Controllers.ModelControllers
             }
             else if (data.Equals("true"))
             {
-                return Ok("Update Successfully");
+                return Ok("Delete Successfully");
             }
             return BadRequest(data);
         }

@@ -9,9 +9,10 @@ namespace GSP_API.Models.Response
         public string MaterialId { get; set; }
         public string MaterialName { get; set; }
         public int? Amount { get; set; }
+        public string Unit { get; set; }
         public string ImageUrl { get; set; }
-        public int? Unit { get; set; }
         public string Status { get; set; }
+        public string Description { get; set; }
 
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

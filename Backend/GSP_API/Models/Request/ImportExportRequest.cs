@@ -8,18 +8,16 @@ namespace GSP_API.Models.Request
     public class ImportExportRequest
     {
         public int ImportExportId { get; set; }
-        public int? AccountId { get; set; }
+        public int? SectionId { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string ItemType { get; set; }
         public bool? IsImport { get; set; }
-        public bool? IsAccepted { get; set; }
+        public string Status { get; set; }
+        public DateTime? FirstExportDate { get; set; }
 
-
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public virtual Account Account { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public virtual ItemType ItemTypeNavigation { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public virtual ICollection<ImportExportDetail> ImportExportDetail { get; set; }
+        public virtual ICollection<ImportExportDetail> ImportExportDetails { get; set; }
     }
 }

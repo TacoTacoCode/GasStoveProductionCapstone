@@ -12,15 +12,14 @@ namespace GSP_API.Models.Request
         public int? Amount { get; set; }
         public double? Price { get; set; }
         public string ImageUrl { get; set; }
-        public string Unit { get; set; }
-        public DateTime? ManufacturingDate { get; set; }
-        public DateTime? ExpiryDate { get; set; }
         public string Status { get; set; }
-
+        public string Description { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public virtual ICollection<OrderDetail> OrderDetail { get; set; }
+        public virtual ICollection<ImportExportDetail> ImportExportDetails { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public virtual ICollection<ProductComponent> ProductComponent { get; set; }        
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public virtual ICollection<ProductComponent> ProductComponents { get; set; }
     }
 }
