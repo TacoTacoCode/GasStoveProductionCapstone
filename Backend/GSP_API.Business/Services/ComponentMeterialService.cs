@@ -27,7 +27,7 @@ namespace GSP_API.Business.Services
 
         public async Task<string> UpdateCompoMate(ComponentMaterial newCompoMate)
         {
-            var data = await _componentMaterialRepository.FindById(p => p.Id == newCompoMate.Id);
+            var data = await _componentMaterialRepository.FindFirst(p => p.Id == newCompoMate.Id);
             if (data != null)
             {
                 return await _componentMaterialRepository.Update(newCompoMate);

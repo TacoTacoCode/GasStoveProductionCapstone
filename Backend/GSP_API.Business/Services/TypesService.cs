@@ -30,7 +30,7 @@ namespace GSP_API.Business.Services
 
         public async Task<string> UpdateAccount(ItemType newTypes)
         {
-            var data = await _typesRepository.FindById(p => p.TypeId == newTypes.TypeId);
+            var data = await _typesRepository.FindFirst(p => p.TypeId == newTypes.TypeId);
             if (data != null)
             {
                 return await _typesRepository.Update(newTypes);

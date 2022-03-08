@@ -26,7 +26,7 @@ namespace GSP_API.Business.Services
 
         public async Task<string> UpdateCompoMate(ProductComponent newProCompo)
         {
-            var data = await _productComponentRepository.FindById(p => p.Id == newProCompo.Id);
+            var data = await _productComponentRepository.FindFirst(p => p.Id == newProCompo.Id);
             if (data != null)
             {
                 return await _productComponentRepository.Update(newProCompo);

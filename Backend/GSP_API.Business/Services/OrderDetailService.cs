@@ -33,7 +33,7 @@ namespace GSP_API.Business.Services
 
         public async Task<string> UpdateOrderDetail(OrderDetail newOrderDetail)
         {
-            var data = await _orderDetailRepository.FindById(p => p.OrderDetailId == newOrderDetail.OrderDetailId);
+            var data = await _orderDetailRepository.FindFirst(p => p.OrderDetailId == newOrderDetail.OrderDetailId);
             if (data != null)
             {
                return await _orderDetailRepository.Update(newOrderDetail);

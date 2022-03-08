@@ -79,9 +79,28 @@ namespace GSP_API.Infrastructure
             return await DbSet.Where(expression).FirstOrDefaultAsync();
         }
 
-        public async Task<T> FindById(Expression<Func<T, bool>> expression)
+        public async Task<T> FindFirst(Expression<Func<T, bool>> expression)
         {
             return await DbSet.Where(expression).AsNoTracking().FirstOrDefaultAsync();
         }
+        public async Task<List<T>> FindAll(Expression<Func<T, bool>> expression)
+        {
+            return await DbSet.Where(expression).AsNoTracking().ToListAsync<T>();
+        }
+        public async Task<string> AddRange(List<T> entites)
+        {
+            try
+            {
+                await DbSet.AddRangeAsync(entites);
+                await _dbFactory.DbContext.SaveChangesAsync();
+                return "true";
+            }
+            catch (Exception e)
+            {
+                await _dbFactory.DbContext.DisposeAsync();
+                return e.Message.ToString();
+            }
+        }
+
     }
 }

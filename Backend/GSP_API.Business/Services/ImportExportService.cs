@@ -34,7 +34,7 @@ namespace GSP_API.Business.Services
         public async Task<string> UpdateImEx(ImportExport newImEx)
         {
 
-            var data = await _importExportRepository.FindById(p => p.ImportExportId == newImEx.ImportExportId);
+            var data = await _importExportRepository.FindFirst(p => p.ImportExportId == newImEx.ImportExportId);
             if (data != null)
             {                
                 return await  _importExportRepository.Update(newImEx);

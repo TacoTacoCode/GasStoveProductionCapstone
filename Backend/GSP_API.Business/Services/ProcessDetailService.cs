@@ -33,7 +33,7 @@ namespace GSP_API.Business.Services
 
         public async Task<string> UpdateProcessDetail(ProcessDetail newProcessDetail)
         {
-            var data = await _processDetailRepository.FindById(p => p.ProcessDetailId == newProcessDetail.ProcessDetailId);
+            var data = await _processDetailRepository.FindFirst(p => p.ProcessDetailId == newProcessDetail.ProcessDetailId);
             if (data != null)
             {
                 return await _processDetailRepository.Update(newProcessDetail);
@@ -43,7 +43,7 @@ namespace GSP_API.Business.Services
 
         public async Task<string> UpdateProcessDetailbyImEx(ProcessDetail newProcessDetail)
         {
-            var data = await _processDetailRepository.FindById(p => p.ProcessDetailId == newProcessDetail.ProcessDetailId);
+            var data = await _processDetailRepository.FindFirst(p => p.ProcessDetailId == newProcessDetail.ProcessDetailId);
             if (data != null)
             {
                 return await _processDetailRepository.Update(newProcessDetail);

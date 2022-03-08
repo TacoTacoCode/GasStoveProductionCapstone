@@ -34,7 +34,7 @@ namespace GSP_API.Business.Services
         public async Task<string> UpdateOrder(Order newOrder)
         {
 
-            var data = await _orderRepository.FindById(p => p.OrderId == newOrder.OrderId);
+            var data = await _orderRepository.FindFirst(p => p.OrderId == newOrder.OrderId);
             if (data != null)
             {
                 return await _orderRepository.Update(newOrder);

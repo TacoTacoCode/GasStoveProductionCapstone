@@ -31,7 +31,7 @@ namespace GSP_API.Business.Services
         public async Task<string> UpdateAttendance(Attendance newAttendance)
         {
 
-            var data = await _attendanceRepository.FindById(p => p.AttendanceId == newAttendance.AttendanceId);
+            var data = await _attendanceRepository.FindFirst(p => p.AttendanceId == newAttendance.AttendanceId);
             if (data != null)
             {
                 return await _attendanceRepository.Update(newAttendance);               

@@ -37,7 +37,7 @@ namespace GSP_API.Business.Services
 
         public async Task<string> UpdateAccount(Account newAccount)
         {
-            var data = await _accountRepository.FindById(p => p.AccountId == newAccount.AccountId);
+            var data = await _accountRepository.FindFirst(p => p.AccountId == newAccount.AccountId);
             if (data != null)
             {                
                 return await _accountRepository.Update(newAccount);

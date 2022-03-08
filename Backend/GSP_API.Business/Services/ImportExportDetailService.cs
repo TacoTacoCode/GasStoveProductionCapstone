@@ -32,7 +32,7 @@ namespace GSP_API.Business.Services
 
         public async Task<string> UpdateImExDetail(ImportExportDetail newImExDetail)
         {
-            var data = await _importExportDetailRepository.FindById(p => p.ImportExportDetailId == newImExDetail.ImportExportDetailId);
+            var data = await _importExportDetailRepository.FindFirst(p => p.ImportExportDetailId == newImExDetail.ImportExportDetailId);
             if (data != null)
             {
                 return await _importExportDetailRepository.Update(newImExDetail);

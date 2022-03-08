@@ -33,7 +33,7 @@ namespace GSP_API.Business.Services
 
         public async Task<string> UpdateProcess(Process newProcess)
         {
-            var data = await _processRepository.FindById(p => p.ProcessId == newProcess.ProcessId);
+            var data = await _processRepository.FindFirst(p => p.ProcessId == newProcess.ProcessId);
             if (data != null)
             {
                 return await _processRepository.Update(newProcess);

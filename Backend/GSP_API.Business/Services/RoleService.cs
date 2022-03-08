@@ -33,7 +33,7 @@ namespace GSP_API.Business.Services
 
         public async Task<string> UpdateRole(Role newRole)
         {
-            var data = await _roleRepository.FindById(p => p.RoleId == newRole.RoleId);
+            var data = await _roleRepository.FindFirst(p => p.RoleId == newRole.RoleId);
             if (data != null)
             {
                 return await _roleRepository.Update(newRole);

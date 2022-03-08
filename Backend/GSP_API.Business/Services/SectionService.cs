@@ -38,7 +38,7 @@ namespace GSP_API.Business.Services
         public async Task<string> UpdateSection(Section newSection)
         {
 
-            var data = await _sectionRepository.FindById(p => p.SectionId == newSection.SectionId);
+            var data = await _sectionRepository.FindFirst(p => p.SectionId == newSection.SectionId);
             if (data != null)
             {                
                 return await  _sectionRepository.Update(newSection);                

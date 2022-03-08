@@ -34,7 +34,7 @@ namespace GSP_API.Business.Services
         public async Task<string> UpdateComponent(Component newComponent)
         {
 
-            var data = await _componentRepository.FindById(p => p.ComponentId == newComponent.ComponentId);
+            var data = await _componentRepository.FindFirst(p => p.ComponentId == newComponent.ComponentId);
             if (data != null)
             {
                 return await _componentRepository.Update(newComponent);
@@ -51,6 +51,29 @@ namespace GSP_API.Business.Services
                 return await _componentRepository.Update(data);
             }
             return null;
+        }
+        public async Task<Component> FindcomponentById(string componentId)
+        {
+            return await _componentRepository.FindFirst(p => p.ComponentId == componentId);
+        }
+        public async Task<IDictionary<int, Component>> AddRange(List<Component> components)
+        {
+            var returnDic = new Dictionary<int, Component>();
+            var addList = new List<Component>();
+            foreach (var pro in components)
+            {
+                var tmp = await FindcomponentById(pro.ComponentId);
+                if (tmp != null)
+                {
+                    returnDic.Add(components.IndexOf(pro) + 1, pro);
+                }
+                else
+                {
+                    addList.Add(pro);
+                }
+            }
+            await _componentRepository.AddRange(addList);
+            return returnDic;
         }
     }
 }
