@@ -58,7 +58,7 @@ namespace GSP_API.Controllers.ModelControllers
         // POST: AddMaterial/[material]
         [HttpPost]
         [Route("addMaterial")]
-        public async Task<ActionResult> AddAccount([FromBody] MaterialRequest materialRequest)
+        public async Task<ActionResult> AddMaterial([FromBody] MaterialRequest materialRequest)
         {
             var data = await _materialService.AddMaterial(_mapper.Map<Material>(materialRequest));
             if (data == null)

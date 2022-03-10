@@ -10,9 +10,10 @@ namespace GSP_API.Models.Request
         public int OrderId { get; set; }
         public int? AccountId { get; set; }
         public double? TotalPrice { get; set; }
-        public DateTime? Deadline { get; set; }
+        public DateTime? ExpiryDate { get; set; }
         public string Status { get; set; }
-        public string Note { get; set; }        
+        public string Note { get; set; }
+        public bool? IsShorTerm { get; set; }
 
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
