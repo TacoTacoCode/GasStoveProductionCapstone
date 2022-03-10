@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace GSP_API.Controllers.ModelControllers
 {
@@ -106,16 +108,20 @@ namespace GSP_API.Controllers.ModelControllers
         //}
         [HttpPost]
         [Route("uploadFile/material")]
-        public async Task<IActionResult> Upload([FromBody] string filePath)
+        public async Task<IActionResult> Upload([FromForm] IFormFile file)
         {
             var msg = "Import success";
-            var materialList = GSP_API.Business.Extensions.Excel.ImportExcel<Material>(filePath);
-            var errorDic = await _materialService.AddRange(materialList);
-            if (errorDic.Count != 0)
+            using (var memoryStream = new MemoryStream())
             {
-                msg = $"Number of error record: {errorDic.Count}";
+                file.CopyTo(memoryStream);
+                var materialList = GSP_API.Business.Extensions.Excel.ImportExcel<Material>(memoryStream);
+                var errorDic = await _materialService.AddRange(materialList);
+                if (errorDic.Count != 0)
+                {
+                    msg = $"Number of error record: {errorDic.Count}";
+                }
+                return StatusCode(200, msg);
             }
-            return StatusCode(200, msg);
         }
     }
 }

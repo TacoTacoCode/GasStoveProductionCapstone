@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,11 +9,11 @@ namespace GSP_API.Business.Extensions
 {
     public class Excel
     {
-		public static List<T> ImportExcel<T>(string excelFilePath)
+		public static List<T> ImportExcel<T>(Stream fileStream)
 		{
 			List<T> list = new List<T>();
 			Type typeOfObject = typeof(T);
-			using (IXLWorkbook workbook = new XLWorkbook(excelFilePath))
+			using (IXLWorkbook workbook = new XLWorkbook(fileStream))
 			{
 				var worksheet = workbook.Worksheets.First();
 				var properties = typeOfObject.GetProperties();
