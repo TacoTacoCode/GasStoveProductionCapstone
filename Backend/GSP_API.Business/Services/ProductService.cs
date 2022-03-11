@@ -16,6 +16,10 @@ namespace GSP_API.Business.Services
             _productRepository = productRepository;
         }
 
+        public ProductService()
+        {
+        }
+
         public async Task<List<Product>> GetAllProducts()
         {
             return await _productRepository.GetAll(p => p.Status == "Active");
@@ -26,15 +30,24 @@ namespace GSP_API.Business.Services
             return await _productRepository.GetById(p => p.ProductId == productId);
         }
 
-        public async Task<string> AddProduct(Product product)
+        public async Task<string> AddProduct(Product product, List<Component> componentChosen)
         {
-            try
+            var proCompoService = new ProductComponentService();
+
+            var data = await _productRepository.Add(product);
+            var listProCompo = new List<ProductComponent>();
+            switch (data)
             {
-                return await _productRepository.Add(product);
-            }
-            catch (Exception)
-            {
-                throw;
+                case "true":
+                    //For each compo in chosen list, create a correspoding ProCompo  
+                    foreach (Component compo in componentChosen)
+                    {
+                        ProductComponent productComponent = new ProductComponent(product.ProductId, compo.ComponentId, compo.Amount);
+                        listProCompo.Add(productComponent);
+                    }
+                    return await proCompoService.AddRangeProCompo(listProCompo);
+                default:
+                    return data;
             }
         }
 
@@ -64,7 +77,7 @@ namespace GSP_API.Business.Services
             return await _productRepository.FindFirst(p => p.ProductId == productId);
         }
 
-        public async Task<IDictionary<int, Product>> AddRange(List<Product> products)
+        public async Task<IDictionary<int, Product>> AddRangeProduct(List<Product> products)
         {
             var returnDic = new Dictionary<int, Product>();
             var addList = new List<Product>();

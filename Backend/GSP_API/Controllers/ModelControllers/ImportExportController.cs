@@ -6,20 +6,22 @@ using GSP_API.Domain.Repositories.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Net.Http;
+using System.Text;
 
 namespace GSP_API.Controllers.ModelControllers
 {
     [ApiController]
     public class ImportExportController : ControllerBase
     {
-        private readonly ImportExportService _importExportService;
+        private readonly ImportExportService _importExportService;        
         private readonly IMapper _mapper;
 
         public ImportExportController(
             ImportExportService importExportService,
             IMapper mapper)
         {
-            _importExportService = importExportService;
+            _importExportService = importExportService;            
             _mapper = mapper;
         }
 
@@ -54,14 +56,17 @@ namespace GSP_API.Controllers.ModelControllers
         // POST: AddImEx/[imEx]
         [HttpPost]
         [Route("addImEx")]
-        public async Task<ActionResult> AddAccount([FromBody] ImportExportRequest importExportRequestRequest)
+        public async Task<ActionResult> AddImEx([FromBody] ImportExportRequest importExportRequest)
         {
-            var data = await _importExportService.AddImEx(_mapper.Map<ImportExport>(importExportRequestRequest));
-            if (data == null)
+            var data = _mapper.Map<ImportExport>(importExportRequest);
+            var resultAdd = await _importExportService.AddImEx(data);
+            switch (resultAdd)
             {
-                return BadRequest("Not Found");
+                case "true":
+                    return Ok("Add successfully");                    
+                default:
+                    return BadRequest(resultAdd);
             }
-            return Ok("Add successfully");
         }
 
         // PUT: UpdateImEx
@@ -69,33 +74,17 @@ namespace GSP_API.Controllers.ModelControllers
         [Route("updateImEx")]
         public async Task<ActionResult> UpdateImEx([FromBody] ImportExportRequest importExportRequest)
         {
-            var data = await _importExportService.UpdateImEx(_mapper.Map<ImportExport>(importExportRequest));
-            if (data == null)
+            var data = _mapper.Map<ImportExport>(importExportRequest);
+            var result = await _importExportService.UpdateImEx(data);
+            switch (result)
             {
-                return BadRequest("Not found");
+                case null:
+                    return BadRequest("Not Found ImEx");
+                case "Update successfully":
+                    return Ok(result);
+                default:
+                    return BadRequest(result);
             }
-            else if (data.Equals("true"))
-            {
-                return Ok("Update Successfully");
-            }
-            return BadRequest(data);
-        }
-
-        // PUT: UpdateImExAndDetail
-        [HttpPut]
-        [Route("updateImExAnDetail")]
-        public async Task<ActionResult> UpdateImExAndDetail ([FromBody] ImportExportRequest importExportRequest)
-        {
-            var data = await _importExportService.UpdateImEx(_mapper.Map<ImportExport>(importExportRequest));
-            if (data == null)
-            {
-                return BadRequest("Not found");
-            }
-            else if (data.Equals("true"))
-            {
-                return Ok("Update Successfully");
-            }
-            return BadRequest(data);
         }
 
         // PUT: DelImEx/1

@@ -9,6 +9,10 @@ namespace GSP_API.Business.Services
     {
         private readonly IImportExportDetailRepository _importExportDetailRepository;
 
+        public ImportExportDetailService()
+        {
+        }
+
         public ImportExportDetailService(
             IImportExportDetailRepository importExportDetailRepository)
         {
@@ -40,6 +44,26 @@ namespace GSP_API.Business.Services
             return null;
         }
 
+        //public async Task<string> UpdateImportDetail(ImportExportDetail newImExDetail)
+        //{
+        //    var data = await _importExportDetailRepository.FindFirst(p => p.ImportExportDetailId == newImExDetail.ImportExportDetailId);
+        //    if (data != null)
+        //    {
+        //        return await _importExportDetailRepository.Update(newImExDetail);
+        //    }
+        //    return null;
+        //}
+
+        //public async Task<string> UpdateExportDetail(ImportExportDetail newImExDetail)
+        //{
+        //    var data = await _importExportDetailRepository.FindFirst(p => p.ImportExportDetailId == newImExDetail.ImportExportDetailId);
+        //    if (data != null)
+        //    {
+        //        return await _importExportDetailRepository.Update(newImExDetail);
+        //    }
+        //    return null;
+        //}
+
         public async Task<string> DelImExDetail(int imExDetailId)
         {
             var data = await _importExportDetailRepository.GetById(p => p.ImportExportDetailId == imExDetailId);
@@ -49,6 +73,11 @@ namespace GSP_API.Business.Services
                 return await _importExportDetailRepository.Update(data);
             }
             return null;
+        }
+
+        public async Task<string> AddRangeImExDetail(List<ImportExportDetail> importExportDetailsList)
+        {
+            return await _importExportDetailRepository.AddRange(importExportDetailsList);            
         }
     }
 }

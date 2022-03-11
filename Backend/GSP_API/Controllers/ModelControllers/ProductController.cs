@@ -58,9 +58,9 @@ namespace GSP_API.Controllers.ModelControllers
         // POST: AddProduct/[product]
         [HttpPost]
         [Route("addProduct")]
-        public async Task<ActionResult> AddAccount([FromBody] ProductRequest productRequest)
+        public async Task<ActionResult> AddAccount([FromBody] ProductRequest productRequest, [FromBody] List<Component> components)
         {
-            var data = await _productService.AddProduct(_mapper.Map<Product>(productRequest));
+            var data = await _productService.AddProduct(_mapper.Map<Product>(productRequest), components);
             if (data == null)
             {
                 return BadRequest("Not Found");

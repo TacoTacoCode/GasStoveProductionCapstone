@@ -26,7 +26,8 @@ namespace GSP_API
                 .AddRepositories()
                 .AddServices()
                 .AddSwagger()
-                .AddAutoMapper();           
+                .AddAutoMapper()
+                .AddHttpClients();           
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

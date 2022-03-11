@@ -1,5 +1,6 @@
 ﻿using GSP_API.Domain.Interfaces;
 using GSP_API.Domain.Repositories.Models;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,17 +15,22 @@ namespace GSP_API.Business.Services
         {
             _productComponentRepository = productComponentRepository;
         }
+
+        public ProductComponentService()
+        {
+        }
+
         public async Task<ProductComponent> GetProCompoById(int proCompoId)
         {
             return await _productComponentRepository.GetById(p => p.Id == proCompoId);
         }
 
-        public async Task<string> AddCompoMate(ProductComponent proCompo)
+        public async Task<string> AddProCompo(ProductComponent proCompo)
         {
             return await _productComponentRepository.Add(proCompo); ;
         }
 
-        public async Task<string> UpdateCompoMate(ProductComponent newProCompo)
+        public async Task<string> UpdateProCompo(ProductComponent newProCompo)
         {
             var data = await _productComponentRepository.FindFirst(p => p.Id == newProCompo.Id);
             if (data != null)
@@ -32,6 +38,11 @@ namespace GSP_API.Business.Services
                 return await _productComponentRepository.Update(newProCompo);
             }
             return null;
+        }
+
+        public async Task<string> AddRangeProCompo(List<ProductComponent> proCompoList)
+        {
+            return await _productComponentRepository.AddRange(proCompoList);
         }
     }
 }

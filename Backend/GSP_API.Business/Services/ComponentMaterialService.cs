@@ -1,5 +1,6 @@
 ﻿using GSP_API.Domain.Interfaces;
 using GSP_API.Domain.Repositories.Models;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,6 +14,10 @@ namespace GSP_API.Business.Services
             IComponentMaterialRepository componentMaterialRepository)
         {
             _componentMaterialRepository = componentMaterialRepository;
+        }
+
+        public ComponentMaterialService()
+        {
         }
 
         public async Task<ComponentMaterial> GetCompoMateById(int compoMateId)
@@ -33,6 +38,11 @@ namespace GSP_API.Business.Services
                 return await _componentMaterialRepository.Update(newCompoMate);
             }
             return null;
+        }
+
+        public async Task<string> AddRangeCompoMate(List<ComponentMaterial> compoMateList)
+        {
+            return await _componentMaterialRepository.AddRange(compoMateList);
         }
     }
 }

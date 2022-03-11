@@ -49,7 +49,8 @@ namespace GSP_API.Extensions
                 .AddScoped<IRoleRepository, RoleRepository>()
                 .AddScoped<IProductComponentRepository, ProductComponentRepository>()
                 .AddScoped<IComponentMaterialRepository, ComponentMaterialRepository>()
-                .AddScoped<IImportExportRepository, ImportExportRepository>();
+                .AddScoped<IImportExportRepository, ImportExportRepository>()
+                .AddScoped<IImportExportDetailRepository, ImportExportDetailRepository>();
         }
 
         public static IServiceCollection AddServices(this IServiceCollection services)
@@ -68,7 +69,8 @@ namespace GSP_API.Extensions
                 .AddScoped<RoleService>()
                 .AddScoped<ProductComponentService>()
                 .AddScoped<ComponentMaterialService>()
-                .AddScoped<ImportExportService>();
+                .AddScoped<ImportExportService>()
+                .AddScoped<ImportExportDetailService>();
         }
 
         public static IServiceCollection AddSwagger(this IServiceCollection services)
@@ -120,7 +122,12 @@ namespace GSP_API.Extensions
                     .GetBytes(configuration.GetSection("JWTSettings:securityKey").Value))
                 };
             });
+        }
 
+        public static IServiceCollection AddHttpClients(this IServiceCollection services)
+        {
+            //AutoMapper
+            return services.AddHttpClient();
         }
 
     }

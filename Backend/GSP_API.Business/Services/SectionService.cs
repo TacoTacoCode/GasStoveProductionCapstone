@@ -19,6 +19,10 @@ namespace GSP_API.Business.Services
 
         }
 
+        public SectionService()
+        {
+        }
+
         public async Task<int> GetWorkerAmountBySectionId(int sectionId)
         {
             var data = await _sectionRepository.GetById(p => p.SectionId == sectionId);
@@ -53,6 +57,16 @@ namespace GSP_API.Business.Services
             {                
                 //data.Status = false;
                 return await _sectionRepository.Update(data);                
+            }
+            return null;
+        }
+
+        public async Task<string> CheckAssemble(int sectionId)
+        {
+            var data = await _sectionRepository.FindFirst(p => p.SectionId == sectionId);
+            if (data != null)
+            {
+                return data.IsAssemble.ToString();
             }
             return null;
         }

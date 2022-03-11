@@ -28,7 +28,15 @@ namespace GSP_API.Business.Services
 
         public async Task<string> AddOrder(Order order)
         {
-            return await _orderRepository.Add(order);
+            var data = await _orderRepository.Add(order);
+            switch (data)
+            {
+                case "true":
+                    List<OrderDetail> orderDetailList = (List<OrderDetail>)order.OrderDetails;
+                    return await new OrderDetailService().AddRangeOrderDetail(orderDetailList);                    
+                default:
+                    return data;
+            }
         }
 
         public async Task<string> UpdateOrder(Order newOrder)

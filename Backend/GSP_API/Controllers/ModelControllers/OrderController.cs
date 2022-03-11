@@ -57,12 +57,13 @@ namespace GSP_API.Controllers.ModelControllers
         [Route("addOrder")]
         public async Task<ActionResult> AddOrder([FromBody] OrderRequest orderRequest)
         {
-            var data = await _orderService.AddOrder(_mapper.Map<Order>(orderRequest));
-            if (data == null)
+            var data = _mapper.Map<Order>(orderRequest);
+            var result = await _orderService.AddOrder(data);
+            if (result == "true")
             {
-                return BadRequest("Not Found");
-            }
-            return Ok("Add successfully");
+                return Ok("Add successfully");
+            }            
+            return BadRequest(result);
         }
 
         // PUT: UpdateOrder

@@ -16,6 +16,10 @@ namespace GSP_API.Business.Services
             _orderDetailRepository = orderDetailRepository;
         }
 
+        public OrderDetailService()
+        {
+        }
+
         public async Task<List<OrderDetail>> GetOrderDetailsByOrder(int orderId)
         {
             return await _orderDetailRepository.GetAll(p => p.OrderId == orderId);
@@ -50,6 +54,11 @@ namespace GSP_API.Business.Services
                 return await _orderDetailRepository.Update(data);
             }
             return null;
+        }
+
+        public async Task<string> AddRangeOrderDetail(List<OrderDetail> orderDetailsList)
+        {
+            return await _orderDetailRepository.AddRange(orderDetailsList);
         }
     }
 }

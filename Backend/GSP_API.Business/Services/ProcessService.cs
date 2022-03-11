@@ -16,6 +16,10 @@ namespace GSP_API.Business.Services
             _processRepository = processRepository;
         }
 
+        public ProcessService()
+        {
+        }
+
         public async Task<List<Process>> GetAllProcesses()
         {
             return await _processRepository.GetAll(p => p.Status == "Active");
