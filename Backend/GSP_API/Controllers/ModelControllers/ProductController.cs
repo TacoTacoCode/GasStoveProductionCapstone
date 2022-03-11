@@ -114,7 +114,7 @@ namespace GSP_API.Controllers.ModelControllers
             {
                 file.CopyTo(memoryStream);
                 var productList = GSP_API.Business.Extensions.Excel.ImportExcel<Product>(memoryStream);
-                var errorDic = await _productService.AddRange(productList);
+                var errorDic = await _productService.AddRangeProduct(productList);
                 return Ok(errorDic);
             }
         }

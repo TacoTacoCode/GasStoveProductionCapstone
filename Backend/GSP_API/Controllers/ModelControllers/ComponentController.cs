@@ -61,11 +61,11 @@ namespace GSP_API.Controllers.ModelControllers
         [Route("addComponent")]        
         public async Task<ActionResult> AddComponent([FromBody] ComponentRequest componentRequest, [FromBody] List<Material> materials)
         {
-            var data = await _componentService.AddComponent(_mapper.Map<Component>(componentRequest), materials);
-            if (data == null)
-            {
-                return BadRequest("Not Found");
-            }
+            //var data = await _componentService.AddComponent(_mapper.Map<Component>(componentRequest), materials);
+            //if (data == null)
+            //{
+            //    return BadRequest("Not Found");
+            //}
             return Ok("Add successfully");
         }
 
