@@ -18,7 +18,7 @@ namespace GSP_API.Controllers.ModelControllers
         private readonly IMapper _mapper;
 
         public ImportExportController(
-            ImportExportService importExportService,
+            ImportExportService importExportService,            
             IMapper mapper)
         {
             _importExportService = importExportService;            
