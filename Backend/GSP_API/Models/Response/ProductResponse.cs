@@ -7,20 +7,19 @@ namespace GSP_API.Models.Response
 {
     public class ProductResponse
     {
-        public int ProcessId { get; set; }
-        public int? OrderDetailId { get; set; }
-        public int? NeededAmount { get; set; }
-        public int? TotalAmount { get; set; }
-        public int? FinishedAmount { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public DateTime? ExpiryDate { get; set; }
-        public DateTime? FinishedDate { get; set; }
-        public DateTime? ExpectedFinishDate { get; set; }
+        public string ProductId { get; set; }
+        public string ProductName { get; set; }
+        public int? Amount { get; set; }
+        public double? Price { get; set; }
+        public string ImageUrl { get; set; }
         public string Status { get; set; }
+        public string Description { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public virtual OrderDetail OrderDetail { get; set; }
+        public virtual ICollection<ImportExportDetail> ImportExportDetails { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public virtual ICollection<ProcessDetail> ProcessDetails { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public virtual ICollection<ProductComponent> ProductComponents { get; set; }
     }
 }

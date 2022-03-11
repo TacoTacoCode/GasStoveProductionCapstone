@@ -110,17 +110,12 @@ namespace GSP_API.Controllers.ModelControllers
         [Route("uploadFile/material")]
         public async Task<IActionResult> Upload([FromForm] IFormFile file)
         {
-            var msg = "Import success";
             using (var memoryStream = new MemoryStream())
             {
                 file.CopyTo(memoryStream);
                 var materialList = GSP_API.Business.Extensions.Excel.ImportExcel<Material>(memoryStream);
                 var errorDic = await _materialService.AddRange(materialList);
-                if (errorDic.Count != 0)
-                {
-                    msg = $"Number of error record: {errorDic.Count}";
-                }
-                return StatusCode(200, msg);
+                return Ok(errorDic);
             }
         }
     }
