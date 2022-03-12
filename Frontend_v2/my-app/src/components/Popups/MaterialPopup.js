@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './MaterialPopup.scss'
 import CloseIcon from '@mui/icons-material/Close'
 import { Button, InputAdornment, makeStyles, MenuItem, TextField } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
-
+import UploadImages from '../upload-images.component';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 
 const statuses = [
     {
@@ -38,7 +41,17 @@ const CssTextField = styled(TextField)({
 });
 
 function MaterialPopup(props) {
-    const [status, setStatus] = React.useState('available');
+    const [status, setStatus] = useState('available');
+    const [finishedDate, setFinishedDate] = useState(null);
+    const [exportDate, setExportDate] = useState(null);
+
+    const handleChangeFinishedDate = (newValue) => {
+        setFinishedDate(newValue);
+    };
+
+    const handleChangeExportDate = (newValue) => {
+        setExportDate(newValue);
+    };
 
     const handleChangeStatus = (event) => {
         setStatus(event.target.value);
@@ -55,7 +68,8 @@ function MaterialPopup(props) {
                 <div className='popup-body'>
                     <form>
                         <div className='imagefield'>
-                            <CssTextField label="Image Path" id="fullWidth" required />
+                            Material's Image
+                            <UploadImages id="fullWidth" required />
                         </div>
                         <div className='idname'>
                             <div className='idfield'>
@@ -65,33 +79,57 @@ function MaterialPopup(props) {
                                 <CssTextField label="Material Name" id="fullWidth" required />
                             </div>
                         </div>
-                        <div className='txtfield'>
-                            <CssTextField label="Unit" id="fullWidth" required />
+                        <div className='idname'>
+                            <div className='txtfield'>
+                                <CssTextField label="Type" id="fullWidth" required />
+                            </div>
+                            <div className='txtfield'>
+                                <CssTextField
+                                    label="Amount"
+                                    id="fullWidth"
+                                    required type={'number'}
+                                    InputProps={{
+                                        inputProps: { min: 0, pattern: '[0-9]*' }
+                                    }} />
+                            </div>
+                            <div className='txtfield'>
+                                <CssTextField
+                                    label="Status"
+                                    select
+                                    id="fullWidth" required
+                                    value={status}
+                                    onChange={handleChangeStatus}
+                                    helperText="Choose material status"
+                                >
+                                    {statuses.map((option) => (
+                                        <MenuItem key={option.value} value={option.value}>
+                                            {option.label}
+                                        </MenuItem>
+                                    ))}
+                                </CssTextField>
+                            </div>
                         </div>
                         <div className='txtfield'>
-                            <CssTextField
-                                label="Amount"
-                                id="fullWidth"
-                                required type={'number'}
-                                InputProps={{
-                                    inputProps: { min: 0, pattern: '[0-9]*' }
-                                }} />
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                <DesktopDatePicker
+                                    label="Finished Date"
+                                    inputFormat="dd/MM/yyyy"
+                                    value={finishedDate}
+                                    onChange={handleChangeFinishedDate}
+                                    renderInput={(params) => <CssTextField {...params} id="fullWidth" />}
+                                />
+                            </LocalizationProvider>
                         </div>
                         <div className='txtfield'>
-                            <CssTextField
-                                label="Status"
-                                select
-                                id="fullWidth" required
-                                value={status}
-                                onChange={handleChangeStatus}
-                                helperText="Choose material status"
-                            >
-                                {statuses.map((option) => (
-                                    <MenuItem key={option.value} value={option.value}>
-                                        {option.label}
-                                    </MenuItem>
-                                ))}
-                            </CssTextField>
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                <DesktopDatePicker
+                                    label="Export Date"
+                                    inputFormat="dd/MM/yyyy"
+                                    value={exportDate}
+                                    onChange={handleChangeExportDate}
+                                    renderInput={(params) => <CssTextField {...params} id="fullWidth" />}
+                                />
+                            </LocalizationProvider>
                         </div>
                         <div className='btngr'>
                             <Button
