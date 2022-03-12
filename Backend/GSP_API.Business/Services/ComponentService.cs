@@ -30,25 +30,9 @@ namespace GSP_API.Business.Services
             return await _componentRepository.GetById(p => p.ComponentId == componentId);
         }
 
-        public async Task<string> AddComponent(Component component, List<Material> materialChosen)
+        public async Task<string> AddComponent(Component component)
         {
-            var compoMateService = new ComponentMaterialService();
-
-            var data = await _componentRepository.Add(component);
-            var listCompoMate = new List<ComponentMaterial>();
-            switch (data)
-            {
-                case "true":
-                    //For each compo in chosen list, create a correspoding ProCompo  
-                    foreach (Material material in materialChosen)
-                    {
-                        ComponentMaterial compoMate = new ComponentMaterial(component.ComponentId, material.MaterialId, component.Amount);
-                        listCompoMate.Add(compoMate);
-                    }
-                    return await compoMateService.AddRangeCompoMate(listCompoMate);
-                default:
-                    return data;
-            }
+            return await _componentRepository.Add(component);
         }
 
         public async Task<string> UpdateComponent(Component newComponent)

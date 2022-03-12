@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace GSP_API.Controllers.ModelControllers
 {
@@ -54,7 +56,7 @@ namespace GSP_API.Controllers.ModelControllers
             var product = _mapper.Map<ProductResponse>(data);
             return Ok(product);
         }
-
+/*
         // POST: AddProduct/[product]
         [HttpPost]
         [Route("addProduct")]
@@ -67,7 +69,7 @@ namespace GSP_API.Controllers.ModelControllers
             }
             return Ok("Add successfully");
         }
-
+*/
         // PUT: UpdateProduct
         [HttpPut]
         [Route("updateProduct")]
@@ -117,6 +119,14 @@ namespace GSP_API.Controllers.ModelControllers
                 var errorDic = await _productService.AddRangeProduct(productList);
                 return Ok(errorDic);
             }
+        }
+        [HttpPost]
+        [Route("errorRecord/product")]
+        public async Task<IActionResult> Error([FromBody] string jsonString)
+        {
+            var obj = JsonConvert.DeserializeObject<Dictionary<int, Product>>(jsonString);
+            GSP_API.Business.Extensions.Excel.ExportExcel<Product>(obj);
+            return Ok();
         }
     }
 }

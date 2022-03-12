@@ -55,20 +55,20 @@ namespace GSP_API.Controllers.ModelControllers
             var component = _mapper.Map<ComponentResponse>(data);
             return Ok(component);
         }
-
+/*
         // POST: AddComponent/[component]
         [HttpPost]
         [Route("addComponent")]        
         public async Task<ActionResult> AddComponent([FromBody] ComponentRequest componentRequest, [FromBody] List<Material> materials)
         {
-            var data = await _componentService.AddComponent(_mapper.Map<Component>(componentRequest), materials);
-            if (data == null)
-            {
-                return BadRequest("Not Found");
-            }
+            //var data = await _componentService.AddComponent(_mapper.Map<Component>(componentRequest), materials);
+            //if (data == null)
+            //{
+            //    return BadRequest("Not Found");
+            //}
             return Ok("Add successfully");
         }
-
+*/
         // PUT: UpdateComponent
         [HttpPut]
         [Route("updateComponent")]

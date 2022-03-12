@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -53,6 +54,49 @@ namespace GSP_API.Business.Extensions
 			}
 
 			return list;
+		}
+		
+		public static DataTable ToDataTable<T>(IDictionary<int, T> dictionary)
+        {
+			DataTable dt = new();
+			//generate header, get field that isnot an collection.
+			dt.Columns.Add("No");
+            foreach (var prop in typeof(T).GetProperties())
+            {
+                if (!prop.PropertyType.Name.Equals("ICollection`1")){
+					dt.Columns.Add(prop.Name);
+                }
+            }
+			dt.Columns.Add("Error");
+			IList<dynamic> tmp;
+            foreach (var record in dictionary)
+            {
+				tmp = new List<dynamic>
+				{
+					record.Key
+				};
+                foreach (var item in typeof(T).GetProperties())
+                {
+					if (!item.PropertyType.Name.Equals("ICollection`1"))
+					{
+						tmp.Add(item.GetValue(record.Value));
+					}
+                }
+				tmp.Add("Duplicated ID");
+				dt.Rows.Add(tmp.ToArray());
+            }
+			return dt;
+        }
+
+		public static void ExportExcel<T>(IDictionary<int, T> dictionary)
+        {
+			using (XLWorkbook wb = new XLWorkbook()) {
+				var dt = ToDataTable<T>(dictionary);
+				wb.Worksheets.Add(dt, "ErrorRecord");
+				wb.Worksheets.First().LastColumnUsed().Style.Font.FontColor = XLColor.Red;
+				wb.Worksheet(1).Columns().AdjustToContents();
+				wb.SaveAs("error.xlsx");
+			}
 		}
 	}
 }
