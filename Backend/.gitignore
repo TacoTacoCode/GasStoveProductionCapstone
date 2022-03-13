@@ -3,6 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Ignore ConnectionString
+*/GSP_API.Domain/Repositories/TestDbContext.cs
+*/GSP_API/appsettings.json
+
 # User-specific files
 *.rsuser
 *.suo
