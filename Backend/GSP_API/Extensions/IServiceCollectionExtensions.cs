@@ -123,11 +123,20 @@ namespace GSP_API.Extensions
                 };
             });
         }
-
-        public static IServiceCollection AddHttpClients(this IServiceCollection services)
+        
+        public static IServiceCollection AddCORS(this IServiceCollection services)
         {
             //AutoMapper
-            return services.AddHttpClient();
+            return services.AddCors(options =>
+            {
+                options.AddPolicy(name: "MyPolicy",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://192.168.0.100:8081")
+                        .AllowAnyMethod().AllowAnyHeader();
+
+                    });
+            });
         }
 
     }
