@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System;
 using System.IO;
 using Microsoft.AspNetCore.Http;
-using System.Web.Http.Cors;
 
 namespace GSP_API.Controllers.ModelControllers
 {    
@@ -33,7 +32,6 @@ namespace GSP_API.Controllers.ModelControllers
         // GET: getAllComponents
         [HttpGet]
         [Route("getAllComponents")]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public async Task<ActionResult<List<ComponentResponse>>> GetAllComponents()
         {
             var data = await _componentService.GetAllComponents();
