@@ -10,7 +10,7 @@ function Products() {
   const [listProduct, setListProduct] = useState([]);
 
   useEffect(() => {
-    const getUserAPI = 'https://5df8a4c6e9f79e0014b6a587.mockapi.io/freetuts/users'
+    const getUserAPI = 'https://localhost:5001/getProducts'
 
     axios.get(getUserAPI).then((res) => {
       setListProduct(res.data);

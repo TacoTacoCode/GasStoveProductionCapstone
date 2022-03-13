@@ -132,7 +132,7 @@ namespace GSP_API.Extensions
                 options.AddPolicy(name: "MyPolicy",
                     builder =>
                     {
-                        builder.WithOrigins("http://192.168.0.100:8081")
+                        builder.WithOrigins("http://localhost:3000")
                         .AllowAnyMethod().AllowAnyHeader();
 
                     });
