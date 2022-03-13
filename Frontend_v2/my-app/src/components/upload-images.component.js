@@ -45,6 +45,22 @@ export default class UploadImages extends Component {
         return (
             <div className="mg20">
                 <label htmlFor="btn-upload">
+                    {previewImage && (
+                        <div>
+                            <img className="preview my20" src={previewImage} alt="" />
+                        </div>
+                    )}
+                    &emsp;
+                    <div className="file-name">
+                        {currentFile ? currentFile.name : null}
+                    </div>
+                    &emsp;
+                    <Button
+                        className="btn-choose"
+                        variant="outlined"
+                        component="span" >
+                        Choose Image
+                    </Button>
                     <input
                         id="btn-upload"
                         name="btn-upload"
@@ -52,23 +68,7 @@ export default class UploadImages extends Component {
                         type="file"
                         accept="image/*"
                         onChange={this.selectFile} />
-                    <Button
-                        className="btn-choose"
-                        variant="outlined"
-                        component="span" >
-                        Choose Image
-                    </Button>
                 </label>
-                <div className="file-name">
-                    {currentFile ? currentFile.name : null}
-                </div>
-
-                {previewImage && (
-                    <div>
-                        <img className="preview my20" src={previewImage} alt="" />
-                    </div>
-                )}
-
                 {message && (
                     <Typography variant="subtitle2" className={`upload-message ${isError ? "error" : ""}`}>
                         {message}

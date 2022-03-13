@@ -7,18 +7,15 @@ import axios from 'axios';
 
 function Materials() {
   const [addmaterialBtn, setaddmaterialBtn] = useState(false);
-  const [listUser, setListUser] = useState([]);
+  const [listMaterial, setListMaterial] = useState([]);
 
   useEffect(() => {
     const getUserAPI = 'https://5df8a4c6e9f79e0014b6a587.mockapi.io/freetuts/users'
 
     //Gọi API bằng axios
     axios.get(getUserAPI).then((res) => {
-      // Cập nhật lại listUser bằng
-      // Bạn có thể xem lại bài viết về useState()
-      setListUser(res.data);
+      setListMaterial(res.data);
     }).catch((err) => {
-      //Trường hợp xảy ra lỗi
       console.log(err);
       alert("Xảy ra lỗi");
     })
@@ -35,7 +32,7 @@ function Materials() {
         <h3 className='popuptitle'>Add a material</h3>
       </ComponentPopup>
       <div className='materials'>
-        <Table listUser={listUser} />
+        <Table listMaterial={listMaterial} />
       </div>
     </>
   )

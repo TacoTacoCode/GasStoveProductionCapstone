@@ -9,10 +9,10 @@ export const Table = (props) => {
     //     { id: '125', materialname: 'Bò', materialimg: 'https://static.thenounproject.com/png/3262985-200.png', amount: '400', unit: '300' },
     //     { id: '126', materialname: 'Trung', materialimg: 'https://static.thenounproject.com/png/3262985-200.png', amount: '600', unit: '400' },
     // ])
-    const { listUser } = props;
+    const { listMaterial } = props;
     const array = [];
 
-    listUser.forEach(item => {
+    listMaterial.forEach(item => {
         array.push(item)
     });
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './MaterialPopup.scss'
+import './Popup.scss'
 import CloseIcon from '@mui/icons-material/Close'
 import { Button, InputAdornment, makeStyles, MenuItem, TextField } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
@@ -140,7 +140,7 @@ function MaterialPopup(props) {
                             <Button
                                 variant="contained"
                                 style={{ fontFamily: 'Muli', borderRadius: 10, backgroundColor: "#e30217" }}
-                                size="large"
+                                size="large" onClick={() => props.setTrigger(false)}
                             >Cancel</Button>
                         </div>
                     </form>

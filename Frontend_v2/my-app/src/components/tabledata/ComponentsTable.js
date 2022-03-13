@@ -12,10 +12,10 @@ export const Table = (props) => {
 
     const columns = [
         {
-            title: 'Name', field: 'name', cellStyle: { fontFamily: 'Muli' }
+            title: 'ID', field: 'componentId', cellStyle: { fontFamily: 'Muli' }
         },
         {
-            title: 'Email', field: 'email', cellStyle: { fontFamily: 'Muli' }
+            title: 'Name', field: 'componentName', cellStyle: { fontFamily: 'Muli' }
         },
     ]
 
