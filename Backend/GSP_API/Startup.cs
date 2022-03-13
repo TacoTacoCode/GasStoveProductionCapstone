@@ -9,6 +9,7 @@ namespace GSP_API
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -27,8 +28,18 @@ namespace GSP_API
                 .AddServices()
                 .AddSwagger()
                 .AddAutoMapper()
-                .AddHttpClients()
-                .AddCors();           
+                .AddHttpClients();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "MyPolicy",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://192.168.0.100:8081")
+                        .AllowAnyMethod().AllowAnyHeader();
+                       
+                    });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -37,10 +48,10 @@ namespace GSP_API
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors("MyPolicy");
 
             app.UseAuthentication();
 
