@@ -46,7 +46,7 @@ namespace GSP_API.Business.Services
             var data = await _roleRepository.GetById(p => p.RoleId == roleId);
             if (data != null)
             {
-                //data.IsActive = false;
+                data.Status = "Inactive";
                 return await _roleRepository.Update(data);
             }
             return null;

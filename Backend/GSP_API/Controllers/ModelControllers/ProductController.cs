@@ -73,7 +73,7 @@ namespace GSP_API.Controllers.ModelControllers
         // PUT: UpdateProduct
         [HttpPut]
         [Route("updateProduct")]
-        public async Task<ActionResult> UpdateProduct(string productId, [FromBody] ProductRequest productRequest)
+        public async Task<ActionResult> UpdateProduct([FromBody] ProductRequest productRequest)
         {
             var data = await _productService.UpdateProduct(_mapper.Map<Product>(productRequest));
             if (data == null)

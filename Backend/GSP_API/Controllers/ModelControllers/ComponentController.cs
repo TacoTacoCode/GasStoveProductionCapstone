@@ -10,10 +10,12 @@ using System.Threading.Tasks;
 using System;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using System.Web.Http.Cors;
 
 namespace GSP_API.Controllers.ModelControllers
-{
+{    
     [ApiController]
+    
     public class ComponentController : ControllerBase
     {
 
@@ -31,12 +33,13 @@ namespace GSP_API.Controllers.ModelControllers
         // GET: getAllComponents
         [HttpGet]
         [Route("getAllComponents")]
-        public async Task<ActionResult<List<ComponentResponse>>> GetAllAccounts()
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public async Task<ActionResult<List<ComponentResponse>>> GetAllComponents()
         {
             var data = await _componentService.GetAllComponents();
             if (data == null)
             {
-                return NotFound();
+                return NotFound("Not found");
             }
             var list = _mapper.Map<List<ComponentResponse>>(data);
             return Ok(list);
@@ -89,7 +92,7 @@ namespace GSP_API.Controllers.ModelControllers
         // PUT: DelComponent/1
         [HttpPut]
         [Route("delComponent/{componentId}")]
-        public async Task<ActionResult> DelAttendance(string componentId)
+        public async Task<ActionResult> DelComponent(string componentId)
         {
             var data = await _componentService.DelComponent(componentId);
             if (data == null)
