@@ -65,5 +65,10 @@ namespace GSP_API.Business.Services
             }
             return null;
         }
+
+        public async Task<string> AddRangeProcessDetail(List<ProcessDetail> processDetailsList)
+        {
+            return await _processDetailRepository.AddRange(processDetailsList);
+        }
     }
 }

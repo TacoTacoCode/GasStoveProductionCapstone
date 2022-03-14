@@ -39,7 +39,7 @@ namespace GSP_API.Business.Services
                     return await new ImportExportDetailService().AddRangeImExDetail(imExDetailList);
                 default:
                     return data;
-            }           
+            }
         }
 
         public async Task<string> UpdateImEx(ImportExport newImEx)
