@@ -1,0 +1,29 @@
+.btnAccept {
+    display: inline;
+    border: none;
+    outline: none;
+    padding: none;
+    background: none;
+    border: 1px solid #e30217;
+}
+
+.btnDecline {
+    display: inline;
+    border: none;
+    outline: none;
+    padding: none;
+    background: none;
+}
+
+.btnAccept:hover{
+    filter: brightness(80%);
+}
+
+.btnDecline:hover {
+    filter: brightness(80%);
+}
+
+/* 
+.btn {
+    display: inline-block;
+} */
