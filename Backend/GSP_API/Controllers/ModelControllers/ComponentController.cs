@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace GSP_API.Controllers.ModelControllers
 {    
@@ -120,6 +121,14 @@ namespace GSP_API.Controllers.ModelControllers
                 var errorDic = await _componentService.AddRange(materialList);
                 return Ok(errorDic);
             }
+        }
+        [HttpPost]
+        [Route("errorRecord/component")]
+        public async Task<IActionResult> Error([FromBody] string jsonString)
+        {
+            var obj = JsonConvert.DeserializeObject<Dictionary<int, Component>>(jsonString);
+            GSP_API.Business.Extensions.Excel.ExportExcel<Component>(obj);
+            return Ok();
         }
     }
 }
