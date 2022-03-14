@@ -62,7 +62,7 @@ function AccountPopup(props) {
     <div className='Accountpopup'>
       <div className='popup-inner'>
         <div><button className='close-btn' onClick={() => props.setTrigger(false)}>
-          <CloseIcon style={{ 'color': "black", }} />
+          <CloseIcon style={{ 'color': "white", }} />
         </button></div>
         {props.children}
         <div className='popup-body'>
