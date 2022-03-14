@@ -57,11 +57,11 @@ namespace GSP_API.Controllers.ModelControllers
             var component = _mapper.Map<ComponentResponse>(data);
             return Ok(component);
         }
-/*
+
         // POST: AddComponent/[component]
         [HttpPost]
-        [Route("addComponent")]        
-        public async Task<ActionResult> AddComponent([FromBody] ComponentRequest componentRequest, [FromBody] List<Material> materials)
+        [Route("addComponent")]
+        public async Task<ActionResult> AddComponent([FromBody] ComponentRequest componentRequest, List<Material> materials)
         {
             //var data = await _componentService.AddComponent(_mapper.Map<Component>(componentRequest), materials);
             //if (data == null)
@@ -70,7 +70,7 @@ namespace GSP_API.Controllers.ModelControllers
             //}
             return Ok("Add successfully");
         }
-*/
+
         // PUT: UpdateComponent
         [HttpPut]
         [Route("updateComponent")]
@@ -118,7 +118,7 @@ namespace GSP_API.Controllers.ModelControllers
             {
                 file.CopyTo(memoryStream);
                 var materialList = GSP_API.Business.Extensions.Excel.ImportExcel<Component>(memoryStream);
-                var errorDic = await _componentService.AddRange(materialList);
+                var errorDic = await _componentService.AddRangeComponent(materialList);
                 return Ok(errorDic);
             }
         }

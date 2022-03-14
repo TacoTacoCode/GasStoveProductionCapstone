@@ -56,11 +56,11 @@ namespace GSP_API.Controllers.ModelControllers
             var product = _mapper.Map<ProductResponse>(data);
             return Ok(product);
         }
-/*
+
         // POST: AddProduct/[product]
         [HttpPost]
         [Route("addProduct")]
-        public async Task<ActionResult> AddAccount([FromBody] ProductRequest productRequest, [FromBody] List<Component> components)
+        public async Task<ActionResult> AddAccount([FromBody] ProductRequest productRequest, List<Component> components)
         {
             var data = await _productService.AddProduct(_mapper.Map<Product>(productRequest), components);
             if (data == null)
@@ -69,7 +69,7 @@ namespace GSP_API.Controllers.ModelControllers
             }
             return Ok("Add successfully");
         }
-*/
+
         // PUT: UpdateProduct
         [HttpPut]
         [Route("updateProduct")]

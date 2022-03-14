@@ -61,7 +61,7 @@ namespace GSP_API.Business.Services
             return await _materialRepository.FindFirst(p => p.MaterialId == materialId);
         }
 
-        public async Task<IDictionary<int, Material>> AddRange(List<Material> materials)
+        public async Task<IDictionary<int, Material>> AddRangeMaterial(List<Material> materials)
         {
             var returnDic = new Dictionary<int, Material>();
             var addList = new List<Material>();

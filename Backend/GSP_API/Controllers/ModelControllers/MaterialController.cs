@@ -115,7 +115,7 @@ namespace GSP_API.Controllers.ModelControllers
             {
                 file.CopyTo(memoryStream);
                 var materialList = GSP_API.Business.Extensions.Excel.ImportExcel<Material>(memoryStream);
-                var errorDic = await _materialService.AddRange(materialList);
+                var errorDic = await _materialService.AddRangeMaterial(materialList);
                 return Ok(errorDic);
             }
         }

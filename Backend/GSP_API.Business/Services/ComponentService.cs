@@ -60,7 +60,7 @@ namespace GSP_API.Business.Services
         {
             return await _componentRepository.FindFirst(p => p.ComponentId == componentId);
         }
-        public async Task<IDictionary<int, Component>> AddRange(List<Component> components)
+        public async Task<IDictionary<int, Component>> AddRangeComponent(List<Component> components)
         {
             var returnDic = new Dictionary<int, Component>();
             var addList = new List<Component>();
