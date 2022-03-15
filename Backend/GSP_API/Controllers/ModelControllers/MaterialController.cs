@@ -117,14 +117,5 @@ namespace GSP_API.Controllers.ModelControllers
             }
         }
 
-        // POST: errorRecord/material/jsonString
-        [HttpPost]
-        [Route("errorRecord/material")]
-        public async Task<IActionResult> Error([FromBody] string jsonString)
-        {
-            var obj = JsonConvert.DeserializeObject<Dictionary<int, Material>>(jsonString);
-            GSP_API.Business.Extensions.Excel.ExportExcel<Material>(obj);
-            return Ok();
-        }
     }
 }

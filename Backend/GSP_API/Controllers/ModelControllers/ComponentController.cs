@@ -57,7 +57,7 @@ namespace GSP_API.Controllers.ModelControllers
             var component = _mapper.Map<ComponentResponse>(data);
             return Ok(component);
         }
-
+/*
         // POST: AddComponent/[component]
         [HttpPost]
         [Route("addComponent")]
@@ -70,7 +70,7 @@ namespace GSP_API.Controllers.ModelControllers
             //}
             return Ok("Add successfully");
         }
-
+*/
         // PUT: UpdateComponent/[component]
         [HttpPut]
         [Route("updateComponent")]
@@ -119,15 +119,6 @@ namespace GSP_API.Controllers.ModelControllers
             }
         }
 
-        // POST: errorRecord/component/jsonString
-        [HttpPost]
-        [Route("errorRecord/component")]
-        public async Task<IActionResult> Error([FromBody] string jsonString)
-        {
-            var obj = JsonConvert.DeserializeObject<Dictionary<int, Component>>(jsonString);
-            GSP_API.Business.Extensions.Excel.ExportExcel<Component>(obj);
-            return Ok();
-        }
     }
 }
 

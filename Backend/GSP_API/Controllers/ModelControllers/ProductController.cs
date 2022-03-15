@@ -56,7 +56,7 @@ namespace GSP_API.Controllers.ModelControllers
             var product = _mapper.Map<ProductResponse>(data);
             return Ok(product);
         }
-
+/*
         // POST: AddProduct/[product]
         [HttpPost]
         [Route("addProduct")]
@@ -69,7 +69,7 @@ namespace GSP_API.Controllers.ModelControllers
             }
             return Ok("Add successfully");
         }
-
+*/
         // PUT: UpdateProduct/[product]
         [HttpPut]
         [Route("updateProduct")]
@@ -107,25 +107,26 @@ namespace GSP_API.Controllers.ModelControllers
         // POST: uploadFile/product/[file]
         [HttpPost]
         [Route("uploadFile/product")]
-        public async Task<IActionResult> Upload([FromForm] IFormFile file)
+        public async Task<IActionResult> Upload(IFormFile file)
         {
             using (var memoryStream = new MemoryStream())
             {
                 file.CopyTo(memoryStream);
                 var productList = GSP_API.Business.Extensions.Excel.ImportExcel<Product>(memoryStream);
                 var errorDic = await _productService.AddRangeProduct(productList);
-                return Ok(errorDic);
+                if(errorDic.Count > 0)
+                {
+                    GSP_API.Business.Extensions.Excel.ExportExcel<Product>(errorDic);
+                    byte[] fileByte = System.IO.File.ReadAllBytes("error.xlsx");
+                    return File(fileByte, "application/octec-stream", "error.xlsx");
+                }
+                else
+                {
+                    return Ok();
+                }
+                //return Ok(errorDic);
             }
         }
 
-        // POST: errorRecord/product/jsonString
-        [HttpPost]
-        [Route("errorRecord/product")]
-        public async Task<IActionResult> Error([FromBody] string jsonString)
-        {
-            var obj = JsonConvert.DeserializeObject<Dictionary<int, Product>>(jsonString);
-            GSP_API.Business.Extensions.Excel.ExportExcel<Product>(obj);
-            return Ok();
-        }
     }
 }

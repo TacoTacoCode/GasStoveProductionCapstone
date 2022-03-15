@@ -89,8 +89,9 @@ namespace GSP_API.Business.Extensions
         }
 
 		public static void ExportExcel<T>(IDictionary<int, T> dictionary)
-        {
-			using (XLWorkbook wb = new XLWorkbook()) {
+		{
+			using (XLWorkbook wb = new XLWorkbook())
+			{
 				var dt = ToDataTable<T>(dictionary);
 				wb.Worksheets.Add(dt, "ErrorRecord");
 				wb.Worksheets.First().LastColumnUsed().Style.Font.FontColor = XLColor.Red;
