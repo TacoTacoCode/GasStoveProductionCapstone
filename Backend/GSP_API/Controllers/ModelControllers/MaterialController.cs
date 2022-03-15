@@ -69,7 +69,7 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok("Add successfully");
         }
 
-        // PUT: UpdateMaterial
+        // PUT: UpdateMaterial/[material]
         [HttpPut]
         [Route("updateMaterial")]
         public async Task<ActionResult> UpdateMaterial([FromBody] MaterialRequest materialRequest)
@@ -103,10 +103,7 @@ namespace GSP_API.Controllers.ModelControllers
             return BadRequest(data);
         }
 
-        //private bool AccountExists(string id)
-        //{
-        //    return _context.Account.Any(e => e.AccountId == id);
-        //}
+        // POST: uploadFile/material/[file]
         [HttpPost]
         [Route("uploadFile/material")]
         public async Task<IActionResult> Upload([FromForm] IFormFile file)
@@ -119,6 +116,8 @@ namespace GSP_API.Controllers.ModelControllers
                 return Ok(errorDic);
             }
         }
+
+        // POST: errorRecord/material/jsonString
         [HttpPost]
         [Route("errorRecord/material")]
         public async Task<IActionResult> Error([FromBody] string jsonString)

@@ -230,7 +230,7 @@ namespace GSP_API.Business.Services
             var data = await _importExportRepository.GetById(p => p.ImportExportId == imExId);
             if (data != null)
             {
-                data.Status = "Delete";
+                data.Status = "Decline";
                 await _importExportRepository.Update(data);
             }
             return null;

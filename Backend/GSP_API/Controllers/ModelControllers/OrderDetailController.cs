@@ -65,7 +65,7 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok("Add successfully");
         }
 
-        // PUT: UpdateOrderDetail
+        // PUT: UpdateOrderDetail/[orderDetail]
         [HttpPut]
         [Route("updateOrderDetail")]
         public async Task<ActionResult> UpdateOrderDetail([FromBody] OrderDetailRequest orderDetailRequest)
@@ -98,10 +98,5 @@ namespace GSP_API.Controllers.ModelControllers
             }
             return BadRequest(data);
         }
-
-        //private bool AccountExists(string id)
-        //{
-        //    return _context.Account.Any(e => e.AccountId == id);
-        //}
     }
 }

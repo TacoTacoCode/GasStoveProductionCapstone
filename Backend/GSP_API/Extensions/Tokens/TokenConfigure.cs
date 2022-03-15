@@ -48,13 +48,12 @@ namespace GSP_API.Extensions.Tokens
         {
             var claims = new List<Claim>
             {
-                new Claim("Email", account.Email)
+                new Claim(ClaimTypes.Email, account.Email)
             };
 
             var role = await _roleService.GetRoleByAccount(account);
-
-            claims.Add(new Claim("Role", role.Name));
-
+            claims.Add(new Claim(ClaimTypes.Role, role.Name));
+            claims.Add(new Claim("id", account.AccountId.ToString()));
             return claims;
         }
 

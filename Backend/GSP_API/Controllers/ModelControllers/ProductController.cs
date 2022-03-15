@@ -70,7 +70,7 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok("Add successfully");
         }
 
-        // PUT: UpdateProduct
+        // PUT: UpdateProduct/[product]
         [HttpPut]
         [Route("updateProduct")]
         public async Task<ActionResult> UpdateProduct([FromBody] ProductRequest productRequest)
@@ -104,10 +104,7 @@ namespace GSP_API.Controllers.ModelControllers
             return BadRequest(data);
         }
 
-        //private bool AccountExists(string id)
-        //{
-        //    return _context.Account.Any(e => e.AccountId == id);
-        //}
+        // POST: uploadFile/product/[file]
         [HttpPost]
         [Route("uploadFile/product")]
         public async Task<IActionResult> Upload([FromForm] IFormFile file)
@@ -120,6 +117,8 @@ namespace GSP_API.Controllers.ModelControllers
                 return Ok(errorDic);
             }
         }
+
+        // POST: errorRecord/product/jsonString
         [HttpPost]
         [Route("errorRecord/product")]
         public async Task<IActionResult> Error([FromBody] string jsonString)

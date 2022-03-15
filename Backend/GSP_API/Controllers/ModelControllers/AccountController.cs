@@ -82,7 +82,7 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok("Add successfully");
         }
 
-        // PUT: UpdateAccount
+        // PUT: UpdateAccount/[account]
         [HttpPut]
         [Route("updateAccount")]
         public async Task<ActionResult> UpdateAccount([FromBody]AccountRequest accountRequest)
@@ -99,7 +99,7 @@ namespace GSP_API.Controllers.ModelControllers
             return BadRequest(data);
         }
 
-        // PUT: DelAccount
+        // PUT: DelAccount/1
         [HttpPut]
         [Route("delAccount/{accountId}")]
         public async Task<ActionResult> DelAccount(int accountId)
@@ -115,12 +115,5 @@ namespace GSP_API.Controllers.ModelControllers
             }
             return BadRequest(data);
         }
-
-        //private bool AccountExists(string id)
-        //{
-        //    return _context.Account.Any(e => e.AccountId == id);
-        //}
-
-
     }
 }
