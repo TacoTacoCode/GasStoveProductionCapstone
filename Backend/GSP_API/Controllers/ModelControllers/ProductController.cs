@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Text.Json;
 using Newtonsoft.Json;
+using System.Reflection;
 
 namespace GSP_API.Controllers.ModelControllers
 {
@@ -117,14 +118,30 @@ namespace GSP_API.Controllers.ModelControllers
                 if(errorDic.Count > 0)
                 {
                     GSP_API.Business.Extensions.Excel.ExportExcel<Product>(errorDic);
-                    byte[] fileByte = System.IO.File.ReadAllBytes("error.xlsx");
-                    return File(fileByte, "application/octec-stream", "error.xlsx");
+                    return Ok("Error record exit!!");
+
                 }
                 else
                 {
                     return Ok();
                 }
                 //return Ok(errorDic);
+            }
+        }
+        [HttpGet]
+        [Route("downloadFile/product")]
+        public async Task<IActionResult> Download()
+        {
+            var filePath = "error.xlsx";
+            string contentType = "application/octet-stream";
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound();
+            }
+            else
+            {
+                byte[] fileBype = await System.IO.File.ReadAllBytesAsync(filePath);
+                return File(fileBype, contentType, "error.xlsx");
             }
         }
 
