@@ -41,7 +41,8 @@ namespace GSP_API
 
             app.UseRouting();
 
-            app.UseCors("MyPolicy");
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            //app.UseCors("MyPolicy");
 
             app.UseAuthentication();
 
