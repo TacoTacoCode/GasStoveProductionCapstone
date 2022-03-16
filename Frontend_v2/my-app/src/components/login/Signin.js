@@ -88,7 +88,7 @@ export default function Signin() {
                                     <br />
                                     <div className="button_login">
                                         <center>
-                                            <button onClick={(event) => this.handleSubmit(event)}>Login</button>
+                                            <button className='btn_login' onClick={(event) => this.handleSubmit(event)}>Login</button>
                                         </center>
                                     </div>
                                 </form>

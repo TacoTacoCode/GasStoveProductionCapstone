@@ -177,7 +177,7 @@ input:focus~.highlight {
     }
 }
 
-button {
+.btn_login {
     height            : 5ch;
     width             : 40%;
     border            : none;
@@ -200,7 +200,7 @@ button {
     font-size         : large;
 }
 
-button:before {
+.btn_login:before {
     opacity           : 0;
     content           : "";
     position          : absolute;
@@ -216,14 +216,14 @@ button:before {
     transform         : translateY(100%);
 }
 
-button:hover,
-button.hover {
+.btn_login:hover,
+.btn_login.hover {
     background-color: #d41919;
     color           : #ffffff;
 }
 
-button:hover:before,
-button.hover:before {
+.btn_login:hover:before,
+.btn_login.hover:before {
     -webkit-transform: translateY(0%);
     transform        : translateY(0%);
     opacity          : 0.25;
