@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Text.Json;
 using Newtonsoft.Json;
+using System.Reflection;
 
 namespace GSP_API.Controllers.ModelControllers
 {
@@ -60,7 +61,7 @@ namespace GSP_API.Controllers.ModelControllers
         // POST: AddProduct/[product]
         [HttpPost]
         [Route("addProduct")]
-        public async Task<ActionResult> AddAccount([FromBody] ProductRequest productRequest, [FromBody] List<Component> components)
+        public async Task<ActionResult> AddAccount([FromBody] ProductRequest productRequest, List<Component> components)
         {
             var data = await _productService.AddProduct(_mapper.Map<Product>(productRequest), components);
             if (data == null)
@@ -70,7 +71,7 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok("Add successfully");
         }
 */
-        // PUT: UpdateProduct
+        // PUT: UpdateProduct/[product]
         [HttpPut]
         [Route("updateProduct")]
         public async Task<ActionResult> UpdateProduct([FromBody] ProductRequest productRequest)
@@ -104,29 +105,45 @@ namespace GSP_API.Controllers.ModelControllers
             return BadRequest(data);
         }
 
-        //private bool AccountExists(string id)
-        //{
-        //    return _context.Account.Any(e => e.AccountId == id);
-        //}
+        // POST: uploadFile/product/[file]
         [HttpPost]
         [Route("uploadFile/product")]
-        public async Task<IActionResult> Upload([FromForm] IFormFile file)
+        public async Task<IActionResult> Upload(IFormFile file)
         {
             using (var memoryStream = new MemoryStream())
             {
                 file.CopyTo(memoryStream);
                 var productList = GSP_API.Business.Extensions.Excel.ImportExcel<Product>(memoryStream);
                 var errorDic = await _productService.AddRangeProduct(productList);
-                return Ok(errorDic);
+                if(errorDic.Count > 0)
+                {
+                    GSP_API.Business.Extensions.Excel.ExportExcel<Product>(errorDic);
+                    return Ok("Error record exit!!");
+
+                }
+                else
+                {
+                    return Ok();
+                }
+                //return Ok(errorDic);
             }
         }
-        [HttpPost]
-        [Route("errorRecord/product")]
-        public async Task<IActionResult> Error([FromBody] string jsonString)
+        [HttpGet]
+        [Route("downloadFile/product")]
+        public async Task<IActionResult> Download()
         {
-            var obj = JsonConvert.DeserializeObject<Dictionary<int, Product>>(jsonString);
-            GSP_API.Business.Extensions.Excel.ExportExcel<Product>(obj);
-            return Ok();
+            var filePath = "error.xlsx";
+            string contentType = "application/octet-stream";
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound();
+            }
+            else
+            {
+                byte[] fileBype = await System.IO.File.ReadAllBytesAsync(filePath);
+                return File(fileBype, contentType, "error.xlsx");
+            }
         }
+
     }
 }

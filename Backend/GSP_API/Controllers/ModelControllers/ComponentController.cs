@@ -60,8 +60,8 @@ namespace GSP_API.Controllers.ModelControllers
 /*
         // POST: AddComponent/[component]
         [HttpPost]
-        [Route("addComponent")]        
-        public async Task<ActionResult> AddComponent([FromBody] ComponentRequest componentRequest, [FromBody] List<Material> materials)
+        [Route("addComponent")]
+        public async Task<ActionResult> AddComponent([FromBody] ComponentRequest componentRequest, List<Material> materials)
         {
             //var data = await _componentService.AddComponent(_mapper.Map<Component>(componentRequest), materials);
             //if (data == null)
@@ -71,7 +71,7 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok("Add successfully");
         }
 */
-        // PUT: UpdateComponent
+        // PUT: UpdateComponent/[component]
         [HttpPut]
         [Route("updateComponent")]
         public async Task<ActionResult<ComponentResponse>> UpdateComponent([FromBody] ComponentRequest componentRequest)
@@ -105,11 +105,7 @@ namespace GSP_API.Controllers.ModelControllers
             return BadRequest(data);
         }
 
-        //private bool AccountExists(string id)
-        //{
-        //    return _context.Account.Any(e => e.AccountId == id);
-        //}
-
+        // POST: uploadFile/component/[file]
         [HttpPost]
         [Route("uploadFile/component")]
         public async Task<IActionResult> Upload([FromForm] IFormFile file)
@@ -118,18 +114,11 @@ namespace GSP_API.Controllers.ModelControllers
             {
                 file.CopyTo(memoryStream);
                 var materialList = GSP_API.Business.Extensions.Excel.ImportExcel<Component>(memoryStream);
-                var errorDic = await _componentService.AddRange(materialList);
+                var errorDic = await _componentService.AddRangeComponent(materialList);
                 return Ok(errorDic);
             }
         }
-        [HttpPost]
-        [Route("errorRecord/component")]
-        public async Task<IActionResult> Error([FromBody] string jsonString)
-        {
-            var obj = JsonConvert.DeserializeObject<Dictionary<int, Component>>(jsonString);
-            GSP_API.Business.Extensions.Excel.ExportExcel<Component>(obj);
-            return Ok();
-        }
+
     }
 }
 

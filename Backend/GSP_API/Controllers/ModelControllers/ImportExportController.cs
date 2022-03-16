@@ -69,7 +69,7 @@ namespace GSP_API.Controllers.ModelControllers
             }
         }
 
-        // PUT: UpdateImEx
+        // PUT: UpdateImEx/[imEx]
         [HttpPut]
         [Route("updateImEx")]
         public async Task<ActionResult> UpdateImEx([FromBody] ImportExportRequest importExportRequest)
@@ -103,10 +103,5 @@ namespace GSP_API.Controllers.ModelControllers
             }
             return BadRequest(data);
         }
-
-        //private bool AttendanceExists(string id)
-        //{
-        //    return _context.Attendance.Any(e => e.AttendanceId == id);
-        //}
     }
 }

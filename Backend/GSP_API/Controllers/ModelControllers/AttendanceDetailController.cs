@@ -65,7 +65,7 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok("Add successfully");
         }
 
-        // PUT: UpdateAttendanceDetail
+        // PUT: UpdateAttendanceDetail/[attendanceDetail]
         [HttpPut]
         [Route("updateAttendanceDetail")]
         public async Task<ActionResult<AttendanceDetailResponse>> UpdateAttendanceDetail([FromBody] AttendanceDetailRequest attendanceDetailRequest)
@@ -98,10 +98,5 @@ namespace GSP_API.Controllers.ModelControllers
             }
             return BadRequest(data);
         }
-
-        //private bool AttendanceExists(string id)
-        //{
-        //    return _context.Attendance.Any(e => e.AttendanceId == id);
-        //}
     }
 }
