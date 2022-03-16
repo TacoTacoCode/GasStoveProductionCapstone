@@ -25,12 +25,12 @@ namespace GSP_API.Models.Response
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public virtual Section Section { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public virtual ICollection<AttendanceDetail> AttendanceDetail { get; set; }
+        public virtual ICollection<AttendanceDetail> AttendanceDetails { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public virtual ICollection<ImportExport> ImportExport { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public virtual ICollection<Order> Order { get; set; }
+        public virtual ICollection<RefreshToken> RefreshTokens { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public virtual ICollection<Section> SectionNavigation { get; set; }
+        public virtual ICollection<Section> Sections { get; set; }
     }
 }

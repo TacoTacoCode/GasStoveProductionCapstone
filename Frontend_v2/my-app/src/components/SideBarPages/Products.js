@@ -10,9 +10,9 @@ function Products() {
   const [listProduct, setListProduct] = useState([]);
 
   useEffect(() => {
-    const getUserAPI = 'https://localhost:5001/getProducts'
+    const getAllProducts = 'https://localhost:5001/getProducts'
 
-    axios.get(getUserAPI).then((res) => {
+    axios.get(getAllProducts).then((res) => {
       setListProduct(res.data);
     }).catch((err) => {
       //Trường hợp xảy ra lỗi

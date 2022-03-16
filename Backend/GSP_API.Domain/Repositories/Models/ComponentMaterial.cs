@@ -7,13 +7,6 @@ namespace GSP_API.Domain.Repositories.Models
 {
     public partial class ComponentMaterial
     {
-        public ComponentMaterial(string componentId, string materialId, int? amount)
-        {
-            ComponentId = componentId;
-            MaterialId = materialId;
-            Amount = amount;
-        }
-
         public int Id { get; set; }
         public string ComponentId { get; set; }
         public string MaterialId { get; set; }

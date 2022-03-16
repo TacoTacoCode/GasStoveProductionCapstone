@@ -26,20 +26,22 @@ const styles = makeStyles({
         fontFamily: "Muli",
         cursor: "pointer",
         flexGrow: 1,
-        "&:hover": {
-            color: "#e30217"
-        },
+        // "&:hover": {
+        //     color: "#e30217"
+        // },
         ['@media (max-width:780px)']: {
             paddingBottom: "2rem"
         }
     },
     logo: {
+        cursor: "pointer",
         width: "5%",
         ['@media (max-width:780px)']: {
             display: "inline-block"
         }
     },
     logoNavbar: {
+        cursor: "pointer",
         width: "25%",
     }
 })
@@ -48,6 +50,11 @@ function CustomSideBar() {
     const [sidebar, setSidebar] = useState(false);
     const classes = styles();
     const showSidebar = () => setSidebar(!sidebar);
+
+    function linkClick() {
+        window.location.href = "http://localhost:3000/dashboard/";
+    }
+
     return (
         <>
             <IconContext.Provider value={{ color: '#e30217' }}>
@@ -57,8 +64,8 @@ function CustomSideBar() {
                             <FaIcons.FaBars onClick={showSidebar} />
                         </Link>
                     </div>
-                    <img src={logo} className={classes.logo} />
-                    <Typography variant="h5" className={classes.menuItem}>
+                    <img src={logo} className={classes.logo} onClick={linkClick} />
+                    <Typography variant="h5" className={classes.menuItem} onClick={linkClick}>
                         UFA Company Managing System
                     </Typography>
                 </Toolbar>
@@ -68,7 +75,7 @@ function CustomSideBar() {
                             <Link to="#" className='menu-bars'>
                                 <AiIcons.AiOutlineClose />
                             </Link>
-                            <img src={logo} className={classes.logoNavbar} />
+                            <img src={logo} className={classes.logoNavbar} onClick={linkClick} />
                         </li>
                         <div className="side">
                             <ul className="sidebarList">
@@ -80,13 +87,10 @@ function CustomSideBar() {
                                         onClick={() => {
                                             window.location.pathname = val.path;
                                         }}
-                                    // className="row"
-                                    // id={window.location.pathname == val.path ? "active" : ""}
                                     >
                                         <Link
                                             id={window.location.pathname == val.path ? "active1" : ""}
                                             className="link" to={val.path}>{val.title}</Link>
-                                        {/* <div>{val.title}</div> */}
                                     </li>
                                 })}
                             </ul>

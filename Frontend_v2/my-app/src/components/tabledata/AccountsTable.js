@@ -3,36 +3,32 @@ import MaterialTable from 'material-table';
 import AccountPopup from '../Popups/AccountPopup'
 
 
-export const Table = () => {
+export const Table = (props) => {
+
+    const { listAccount } = props;
+    const array = [];
+
+    listAccount.forEach(item => {
+        array.push(item)
+    });
+
     const [addAccountBtn, setaddAccountBtn] = useState(false);
-    const [data, setData] = useState([
-        { id: '123', workername: 'Hieu', avt: 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg', gender: 'Male', dob: '100' },
-        { id: '124', workername: 'Taco', avt: 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg', gender: 'Female', dob: '200' },
-        { id: '125', workername: 'Bò', avt: 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg', gender: 'Male', dob: '300' },
-        { id: '126', workername: 'Trung', avt: 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg', gender: 'Female', dob: '400' },
-    ])
     const columns = [
         {
-            title: 'ID', field: 'id', cellStyle: { fontFamily: 'Muli' }
+            title: 'ID', field: 'accountId', cellStyle: { fontFamily: 'Arial' }
         },
         {
-            title: 'Worker Name', field: 'workername', cellStyle: { fontFamily: 'Muli' }
+            title: 'Worker Name', field: 'name', cellStyle: { fontFamily: 'Arial' }
         },
         {
-            title: 'Avatar', field: 'avt', render: rowData => <img style={{ height: '60px', width: '60px' }} src={rowData.avt} />, cellStyle: { fontFamily: 'Muli' }
+            title: 'Avatar', field: 'avatarUrl', render: rowData => <img style={{ height: '60px', width: '60px' }} src={rowData.avt} />, cellStyle: { fontFamily: 'Muli' }, align: "left"
         },
         {
-            title: 'Gender', field: 'gender', cellStyle: { fontFamily: 'Muli' }
+            title: 'Gender', field: 'gender', cellStyle: { fontFamily: 'Arial' }
         },
         {
-            title: 'Date of Birth', field: 'dob', cellStyle: { fontFamily: 'Muli' }
-        },
-        // {
-        //     title:'Detail', field:'workername'
-        // },
-        // {
-        //     title:'Worker Name', field:'workername'
-        // }
+            title: 'Date of Birth', field: 'accountId', cellStyle: { fontFamily: 'Arial' }
+        }
     ]
     return (
         <div>
@@ -40,25 +36,25 @@ export const Table = () => {
                 <h3 className='popuptitle'>Add an account</h3>
             </AccountPopup>
             <MaterialTable title={"List of Accounts"}
-                data={data}
+                data={array}
                 columns={columns}
-                onRowClick={(event, data) => {
+                onRowClick={(event, array) => {
                     setaddAccountBtn(true)
                 }}
                 editable={{
-                    // onRowUpdate: (newRow, oldRow) => new Promise((resolve, reject) => {
+                    //     // onRowUpdate: (newRow, oldRow) => new Promise((resolve, reject) => {
+                    //     //     const updatedData = [...data]
+                    //     //     updatedData[updatedData.indexOf(oldRow)] = newRow
+                    //     //     setData(updatedData)
+                    //     //     setTimeout(() => resolve(), 500)
+                    //     // }),
+                    // onRowDelete: (selectedRow) => new Promise((resolve, reject) => {
                     //     const updatedData = [...data]
-                    //     updatedData[updatedData.indexOf(oldRow)] = newRow
-                    //     setData(updatedData)
-                    //     setTimeout(() => resolve(), 500)
-                    // }),
-                    onRowDelete: (selectedRow) => new Promise((resolve, reject) => {
-                        const updatedData = [...data]
-                        updatedData.splice(updatedData.indexOf(selectedRow), 1)
-                        setData(updatedData)
-                        setTimeout(() => resolve(), 1000)
-                    }
-                    )
+                    //     updatedData.splice(updatedData.indexOf(selectedRow), 1)
+                    //     // setData(updatedData)
+                    //     setTimeout(() => resolve(), 1000)
+                    // }
+                    //)
                 }
                 }
                 options={{

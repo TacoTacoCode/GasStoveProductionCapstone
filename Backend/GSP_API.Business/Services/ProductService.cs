@@ -30,26 +30,26 @@ namespace GSP_API.Business.Services
             return await _productRepository.GetById(p => p.ProductId == productId);
         }
 
-        public async Task<string> AddProduct(Product product, List<Component> componentChosen)
-        {
-            var proCompoService = new ProductComponentService();
+        //public async Task<string> AddProduct(Product product, List<Component> componentChosen)
+        //{
+        //    var proCompoService = new ProductComponentService();
 
-            var data = await _productRepository.Add(product);
-            var listProCompo = new List<ProductComponent>();
-            switch (data)
-            {
-                case "true":
-                    //For each compo in chosen list, create a correspoding ProCompo  
-                    foreach (Component compo in componentChosen)
-                    {
-                        ProductComponent productComponent = new ProductComponent(product.ProductId, compo.ComponentId, compo.Amount);
-                        listProCompo.Add(productComponent);
-                    }
-                    return await proCompoService.AddRangeProCompo(listProCompo);
-                default:
-                    return data;
-            }
-        }
+        //    var data = await _productRepository.Add(product);
+        //    var listProCompo = new List<ProductComponent>();
+        //    switch (data)
+        //    {
+        //        case "true":
+        //            //For each compo in chosen list, create a correspoding ProCompo  
+        //            foreach (Component compo in componentChosen)
+        //            {
+        //                ProductComponent productComponent = new ProductComponent(product.ProductId, compo.ComponentId, compo.Amount);
+        //                listProCompo.Add(productComponent);
+        //            }
+        //            return await proCompoService.AddRangeProCompo(listProCompo);
+        //        default:
+        //            return data;
+        //    }
+        //}
 
         public async Task<string> UpdateProduct(Product newProduct)
         {

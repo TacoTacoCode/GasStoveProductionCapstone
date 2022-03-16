@@ -78,11 +78,12 @@ function MaterialPopup(props) {
                             <div className='namefield'>
                                 <CssTextField label="Material Name" id="fullWidth" required />
                             </div>
+                            <div className='idfield'>
+                                <CssTextField label="Unit" id="fullWidth" required />
+                            </div>
+
                         </div>
                         <div className='idname'>
-                            <div className='txtfield'>
-                                <CssTextField label="Type" id="fullWidth" required />
-                            </div>
                             <div className='txtfield'>
                                 <CssTextField
                                     label="Amount"
@@ -97,7 +98,6 @@ function MaterialPopup(props) {
                                     label="Status"
                                     select
                                     id="fullWidth" required
-                                    value={status}
                                     onChange={handleChangeStatus}
                                     helperText="Choose material status"
                                 >
@@ -109,28 +109,7 @@ function MaterialPopup(props) {
                                 </CssTextField>
                             </div>
                         </div>
-                        <div className='txtfield'>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                <DesktopDatePicker
-                                    label="Finished Date"
-                                    inputFormat="dd/MM/yyyy"
-                                    value={finishedDate}
-                                    onChange={handleChangeFinishedDate}
-                                    renderInput={(params) => <CssTextField {...params} id="fullWidth" />}
-                                />
-                            </LocalizationProvider>
-                        </div>
-                        <div className='txtfield'>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                <DesktopDatePicker
-                                    label="Export Date"
-                                    inputFormat="dd/MM/yyyy"
-                                    value={exportDate}
-                                    onChange={handleChangeExportDate}
-                                    renderInput={(params) => <CssTextField {...params} id="fullWidth" />}
-                                />
-                            </LocalizationProvider>
-                        </div>
+
                         <div className='btngr'>
                             <Button
                                 variant="contained"

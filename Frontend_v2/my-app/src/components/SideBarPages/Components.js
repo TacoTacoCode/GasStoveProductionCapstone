@@ -10,10 +10,10 @@ function Components() {
   const [listComponent, setListComponent] = useState([]);
 
   useEffect(() => {
-    const getUserAPI = 'https://5df8a4c6e9f79e0014b6a587.mockapi.io/freetuts/users'
+    const getAllComponents = 'https://localhost:5001/getAllComponents'
 
     //Gọi API bằng axios
-    axios.get(getUserAPI).then((res) => {
+    axios.get(getAllComponents).then((res) => {
       setListComponent(res.data);
     }).catch((err) => {
       console.log(err);

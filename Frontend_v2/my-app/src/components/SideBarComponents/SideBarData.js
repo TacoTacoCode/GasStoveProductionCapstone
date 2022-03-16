@@ -5,31 +5,31 @@ export const SideBarData = [
     {
         title: 'Dashboard',
         // icon: <DashboardIcon />,
-        path: "/",
+        path: "/dashboard",
         cName: 'nav-text'
     },
     {
         title: "Manage Accounts",
         // icon: <ManageAccountsIcon />,
-        path: "/accounts",
-        cName: 'nav-text'
-    },
-    {
-        title: "Manage Materials",
-        // icon: <DashboardIcon />,
-        path: "/materials",
+        path: "/dashboard/accounts",
         cName: 'nav-text'
     },
     {
         title: "Manage Products",
         // icon: <DashboardIcon />,
-        path: "/products",
+        path: "/dashboard/products",
         cName: 'nav-text'
     },
     {
         title: "Manage Components",
         // icon: <DashboardIcon />,
-        path: "/components",
+        path: "/dashboard/components",
+        cName: 'nav-text'
+    },
+    {
+        title: "Manage Materials",
+        // icon: <DashboardIcon />,
+        path: "/dashboard/materials",
         cName: 'nav-text'
     },
 ]
