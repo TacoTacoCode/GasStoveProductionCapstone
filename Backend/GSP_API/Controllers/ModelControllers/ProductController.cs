@@ -57,20 +57,20 @@ namespace GSP_API.Controllers.ModelControllers
             var product = _mapper.Map<ProductResponse>(data);
             return Ok(product);
         }
-/*
-        // POST: AddProduct/[product]
-        [HttpPost]
-        [Route("addProduct")]
-        public async Task<ActionResult> AddAccount([FromBody] ProductRequest productRequest, List<Component> components)
-        {
-            var data = await _productService.AddProduct(_mapper.Map<Product>(productRequest), components);
-            if (data == null)
-            {
-                return BadRequest("Not Found");
-            }
-            return Ok("Add successfully");
-        }
-*/
+        /*
+                // POST: AddProduct/[product]
+                [HttpPost]
+                [Route("addProduct")]
+                public async Task<ActionResult> AddAccount([FromBody] ProductRequest productRequest, List<Component> components)
+                {
+                    var data = await _productService.AddProduct(_mapper.Map<Product>(productRequest), components);
+                    if (data == null)
+                    {
+                        return BadRequest("Not Found");
+                    }
+                    return Ok("Add successfully");
+                }
+        */
         // PUT: UpdateProduct/[product]
         [HttpPut]
         [Route("updateProduct")]
@@ -115,24 +115,19 @@ namespace GSP_API.Controllers.ModelControllers
                 file.CopyTo(memoryStream);
                 var productList = GSP_API.Business.Extensions.Excel.ImportExcel<Product>(memoryStream);
                 var errorDic = await _productService.AddRangeProduct(productList);
-                if(errorDic.Count > 0)
+                var fileName = "";
+                if (errorDic.Count > 0)
                 {
-                    GSP_API.Business.Extensions.Excel.ExportExcel<Product>(errorDic);
-                    return Ok("Error record exit!!");
-
+                    fileName = GSP_API.Business.Extensions.Excel.ExportExcel<Product>(errorDic);
                 }
-                else
-                {
-                    return Ok();
-                }
-                //return Ok(errorDic);
+                return Ok(fileName);
             }
         }
         [HttpGet]
-        [Route("downloadFile/product")]
-        public async Task<IActionResult> Download()
+        [Route("downloadFile")]
+        public async Task<IActionResult> Download(string name)
         {
-            var filePath = "error.xlsx";
+            var filePath = "ErrorRecord/" + name;
             string contentType = "application/octet-stream";
             if (!System.IO.File.Exists(filePath))
             {
