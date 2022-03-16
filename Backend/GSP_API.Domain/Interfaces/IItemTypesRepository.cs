@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace GSP_API.Domain.Interfaces
-{    public interface ITypesRepository : IRepository<ItemType>
+{    public interface IItemTypesRepository : IRepository<ItemType>
     {
     }
 }

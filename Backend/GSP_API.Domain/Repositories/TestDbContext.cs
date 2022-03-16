@@ -33,6 +33,7 @@ namespace GSP_API.Domain.Repositories
         public virtual DbSet<ProcessDetail> ProcessDetails { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductComponent> ProductComponents { get; set; }
+        public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Section> Sections { get; set; }
 
@@ -40,13 +41,13 @@ namespace GSP_API.Domain.Repositories
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=Admin;Initial Catalog=GSP_DB_test;Persist Security Info=True;User ID=sa;Password=123456");
+                optionsBuilder.UseSqlServer("Data Source=ADMIN;Initial Catalog=GSP_DB_test;Persist Security Info=True;User ID=sa;Password=123456");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "Vietnamese_CI_AS");
+            modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
             modelBuilder.Entity<Account>(entity =>
             {
@@ -374,6 +375,26 @@ namespace GSP_API.Domain.Repositories
                     .WithMany(p => p.ProductComponents)
                     .HasForeignKey(d => d.ProductId)
                     .HasConstraintName("FK_Product_Component_Product");
+            });
+
+            modelBuilder.Entity<RefreshToken>(entity =>
+            {
+                entity.ToTable("RefreshToken");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(10)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
+                entity.Property(e => e.ExpiryDate).HasColumnType("date");
+
+                entity.Property(e => e.Token).HasMaxLength(16);
+
+                entity.HasOne(d => d.Account)
+                    .WithMany(p => p.RefreshTokens)
+                    .HasForeignKey(d => d.AccountId)
+                    .HasConstraintName("FK_RefreshToken_Account");
             });
 
             modelBuilder.Entity<Role>(entity =>

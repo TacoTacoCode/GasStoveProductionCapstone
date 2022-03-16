@@ -39,17 +39,29 @@ namespace GSP_API.Controllers.AuthControllers
         [Route("login")]
         public async Task<ActionResult> Login([FromBody] AccountRequest accountRequest)
         {
-            var account = await _accountService.GetAccountById(_mapper.Map<Account>(accountRequest).AccountId);
+            //Check if all the validations specified inside Model class using Data annotations have been passed.
+            //if (!ModelState.IsValid)
+            //{
 
-            //Generate Token
-            var generateTokens = new TokenConfigure(_configuration, _roleService);
-            var signingCredentials = generateTokens.GetSigningCredential();
-            var claims = generateTokens.GetClaim(account);
-            var tokenOptions = generateTokens.GenerateAccessToken(signingCredentials, await claims);            
-            var accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-            var refreshToken = generateTokens.GenerateRefreshToken();
-            TokenModel tokenModel = new TokenModel(accessToken, refreshToken);
-            return Ok(tokenModel);
+            //}
+            var account = await _accountService.GetAccountById(_mapper.Map<Account>(accountRequest).AccountId);
+            if (account == null)
+            {
+                return BadRequest("Invalid account");
+            }
+
+            var isCorrect = account.Password == GSP_API.Business.Extensions.Hash.ComputeSha256Hash(accountRequest.Password);
+            if (!isCorrect)
+            {
+                return BadRequest("Wrong Pass");
+            }
+
+            //Generate access token
+            //var generateTokens = new TokenConfigure(_configuration, _roleService);            
+            //var tokenOptions = generateTokens.GenerateAccessToken(account);
+            //var accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions.Result);
+
+            return Ok(/*accessToken*/);
         }
 
 
