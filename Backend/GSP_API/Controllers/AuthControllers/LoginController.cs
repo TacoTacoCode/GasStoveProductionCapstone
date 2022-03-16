@@ -36,6 +36,29 @@ namespace GSP_API.Controllers.AuthControllers
 
         // POST: login
         [HttpPost]
+        [Route("login2")]
+        public async Task<ActionResult> Login2([FromBody] LoginRequest loginRequest)
+        {
+            var account = await _accountService.GetAccountByEmail(loginRequest.Email);
+            if (account == null)
+            {
+                return BadRequest("Invalid account");
+            }
+
+            var isCorrect = account.Password == GSP_API.Business.Extensions.Hash.ComputeSha256Hash(loginRequest.Password);
+            if (!isCorrect)
+            {
+                return BadRequest("Wrong Pass");
+            }
+
+            //Generate access token
+            //var generateTokens = new TokenConfigure(_configuration, _roleService);            
+            //var tokenOptions = generateTokens.GenerateAccessToken(account);
+            //var accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions.Result);
+
+            return Ok(/*accessToken*/);
+        }
+        [HttpPost]
         [Route("login")]
         public async Task<ActionResult> Login([FromBody] AccountRequest accountRequest)
         {
@@ -63,7 +86,5 @@ namespace GSP_API.Controllers.AuthControllers
 
             return Ok(/*accessToken*/);
         }
-
-
     }
 }
