@@ -53,7 +53,7 @@ export default function Signin() {
     return (
         <>
             <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-            <div className="dashboard">
+            <div className="dashboard_login">
                 <div className="title-container">
                     <center><h2>UFA Company Managing System</h2></center>
                     <div className="login-container">
