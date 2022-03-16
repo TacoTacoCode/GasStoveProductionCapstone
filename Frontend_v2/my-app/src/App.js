@@ -52,12 +52,11 @@ function App() {
         <BrowserRouter>
           <CustomSideBar />
           <Routes>
-            <Route path='/dashboard' exact element={<DashBoard />}>
-              <Route path='/dashboard/accounts' exact element={<Accounts />}></Route>
-              <Route path='/dashboard/materials' exact element={<Materials />}></Route>
-              <Route path='/dashboard/products' exact element={<Products />}></Route>
-              <Route path='/dashboard/components' exact element={<Components />}></Route>
-            </Route>
+            <Route path='/dashboard' exact element={<DashBoard />}></Route>
+            <Route path='/dashboard/accounts' exact element={<Accounts />}></Route>
+            <Route path='/dashboard/materials' exact element={<Materials />}></Route>
+            <Route path='/dashboard/products' exact element={<Products />}></Route>
+            <Route path='/dashboard/components' exact element={<Components />}></Route>
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

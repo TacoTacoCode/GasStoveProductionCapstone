@@ -18,6 +18,8 @@ export default function DashBoard() {
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
       <ImportExcelButton>Import from Excel</ImportExcelButton>
       <div className='dashboard'>
-        <Table /></div></>
+        <Table />
+      </div>
+    </>
   );
 }
