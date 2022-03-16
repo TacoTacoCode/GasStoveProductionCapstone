@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import MaterialTable from 'material-table';
+import AccountPopup from '../Popups/AccountPopup'
 
 
 export const Table = () => {
+    const [addAccountBtn, setaddAccountBtn] = useState(false);
     const [data, setData] = useState([
         { id: '123', workername: 'Hieu', avt: 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg', gender: 'Male', dob: '100' },
         { id: '124', workername: 'Taco', avt: 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg', gender: 'Female', dob: '200' },
@@ -34,16 +36,22 @@ export const Table = () => {
     ]
     return (
         <div>
+            <AccountPopup trigger={addAccountBtn} setTrigger={setaddAccountBtn}>
+                <h3 className='popuptitle'>Add an account</h3>
+            </AccountPopup>
             <MaterialTable title={"List of Accounts"}
                 data={data}
                 columns={columns}
+                onRowClick={(event, data) => {
+                    setaddAccountBtn(true)
+                }}
                 editable={{
-                    onRowUpdate: (newRow, oldRow) => new Promise((resolve, reject) => {
-                        const updatedData = [...data]
-                        updatedData[updatedData.indexOf(oldRow)] = newRow
-                        setData(updatedData)
-                        setTimeout(() => resolve(), 500)
-                    }),
+                    // onRowUpdate: (newRow, oldRow) => new Promise((resolve, reject) => {
+                    //     const updatedData = [...data]
+                    //     updatedData[updatedData.indexOf(oldRow)] = newRow
+                    //     setData(updatedData)
+                    //     setTimeout(() => resolve(), 500)
+                    // }),
                     onRowDelete: (selectedRow) => new Promise((resolve, reject) => {
                         const updatedData = [...data]
                         updatedData.splice(updatedData.indexOf(selectedRow), 1)

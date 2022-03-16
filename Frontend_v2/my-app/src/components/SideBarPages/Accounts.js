@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../App.css';
 import { ImportExcelButton } from '../button/ImportExcelButton';
 import { Table } from '../tabledata/AccountsTable';
-import ComponentPopup from '../Popups/AccountPopup'
+import AccountPopup from '../Popups/AccountPopup'
 import axios from 'axios';
 
 function Accounts() {
@@ -29,9 +29,9 @@ function Accounts() {
         }}>
         Add Account
       </ImportExcelButton>
-      <ComponentPopup trigger={addAccountBtn} setTrigger={setaddAccountBtn}>
+      <AccountPopup trigger={addAccountBtn} setTrigger={setaddAccountBtn}>
         <h3 className='popuptitle'>Add an account</h3>
-      </ComponentPopup>
+      </AccountPopup>
       <div className='accounts'>
         <Table listAccount={listAccount} />
       </div>

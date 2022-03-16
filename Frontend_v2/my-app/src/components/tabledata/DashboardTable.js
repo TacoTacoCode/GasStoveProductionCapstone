@@ -1,26 +1,35 @@
 import React, { useState } from 'react';
 import MaterialTable from 'material-table';
-
+import '../tabledata/TableDesign.css'
 
 export const Table = () => {
     const [data, setData] = useState([
-        { id: '123', workername: 'Hieu', material: 'Ống gas', amount: '100' },
-        { id: '124', workername: 'Taco', material: 'Ống gas', amount: '200' },
-        { id: '125', workername: 'Bò', material: 'Ống gas', amount: '300' },
-        { id: '126', workername: 'Trung', material: 'Ống gas', amount: '400' },
+        { id: '123', sectionname: 'Hieu', materialid: '123', material: 'Ống gas', amount: '100', available: '500', status: 'pending' },
+        { id: '124', sectionname: 'Taco', materialid: '123', material: 'Ống gas', amount: '200', available: '500', status: 'pending' },
+        { id: '125', sectionname: 'Bò', materialid: '123', material: 'Ống gas', amount: '300', available: '500', status: 'pending' },
+        { id: '126', sectionname: 'Trung', materialid: '123', material: 'Ống gas', amount: '400', available: '500', status: 'pending' },
     ])
     const columns = [
         {
-            title: 'ID', field: 'id', cellStyle: { fontFamily: 'Muli' }
+            title: 'ID', field: 'id', cellStyle: { fontFamily: 'Muli' }, align: "left"
         },
         {
-            title: 'Worker Name', field: 'workername', cellStyle: { fontFamily: 'Muli' }
+            title: 'Section Name', field: 'sectionname', cellStyle: { fontFamily: 'Muli' }, align: "left"
         },
         {
-            title: 'Material', field: 'material', cellStyle: { fontFamily: 'Muli' }
+            title: 'Material Id', field: 'materialid', cellStyle: { fontFamily: 'Muli' }, align: "left"
         },
         {
-            title: 'Amount', field: 'amount', cellStyle: { fontFamily: 'Muli' }
+            title: 'Material Name', field: 'material', cellStyle: { fontFamily: 'Muli' }, align: "left"
+        },
+        {
+            title: 'Request Amount', field: 'amount', cellStyle: { fontFamily: 'Muli' }, align: "left"
+        },
+        {
+            title: 'Available Amount', field: 'available', cellStyle: { fontFamily: 'Muli' }, align: "left"
+        },
+        {
+            title: 'Status', field: 'status', cellStyle: { fontFamily: 'Muli' }, align: "left"
         },
         // {
         //     title:'Detail', field:'workername'
@@ -34,22 +43,27 @@ export const Table = () => {
             <MaterialTable title={"Material Requesting List"}
                 data={data}
                 columns={columns}
-                editable={{
-                    onRowUpdate: (newRow, oldRow) => new Promise((resolve, reject) => {
-                        const updatedData = [...data]
-                        updatedData[updatedData.indexOf(oldRow)] = newRow
-                        setData(updatedData)
-                        setTimeout(() => resolve(), 500)
-                    }),
-                    onRowDelete: (selectedRow) => new Promise((resolve, reject) => {
-                        const updatedData = [...data]
-                        updatedData.splice(updatedData.indexOf(selectedRow), 1)
-                        setData(updatedData)
-                        setTimeout(() => resolve(), 1000)
-                    }
-                    )
-                }
-                }
+                // editable={{
+                //     onRowUpdate: (newRow, oldRow) => new Promise((resolve, reject) => {
+                //         const updatedData = [...data]
+                //         updatedData[updatedData.indexOf(oldRow)] = newRow
+                //         setData(updatedData)
+                //         setTimeout(() => resolve(), 500)
+                //     }),
+                //     onRowDelete: (selectedRow) => new Promise((resolve, reject) => {
+                //         const updatedData = [...data]
+                //         updatedData.splice(updatedData.indexOf(selectedRow), 1)
+                //         setData(updatedData)
+                //         setTimeout(() => resolve(), 1000)
+                //     }
+                //     )
+                // }
+                // }
+                actions={[
+                    {
+                        icon: () => <button className='btnAccept'>Accept</button>
+                    },
+                ]}
                 options={{
                     addRowPosition: 'first',
                     actionsColumnIndex: -1,
