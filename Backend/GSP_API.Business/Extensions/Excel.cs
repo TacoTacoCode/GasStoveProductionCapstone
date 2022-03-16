@@ -88,7 +88,7 @@ namespace GSP_API.Business.Extensions
 			return dt;
         }
 
-		public static void ExportExcel<T>(IDictionary<int, T> dictionary)
+		public static string ExportExcel<T>(IDictionary<int, T> dictionary)
 		{
 			using (XLWorkbook wb = new XLWorkbook())
 			{
@@ -96,7 +96,13 @@ namespace GSP_API.Business.Extensions
 				wb.Worksheets.Add(dt, "ErrorRecord");
 				wb.Worksheets.First().LastColumnUsed().Style.Font.FontColor = XLColor.Red;
 				wb.Worksheet(1).Columns().AdjustToContents();
-				wb.SaveAs("error.xlsx");
+                if (!Directory.Exists("ErrorRecord"))
+                {
+					Directory.CreateDirectory("ErrorRecord");
+                }
+				var fileName = "error" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".xlsx";
+				wb.SaveAs("ErrorRecord/"+ fileName);
+				return fileName;
 			}
 		}
 	}
