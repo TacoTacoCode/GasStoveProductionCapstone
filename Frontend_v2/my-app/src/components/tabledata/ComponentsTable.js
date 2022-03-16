@@ -44,7 +44,7 @@ export const Table = (props) => {
                     addRowPosition: 'first',
                     actionsColumnIndex: -1,
                     exportButton: false,
-                    headerStyle: { backgroundColor: '#E30217', color: '#fff', }, selection: true,
+                    headerStyle: { backgroundColor: '#E30217', color: '#fff', },
                 }} />
         </div>
     )

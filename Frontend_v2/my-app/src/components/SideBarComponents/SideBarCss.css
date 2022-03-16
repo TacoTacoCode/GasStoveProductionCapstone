@@ -53,5 +53,9 @@
 .link {
     text-decoration: none;
     color          : black;
+}
 
+.link-img {
+    width : fit-content;
+    height: fit-content;
 }

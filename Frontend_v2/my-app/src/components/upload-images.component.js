@@ -44,13 +44,13 @@ export default class UploadImages extends Component {
 
         return (
             <div className="mg20">
+                {previewImage && (
+                    <div>
+                        <img className="preview my20" src={previewImage} alt="" />
+                    </div>
+                )}
+                &emsp;
                 <label htmlFor="btn-upload">
-                    {previewImage && (
-                        <div>
-                            <img className="preview my20" src={previewImage} alt="" />
-                        </div>
-                    )}
-                    &emsp;
                     <div className="file-name">
                         {currentFile ? currentFile.name : null}
                     </div>
