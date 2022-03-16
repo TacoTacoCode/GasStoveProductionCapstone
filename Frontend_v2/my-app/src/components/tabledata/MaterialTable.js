@@ -36,10 +36,19 @@ export const Table = (props) => {
 
     const columns = [
         {
-            title: 'Name', field: 'name', cellStyle: { fontFamily: 'Muli' }
+            title: 'Material ID', field: 'materialId', cellStyle: { fontFamily: 'Arial', fontSize: "20px" }
         },
         {
-            title: 'Email', field: 'email', cellStyle: { fontFamily: 'Muli' }
+            title: 'Image', field: 'imageUrl', render: rowData => <img style={{ height: '60px', width: '60px' }} src={rowData.imageUrl} />
+        },
+        {
+            title: 'Material Name', field: 'materialName', cellStyle: { fontFamily: 'Arial', fontSize: "20px" }
+        },
+        {
+            title: 'Unit', field: 'unit', cellStyle: { fontFamily: 'Arial', fontSize: "20px", fontWeight: "500" }
+        },
+        {
+            title: 'Amount', field: 'amount', cellStyle: { fontFamily: 'Arial', fontSize: "20px" }
         },
     ]
 
@@ -49,12 +58,6 @@ export const Table = (props) => {
                 data={array}
                 columns={columns}
                 editable={{
-                    onRowUpdate: (newRow, oldRow) => new Promise((resolve, reject) => {
-                        const updatedData = [...array]
-                        updatedData[updatedData.indexOf(oldRow)] = newRow
-                        // setData(updatedData)
-                        setTimeout(() => resolve(), 500)
-                    }),
                     onRowDelete: (selectedRow) => new Promise((resolve, reject) => {
                         const updatedData = [...array]
                         updatedData.splice(updatedData.indexOf(selectedRow), 1)
