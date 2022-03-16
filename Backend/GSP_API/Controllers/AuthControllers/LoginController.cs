@@ -60,30 +60,30 @@ namespace GSP_API.Controllers.AuthControllers
                 });
             }
 
-            //Generate access token                     
+            //Generate access token            
             return Ok(await _tokenConfigure.GenerateJWTToken(account));
         }
 
         // POST: refreshToken/[tokenRequest]
-        [HttpPost]
-        [Route("refreshToken")]
-        public async Task<ActionResult> RefreshToken([FromBody] TokenRequest tokenRequest)
-        {
+        //[HttpPost]
+        //[Route("refreshToken")]
+        //public async Task<ActionResult> RefreshToken([FromBody] TokenRequest tokenRequest)
+        //{
 
-            var result = await _tokenConfigure.VerifyAndGenerateToken(tokenRequest);
+        //    var result = await new TokenConfigure().VerifyAndGenerateToken(tokenRequest);
 
-            if (result == null)
-            {
-                return BadRequest(new AuthResult()
-                {
-                    Errors = new List<string>() {
-                            "Invalid tokens"
-                        },
-                    Success = false
-                });
-            }
+        //    if (result == null)
+        //    {
+        //        return BadRequest(new AuthResult()
+        //        {
+        //            Errors = new List<string>() {
+        //                    "Invalid tokens"
+        //                },
+        //            Success = false
+        //        });
+        //    }
 
-            return Ok(result);
-        }
+        //    return Ok(result);
+        //}
     }
 }

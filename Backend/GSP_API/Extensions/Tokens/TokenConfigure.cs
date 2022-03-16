@@ -19,21 +19,18 @@ namespace GSP_API.Extensions.Tokens
     public class TokenConfigure
     {
         private readonly IConfiguration _configuration;
-        private readonly RoleService _roleService;
-        private readonly TokenValidationParameters _tokenValidationParams;
+        private readonly RoleService _roleService;       
         private readonly RefreshTokenService _refreshTokenService;
         private readonly AccountService _accountService;
 
         public TokenConfigure(
             IConfiguration configuration,
-            RoleService roleService,
-            TokenValidationParameters tokenValidationParams,
+            RoleService roleService,            
             RefreshTokenService refreshTokenService,
             AccountService accountService)
         {
             _configuration = configuration;
-            _roleService = roleService;
-            _tokenValidationParams = tokenValidationParams;
+            _roleService = roleService;            
             _refreshTokenService = refreshTokenService;
             _accountService = accountService;
         }
@@ -64,7 +61,7 @@ namespace GSP_API.Extensions.Tokens
             };
 
             var role = await _roleService.GetRoleByAccount(account);
-            claims.Add(new Claim(ClaimTypes.Role, role.Name));
+            claims.Add(new Claim("role", role.Name));
             claims.Add(new Claim("id", account.AccountId.ToString()));
             return claims;
         }
@@ -100,7 +97,7 @@ namespace GSP_API.Extensions.Tokens
             try
             {
                 // Validation 1 - Validation JWT token format
-                var tokenInVerification = jwtTokenHandler.ValidateToken(tokenRequest.AccessToken, _tokenValidationParams, out var validatedToken);
+                var tokenInVerification = jwtTokenHandler.ValidateToken(tokenRequest.AccessToken, new TokenValidationParameters(), out var validatedToken);
 
                 // Validation 2 - Validate encryption alg
                 if (validatedToken is JwtSecurityToken jwtSecurityToken)

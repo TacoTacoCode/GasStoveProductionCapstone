@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace GSP_API.Business.Services
 {
-    public class TypesService
+    public class ItemService
     {
         private readonly IItemTypesRepository _itemTypesRepository;
 
-        public TypesService(
+        public ItemService(
             IItemTypesRepository itemTypesRepository)
         {
             _itemTypesRepository = itemTypesRepository;

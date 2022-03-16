@@ -15,6 +15,10 @@ namespace GSP_API.Business.Services
             _accountRepository = accountRepository;
         }
 
+        public AccountService()
+        {
+        }
+
         public async Task<List<Account>> GetAllAccounts()
         {
             return await _accountRepository.GetAll(p => p.AccountId != 0);
