@@ -2,21 +2,24 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using GSP_API.Domain.Repositories.Models;
-
+using Microsoft.Extensions.Configuration;
 #nullable disable
 
 namespace GSP_API.Domain.Repositories
 {
     public partial class TestDbContext : DbContext
     {
+        private IConfiguration _configuration;
         public TestDbContext()
         {
         }
 
-        public TestDbContext(DbContextOptions<TestDbContext> options)
+        public TestDbContext(DbContextOptions<TestDbContext> options, IConfiguration configuration)
             : base(options)
         {
+            _configuration = configuration;
         }
+
 
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Attendance> Attendances { get; set; }
@@ -40,7 +43,8 @@ namespace GSP_API.Domain.Repositories
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=Admin;Initial Catalog=GSP_DB_test;Persist Security Info=True;User ID=sa;Password=123456");
+                optionsBuilder.UseSqlServer(_configuration.GetConnectionString("TestDatabase"));
+                //optionsBuilder.UseSqlServer("Data Source=SE140247;Initial Catalog=GSP_DB_test1;Persist Security Info=True;User ID=sa;Password=38200283tql");
             }
         }
 
