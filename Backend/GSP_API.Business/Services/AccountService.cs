@@ -30,6 +30,11 @@ namespace GSP_API.Business.Services
             return await _accountRepository.GetById(p => p.Email == email);
         }
 
+        public async Task<Account> GetAccountByPhone(string phone)
+        {
+            return await _accountRepository.GetById(p => p.Phone == phone);
+        }
+
         public async Task<string> AddAccount(Account account)
         {
             return await _accountRepository.Add(account);
@@ -39,7 +44,7 @@ namespace GSP_API.Business.Services
         {
             var data = await _accountRepository.FindFirst(p => p.AccountId == newAccount.AccountId);
             if (data != null)
-            {                
+            {
                 return await _accountRepository.Update(newAccount);
             }
             return null;
