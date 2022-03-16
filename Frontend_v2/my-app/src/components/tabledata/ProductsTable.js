@@ -12,11 +12,21 @@ export const Table = (props) => {
 
     const columns = [
         {
-            title: 'Name', field: 'name', cellStyle: { fontFamily: 'Muli' }
+            title: 'Product ID', field: 'productId', cellStyle: { fontFamily: 'Muli' }
         },
         {
-            title: 'Email', field: 'email', cellStyle: { fontFamily: 'Muli' }
+            title: 'Product Image', field: 'imageUrl', render: rowData => <img style={{ height: '70px', width: '70px' }} src={rowData.imageUrl} />, cellStyle: { fontFamily: 'Arial' }, align: "left"
         },
+        {
+            title: 'Product Name', field: 'productName', cellStyle: { fontFamily: 'Muli' }
+        },
+        {
+            title: 'Amount', field: 'amount', cellStyle: { fontFamily: 'Muli' }
+        },
+        {
+            title: 'Price', field: 'price', cellStyle: { fontFamily: 'Muli' }
+        },
+
     ]
 
     return (
@@ -25,12 +35,12 @@ export const Table = (props) => {
                 data={array}
                 columns={columns}
                 editable={{
-                    onRowUpdate: (newRow, oldRow) => new Promise((resolve, reject) => {
-                        const updatedData = [...array]
-                        updatedData[updatedData.indexOf(oldRow)] = newRow
-                        // setData(updatedData)
-                        setTimeout(() => resolve(), 500)
-                    }),
+                    // onRowUpdate: (newRow, oldRow) => new Promise((resolve, reject) => {
+                    //     const updatedData = [...array]
+                    //     updatedData[updatedData.indexOf(oldRow)] = newRow
+                    //     // setData(updatedData)
+                    //     setTimeout(() => resolve(), 500)
+                    // }),
                     onRowDelete: (selectedRow) => new Promise((resolve, reject) => {
                         const updatedData = [...array]
                         updatedData.splice(updatedData.indexOf(selectedRow), 1)

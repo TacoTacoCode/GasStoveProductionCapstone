@@ -10,18 +10,20 @@ function Accounts() {
   const [listAccount, setListAccount] = useState([]);
 
   useEffect(() => {
-    const getUserAPI = 'https://5df8a4c6e9f79e0014b6a587.mockapi.io/freetuts/users'
-
+    const getAllAccount = 'https://localhost:5001/getAllAccounts'
+    console.log('cho Bo:');
     //Gọi API bằng axios
-    axios.get(getUserAPI).then((res) => {
+    axios.get(getAllAccount).then((res) => {
       setListAccount(res.data);
+      console.log('fueafi:' + res.data);
     }).catch((err) => {
       console.log(err);
       alert("Xảy ra lỗi");
     })
 
-  }, [])
+  }, []);
   return (
+
     <>
       <ImportExcelButton type="button"
         onClick={() => {

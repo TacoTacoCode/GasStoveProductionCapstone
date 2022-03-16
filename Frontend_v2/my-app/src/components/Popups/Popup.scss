@@ -8,17 +8,19 @@
 }
 
 .popup-inner {
-    width           : 90%;
-    height          : 90%;
-    z-index         : 50;
-    margin-top      : -5%;
-    margin-left     : 5%;
-    display         : block;
-    position        : fixed;
-    background-color: white;
-    box-shadow      : 0 0 0 1000px rgba(0, 0, 0, 0.5);
-    border          : none;
-    border-radius   : 15px;
+    width            : fit-content;
+    height           : fit-content;
+    z-index          : 50;
+    display          : block;
+    position         : fixed;
+    background-color : white;
+    box-shadow       : 0 0 0 100000px rgba(0, 0, 0, 0.5);
+    border           : none;
+    left             : 50%;
+    top              : 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform        : translate(-50%, -50%);
+    border-radius    : 15px;
 }
 
 @mixin cross($size: 1px, $color: currentColor, $thickness: 1px) {
@@ -54,11 +56,11 @@
 
 .close-btn {
     position     : absolute;
-    top          : 1.25%;
+    top          : 0.5%;
     right        : 0.5%;
     background   : none;
-    width        : 40px;
-    height       : 40px;
+    width        : 35px;
+    height       : 35px;
     outline      : none;
     /* Style new */
     margin       : 0;
@@ -104,7 +106,8 @@
     height      : 4vh;
     display     : inline-block;
     margin-top  : 2.1rem;
-    margin-right: 1rem;
+    margin-left : 0.5rem;
+    margin-right: 0.5rem;
 }
 
 .imagefield {
@@ -113,20 +116,28 @@
     display      : inline-block;
     margin-bottom: 1rem;
     margin-top   : 2rem;
+    margin-left  : 0.5rem;
+    margin-right : 0.5rem;
 }
 
 .idfield {
     width       : 20%;
     height      : 4vh;
     margin-top  : 2rem;
-    margin-right: 1rem;
+    margin-left : 0.5rem;
+    margin-right: 0.5rem;
     display     : inline-block;
 }
 
 .namefield {
-    width  : calc(100% - 20% - 1rem);
-    height : 4vh;
-    display: inline-block;
+    // width  : calc(100% - 20% - 1rem);
+    // height : 4vh;
+    width       : 50%;
+    height      : 4vh;
+    margin-top  : 2rem;
+    margin-left : 0.5rem;
+    margin-right: 0.5rem;
+    display     : inline-block;
 }
 
 .idname {
@@ -134,7 +145,8 @@
 }
 
 .btngr {
-    position: absolute;
-    bottom  : 7%;
-    right   : 3%;
+    margin-top   : 16%;
+    margin-bottom: 2%;
+    margin-right : 3%;
+    text-align   : right;
 }

@@ -8,6 +8,8 @@ import Accounts from './components/SideBarPages/Accounts';
 import Materials from './components/SideBarPages/Materials';
 import Components from './components/SideBarPages/Components';
 import Products from './components/SideBarPages/Products';
+import AppRouters from './components/routers/AppRouters';
+import { Fragment } from 'react';
 
 const theme = createTheme({
   App: {
@@ -53,6 +55,9 @@ function App() {
             <Route path='/components' exact element={<Components />}></Route>
           </Routes>
         </Router>
+        {/* <Fragment>
+          <AppRouters />
+        </Fragment> */}
       </ThemeProvider>
     </div>
   );
