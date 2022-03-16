@@ -121,6 +121,7 @@ namespace GSP_API.Extensions
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
                     .GetBytes(configuration.GetSection("JWTSettings:securityKey").Value))
                 };
+                options.SaveToken = true;                
             });
         }
         
