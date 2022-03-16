@@ -1,15 +1,13 @@
-import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import './App.css';
-import NavBar from './components/NavBar';
+import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import CustomSideBar from './components/SideBarComponents/CustomSideBar';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, BrowserRouter } from 'react-router-dom';
 import DashBoard from './components/SideBarPages/DashBoard';
 import Accounts from './components/SideBarPages/Accounts';
 import Materials from './components/SideBarPages/Materials';
 import Components from './components/SideBarPages/Components';
 import Products from './components/SideBarPages/Products';
-import AppRouters from './components/routers/AppRouters';
-import { Fragment } from 'react';
+import Signin from './components/login/Signin';
 
 const theme = createTheme({
   App: {
@@ -40,26 +38,30 @@ const theme = createTheme({
   }
 })
 
+
 function App() {
+  const token = localStorage.getItem('accessToken');
+
+  if (!token) {
+    return <Signin />
+  }
+
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        {/* <NavBar /> */}
-        <Router>
+        <BrowserRouter>
           <CustomSideBar />
           <Routes>
-            <Route path='/' exact element={<DashBoard />}></Route>
-            <Route path='/accounts' exact element={<Accounts />}></Route>
-            <Route path='/materials' exact element={<Materials />}></Route>
-            <Route path='/products' exact element={<Products />}></Route>
-            <Route path='/components' exact element={<Components />}></Route>
+            <Route path='/dashboard' exact element={<DashBoard />}>
+              <Route path='/dashboard/accounts' exact element={<Accounts />}></Route>
+              <Route path='/dashboard/materials' exact element={<Materials />}></Route>
+              <Route path='/dashboard/products' exact element={<Products />}></Route>
+              <Route path='/dashboard/components' exact element={<Components />}></Route>
+            </Route>
           </Routes>
-        </Router>
-        {/* <Fragment>
-          <AppRouters />
-        </Fragment> */}
+        </BrowserRouter>
       </ThemeProvider>
-    </div>
+    </div >
   );
 }
 
