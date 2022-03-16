@@ -31,8 +31,17 @@ namespace GSP_API.Business.Services
         }
 
         public async Task<string> AddProcess(Process process)
-        {
-            return await _processRepository.Add(process);
+        {           
+            var data = await _processRepository.Add(process);
+            //If Add Process successfully
+            switch (data)
+            {
+                case "true":
+                    List<ProcessDetail> processDetailList = (List<ProcessDetail>)process.ProcessDetails;
+                    return await new ProcessDetailService().AddRangeProcessDetail(processDetailList);
+                default:
+                    return data;
+            }
         }
 
         public async Task<string> UpdateProcess(Process newProcess)

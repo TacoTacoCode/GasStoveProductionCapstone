@@ -65,7 +65,7 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok("Add successfully");
         }
 
-        // PUT: UpdateProcess
+        // PUT: UpdateProcess/[process]
         [HttpPut]
         [Route("updateProcess")]
         public async Task<ActionResult> UpdateProcess([FromBody] ProcessRequest newProcess)
@@ -98,10 +98,5 @@ namespace GSP_API.Controllers.ModelControllers
             }
             return BadRequest(data);
         }
-
-        //private bool AccountExists(string id)
-        //{
-        //    return _context.Account.Any(e => e.AccountId == id);
-        //}
     }
 }

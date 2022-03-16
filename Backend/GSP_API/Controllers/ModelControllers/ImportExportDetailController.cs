@@ -65,7 +65,7 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok("Add successfully");
         }
 
-        // PUT: UpdateImportExportDetail
+        // PUT: UpdateImportExportDetail/[imExDetail]
         [HttpPut]
         [Route("updateImportExportDetail")]
         public async Task<ActionResult> UpdateImportExportDetail([FromBody] ImportExportDetailRequest importExportDetailRequest)
@@ -98,10 +98,5 @@ namespace GSP_API.Controllers.ModelControllers
             }
             return BadRequest(data);
         }
-
-        //private bool AttendanceExists(string id)
-        //{
-        //    return _context.Attendance.Any(e => e.AttendanceId == id);
-        //}
     }
 }
