@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MaterialTable from 'material-table';
 import AccountPopup from '../Popups/AccountPopup'
-
+import axios from 'axios';
 
 export const Table = (props) => {
 
@@ -10,7 +10,16 @@ export const Table = (props) => {
 
     listAccount.forEach(item => {
         array.push(item)
-    });
+    }, []);
+
+    function deleteAccount(id) {
+        axios.put('https://localhost:5001/delAccount/' + id)
+            .then((response) => { console.log(response.data); }
+            ).catch((err) => {
+                console.log(err);
+            })
+    };
+
 
     const [addAccountBtn, setaddAccountBtn] = useState(false);
     const columns = [
@@ -38,25 +47,17 @@ export const Table = (props) => {
             <MaterialTable title={"List of Accounts"}
                 data={array}
                 columns={columns}
-                onRowClick={(event, array) => {
-                    setaddAccountBtn(true)
-                }}
-                editable={{
-                    //     // onRowUpdate: (newRow, oldRow) => new Promise((resolve, reject) => {
-                    //     //     const updatedData = [...data]
-                    //     //     updatedData[updatedData.indexOf(oldRow)] = newRow
-                    //     //     setData(updatedData)
-                    //     //     setTimeout(() => resolve(), 500)
-                    //     // }),
-                    // onRowDelete: (selectedRow) => new Promise((resolve, reject) => {
-                    //     const updatedData = [...data]
-                    //     updatedData.splice(updatedData.indexOf(selectedRow), 1)
-                    //     // setData(updatedData)
-                    //     setTimeout(() => resolve(), 1000)
-                    // }
-                    //)
-                }
-                }
+                // onRowClick={(event, array) => {
+                //     setaddAccountBtn(true)
+                // }}
+                actions={[
+                    {
+                        icon: 'delete',
+                        tooltip: 'Delete User',
+                        onClick: (event, rowData) => deleteAccount(rowData.accountId)
+                    }
+                    
+                ]}
                 options={{
                     addRowPosition: 'first',
                     actionsColumnIndex: -1,
