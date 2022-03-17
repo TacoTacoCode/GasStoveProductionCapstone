@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GSP_API.Models.Token
+namespace GSP_API.Models.Request
 {
     public class TokenRequest    {
         public TokenRequest(string accessToken, string refreshToken)

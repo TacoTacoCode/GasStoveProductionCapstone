@@ -25,6 +25,14 @@ namespace GSP_API.Controllers.ModelControllers
             _mapper = mapper;
         }
 
+        [HttpGet]
+        [Route("getImExs")]
+        public async Task<ActionResult<List<ImportExportResponse>>> GetAllActiveImEx()
+        {
+            var list = await _importExportService.GetAllActive();
+            return Ok(list);
+        }
+        
         // GET: getImExsOf/sec/1
         [HttpGet]
         [Route("getImExsOf/sec/{sectionId}")]

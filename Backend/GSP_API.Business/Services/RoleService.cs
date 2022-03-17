@@ -16,6 +16,10 @@ namespace GSP_API.Business.Services
             _roleRepository = roleRepository;
         }
 
+        public RoleService()
+        {
+        }
+
         public async Task<List<Role>> GetAllRoles()
         {
             return await _roleRepository.GetAll(p => p.Status == "Active");

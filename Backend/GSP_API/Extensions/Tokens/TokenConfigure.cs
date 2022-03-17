@@ -1,6 +1,8 @@
 ﻿using GSP_API.Business.Services;
+using GSP_API.Domain.Repositories;
 using GSP_API.Domain.Repositories.Models;
-using GSP_API.Models.Token;
+using GSP_API.Models.Request;
+using GSP_API.Models.Response;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -17,17 +19,20 @@ namespace GSP_API.Extensions.Tokens
     public class TokenConfigure
     {
         private readonly IConfiguration _configuration;
-        private readonly RoleService _roleService;
-        private readonly TokenValidationParameters _tokenValidationParams;
+        private readonly RoleService _roleService;       
+        private readonly RefreshTokenService _refreshTokenService;
+        private readonly AccountService _accountService;
 
         public TokenConfigure(
             IConfiguration configuration,
-            RoleService roleService,
-            TokenValidationParameters tokenValidationParams)
+            RoleService roleService,            
+            RefreshTokenService refreshTokenService,
+            AccountService accountService)
         {
             _configuration = configuration;
-            _roleService = roleService;
-            _tokenValidationParams = tokenValidationParams;
+            _roleService = roleService;            
+            _refreshTokenService = refreshTokenService;
+            _accountService = accountService;
         }
 
         public async Task<JwtSecurityToken> GenerateAccessToken(Account account)
@@ -36,7 +41,7 @@ namespace GSP_API.Extensions.Tokens
                 issuer: _configuration.GetSection("validIssuer").Value,
                 audience: _configuration.GetSection("validAudience").Value,
                 claims: await GetClaim(account),
-                expires: DateTime.Now.AddMinutes(Convert.ToDouble(_configuration.GetSection("expiryInMinutes2").Value)),
+                expires: DateTime.Now.AddMinutes(3),
                 signingCredentials: GetSigningCredential());
             return tokenOptions;
         }
@@ -51,24 +56,48 @@ namespace GSP_API.Extensions.Tokens
         public async Task<List<Claim>> GetClaim(Account account)
         {
             var claims = new List<Claim>
-            {                
+            {
                 new Claim(ClaimTypes.Email, account.Email)
             };
 
             var role = await _roleService.GetRoleByAccount(account);
-            claims.Add(new Claim(ClaimTypes.Role, role.Name));
+            claims.Add(new Claim("role", role.Name));
             claims.Add(new Claim("id", account.AccountId.ToString()));
             return claims;
-        }        
+        }
 
-        private async Task<AuthResult> VerifyAndGenerateToken(TokenRequest tokenRequest)
+        public RefreshToken GenerateRefreshToken(Account account)
+        {
+            var refreshToken = new RefreshToken()
+            {
+                IsUsed = false,
+                IsRevorked = false,
+                AccountId = account.AccountId,
+                CreatedDate = DateTime.UtcNow,
+                ExpiryDate = DateTime.UtcNow.AddMonths(6),
+                Token = RandomString(35) + Guid.NewGuid()
+            };
+            return refreshToken;
+        }
+
+        public async Task<AuthResult> GenerateJWTToken(Account account)
+        {
+            return new AuthResult()
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(await GenerateAccessToken(account)),
+                Success = true,
+                RefreshToken = GenerateRefreshToken(account).Token
+            };
+        }
+
+        public async Task<AuthResult> VerifyAndGenerateToken(TokenRequest tokenRequest)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
 
             try
             {
                 // Validation 1 - Validation JWT token format
-                var tokenInVerification = jwtTokenHandler.ValidateToken(tokenRequest.AccessToken, _tokenValidationParams, out var validatedToken);
+                var tokenInVerification = jwtTokenHandler.ValidateToken(tokenRequest.AccessToken, new TokenValidationParameters(), out var validatedToken);
 
                 // Validation 2 - Validate encryption alg
                 if (validatedToken is JwtSecurityToken jwtSecurityToken)
@@ -98,86 +127,108 @@ namespace GSP_API.Extensions.Tokens
                 }
 
                 // validation 4 - validate existence of the refresh token
-                //var storedToken = await _apiDbContext.RefreshTokens.FirstOrDefaultAsync(x => x.Token == tokenRequest.RefreshToken);
+                var storedToken = await _refreshTokenService.GetRefreshTokenByToken(tokenRequest.RefreshToken);
 
-                //if (storedToken == null)
-                //{
-                //    return new AuthResult()
-                //    {
-                //        Success = false,
-                //        Errors = new List<string>() {
-                //            "Token does not exist"
-                //        }
-                //    };
-                //}
+                if (storedToken == null)
+                {
+                    return new AuthResult()
+                    {
+                        Success = false,
+                        Errors = new List<string>() {
+                            "Token does not exist"
+                        }
+                    };
+                }
 
-                //// Validation 5 - validate if used
-                //if (storedToken.IsUsed)
-                //{
-                //    return new AuthResult()
-                //    {
-                //        Success = false,
-                //        Errors = new List<string>() {
-                //            "Token has been used"
-                //        }
-                //    };
-                //}
+                // Validation 5 - validate if used
+                if ((bool)storedToken.IsUsed)
+                {
+                    return new AuthResult()
+                    {
+                        Success = false,
+                        Errors = new List<string>() {
+                            "Token has been used"
+                        }
+                    };
+                }
 
-                //// Validation 6 - validate if revoked
-                //if (storedToken.IsRevorked)
-                //{
-                //    return new AuthResult()
-                //    {
-                //        Success = false,
-                //        Errors = new List<string>() {
-                //            "Token has been revoked"
-                //        }
-                //    };
-                //}
+                // Validation 6 - validate if revoked
+                if ((bool)storedToken.IsRevorked)
+                {
+                    return new AuthResult()
+                    {
+                        Success = false,
+                        Errors = new List<string>() {
+                            "Token has been revoked"
+                        }
+                    };
+                }
 
-                //// Validation 7 - validate the id
-                //var jti = tokenInVerification.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
+                // Validation 7 - validate the id
+                var jti = tokenInVerification.Claims.FirstOrDefault(x => x.Type == "id").Value;
 
-                //if (storedToken.JwtId != jti)
-                //{
-                //    return new AuthResult()
-                //    {
-                //        Success = false,
-                //        Errors = new List<string>() {
-                //            "Token doesn't match"
-                //        }
-                //    };
-                //}
+                if (storedToken.AccountId != int.Parse(jti))
+                {
+                    return new AuthResult()
+                    {
+                        Success = false,
+                        Errors = new List<string>() {
+                            "Token doesn't match"
+                        }
+                    };
+                }
 
-                //// Validation 8 - validate refresh token expiry date
-                //if (storedToken.ExpiryDate < DateTime.UtcNow)
-                //{
-                //    return new AuthResult()
-                //    {
-                //        Success = false,
-                //        Errors = new List<string>() {
-                //            "Refresh token has expired"
-                //        }
-                //    };
-                //}
+                // Validation 8 - validate refresh token expiry date
+                if (storedToken.ExpiryDate < DateTime.UtcNow)
+                {
+                    return new AuthResult()
+                    {
+                        Success = false,
+                        Errors = new List<string>() {
+                            "Refresh token has expired"
+                        }
+                    };
+                }
 
-                //// update current token 
+                // update current token 
 
-                //storedToken.IsUsed = true;
-                //_apiDbContext.RefreshTokens.Update(storedToken);
-                //await _apiDbContext.SaveChangesAsync();
+                storedToken.IsUsed = true;
+                await _refreshTokenService.UpdateRefreshToken(storedToken);
 
-                //// Generate a new token
-                //var dbUser = await _userManager.FindByIdAsync(storedToken.UserId);
-                //return await GenerateJwtToken(dbUser);
+                // Generate a new token
+                var account = await _accountService.GetAccountById((int)storedToken.AccountId);
+                return new AuthResult()
+                {
+                    Token = new JwtSecurityTokenHandler().WriteToken(await GenerateAccessToken(account)),
+                    Success = true,
+                    RefreshToken = GenerateRefreshToken(account).Token
+                };
             }
             catch (Exception ex)
             {
+                if (ex.Message.Contains("Lifetime validation failed. The token is expired."))
+                {
 
+                    return new AuthResult()
+                    {
+                        Success = false,
+                        Errors = new List<string>() {
+                            "Token has expired please re-login"
+                        }
+                    };
+
+                }
+                else
+                {
+                    return new AuthResult()
+                    {
+                        Success = false,
+                        Errors = new List<string>() {
+                            "Something went wrong."
+                        }
+                    };
+                }
             }
-            
-
-            return null;
         }
 
         private DateTime UnixTimeStampToDateTime(long unixTimeStamp)
@@ -186,6 +237,14 @@ namespace GSP_API.Extensions.Tokens
             dateTimeVal = dateTimeVal.AddSeconds(unixTimeStamp).ToUniversalTime();
 
             return dateTimeVal;
+        }
+
+        private string RandomString(int length)
+        {
+            var random = new Random();
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(x => x[random.Next(x.Length)]).ToArray());
         }
     }
 }

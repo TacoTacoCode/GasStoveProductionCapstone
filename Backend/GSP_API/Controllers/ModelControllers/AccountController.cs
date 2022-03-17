@@ -27,6 +27,19 @@ namespace GSP_API.Controllers.ModelControllers
             _mapper = mapper;
         }
 
+        [HttpGet]
+        [Route("getActiveAccounts")]
+        public async Task<ActionResult<List<AccountResponse>>> GetActiveAccounts()
+        {
+            var data = await _accountService.GetAllAccounts();
+            if (data == null)
+            {
+                return BadRequest("Not found");
+            }
+            var list = _mapper.Map<List<AccountResponse>>(data);
+            return Ok(list);
+        }
+
         // GET: getAllAccounts
         [HttpGet]
         [Route("getAllAccounts")]

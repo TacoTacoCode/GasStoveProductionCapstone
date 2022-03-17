@@ -12,6 +12,7 @@ using GSP_API.Extensions.Profiles;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using GSP_API.Extensions.Tokens;
 
 namespace GSP_API.Extensions
 {
@@ -50,7 +51,8 @@ namespace GSP_API.Extensions
                 .AddScoped<IProductComponentRepository, ProductComponentRepository>()
                 .AddScoped<IComponentMaterialRepository, ComponentMaterialRepository>()
                 .AddScoped<IImportExportRepository, ImportExportRepository>()
-                .AddScoped<IImportExportDetailRepository, ImportExportDetailRepository>();
+                .AddScoped<IImportExportDetailRepository, ImportExportDetailRepository>()
+                .AddScoped<IRefreshTokenRepository,RefreshTokenRepository>();
         }
 
         public static IServiceCollection AddServices(this IServiceCollection services)
@@ -70,7 +72,9 @@ namespace GSP_API.Extensions
                 .AddScoped<ProductComponentService>()
                 .AddScoped<ComponentMaterialService>()
                 .AddScoped<ImportExportService>()
-                .AddScoped<ImportExportDetailService>();
+                .AddScoped<ImportExportDetailService>()
+                .AddScoped<RefreshTokenService>()
+                .AddScoped<TokenConfigure>();                
         }
 
         public static IServiceCollection AddSwagger(this IServiceCollection services)
@@ -127,17 +131,20 @@ namespace GSP_API.Extensions
         
         public static IServiceCollection AddCORS(this IServiceCollection services)
         {
-            //AutoMapper
-            return services.AddCors(options =>
+            return services.AddCors(c =>
             {
-                options.AddPolicy(name: "MyPolicy",
-                    builder =>
-                    {
-                        builder.WithOrigins("http://localhost:3000")
-                        .AllowAnyMethod().AllowAnyHeader();
-
-                    });
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
+            //return services.AddCors(options =>
+            //{
+            //    options.AddPolicy(name: "MyPolicy",
+            //        builder =>
+            //        {
+            //            builder.WithOrigins("http://localhost:3000")
+            //            .AllowAnyMethod().AllowAnyHeader();
+
+            //        });
+            //});
         }
 
     }
