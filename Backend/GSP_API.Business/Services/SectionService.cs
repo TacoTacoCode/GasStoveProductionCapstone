@@ -7,20 +7,12 @@ namespace GSP_API.Business.Services
 {
     public class SectionService
     {
-        private readonly ISectionRepository _sectionRepository;
-        private readonly IAccountRepository _accountRepository;
+        private readonly ISectionRepository _sectionRepository;        
 
         public SectionService(
-            ISectionRepository sectionRepository,
-            IAccountRepository accountRepository)
+            ISectionRepository sectionRepository)
         {
             _sectionRepository = sectionRepository;
-            _accountRepository = accountRepository;
-
-        }
-
-        public SectionService()
-        {
         }
 
         public async Task<int> GetWorkerAmountBySectionId(int sectionId)

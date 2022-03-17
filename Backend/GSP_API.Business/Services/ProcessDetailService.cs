@@ -16,10 +16,6 @@ namespace GSP_API.Business.Services
             _processDetailRepository = processDetailRepository;
         }
 
-        public ProcessDetailService()
-        {
-        }
-
         public async Task<List<ProcessDetail>> GetAllProcessDetailes()
         {
             return await _processDetailRepository.GetAll(p => p.Status == "Active");

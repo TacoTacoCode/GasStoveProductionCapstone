@@ -10,12 +10,31 @@ namespace GSP_API.Business.Services
     public class ImportExportService
     {
         private readonly IImportExportRepository _importExportRepository;
+        private readonly SectionService _sectionService;
+        private readonly ProcessService _processService;
+        private readonly ProcessDetailService _processDetailService;
+        private readonly ProductService _productService;
+        private readonly ComponentService _componentService;
+        private readonly MaterialService _materialService;
+
 
         public ImportExportService(
-            IImportExportRepository importExportRepository)
+            IImportExportRepository importExportRepository,
+            SectionService sectionService,
+            ProcessService processService,
+            ProcessDetailService processDetailService,
+            ProductService productService,
+            ComponentService componentService,
+            MaterialService materialService)
 
         {
             _importExportRepository = importExportRepository;
+            _sectionService = sectionService;
+            _processService = processService;
+            _processDetailService = processDetailService;
+            _productService = productService;
+            _componentService = componentService;
+            _materialService = materialService;
         }
 
         public async Task<List<ImportExport>> GetImExBySection(int sectionId)
@@ -44,12 +63,6 @@ namespace GSP_API.Business.Services
 
         public async Task<string> UpdateImEx(ImportExport newImEx)
         {
-            var sectionService = new SectionService();
-            var processService = new ProcessService();
-            var processDetailService = new ProcessDetailService();
-            var productService = new ProductService();
-            var componentService = new ComponentService();
-            var materialService = new MaterialService();
 
             var data = await _importExportRepository.FindFirst(p => p.ImportExportId == newImEx.ImportExportId);
             if (data != null)
@@ -59,7 +72,7 @@ namespace GSP_API.Business.Services
                 List<ImportExportDetail> importExportDetail =
                             await new ImportExportDetailService().GetImExDetailByImEx(newImEx.ImportExportId);
                 //Check Assemble
-                var checkAssemble = await sectionService.CheckAssemble((int)newImEx.SectionId);
+                var checkAssemble = await _sectionService.CheckAssemble((int)newImEx.SectionId);
                 try
                 {
                     switch (newImEx.IsImport)
@@ -76,16 +89,16 @@ namespace GSP_API.Business.Services
                                         switch (item.ProcessDetailId)
                                         {
                                             case null:
-                                                var product = await productService.GetProductById(item.ItemId);
+                                                var product = await _productService.GetProductById(item.ItemId);
                                                 product.Amount += item.Amount;
-                                                await productService.UpdateProduct(product);
+                                                await _productService.UpdateProduct(product);
                                                 break;
                                             default:
                                                 var processDetail =
-                                                    await processDetailService.GetProcessDetailById((int)item.ProcessDetailId);
+                                                    await _processDetailService.GetProcessDetailById((int)item.ProcessDetailId);
                                                 processDetail.FinishedAmount += item.Amount;
 
-                                                var process = await processService.GetProcessById((int)processDetail.ProcessId);
+                                                var process = await _processService.GetProcessById((int)processDetail.ProcessId);
                                                 process.FinishedAmount += item.Amount;
 
                                                 //Amount of day from the latest Import to the first Import 
@@ -100,23 +113,23 @@ namespace GSP_API.Business.Services
 
                                                 processDetail.AverageAmount = averageAmount;
                                                 processDetail.ExpectedFinishDate = expectedFinishDate;
-                                                process.ExpectedFinishDate = expectedFinishDate;                                                
+                                                process.ExpectedFinishDate = expectedFinishDate;
 
                                                 //Check if Process (Detail) is done, if 'yes', close the process
                                                 if (processDetail.FinishedAmount == processDetail.TotalAmount)
                                                 {
                                                     //Update the remain prodcut in process (Needed vs Total)(Phần dư)
-                                                    product = await productService.GetProductById(item.ItemId);
+                                                    product = await _productService.GetProductById(item.ItemId);
                                                     product.Amount = process.TotalAmount - process.NeededAmount;
-                                                    await productService.UpdateProduct(product);
+                                                    await _productService.UpdateProduct(product);
 
                                                     //Update Status
                                                     processDetail.Status = "Done";
                                                     process.Status = "Done";
                                                 }
 
-                                                await processDetailService.UpdateProcessDetail(processDetail);
-                                                await processService.UpdateProcess(process);                                                
+                                                await _processDetailService.UpdateProcessDetail(processDetail);
+                                                await _processService.UpdateProcess(process);
                                                 break;
                                         }
                                     }
@@ -128,13 +141,13 @@ namespace GSP_API.Business.Services
                                         switch (item.ProcessDetailId)
                                         {
                                             case null:
-                                                var product = await productService.GetProductById(item.ItemId);
+                                                var product = await _productService.GetProductById(item.ItemId);
                                                 product.Amount += item.Amount;
-                                                await productService.UpdateProduct(product);
+                                                await _productService.UpdateProduct(product);
                                                 break;
                                             default:
                                                 var processDetail =
-                                                    await processDetailService.GetProcessDetailById((int)item.ProcessDetailId);
+                                                    await _processDetailService.GetProcessDetailById((int)item.ProcessDetailId);
                                                 processDetail.FinishedAmount += item.Amount;
 
                                                 //Amount of day from the latest Import to the first Import 
@@ -153,10 +166,10 @@ namespace GSP_API.Business.Services
                                                 //Check if Process (Detail) is done, if 'yes', close the process
                                                 if (processDetail.FinishedAmount == processDetail.TotalAmount)
                                                 {
-                                                    processDetail.Status = "Done";                                                    
+                                                    processDetail.Status = "Done";
                                                 }
 
-                                                await processDetailService.UpdateProcessDetail(processDetail);
+                                                await _processDetailService.UpdateProcessDetail(processDetail);
                                                 break;
                                         }
                                     }
@@ -175,16 +188,16 @@ namespace GSP_API.Business.Services
                                         switch (newImEx.Status)
                                         {
                                             case "Finished":
-                                                var component = await componentService.GetComponentById(item.ItemId);
+                                                var component = await _componentService.GetComponentById(item.ItemId);
                                                 //Update by amount of imExDetail
                                                 component.Amount -= item.Amount;
-                                                await componentService.UpdateComponent(component);
+                                                await _componentService.UpdateComponent(component);
                                                 break;
                                             case "Processing":
-                                                component = await componentService.GetComponentById(item.ItemId);
+                                                component = await _componentService.GetComponentById(item.ItemId);
                                                 //Update by amount of Exported Amount
                                                 component.Amount -= item.ExportedAmount;
-                                                await componentService.UpdateComponent(component);
+                                                await _componentService.UpdateComponent(component);
                                                 break;
                                             case "Pending":
                                                 break;
@@ -198,14 +211,14 @@ namespace GSP_API.Business.Services
                                         switch (newImEx.Status)
                                         {
                                             case "Finished":
-                                                var material = await materialService.GetMaterialById(item.ItemId);
+                                                var material = await _materialService.GetMaterialById(item.ItemId);
                                                 material.Amount -= item.Amount;
-                                                await materialService.UpdateMaterial(material);
+                                                await _materialService.UpdateMaterial(material);
                                                 break;
                                             case "Processing":
-                                                material = await materialService.GetMaterialById(item.ItemId);
+                                                material = await _materialService.GetMaterialById(item.ItemId);
                                                 material.Amount -= item.ExportedAmount;
-                                                await materialService.UpdateMaterial(material);
+                                                await _materialService.UpdateMaterial(material);
                                                 break;
                                             case "Pending":
                                                 break;

@@ -16,22 +16,19 @@ namespace GSP_API.Controllers.AuthControllers
     public class LoginController : ControllerBase
     {
         private readonly AccountService _accountService;
-        private readonly TokenConfigure _tokenConfigure;
-        private readonly IMapper _mapper;
+        private readonly TokenService _tokenService;        
 
         public LoginController(
             AccountService accountService,
-            TokenConfigure tokenConfigure,
-            IMapper mapper)
+            TokenService tokenService)
         {
             _accountService = accountService;
-            _tokenConfigure = tokenConfigure;
-            _mapper = mapper;
+            _tokenService = tokenService;           
         }
 
         // POST: login/[loginRequest]
         [HttpPost]
-        [Route("login")]
+        [Route("account/login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
             //Check if all the validations specified inside Model class using Data annotations have been passed.
@@ -55,35 +52,37 @@ namespace GSP_API.Controllers.AuthControllers
                 {
                     Errors = new List<string>()
                     {
-                        "Bad Request"
+                        "Wrong Pass"
                     }
                 });
             }
 
-            //Generate access token            
-            return Ok(await _tokenConfigure.GenerateJWTToken(account));
+            //Generate access token & refresh token            
+            return Ok(await _tokenService.GenerateJWTToken(account));
         }
 
-        // POST: refreshToken/[tokenRequest]
-        //[HttpPost]
-        //[Route("refreshToken")]
-        //public async Task<ActionResult> RefreshToken([FromBody] TokenRequest tokenRequest)
-        //{
+        //POST: refreshToken/[tokenRequest]
+        [HttpPost]
+        [Route("account/refreshToken")]
+        public async Task<ActionResult> RefreshToken([FromBody] TokenRequest tokenRequest)
+        {
 
-        //    var result = await new TokenConfigure().VerifyAndGenerateToken(tokenRequest);
+            var result = await _tokenService.VerifyAndGenerateToken(tokenRequest);
 
-        //    if (result == null)
-        //    {
-        //        return BadRequest(new AuthResult()
-        //        {
-        //            Errors = new List<string>() {
-        //                    "Invalid tokens"
-        //                },
-        //            Success = false
-        //        });
-        //    }
+            if (result == null)
+            {
+                return BadRequest(new AuthResult()
+                {
+                    Errors = new List<string>() {
+                            "Invalid tokens"
+                        },
+                    Success = false
+                });
+            }
 
-        //    return Ok(result);
-        //}
+            return Ok(result);
+        }
+
+
     }
 }
