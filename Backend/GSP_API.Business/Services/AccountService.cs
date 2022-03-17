@@ -18,6 +18,10 @@ namespace GSP_API.Business.Services
         public AccountService()
         {
         }
+        public async Task<List<Account>> GetActiveAccount()
+        {
+            return await _accountRepository.GetAll(p => p.IsActive == true);
+        }
 
         public async Task<List<Account>> GetAllAccounts()
         {
