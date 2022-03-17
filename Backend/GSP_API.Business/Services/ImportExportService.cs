@@ -235,5 +235,10 @@ namespace GSP_API.Business.Services
             }
             return null;
         }
+
+        public async Task<List<ImportExport>> GetAllActive()
+        {
+            return await _importExportRepository.GetAll(p => p.Status != "Finished");
+        }
     }
 }
