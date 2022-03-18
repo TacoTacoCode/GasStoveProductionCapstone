@@ -18,13 +18,15 @@ namespace GSP_API.Controllers.ModelControllers
         private readonly ComponentService _componentService;
         private readonly MaterialService _materialService;
         private readonly AccountService _accountService;
+        private readonly AttendanceService _attendanceService;
 
-        public FileController(ProductService productService, ComponentService componentService, MaterialService materialService, AccountService accountService)
+        public FileController(ProductService productService, ComponentService componentService, MaterialService materialService, AccountService accountService, AttendanceService attendanceService)
         {
             _productService = productService;
             _componentService = componentService;
             _materialService = materialService;
             _accountService = accountService;
+            _attendanceService = attendanceService;
         }
 
         [HttpGet]
@@ -119,6 +121,17 @@ namespace GSP_API.Controllers.ModelControllers
                 return Ok(fileName);
             }
         }
-
+        [HttpPost]
+        [Route("uploadFile/attendance")]
+        public async Task<IActionResult> UploadAttendance(IFormFile file)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                file.CopyTo(memoryStream);
+                var attendanceList = GSP_API.Business.Extensions.Excel.ReadAttendanceFile(memoryStream);
+                var msg = await _attendanceService.AddRangeAttendance(attendanceList);
+                return Ok(msg);
+            }
+        }
     }
 }

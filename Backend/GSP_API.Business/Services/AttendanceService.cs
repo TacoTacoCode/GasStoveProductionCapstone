@@ -49,5 +49,10 @@ namespace GSP_API.Business.Services
             }
             return null;
         }
+
+        public async Task<string> AddRangeAttendance(List<Attendance> attendances)
+        {
+            return await _attendanceRepository.AddRange(attendances);
+        }
     }
 }

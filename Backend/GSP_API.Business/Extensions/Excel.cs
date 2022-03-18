@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClosedXML.Excel;
+using GSP_API.Domain.Repositories.Models;
+
 namespace GSP_API.Business.Extensions
 {
     public class Excel
@@ -104,6 +106,47 @@ namespace GSP_API.Business.Extensions
 				wb.SaveAs("ErrorRecord/"+ fileName);
 				return fileName;
 			}
+		}
+		
+		public static List<Attendance> ReadAttendanceFile(Stream fileStream)
+        {
+			string month = "B7";
+			string year = "B6";
+			List<Attendance> tmpList = new();
+			using (var wb = new XLWorkbook(fileStream))
+			{
+				var ws = wb.Worksheet(1);
+				var tmpDate = new DateTime(Convert.ToInt32(ws.Cell(year).Value), Convert.ToInt32(ws.Cell(month).Value), 1);
+				for (int colIndex = 4; colIndex < 35; colIndex++)
+				{
+                    Attendance tmpAttendance = new()
+                    {
+                        CheckDate = tmpDate.Date
+                    };
+                    int count = 0;
+					var ids = ws.Column(3);
+					for (int rowIndex = 8; rowIndex < ids.LastCellUsed().Address.RowNumber + 1; rowIndex++)
+					{
+						int id = Convert.ToInt32(ids.Cell(rowIndex).Value);
+						bool isPresented = false;
+						if (double.TryParse(ws.Cell(rowIndex, colIndex).Value.ToString(), out double num))
+						{
+							isPresented = true;
+							count++;
+						}
+						tmpAttendance.AttendanceDetails.Add(new AttendanceDetail()
+						{
+							AccountId = id,
+							IsPresented = isPresented,
+						});
+					}
+					tmpAttendance.PresentedAmount = count;
+					tmpList.Add(tmpAttendance);
+
+					tmpDate = tmpDate.AddDays(1);
+				}
+			}
+			return tmpList;
 		}
 	}
 }
