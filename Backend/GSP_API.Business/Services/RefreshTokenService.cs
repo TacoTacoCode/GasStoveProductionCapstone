@@ -16,11 +16,7 @@ namespace GSP_API.Business.Services
             IRefreshTokenRepository refreshTokenRepository)
         {
             _refreshTokenRepository = refreshTokenRepository;
-        }
-
-        public RefreshTokenService()
-        {
-        }        
+        }  
 
         public async Task<RefreshToken> GetRefreshTokenById(int refreshTokenId)
         {

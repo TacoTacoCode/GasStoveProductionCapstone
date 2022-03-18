@@ -6,6 +6,7 @@ using GSP_API.Domain.Repositories.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace GSP_API.Controllers.ModelControllers
 {
@@ -21,6 +22,20 @@ namespace GSP_API.Controllers.ModelControllers
         {
             _sectionService = sectionService;
             _mapper = mapper;
+        }
+
+        // GET: getAllSections
+        [HttpGet]
+        [Route("getAllSections")]
+        public async Task<ActionResult<List<SectionResponse>>> GetAllSections()
+        {
+            var data = await _sectionService.GetAllSections();
+            if (data == null)
+            {
+                return BadRequest("Not found");
+            }
+            var list = _mapper.Map<List<SectionResponse>>(data);
+            return Ok(list);
         }
 
         // GET: getWorkerAmounts/sec/1

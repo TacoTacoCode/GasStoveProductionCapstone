@@ -18,12 +18,17 @@ namespace GSP_API.Business.Services
 
         public async Task<List<Product>> GetAllProducts()
         {
-            return await _productRepository.GetAll(p => p.Status == "Active");
+            return await _productRepository.GetAll(p => p.ProductId != null);
         }
 
         public async Task<Product> GetProductById(string productId)
         {
             return await _productRepository.GetById(p => p.ProductId == productId);
+        }
+
+        public async Task<List<Product>> GetProductsByStatus(string status)
+        {
+            return await _productRepository.GetAll(p => p.Status == status);
         }
 
         //public async Task<string> AddProduct(Product product, List<Component> componentChosen)

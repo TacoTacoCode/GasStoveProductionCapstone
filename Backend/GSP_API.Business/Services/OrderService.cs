@@ -16,6 +16,16 @@ namespace GSP_API.Business.Services
             _orderRepository = orderRepository;
         }
 
+        public async Task<List<Order>> GetAllOrders()
+        {
+            return await _orderRepository.GetAll(p => p.OrderId != null);
+        }
+
+        public async Task<List<Order>> GetOrdersByStatus(string status)
+        {
+            return await _orderRepository.GetAll(p => p.Status == status);
+        }
+
         public async Task<List<Order>> GetOrderByAccount(int accountId)
         {
             return await _orderRepository.GetAll(p => p.AccountId == accountId);

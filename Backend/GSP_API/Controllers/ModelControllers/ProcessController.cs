@@ -38,6 +38,20 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok(list);
         }
 
+        // GET: getProcess/[status] executing/done
+        [HttpGet]
+        [Route("getProcess/{status}")]
+        public async Task<ActionResult<ProcessResponse>> GetProcessByStatus(string status)
+        {
+            var data = await _processService.GetProcessesByStatus(status);
+            if (data == null)
+            {
+                return BadRequest("Not found");
+            }
+            var process = _mapper.Map<ProcessResponse>(data);
+            return Ok(process);
+        }
+
         // GET: getProcess/1
         [HttpGet]
         [Route("getProcess/{processId}")]

@@ -44,12 +44,12 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok(list);
         }
 
-        // GET: getProduct/1
+        // GET: getProduct/[status] active/inactive
         [HttpGet]
-        [Route("getProduct/{productId}")]
-        public async Task<ActionResult<ProductResponse>> GetProductById(string productId)
+        [Route("getProduct/{status}")]
+        public async Task<ActionResult<ProductResponse>> GetProductByStatus(string status)
         {
-            var data = await _productService.GetProductById(productId);
+            var data = await _productService.GetProductsByStatus(status);
             if (data == null)
             {
                 return BadRequest("Not found");

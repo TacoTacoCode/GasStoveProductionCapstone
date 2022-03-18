@@ -17,16 +17,21 @@ namespace GSP_API.Business.Services
         {
             _processRepository = processRepository;
             _processDetailService = processDetailService;
-        }
+        }        
 
         public async Task<List<Process>> GetAllProcesses()
         {
-            return await _processRepository.GetAll(p => p.Status == "Active");
+            return await _processRepository.GetAll(p => p.ProcessId != 0);
         }
 
         public async Task<Process> GetProcessById(int processId)
         {
             return await _processRepository.GetById(p => p.ProcessId == processId);
+        }
+
+        public async Task<List<Process>> GetProcessesByStatus(string status)
+        {
+            return await _processRepository.GetAll(p => p.Status == status);
         }
 
         public async Task<string> AddProcess(Process process)

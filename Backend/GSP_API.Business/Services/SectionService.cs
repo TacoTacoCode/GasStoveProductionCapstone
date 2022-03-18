@@ -19,7 +19,12 @@ namespace GSP_API.Business.Services
         {
             var data = await _sectionRepository.GetById(p => p.SectionId == sectionId);
             return (int)data.WorkerAmount;
-       }
+        }
+
+        public async Task<Section> GetAllSections()
+        {
+            return await _sectionRepository.GetById(p => p.SectionId != 0);
+        }
 
         public async Task<Section> GetSectionById(int sectionId)
         {

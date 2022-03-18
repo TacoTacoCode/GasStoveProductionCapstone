@@ -24,6 +24,34 @@ namespace GSP_API.Controllers.ModelControllers
             _mapper = mapper;
         }
 
+        // GET: getAllOrders
+        [HttpGet]
+        [Route("getAllOrders")]
+        public async Task<ActionResult<List<OrderResponse>>> GetAllOrders()
+        {
+            var data = await _orderService.GetAllOrders();
+            if (data == null)
+            {
+                return BadRequest("Not found");
+            }
+            var list = _mapper.Map<List<OrderResponse>>(data);
+            return Ok(list);
+        }
+
+        // GET: getOrder/[status] processing/pending/done
+        [HttpGet]
+        [Route("getOrders/{status}")]
+        public async Task<ActionResult<List<OrderResponse>>> GetOrdersByStatus(string status)
+        {
+            var data = await _orderService.GetOrdersByStatus(status);
+            if (data == null)
+            {
+                return BadRequest("Not found");
+            }
+            var list = _mapper.Map<List<OrderResponse>>(data);
+            return Ok(list);
+        }
+
         // GET: getOrdersOf/acc/1
         [HttpGet]
         [Route("getOrdersOf/acc/{accountId}")]

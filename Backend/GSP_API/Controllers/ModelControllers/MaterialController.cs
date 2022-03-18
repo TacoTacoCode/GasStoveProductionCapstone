@@ -42,6 +42,20 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok(list);
         }
 
+        // GET: getMaterial/[status] active/inactive
+        [HttpGet]
+        [Route("getMaterial/{status}")]
+        public async Task<ActionResult<MaterialResponse>> GetMaterialByStatus(string status)
+        {
+            var data = await _materialService.GetMaterialsByStatus(status);
+            if (data == null)
+            {
+                return BadRequest("Not found");
+            }
+            var material = _mapper.Map<MaterialResponse>(data);
+            return Ok(material);
+        }
+
         // GET: getMaterial/1
         [HttpGet]
         [Route("getMaterial/{materialId}")]

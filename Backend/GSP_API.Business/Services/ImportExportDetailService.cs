@@ -8,11 +8,6 @@ namespace GSP_API.Business.Services
     public class ImportExportDetailService
     {
         private readonly IImportExportDetailRepository _importExportDetailRepository;
-
-        public ImportExportDetailService()
-        {
-        }
-
         public ImportExportDetailService(
             IImportExportDetailRepository importExportDetailRepository)
         {

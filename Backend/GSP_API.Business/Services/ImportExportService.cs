@@ -16,6 +16,7 @@ namespace GSP_API.Business.Services
         private readonly ProductService _productService;
         private readonly ComponentService _componentService;
         private readonly MaterialService _materialService;
+        private readonly ImportExportDetailService _importExportDetailService;
 
 
         public ImportExportService(
@@ -25,7 +26,8 @@ namespace GSP_API.Business.Services
             ProcessDetailService processDetailService,
             ProductService productService,
             ComponentService componentService,
-            MaterialService materialService)
+            MaterialService materialService,
+            ImportExportDetailService importExportDetailService)
 
         {
             _importExportRepository = importExportRepository;
@@ -35,6 +37,7 @@ namespace GSP_API.Business.Services
             _productService = productService;
             _componentService = componentService;
             _materialService = materialService;
+            _importExportDetailService = importExportDetailService;
         }
 
         public async Task<List<ImportExport>> GetImExBySection(int sectionId)
@@ -55,7 +58,7 @@ namespace GSP_API.Business.Services
             {
                 case "true":
                     List<ImportExportDetail> imExDetailList = (List<ImportExportDetail>)imEx.ImportExportDetails;
-                    return await new ImportExportDetailService().AddRangeImExDetail(imExDetailList);
+                    return await _importExportDetailService.AddRangeImExDetail(imExDetailList);
                 default:
                     return data;
             }
@@ -70,7 +73,7 @@ namespace GSP_API.Business.Services
                 await _importExportRepository.Update(newImEx);
                 //Get list of imEx detail
                 List<ImportExportDetail> importExportDetail =
-                            await new ImportExportDetailService().GetImExDetailByImEx(newImEx.ImportExportId);
+                            await _importExportDetailService.GetImExDetailByImEx(newImEx.ImportExportId);
                 //Check Assemble
                 var checkAssemble = await _sectionService.CheckAssemble((int)newImEx.SectionId);
                 try
