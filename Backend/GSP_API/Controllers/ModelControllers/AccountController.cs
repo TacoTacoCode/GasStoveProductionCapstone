@@ -31,7 +31,7 @@ namespace GSP_API.Controllers.ModelControllers
         [Route("getActiveAccounts")]
         public async Task<ActionResult<List<AccountResponse>>> GetActiveAccounts()
         {
-            var data = await _accountService.GetAllAccounts();
+            var data = await _accountService.GetActiveAccount();
             if (data == null)
             {
                 return BadRequest("Not found");
