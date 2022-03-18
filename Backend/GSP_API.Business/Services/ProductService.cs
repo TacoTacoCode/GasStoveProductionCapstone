@@ -16,10 +16,6 @@ namespace GSP_API.Business.Services
             _productRepository = productRepository;
         }
 
-        public ProductService()
-        {
-        }
-
         public async Task<List<Product>> GetAllProducts()
         {
             return await _productRepository.GetAll(p => p.Status == "Active");

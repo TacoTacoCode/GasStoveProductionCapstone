@@ -16,14 +16,14 @@ using System.Threading.Tasks;
 
 namespace GSP_API.Extensions.Tokens
 {
-    public class TokenConfigure
+    public class TokenService
     {
         private readonly IConfiguration _configuration;
         private readonly RoleService _roleService;       
         private readonly RefreshTokenService _refreshTokenService;
         private readonly AccountService _accountService;
 
-        public TokenConfigure(
+        public TokenService(
             IConfiguration configuration,
             RoleService roleService,            
             RefreshTokenService refreshTokenService,
@@ -82,12 +82,26 @@ namespace GSP_API.Extensions.Tokens
 
         public async Task<AuthResult> GenerateJWTToken(Account account)
         {
-            return new AuthResult()
+            try
             {
-                Token = new JwtSecurityTokenHandler().WriteToken(await GenerateAccessToken(account)),
-                Success = true,
-                RefreshToken = GenerateRefreshToken(account).Token
-            };
+                return new AuthResult()
+                {
+                    Token = new JwtSecurityTokenHandler().WriteToken(await GenerateAccessToken(account)),
+                    Success = true,
+                    RefreshToken = GenerateRefreshToken(account).Token
+                };
+            }
+            catch (Exception ex)
+            {
+                return new AuthResult()
+                {
+                    Success = false,
+                    Errors = new List<string>()
+                    {
+                        ex.Message.ToString()
+                    }
+                };
+            }
         }
 
         public async Task<AuthResult> VerifyAndGenerateToken(TokenRequest tokenRequest)

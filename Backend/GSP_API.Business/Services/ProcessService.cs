@@ -9,15 +9,14 @@ namespace GSP_API.Business.Services
     public class ProcessService
     {
         private readonly IProcessRepository _processRepository;
+        private readonly ProcessDetailService _processDetailService;
 
         public ProcessService(
-            IProcessRepository processRepository)
+            IProcessRepository processRepository,
+            ProcessDetailService processDetailService)
         {
             _processRepository = processRepository;
-        }
-
-        public ProcessService()
-        {
+            _processDetailService = processDetailService;
         }
 
         public async Task<List<Process>> GetAllProcesses()
@@ -38,7 +37,7 @@ namespace GSP_API.Business.Services
             {
                 case "true":
                     List<ProcessDetail> processDetailList = (List<ProcessDetail>)process.ProcessDetails;
-                    return await new ProcessDetailService().AddRangeProcessDetail(processDetailList);
+                    return await _processDetailService.AddRangeProcessDetail(processDetailList);
                 default:
                     return data;
             }
