@@ -12,7 +12,13 @@ namespace GSP_API.Infrastructure.Repositories
     public class ImportExportRepository : Repository<ImportExport>, IImportExportRepository
     {
         public ImportExportRepository(DbFactory dbFactory) : base(dbFactory)
+        { 
+
+        }
+
+        public Task<List<ImportExport>> GetImExByItemType(Expression<Func<ImportExport, bool>> expression)
         {
-        }        
+            return null;
+        }
     }
 }

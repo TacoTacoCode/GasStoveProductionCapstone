@@ -18,7 +18,7 @@ namespace GSP_API.Business.Services
 
         public async Task<List<Order>> GetAllOrders()
         {
-            return await _orderRepository.GetAll(p => p.OrderId != null);
+            return await _orderRepository.GetAll(p => p.OrderId != 0);
         }
 
         public async Task<List<Order>> GetOrdersByStatus(string status)

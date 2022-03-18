@@ -44,16 +44,16 @@ namespace GSP_API.Controllers.ModelControllers
 
         // GET: getMaterial/[status] active/inactive
         [HttpGet]
-        [Route("getMaterial/{status}")]
-        public async Task<ActionResult<MaterialResponse>> GetMaterialByStatus(string status)
+        [Route("getMaterials/{status}")]
+        public async Task<ActionResult<List<MaterialResponse>>> GetMaterialByStatus(string status)
         {
             var data = await _materialService.GetMaterialsByStatus(status);
             if (data == null)
             {
                 return BadRequest("Not found");
             }
-            var material = _mapper.Map<MaterialResponse>(data);
-            return Ok(material);
+            var list = _mapper.Map<List<MaterialResponse>>(data);
+            return Ok(list);
         }
 
         // GET: getMaterial/1

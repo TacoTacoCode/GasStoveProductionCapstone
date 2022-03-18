@@ -46,16 +46,16 @@ namespace GSP_API.Controllers.ModelControllers
 
         // GET: getComponent/[status] active/inactive
         [HttpGet]
-        [Route("getComponent/{status}")]
-        public async Task<ActionResult<ComponentResponse>> GetComponentByStatus(string status)
+        [Route("getComponents/{status}")]
+        public async Task<ActionResult<List<ComponentResponse>>> GetComponentByStatus(string status)
         {
             var data = await _componentService.GetComponentsByStatus(status);
             if (data == null)
             {
                 return BadRequest("Not found");
             }
-            var component = _mapper.Map<ComponentResponse>(data);
-            return Ok(component);
+            var list = _mapper.Map<List<ComponentResponse>>(data);
+            return Ok(list);
         }
 
         // GET: getComponent/1

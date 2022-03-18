@@ -40,7 +40,7 @@ namespace GSP_API.Controllers.ModelControllers
 
         // GET: getProcess/[status] executing/done
         [HttpGet]
-        [Route("getProcess/{status}")]
+        [Route("getProcesses/{status}")]
         public async Task<ActionResult<ProcessResponse>> GetProcessByStatus(string status)
         {
             var data = await _processService.GetProcessesByStatus(status);
