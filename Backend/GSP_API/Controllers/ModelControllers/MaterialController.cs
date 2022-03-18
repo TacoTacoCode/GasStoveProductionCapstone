@@ -117,19 +117,7 @@ namespace GSP_API.Controllers.ModelControllers
             return BadRequest(data);
         }
 
-        // POST: uploadFile/material/[file]
-        [HttpPost]
-        [Route("uploadFile/material")]
-        public async Task<IActionResult> Upload([FromForm] IFormFile file)
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-                file.CopyTo(memoryStream);
-                var materialList = GSP_API.Business.Extensions.Excel.ImportExcel<Material>(memoryStream);
-                var errorDic = await _materialService.AddRangeMaterial(materialList);
-                return Ok(errorDic);
-            }
-        }
+
 
     }
 }

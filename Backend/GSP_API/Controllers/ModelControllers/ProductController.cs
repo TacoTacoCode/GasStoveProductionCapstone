@@ -119,40 +119,8 @@ namespace GSP_API.Controllers.ModelControllers
             return BadRequest(data);
         }
 
-        // POST: uploadFile/product/[file]
-        [HttpPost]
-        [Route("uploadFile/product")]
-        public async Task<IActionResult> Upload(IFormFile file)
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-                file.CopyTo(memoryStream);
-                var productList = GSP_API.Business.Extensions.Excel.ImportExcel<Product>(memoryStream);
-                var errorDic = await _productService.AddRangeProduct(productList);
-                var fileName = "";
-                if (errorDic.Count > 0)
-                {
-                    fileName = GSP_API.Business.Extensions.Excel.ExportExcel<Product>(errorDic);
-                }
-                return Ok(fileName);
-            }
-        }
-        [HttpGet]
-        [Route("downloadFile")]
-        public async Task<IActionResult> Download(string name)
-        {
-            var filePath = "ErrorRecord/" + name;
-            string contentType = "application/octet-stream";
-            if (!System.IO.File.Exists(filePath))
-            {
-                return NotFound();
-            }
-            else
-            {
-                byte[] fileBype = await System.IO.File.ReadAllBytesAsync(filePath);
-                return File(fileBype, contentType, "error.xlsx");
-            }
-        }
+
+
 
     }
 }

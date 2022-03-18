@@ -66,5 +66,31 @@ namespace GSP_API.Business.Services
             }
             return null;
         }
+
+        public async Task<Account> GetAccountByNamePhone(string name, string phone)
+        {
+            return await _accountRepository.GetById(p => p.Name==name && p.Phone == phone);
+        }
+
+        public async Task<IDictionary<int, Account>> AddRangeAccount(List<Account> accounts)
+        {
+            var returnDic = new Dictionary<int, Account>();
+            var addList = new List<Account>();
+            foreach (var pro in accounts)
+            {
+                var tmp = await GetAccountByNamePhone(pro.Name, pro.Phone);
+                if (tmp != null)
+                {
+                    returnDic.Add(accounts.IndexOf(pro) + 1, pro);
+                }
+                else
+                {
+                    pro.Password = GSP_API.Business.Extensions.Hash.ComputeSha256Hash(pro.Password);
+                    addList.Add(pro);
+                }
+            }
+            await _accountRepository.AddRange(addList);
+            return returnDic;
+        }
     }
 }
