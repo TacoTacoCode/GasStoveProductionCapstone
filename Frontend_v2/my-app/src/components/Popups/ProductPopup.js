@@ -3,19 +3,19 @@ import './Popup.scss'
 import CloseIcon from '@mui/icons-material/Close'
 import { Button, InputAdornment, makeStyles, MenuItem, TextField } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
-import UploadImages from '../upload-images.component';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
+import axios from 'axios';
 
 const statuses = [
   {
-    value: 'available',
-    label: 'Available'
+    value: 'Active',
+    label: 'Active'
   },
   {
-    value: 'unavailable',
-    label: 'Unavailable'
+    value: 'Unactive',
+    label: 'Unactive'
   }
 ]
 
@@ -42,24 +42,54 @@ const CssTextField = styled(TextField)({
 
 
 function ProductPopup(props) {
-  const [status, setStatus] = useState('available');
-  const [finishedDate, setFinishedDate] = useState(null);
-  const [exportDate, setExportDate] = useState(null);
+  const [imageUrl, setProductImage] = useState('');
+  const [productID, setProductID] = useState('');
+  const [productName, setProductName] = useState('');
+  const [price, setProductPrice] = useState('');
+  const [amount, setProductAmount] = useState('');
+  const [status, setStatus] = useState('Active');
+  const [description, setDescription] = useState('');
 
-  const handleChangeFinishedDate = (newValue) => {
-    setFinishedDate(newValue);
+  const [file, setFile] = useState();
+  const [fileName, setFileName] = useState("");
+
+  const saveFile = (e) => {
+    setFile(e.target.files[0]);
+    setFileName(e.target.files[0].name);
   };
 
-  const handleChangeExportDate = (newValue) => {
-    setExportDate(newValue);
+  const uploadFile = async (e) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("fileName", fileName);
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/upload",
+        formData
+      );
+      console.log(res);
+    } catch (ex) {
+      console.log(ex);
+    }
   };
 
-  const handleChangeStatus = (event) => {
-    setStatus(event.target.value);
-  };
+  const postData = () => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("fileName", fileName);
+    axios.post("https://localhost:5001/addProduct", {
+      productID,
+      productName,
+      amount,
+      price,
+      imageUrl,
+      status,
+      description
+    })
+  }
 
   return (props.trigger) ? (
-    <div className='componentpopup'>
+    <div className='Productpopup'>
       <div className='popup-inner'>
         <div><button className='close-btn' onClick={() => props.setTrigger(false)}>
           <CloseIcon style={{ 'color': "white", }} />
@@ -69,36 +99,45 @@ function ProductPopup(props) {
           <form>
             <div className='imagefield'>
               Product's Image
-              <UploadImages id="fullWidth" required />
+              <input type="file" onChange={saveFile} />
+              <button onClick={uploadFile}>Upload</button>
             </div>
             <div className='idname'>
               <div className='idfield'>
-                <CssTextField label="Product ID" id="fullWidth" required />
+                <CssTextField label="Product ID" id="fullWidth" required onChange={(e) => setProductID(e.target.value)} />
               </div>
               <div className='namefield'>
-                <CssTextField label="Product Name" id="fullWidth" required />
+                <CssTextField label="Product Name" id="fullWidth" required onChange={(e) => setProductName(e.target.value)} />
               </div>
-            </div>
-            <div className='idname'>
-              <div className='txtfield'>
-                <CssTextField label="Type" id="fullWidth" required />
-              </div>
-              <div className='txtfield'>
+              <div className='idfield'>
                 <CssTextField
                   label="Amount"
                   id="fullWidth"
                   required type={'number'}
                   InputProps={{
                     inputProps: { min: 0, pattern: '[0-9]*' }
-                  }} />
+                  }}
+                  onChange={(e) => setProductAmount(e.target.value)} />
+              </div>
+            </div>
+
+            <div className='idname'>
+              <div className='txtfield'>
+                <CssTextField
+                  label="Price"
+                  id="fullWidth"
+                  required type={'number'}
+                  InputProps={{
+                    inputProps: { min: 0, pattern: '[0-9]*' }
+                  }}
+                  onChange={(e) => setProductPrice(e.target.value)} />
               </div>
               <div className='txtfield'>
                 <CssTextField
                   label="Status"
                   select
                   id="fullWidth" required
-                  value={status}
-                  onChange={handleChangeStatus}
+                  onChange={(e) => setStatus(e.target.value)}
                   helperText="Choose product status"
                 >
                   {statuses.map((option) => (
@@ -108,35 +147,21 @@ function ProductPopup(props) {
                   ))}
                 </CssTextField>
               </div>
-            </div>
-            <div className='txtfield'>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DesktopDatePicker
-                  label="Finished Date"
-                  inputFormat="dd/MM/yyyy"
-                  value={finishedDate}
-                  onChange={handleChangeFinishedDate}
-                  renderInput={(params) => <CssTextField {...params} id="fullWidth" />}
+              <div className='txtfield'>
+                <CssTextField
+                  label="Description"
+                  onChange={(e) => setDescription(e.target.value)}
                 />
-              </LocalizationProvider>
-            </div>
-            <div className='txtfield'>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DesktopDatePicker
-                  label="Export Date"
-                  inputFormat="dd/MM/yyyy"
-                  value={exportDate}
-                  onChange={handleChangeExportDate}
-                  renderInput={(params) => <CssTextField {...params} id="fullWidth" />}
-                />
-              </LocalizationProvider>
+              </div>
             </div>
 
             <div className='btngr'>
               <Button
+                type='submit'
                 variant="contained"
                 style={{ fontFamily: 'Muli', borderRadius: 10, backgroundColor: "#e30217", marginRight: '0.5rem' }}
-                size="large">Add Product</Button>
+                size="large" onClick={postData}
+              >Add Product</Button>
               <Button
                 variant="contained"
                 style={{ fontFamily: 'Muli', borderRadius: 10, backgroundColor: "#e30217" }}

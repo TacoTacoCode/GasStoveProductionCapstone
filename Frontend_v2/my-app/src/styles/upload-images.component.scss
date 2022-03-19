@@ -18,9 +18,8 @@
 }
 
 .preview {
-    background-color: red;
-    max-height      : 100px;
-    max-width       : 200px;
+    max-height: 100px;
+    max-width : 200px;
 }
 
 .btn-upload {
@@ -56,5 +55,7 @@
 }
 
 .btn-choose {
-    margin-right: 10px !important;
+    background-color: red;
+    color           : red;
+    margin-right    : 10px !important;
 }

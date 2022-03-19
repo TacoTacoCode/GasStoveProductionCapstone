@@ -3,19 +3,16 @@ import './Popup.scss'
 import CloseIcon from '@mui/icons-material/Close'
 import { Button, InputAdornment, makeStyles, MenuItem, TextField } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
-import UploadImages from '../upload-images.component';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
+import axios from 'axios';
 
 const statuses = [
   {
-    value: 'available',
-    label: 'Available'
+    value: 'Active',
+    label: 'Active'
   },
   {
-    value: 'unavailable',
-    label: 'Unavailable'
+    value: 'Unactive',
+    label: 'Unactive'
   }
 ]
 
@@ -42,21 +39,57 @@ const CssTextField = styled(TextField)({
 
 
 function ComponentPopup(props) {
-  const [status, setStatus] = useState('available');
-  const [finishedDate, setFinishedDate] = useState(null);
-  const [exportDate, setExportDate] = useState(null);
+  const [imageUrl, setComponentImage] = useState('');
+  const [componentID, setComponentID] = useState('');
+  const [componentName, setComponentName] = useState('');
+  const [size, setComponentSize] = useState('');
+  const [amount, setComponentAmount] = useState('');
+  const [substance, setComponentSubstance] = useState('');
+  const [weight, setComponentWeight] = useState('');
+  const [color, setComponentColor] = useState('');
+  const [status, setStatus] = useState('Active');
+  const [description, setDescription] = useState('');
 
-  const handleChangeFinishedDate = (newValue) => {
-    setFinishedDate(newValue);
+  const [file, setFile] = useState();
+  const [fileName, setFileName] = useState("");
+
+  const saveFile = (e) => {
+    setFile(e.target.files[0]);
+    setFileName(e.target.files[0].name);
   };
 
-  const handleChangeExportDate = (newValue) => {
-    setExportDate(newValue);
+  const uploadFile = async (e) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("fileName", fileName);
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/upload",
+        formData
+      );
+      console.log(res);
+    } catch (ex) {
+      console.log(ex);
+    }
   };
 
-  const handleChangeStatus = (event) => {
-    setStatus(event.target.value);
-  };
+  const postData = () => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("fileName", fileName);
+    axios.post("https://localhost:5001/addComponent", {
+      componentID,
+      componentName,
+      amount,
+      imageUrl,
+      status,
+      substance,
+      size,
+      color,
+      weight,
+      description
+    })
+  }
 
   return (props.trigger) ? (
     <div className='componentpopup'>
@@ -69,37 +102,71 @@ function ComponentPopup(props) {
           <form>
             <div className='imagefield'>
               Component's Image
-              <UploadImages id="fullWidth" required />
+              <input type="file" onChange={saveFile} />
+              <button onClick={uploadFile}>Upload</button>
             </div>
             <div className='idname'>
               <div className='idfield'>
-                <CssTextField label="Component ID" id="fullWidth" required />
+                <CssTextField label="Component ID" id="fullWidth" required onChange={(e) => setComponentID(e.target.value)} />
               </div>
               <div className='namefield'>
-                <CssTextField label="Component Name" id="fullWidth" required />
+                <CssTextField label="Component Name" id="fullWidth" required onChange={(e) => setComponentName(e.target.value)} />
               </div>
-            </div>
-            <div className='idname'>
-              <div className='txtfield'>
-                <CssTextField label="Type" id="fullWidth" required />
-              </div>
-              <div className='txtfield'>
+              <div className='idfield'>
                 <CssTextField
                   label="Amount"
                   id="fullWidth"
                   required type={'number'}
                   InputProps={{
                     inputProps: { min: 0, pattern: '[0-9]*' }
-                  }} />
+                  }}
+                  onChange={(e) => setComponentAmount(e.target.value)} />
               </div>
+            </div>
+
+            <div className='idname'>
+              <div className='txtfield'>
+                <CssTextField
+                  label="Size"
+                  id="fullWidth"
+                  required type={'number'}
+                  InputProps={{
+                    inputProps: { min: 0, pattern: '[0-9]*' }
+                  }}
+                  onChange={(e) => setComponentSize(e.target.value)} />
+              </div>
+              <div className='txtfield'>
+                <CssTextField
+                  label="Weight"
+                  id="fullWidth"
+                  required type={'number'}
+                  InputProps={{
+                    inputProps: { min: 0, pattern: '[0-9]*' }
+                  }}
+                  onChange={(e) => setComponentWeight(e.target.value)} />
+              </div>
+              <div className='txtfield'>
+                <CssTextField
+                  label="Color"
+                  onChange={(e) => setComponentColor(e.target.value)}
+                />
+              </div>
+              <div className='txtfield'>
+                <CssTextField
+                  label="Substance"
+                  onChange={(e) => setComponentSubstance(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className='idname'>
               <div className='txtfield'>
                 <CssTextField
                   label="Status"
                   select
                   id="fullWidth" required
-                  value={status}
-                  onChange={handleChangeStatus}
-                  helperText="Choose Component status"
+                  onChange={(e) => setStatus(e.target.value)}
+                  helperText="Choose component status"
                 >
                   {statuses.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
@@ -108,35 +175,21 @@ function ComponentPopup(props) {
                   ))}
                 </CssTextField>
               </div>
-            </div>
-            <div className='txtfield'>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DesktopDatePicker
-                  label="Finished Date"
-                  inputFormat="dd/MM/yyyy"
-                  value={finishedDate}
-                  onChange={handleChangeFinishedDate}
-                  renderInput={(params) => <CssTextField {...params} id="fullWidth" />}
+              <div className='txtfield'>
+                <CssTextField
+                  label="Description"
+                  onChange={(e) => setDescription(e.target.value)}
                 />
-              </LocalizationProvider>
-            </div>
-            <div className='txtfield'>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DesktopDatePicker
-                  label="Export Date"
-                  inputFormat="dd/MM/yyyy"
-                  value={exportDate}
-                  onChange={handleChangeExportDate}
-                  renderInput={(params) => <CssTextField {...params} id="fullWidth" />}
-                />
-              </LocalizationProvider>
+              </div>
             </div>
 
             <div className='btngr'>
               <Button
+                type='submit'
                 variant="contained"
                 style={{ fontFamily: 'Muli', borderRadius: 10, backgroundColor: "#e30217", marginRight: '0.5rem' }}
-                size="large">Add Component</Button>
+                size="large" onClick={postData}
+              >Add Component</Button>
               <Button
                 variant="contained"
                 style={{ fontFamily: 'Muli', borderRadius: 10, backgroundColor: "#e30217" }}
