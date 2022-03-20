@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import MaterialTable from 'material-table';
-
+import axios from 'axios';
 
 export const Table = (props) => {
     const { listProduct } = props;
@@ -9,6 +9,17 @@ export const Table = (props) => {
     listProduct.forEach(item => {
         array.push(item)
     });
+
+    function deleteProduct(id) {
+        axios.put('https://localhost:5001/delProduct/' + id)
+            .then((response) => {
+                console.log(response.data);
+                console.log("ID: " + id);
+            }
+            ).catch((err) => {
+                console.log(err);
+            })
+    };
 
     const columns = [
         {
@@ -34,20 +45,28 @@ export const Table = (props) => {
             <MaterialTable title={"List of Products"}
                 data={array}
                 columns={columns}
-                editable={{
-                    // onRowUpdate: (newRow, oldRow) => new Promise((resolve, reject) => {
-                    //     const updatedData = [...array]
-                    //     updatedData[updatedData.indexOf(oldRow)] = newRow
-                    //     // setData(updatedData)
-                    //     setTimeout(() => resolve(), 500)
-                    // }),
-                    onRowDelete: (selectedRow) => new Promise((resolve, reject) => {
-                        const updatedData = [...array]
-                        updatedData.splice(updatedData.indexOf(selectedRow), 1)
-                        // setData(updatedData)
-                        setTimeout(() => resolve(), 1000)
-                    })
-                }}
+                // editable={{
+                // onRowUpdate: (newRow, oldRow) => new Promise((resolve, reject) => {
+                //     const updatedData = [...array]
+                //     updatedData[updatedData.indexOf(oldRow)] = newRow
+                //     // setData(updatedData)
+                //     setTimeout(() => resolve(), 500)
+                // }),
+                // onRowDelete: (selectedRow) => new Promise((resolve, reject) => {
+                //     const updatedData = [...array]
+                //     updatedData.splice(updatedData.indexOf(selectedRow), 1)
+                //     // setData(updatedData)
+                //     setTimeout(() => resolve(), 1000)
+                // })
+                // }}
+                actions={[
+                    {
+                        icon: 'delete',
+                        tooltip: 'Delete Product',
+                        onClick: (event, rowData) => deleteProduct(rowData.productId)
+                    }
+
+                ]}
                 options={{
                     addRowPosition: 'first',
                     actionsColumnIndex: -1,

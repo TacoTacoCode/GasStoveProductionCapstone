@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import MaterialTable from 'material-table';
-
+import axios from 'axios';
 
 export const Table = (props) => {
     const { listMaterial } = props;
@@ -9,6 +9,18 @@ export const Table = (props) => {
     listMaterial.forEach(item => {
         array.push(item)
     });
+
+    function deleteMaterial(id) {
+        axios.put('https://localhost:5001/delMaterial/' + id)
+            .then((response) => {
+                console.log(response.data);
+                console.log("ID: " + id);
+                console.log('https://localhost:5001/delMaterial/' + id);
+            }
+            ).catch((err) => {
+                console.log(err);
+            })
+    };
 
     const columns = [
         {
@@ -33,16 +45,24 @@ export const Table = (props) => {
             <MaterialTable title={"List of Materials"}
                 data={array}
                 columns={columns}
-                editable={{
-                    onRowDelete: (selectedRow) => new Promise((resolve, reject) => {
-                        const updatedData = [...array]
-                        updatedData.splice(updatedData.indexOf(selectedRow), 1)
-                        // setData(updatedData)
-                        setTimeout(() => resolve(), 1000)
+                // editable={{
+                //     onRowDelete: (selectedRow) => new Promise((resolve, reject) => {
+                //         const updatedData = [...array]
+                //         updatedData.splice(updatedData.indexOf(selectedRow), 1)
+                //         // setData(updatedData)
+                //         setTimeout(() => resolve(), 1000)
+                //     }
+                //     )
+                // }
+                // }
+                actions={[
+                    {
+                        icon: 'delete',
+                        tooltip: 'Delete Material',
+                        onClick: (event, rowData) => deleteMaterial(rowData.materialId)
                     }
-                    )
-                }
-                }
+
+                ]}
                 options={{
                     addRowPosition: 'first',
                     actionsColumnIndex: -1,
