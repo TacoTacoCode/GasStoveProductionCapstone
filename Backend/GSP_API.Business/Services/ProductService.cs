@@ -31,26 +31,45 @@ namespace GSP_API.Business.Services
             return await _productRepository.GetAll(p => p.Status == status);
         }
 
-        //public async Task<string> AddProduct(Product product, List<Component> componentChosen)
-        //{
-        //    var proCompoService = new ProductComponentService();
+        public async Task<string> AddProduct(Product product, Dictionary<string, int> compoItems)
+        {
+            var pros = await _productRepository.FindFirst(p => p.ProductId == product.ProductId);
+            if(pros == null)
+            {
+                foreach (var item in compoItems)
+                {
+                    product.ProductComponents.Add(new()
+                    {
+                        ComponentId = item.Key,
+                        Amount = item.Value
+                    }); ;
+                }
+                return await _productRepository.Add(product);
+            }
+            foreach (var item in compoItems)
+            {
+                pros.ProductComponents.Add(new()
+                {
+                    ComponentId = item.Key,
+                    Amount = item.Value
+                }); ;
+            }
+            return await _productRepository.Update(pros);
 
-        //    var data = await _productRepository.Add(product);
-        //    var listProCompo = new List<ProductComponent>();
-        //    switch (data)
-        //    {
-        //        case "true":
-        //            //For each compo in chosen list, create a correspoding ProCompo  
-        //            foreach (Component compo in componentChosen)
-        //            {
-        //                ProductComponent productComponent = new ProductComponent(product.ProductId, compo.ComponentId, compo.Amount);
-        //                listProCompo.Add(productComponent);
-        //            }
-        //            return await proCompoService.AddRangeProCompo(listProCompo);
-        //        default:
-        //            return data;
-        //    }
-        //}
+        }
+        public async Task<string> UpdateProdct(Product product, Dictionary<string, int> compoItems)
+        {
+            foreach (var item in compoItems)
+            {
+                product.ProductComponents.Add(new()
+                {
+                    ComponentId = item.Key,
+                    Amount = item.Value
+                }); ;
+            }
+            return await _productRepository.Add(product);
+        }
+
 
         public async Task<string> UpdateProduct(Product newProduct)
         {
