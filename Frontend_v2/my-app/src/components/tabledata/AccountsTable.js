@@ -54,9 +54,12 @@ export const Table = (props) => {
                     {
                         icon: 'delete',
                         tooltip: 'Delete User',
-                        onClick: (event, rowData) => deleteAccount(rowData.accountId)
+                        onClick: (event, rowData) => {
+                            deleteAccount(rowData.accountId);
+                                window.location.reload();
+                        }
                     }
-                    
+
                 ]}
                 options={{
                     addRowPosition: 'first',

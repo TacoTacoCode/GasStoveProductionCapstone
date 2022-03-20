@@ -1,7 +1,7 @@
 import { Icon } from '@material-ui/core';
 import React from 'react';
 
-export const SideBarData = [
+export const SideBarAdminData = [
     {
         title: 'Dashboard',
         // icon: <DashboardIcon />,
@@ -31,5 +31,14 @@ export const SideBarData = [
         // icon: <DashboardIcon />,
         path: "/dashboard/materials",
         cName: 'nav-text'
-    },
+    }
+]
+
+export const SideBarOrderData = [
+    {
+        title: 'Orders',
+        // icon: <DashboardIcon />,
+        path: "/orders",
+        cName: 'nav-text'
+    }
 ]

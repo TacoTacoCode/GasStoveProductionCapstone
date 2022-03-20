@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SideBarData } from "./SideBarData";
+import { SideBarAdminData, SideBarData, SideBarOrderData } from "./SideBarData";
 import "../SideBarComponents/SideBarCss.css";
 import { Link } from "react-router-dom";
 import * as FaIcons from 'react-icons/fa';
@@ -9,7 +9,7 @@ import logo from '../../logo512.png'
 import { Typography, typography } from '@material-ui/core'
 import Toolbar from '@mui/material/Toolbar';
 import { makeStyles } from '@material-ui/core/styles'
-
+import MenuItem from '@material-ui/core/MenuItem';
 
 const styles = makeStyles({
     bar: {
@@ -50,12 +50,28 @@ function CustomSideBar() {
     const [sidebar, setSidebar] = useState(false);
     const classes = styles();
     const showSidebar = () => setSidebar(!sidebar);
-
+    const handleLogout = () => {
+        // localStorage.removeItem("token");
+        localStorage.clear();
+        // localStorage.removeItem("user");
+        window.location.href = "/login";
+      };
+    let role = [];
     function linkClick() {
         window.location.href = "http://localhost:3000/dashboard/";
     }
-
+    switch (localStorage.getItem('currentRole')) {
+        case 'Admin':
+            role = SideBarAdminData.map(obj => ({...obj}));
+            break;
+        case 'Order Department':
+            role = SideBarOrderData.map(obj => ({...obj}));
+            break;
+        default:
+            break;
+    }
     return (
+
         <>
             <IconContext.Provider value={{ color: '#e30217' }}>
                 <Toolbar position="sticky" color="rgba(0, 0, 0, 0.87)" className={classes.bar}>
@@ -68,7 +84,9 @@ function CustomSideBar() {
                     <Typography variant="h5" className={classes.menuItem} onClick={linkClick}>
                         UFA Company Managing System
                     </Typography>
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Toolbar>
+
                 <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
                     <ul className='nav-menu-items' onClick={showSidebar}>
                         <li className="navbar-toggle">
@@ -79,7 +97,7 @@ function CustomSideBar() {
                         </li>
                         <div className="side">
                             <ul className="sidebarList">
-                                {SideBarData.map((val, key) => {
+                                {role.map((val, key) => {
                                     return <li
                                         key={key}
                                         className={val.cName}

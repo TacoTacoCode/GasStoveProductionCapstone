@@ -3,6 +3,9 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import swal from 'sweetalert';
 import './Signin.scss';
+import jwt from 'jwt-decode'
+import { Navigate, Route } from 'react-router-dom';
+import DashBoard from '../SideBarPages/DashBoard';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -14,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 async function loginUser(credentials) {
-    return fetch('https://www.mecallapi.com/api/login', {
+    return fetch('https://localhost:5001/account/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -26,38 +29,61 @@ async function loginUser(credentials) {
 
 export default function Signin() {
     const classes = useStyles();
-    const [username, setUserName] = useState();
+    const [phone, setPhone] = useState();
     const [password, setPassword] = useState();
 
     const handleSubmit = async e => {
         e.preventDefault();
         const response = await loginUser({
-            username,
+            phone,
             password
         });
-        if ('accessToken' in response) {
-            swal("Success", response.message, "success", {
+        if ('token' in response) {
+            swal("Success", "gi cai gi cung duoc", "success", {
                 buttons: false,
                 timer: 2000,
             })
                 .then((value) => {
-                    localStorage.setItem('accessToken', response['accessToken']);
-                    localStorage.setItem('user', JSON.stringify(response['user']));
-                    window.location.href = "/dashboard";
+                    const token = response['token'];
+                    const user = jwt(token);
+                    localStorage.setItem('token', response['token']);
+                    console.log("Role: " + user.role);
+                    localStorage.setItem('currentId', user.id)
+                    localStorage.setItem('currentRole', user.role)
+                    switch (user.role) {
+                        case "Admin":
+                            window.location.href = "/dashboard";
+                            break;
+                        case "Manufacturer Deparment":
+                            window.location.href = "/dashboard/accounts";
+                            break;
+                        case "Order Department":
+                            window.location.href = "/orders";
+                            break;
+                        default:
+                            console.log("Not Adminnnnnn");
+                            break;
+                    }
+
+                    // window.location.href = "/dashboard";
+
+                    // localStorage.setItem('user', JSON.stringify(response['user']));
+                    // window.location.href = "/dashboard";
                 });
         } else {
-            swal("Failed", response.message, "error");
+            swal("Failed", "gi cai gi cung duoc", "error");
         }
+
     }
 
     return (
         <>
-            <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+            <script src='https://kit.fontawesome.com/a076d05399.js' crossOrigin='anonymous'></script>
             <div className="dashboard_login">
                 <div className="title-container">
                     <center><h2>UFA Company Managing System</h2></center>
                     <div className="login-container">
-                        <div><center><img className='img-login' src='http://uyenphat.com.vn/wp-content/themes/ufa/imgs/logo.png' alt='Bếp Ga Uyên Phát'></img></center></div>
+                        <div><center><img className='img-login' src='http://uyenphat.com.vn/wp-content/themes/ufa/imgs/logo.png' alt='Bếp Gas Uyên Phát'></img></center></div>
                         <div className="container">
                             <center>
                                 <form noValidate onSubmit={handleSubmit}>
@@ -67,10 +93,12 @@ export default function Signin() {
                                         required
                                         fullWidth
 
-                                        id="email"
-                                        name="email"
-                                        label="Email Address"
-                                        onChange={e => setUserName(e.target.value)}
+                                        id="phone"
+                                        name="phone"
+                                        label="Phone No"
+                                        onChange={e => {
+                                            setPhone(e.target.value);
+                                        }}
                                     />
                                     <TextField
                                         variant="outlined"
@@ -82,13 +110,15 @@ export default function Signin() {
                                         name="password"
                                         label="Password"
                                         type="password"
-                                        onChange={e => setPassword(e.target.value)}
+                                        onChange={e => {
+                                            setPassword(e.target.value);
+                                        }}
                                     />
                                     <div><a href={'_'}>Forgot Password</a></div>
                                     <br />
                                     <div className="button_login">
                                         <center>
-                                            <button className='btn_login' onClick={(event) => this.handleSubmit(event)}>Login</button>
+                                            <button className='btn_login' type='submit'>Login</button>
                                         </center>
                                     </div>
                                 </form>

@@ -1,18 +1,3 @@
-// import React from 'react'
-// import { useLocation } from 'react-router-dom';
-
-// function OrderDetails() {
-//     const location  = useLocation();
-//     return (
-//         console.log("anbuiofwo:" + location.state.totalprice),
-//         <>
-//             <h1>OrderDetails</h1>
-//             <h1>{location.state.id}</h1>
-//         </>
-//     )
-// }
-
-// export default OrderDetails
 
 import React from 'react'
 import 'D:/capstone-frontend/my-app/my-app/src/App.css';

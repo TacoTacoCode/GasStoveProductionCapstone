@@ -31,38 +31,22 @@ export const Table = () => {
         {
             title: 'Status', field: 'status', cellStyle: { fontFamily: 'Muli' }, align: "left"
         },
-        // {
-        //     title:'Detail', field:'workername'
-        // },
-        // {
-        //     title:'Worker Name', field:'workername'
-        // }
     ]
     return (
         <div>
             <MaterialTable title={"Material Requesting List"}
                 data={data}
                 columns={columns}
-                // editable={{
-                //     onRowUpdate: (newRow, oldRow) => new Promise((resolve, reject) => {
-                //         const updatedData = [...data]
-                //         updatedData[updatedData.indexOf(oldRow)] = newRow
-                //         setData(updatedData)
-                //         setTimeout(() => resolve(), 500)
-                //     }),
-                //     onRowDelete: (selectedRow) => new Promise((resolve, reject) => {
-                //         const updatedData = [...data]
-                //         updatedData.splice(updatedData.indexOf(selectedRow), 1)
-                //         setData(updatedData)
-                //         setTimeout(() => resolve(), 1000)
-                //     }
-                //     )
-                // }
-                // }
                 actions={[
                     {
-                        icon: () => <button className='btnAccept'>Accept</button>
-                    },
+                        icon: 'check',
+                        tooltip: 'Accept this Request',
+                        onClick: (event, rowData) => {
+                            // deleteComponent(rowData.componentId);
+                            // window.location.reload();
+                        }
+                    }
+
                 ]}
                 options={{
                     addRowPosition: 'first',

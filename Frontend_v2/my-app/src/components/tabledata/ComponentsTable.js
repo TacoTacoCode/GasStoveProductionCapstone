@@ -44,11 +44,15 @@ export const Table = (props) => {
                 actions={[
                     {
                         icon: 'delete',
-                        tooltip: 'Delete Component',
-                        onClick: (event, rowData) => deleteComponent(rowData.componentId)
+                        tooltip: 'Delete this component',
+                        onClick: (event, rowData) => {
+                            deleteComponent(rowData.componentId);
+                            window.location.reload();
+                        }
                     }
 
                 ]}
+
                 options={{
                     addRowPosition: 'first',
                     actionsColumnIndex: -1,

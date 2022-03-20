@@ -10,12 +10,10 @@ function Accounts() {
   const [listAccount, setListAccount] = useState([]);
 
   useEffect(() => {
-    const getAllAccount = 'https://localhost:5001/getAllAccounts'
-    console.log('cho Bo:');
+    const getAllAccount = 'https://localhost:5001/getActiveAccounts'
     //Gọi API bằng axios
     axios.get(getAllAccount).then((res) => {
       setListAccount(res.data);
-      console.log('fueafi:' + res.data);
     }).catch((err) => {
       console.log(err);
       alert("Xảy ra lỗi");

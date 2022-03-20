@@ -12,10 +12,7 @@ export const Table = (props) => {
 
     function deleteProduct(id) {
         axios.put('https://localhost:5001/delProduct/' + id)
-            .then((response) => {
-                console.log(response.data);
-                console.log("ID: " + id);
-            }
+            .then((response) => { console.log(response.data); }
             ).catch((err) => {
                 console.log(err);
             })
@@ -45,25 +42,14 @@ export const Table = (props) => {
             <MaterialTable title={"List of Products"}
                 data={array}
                 columns={columns}
-                // editable={{
-                // onRowUpdate: (newRow, oldRow) => new Promise((resolve, reject) => {
-                //     const updatedData = [...array]
-                //     updatedData[updatedData.indexOf(oldRow)] = newRow
-                //     // setData(updatedData)
-                //     setTimeout(() => resolve(), 500)
-                // }),
-                // onRowDelete: (selectedRow) => new Promise((resolve, reject) => {
-                //     const updatedData = [...array]
-                //     updatedData.splice(updatedData.indexOf(selectedRow), 1)
-                //     // setData(updatedData)
-                //     setTimeout(() => resolve(), 1000)
-                // })
-                // }}
                 actions={[
                     {
                         icon: 'delete',
-                        tooltip: 'Delete Product',
-                        onClick: (event, rowData) => deleteProduct(rowData.productId)
+                        tooltip: 'Delete this Material',
+                        onClick: (event, rowData) => {
+                            deleteProduct(rowData.productId);
+                            window.location.reload();
+                        }
                     }
 
                 ]}

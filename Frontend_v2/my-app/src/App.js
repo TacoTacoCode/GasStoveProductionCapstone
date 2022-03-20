@@ -7,7 +7,10 @@ import Accounts from './components/SideBarPages/Accounts';
 import Materials from './components/SideBarPages/Materials';
 import Components from './components/SideBarPages/Components';
 import Products from './components/SideBarPages/Products';
+
 import Signin from './components/login/Signin';
+import Orders from './components/SideBarPages/Orders';
+
 
 const theme = createTheme({
   App: {
@@ -40,8 +43,9 @@ const theme = createTheme({
 
 
 function App() {
-  const token = localStorage.getItem('accessToken');
-
+  // localStorage.clear();
+  const token = localStorage.getItem('token');
+ 
   if (!token) {
     return <Signin />
   }
@@ -57,6 +61,7 @@ function App() {
             <Route path='/dashboard/materials' exact element={<Materials />}></Route>
             <Route path='/dashboard/products' exact element={<Products />}></Route>
             <Route path='/dashboard/components' exact element={<Components />}></Route>
+            <Route path='/orders' exact element={<Orders />}></Route>
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

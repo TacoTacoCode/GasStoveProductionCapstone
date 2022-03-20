@@ -12,11 +12,7 @@ export const Table = (props) => {
 
     function deleteMaterial(id) {
         axios.put('https://localhost:5001/delMaterial/' + id)
-            .then((response) => {
-                console.log(response.data);
-                console.log("ID: " + id);
-                console.log('https://localhost:5001/delMaterial/' + id);
-            }
+            .then((response) => { console.log(response.data); }
             ).catch((err) => {
                 console.log(err);
             })
@@ -45,24 +41,18 @@ export const Table = (props) => {
             <MaterialTable title={"List of Materials"}
                 data={array}
                 columns={columns}
-                // editable={{
-                //     onRowDelete: (selectedRow) => new Promise((resolve, reject) => {
-                //         const updatedData = [...array]
-                //         updatedData.splice(updatedData.indexOf(selectedRow), 1)
-                //         // setData(updatedData)
-                //         setTimeout(() => resolve(), 1000)
-                //     }
-                //     )
-                // }
-                // }
                 actions={[
                     {
                         icon: 'delete',
-                        tooltip: 'Delete Material',
-                        onClick: (event, rowData) => deleteMaterial(rowData.materialId)
+                        tooltip: 'Delete this Material',
+                        onClick: (event, rowData) => {
+                            deleteMaterial(rowData.materialId);
+                            window.location.reload();
+                        }
                     }
 
                 ]}
+
                 options={{
                     addRowPosition: 'first',
                     actionsColumnIndex: -1,
