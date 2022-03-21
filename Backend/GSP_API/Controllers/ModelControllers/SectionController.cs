@@ -40,25 +40,36 @@ namespace GSP_API.Controllers.ModelControllers
 
         // GET: getWorkerAmounts/sec/1
         [HttpGet]
-        [Route("getWorkerAmounts/sec/{accountId}")]
-        public async Task<ActionResult<int>> GetWorkerAmountBySectionId(int accountId)
+        [Route("getWorkerAmounts/sec/{sectionId}")]
+        public async Task<ActionResult<int>> GetWorkerAmountBySectionId(int sectionId)
         {
-            var data = await _sectionService.GetWorkerAmountBySectionId(accountId);            
+            var data = await _sectionService.GetWorkerAmountBySectionId(sectionId);            
             return Ok(data);
         }
 
         // GET: getSectionById/1
         [HttpGet]
-        [Route("getSectionById/{accountId}")]
-        public async Task<ActionResult<SectionResponse>> GetSectionById(int accountId)
+        [Route("getSectionById/{sectionId}")]
+        public async Task<ActionResult<SectionResponse>> GetSectionById(int sectionId)
         {
-            var data = await _sectionService.GetSectionById(accountId);
+            var data = await _sectionService.GetSectionById(sectionId);
             if (data == null)
             {
                 return BadRequest("Not found");
             }
             var section = _mapper.Map<SectionResponse>(data);
             return Ok(section);
+        }
+        [HttpGet]
+        [Route("getSectionBySectionLeadId/{sectionLeadId}")]
+        public async Task<ActionResult<SectionResponse>> GetSectionBySectionLeadId(int sectionLeadId)
+        {
+            var data = await _sectionService.GetSectionBySectionLeadId(sectionLeadId);
+            if (data == null)
+            {
+                return BadRequest("Not found");
+            }
+            return Ok(data);
         }
 
         // POST: AddSection/[section]

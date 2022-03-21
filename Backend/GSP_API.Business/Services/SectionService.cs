@@ -30,6 +30,10 @@ namespace GSP_API.Business.Services
         {
             return await _sectionRepository.GetById(p => p.SectionId == sectionId);            
         }
+        public async Task<Section> GetSectionBySectionLeadId(int sectionManagerId)
+        {
+            return await _sectionRepository.GetSectionAndWorkersByLead(sectionManagerId);
+        }
 
         public async Task<string> AddSection(Section section)
         {
