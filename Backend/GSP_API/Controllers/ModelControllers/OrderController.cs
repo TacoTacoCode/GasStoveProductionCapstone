@@ -37,6 +37,17 @@ namespace GSP_API.Controllers.ModelControllers
             var list = _mapper.Map<List<OrderResponse>>(data);
             return Ok(list);
         }
+        [HttpGet]
+        [Route("getAllOrdersWithDetail")]
+        public async Task<ActionResult<List<OrderResponse>>> GetAllOrdersWithDetail()
+        {
+            var data = await _orderService.GetAllOrdersWithDetail();
+            if (data == null)
+            {
+                return BadRequest("Not found");
+            }
+            return Ok(data);
+        }
 
         // GET: getOrder/[status] processing/pending/done
         [HttpGet]
