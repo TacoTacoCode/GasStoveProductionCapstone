@@ -11,7 +11,6 @@ namespace GSP_API.Models.Response
         public string ComponentId { get; set; }
         public int? WorkerAmount { get; set; }
         public bool? IsAssemble { get; set; }
-        public string InstructionFilePath { get; set; }
 
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -19,8 +18,8 @@ namespace GSP_API.Models.Response
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public virtual Account SectionLead { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public virtual ICollection<Account> Account { get; set; }
+        public virtual ICollection<Account> Accounts { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public virtual ICollection<Process> Process { get; set; }
+        public virtual ICollection<Process> ProcessDetails { get; set; }
     }
 }
