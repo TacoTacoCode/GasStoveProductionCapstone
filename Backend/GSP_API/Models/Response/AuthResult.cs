@@ -10,7 +10,6 @@ namespace GSP_API.Models.Response
         public string Token { get; set; }
         public string RefreshToken { get; set; }
         public bool Success { get; set; }
-        public AccountResponse account { get; set; }
         public List<string> Errors { get; set; }
     }
 }
