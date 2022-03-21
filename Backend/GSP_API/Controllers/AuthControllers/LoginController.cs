@@ -16,14 +16,16 @@ namespace GSP_API.Controllers.AuthControllers
     public class LoginController : ControllerBase
     {
         private readonly AccountService _accountService;
-        private readonly TokenService _tokenService;        
+        private readonly TokenService _tokenService;
+        private readonly IMapper _mapper;
 
         public LoginController(
             AccountService accountService,
-            TokenService tokenService)
+            TokenService tokenService, IMapper mapper)
         {
             _accountService = accountService;
-            _tokenService = tokenService;           
+            _tokenService = tokenService;
+            _mapper = mapper;
         }
 
         // POST: login/[loginRequest]
@@ -56,9 +58,11 @@ namespace GSP_API.Controllers.AuthControllers
                     }
                 });
             }
-
             //Generate access token & refresh token            
-            return Ok(await _tokenService.GenerateJWTToken(account));
+            var result = await _tokenService.GenerateJWTToken(account);
+            account.Role = null;
+            result.account = _mapper.Map<AccountResponse>(account);
+            return Ok(result);
         }
 
         //POST: refreshToken/[tokenRequest]
