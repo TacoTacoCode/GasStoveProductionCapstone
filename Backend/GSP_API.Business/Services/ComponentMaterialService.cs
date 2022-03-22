@@ -44,5 +44,10 @@ namespace GSP_API.Business.Services
         {
             return await _componentMaterialRepository.AddRange(compoMateList);
         }
+
+        public async Task<List<ComponentMaterial>> GetCompoMateByCompoId(string compoId)
+        {
+            return await _componentMaterialRepository.GetMaterialByComponentId(compoId);
+        }
     }
 }
