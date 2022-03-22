@@ -86,9 +86,7 @@ namespace GSP_API.Controllers.ModelControllers
         [HttpPost]
         [Route("addAccount")]
         public async Task<ActionResult> AddAccount([FromBody] AccountRequest newAccount)
-        {
-            var hassPw = GSP_API.Business.Extensions.Hash.ComputeSha256Hash(newAccount.Password);
-            newAccount.Password = hassPw;
+        {           
             var data = await _accountService.AddAccount(_mapper.Map<Account>(newAccount));
             if (data.Contains("error"))
             {

@@ -40,8 +40,15 @@ namespace GSP_API.Business.Services
             return await _accountRepository.GetById(p => p.Phone == phone);
         }
 
+        public async Task<Account> GetAccountByNamePhone(string name, string phone)
+        {
+            return await _accountRepository.GetById(p => p.Name == name && p.Phone == phone);
+        }
+
         public async Task<string> AddAccount(Account account)
         {
+            var hassPw = GSP_API.Business.Extensions.Hash.ComputeSha256Hash(account.Password);
+            account.Password = hassPw;
             return await _accountRepository.Add(account);
         }
 
@@ -65,12 +72,7 @@ namespace GSP_API.Business.Services
                 return await _accountRepository.Update(delAccount);
             }
             return null;
-        }
-
-        public async Task<Account> GetAccountByNamePhone(string name, string phone)
-        {
-            return await _accountRepository.GetById(p => p.Name==name && p.Phone == phone);
-        }
+        }        
 
         public async Task<IDictionary<int, Account>> AddRangeAccount(List<Account> accounts)
         {
