@@ -97,6 +97,18 @@ namespace GSP_API.Controllers.ModelControllers
         }
 
         // PUT: DelProcess/1
+        [HttpPost]
+        [Route("createProcess")]
+        public async Task<ActionResult> CreateProcess([FromBody] OrderDetailRequest orderDetailRequest)
+        {
+            var process = await _processService.AddProcessByOrderDetail(_mapper.Map<OrderDetail>(orderDetailRequest));
+            if (process == null)
+            {
+                return BadRequest("System error");
+            }
+            return Ok(process);
+        }
+
         [HttpPut]
         [Route("delProcess/{processId}")]
         public async Task<ActionResult> DelProcess(int processId)
@@ -112,5 +124,6 @@ namespace GSP_API.Controllers.ModelControllers
             }
             return BadRequest(data);
         }
+
     }
 }

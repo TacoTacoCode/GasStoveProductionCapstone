@@ -6,6 +6,6 @@ namespace GSP_API.Domain.Interfaces
 {
     public interface IProductComponentRepository : IRepository<ProductComponent>
     {
-        Task<List<ProductComponent>> GetProCompoByProId2(string productId);
+        List<ProductComponent> GetProCompoByProId2(string productId);
     }
 }
