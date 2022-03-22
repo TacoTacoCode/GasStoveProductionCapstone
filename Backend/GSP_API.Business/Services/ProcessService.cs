@@ -10,13 +10,16 @@ namespace GSP_API.Business.Services
     {
         private readonly IProcessRepository _processRepository;
         private readonly ProcessDetailService _processDetailService;
+        private readonly ProductComponentService _productComponentService;
 
         public ProcessService(
             IProcessRepository processRepository,
-            ProcessDetailService processDetailService)
+            ProcessDetailService processDetailService,
+            ProductComponentService productComponentService)
         {
             _processRepository = processRepository;
             _processDetailService = processDetailService;
+            _productComponentService = productComponentService;           
         }        
 
         public async Task<List<Process>> GetAllProcesses()
@@ -46,6 +49,41 @@ namespace GSP_API.Business.Services
                 default:
                     return data;
             }
+        }
+
+        public async Task<List<Process>> AddProcessByOrderDetail(OrderDetail orderDetail)
+        {
+            List<Process> listProcesses = new List<Process>();
+            Process process = new Process();
+            
+            List<ProductComponent> listProCompo = await _productComponentService.GetProCompoByProId(orderDetail.ProductId);
+            //Create processDetail based on OrderDetail.Amount
+            foreach (ProductComponent productComponent in listProCompo)
+            {
+                ProcessDetail processDetail = new ProcessDetail()
+                {
+                    TotalAmount = orderDetail.Amount * productComponent.Amount,                   
+                };
+                //Add processDetail to process
+                process.ProcessDetails.Add(processDetail);               
+            }
+            ProcessDetail processDetailAssemble = new ProcessDetail()
+            {
+                TotalAmount = orderDetail.Amount,
+
+            };
+
+            return listProcesses;
+            //var data = await _processRepository.Add(process);
+            ////If Add Process successfully
+            //switch (data)
+            //{
+            //    case "true":
+            //        List<ProcessDetail> processDetailList = (List<ProcessDetail>)process.ProcessDetails;
+            //        return await _processDetailService.AddRangeProcessDetail(processDetailList);
+            //    default:
+            //        return data;
+            //}
         }
 
         public async Task<string> UpdateProcess(Process newProcess)

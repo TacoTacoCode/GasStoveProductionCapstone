@@ -16,13 +16,14 @@ namespace GSP_API.Business.Services
             _productComponentRepository = productComponentRepository;
         }
 
-        public ProductComponentService()
-        {
-        }
-
         public async Task<ProductComponent> GetProCompoById(int proCompoId)
         {
             return await _productComponentRepository.GetById(p => p.Id == proCompoId);
+        }
+
+        public async Task<List<ProductComponent>> GetProCompoByProId(string productId)
+        {
+            return await _productComponentRepository.GetProCompoByProId2(productId);
         }
 
         public async Task<string> AddProCompo(ProductComponent proCompo)
