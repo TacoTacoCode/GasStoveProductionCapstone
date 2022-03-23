@@ -34,7 +34,7 @@ namespace GSP_API.Controllers.ModelControllers
             {
                 return BadRequest("Not found");
             }
-            var list = _mapper.Map<List<OrderResponse>>(data);
+            var list = _mapper.Map<List<OrderDetailResponse>>(data);
             return Ok(list);
         }
 

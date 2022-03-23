@@ -30,6 +30,17 @@ namespace GSP_API.Business.Services
         {
             return await _sectionRepository.GetById(p => p.SectionId == sectionId);            
         }
+
+        public async Task<Section> GetSectionByType(bool isAssemble)
+        {
+            return await _sectionRepository.GetById(p => p.IsAssemble == isAssemble);
+        }
+
+        public async Task<Section> GetSectionByComponentId(string CompoId)
+        {
+            return await _sectionRepository.GetById(p => p.ComponentId == CompoId);
+        }
+
         public async Task<Section> GetSectionBySectionLeadId(int sectionManagerId)
         {
             return await _sectionRepository.GetSectionAndWorkersByLead(sectionManagerId);

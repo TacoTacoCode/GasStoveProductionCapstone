@@ -11,6 +11,7 @@ namespace GSP_API.Models.Request
         public string ProductId { get; set; }
         public int? Amount { get; set; }
         public double? Price { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Note { get; set; }        
 
 

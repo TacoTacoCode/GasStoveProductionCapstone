@@ -23,7 +23,7 @@ namespace GSP_API.Business.Services
 
         public async Task<List<ProductComponent>> GetProCompoByProId(string productId)
         {
-            return  _productComponentRepository.GetProCompoByProId2(productId);
+            return await _productComponentRepository.GetAll(p => p.ProductId == productId);
         }
 
         public async Task<string> AddProCompo(ProductComponent proCompo)

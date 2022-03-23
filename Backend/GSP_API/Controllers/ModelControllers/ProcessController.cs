@@ -101,7 +101,7 @@ namespace GSP_API.Controllers.ModelControllers
         [Route("createProcess")]
         public async Task<ActionResult> CreateProcess([FromBody] OrderDetailRequest orderDetailRequest)
         {
-            var process = await _processService.AddProcessByOrderDetail(_mapper.Map<OrderDetail>(orderDetailRequest));
+            var process = await _processService.CreateProcess(_mapper.Map<OrderDetail>(orderDetailRequest));
             if (process == null)
             {
                 return BadRequest("System error");

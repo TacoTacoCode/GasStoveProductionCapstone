@@ -11,16 +11,18 @@ namespace GSP_API.Business.Services
         private readonly IProcessRepository _processRepository;
         private readonly ProcessDetailService _processDetailService;
         private readonly ProductComponentService _productComponentService;
+        private readonly SectionService _sectionService;
 
         public ProcessService(
             IProcessRepository processRepository,
             ProcessDetailService processDetailService,
-            ProductComponentService productComponentService)
+            ProductComponentService productComponentService, SectionService sectionService)
         {
             _processRepository = processRepository;
             _processDetailService = processDetailService;
-            _productComponentService = productComponentService;           
-        }        
+            _productComponentService = productComponentService;
+            _sectionService = sectionService;
+        }
 
         public async Task<List<Process>> GetAllProcesses()
         {
@@ -51,24 +53,34 @@ namespace GSP_API.Business.Services
             }
         }
 
-        public async Task<Process> AddProcessByOrderDetail(OrderDetail orderDetail)
+        public async Task<Process> CreateProcess(OrderDetail orderDetail)
         {
-            var process = new Process();
+            var process = new Process() {
+                CreatedDate = System.DateTime.Now.Date,
+                Status = "New",
+                NeededAmount = orderDetail.Amount,
+                TotalAmount = orderDetail.Amount,
+                FinishedAmount = 0,
+            };
             var listProCompo = await _productComponentService.GetProCompoByProId(orderDetail.ProductId);
 
             //Create processDetail based on OrderDetail.Amount
-            foreach (ProductComponent productComponent in listProCompo)
+            foreach (var productComponent in listProCompo)
             {
                 process.ProcessDetails.Add(new ProcessDetail()
                 {
                     TotalAmount = orderDetail.Amount * productComponent.Amount,
-                    SectionId = productComponent.Component.Sections.ElementAt(0).SectionId,
+                    SectionId = _sectionService.GetSectionByComponentId(productComponent.ComponentId).Result.SectionId,
+                    Status = "New",
+                    FinishedAmount = 0,
                 });               
             }
             process.ProcessDetails.Add(new ProcessDetail()
             {
                 TotalAmount = orderDetail.Amount,
-                SectionId = 3,
+                SectionId = (await _sectionService.GetSectionByType(true)).SectionId,
+                Status = "New",
+                FinishedAmount = 0,
             });
             return process;
         }
