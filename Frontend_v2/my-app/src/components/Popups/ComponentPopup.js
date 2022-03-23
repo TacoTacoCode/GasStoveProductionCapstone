@@ -1,9 +1,26 @@
 import React, { useState } from 'react'
 import './Popup.scss'
-import CloseIcon from '@mui/icons-material/Close'
+import CloseIcon from '@mui/icons-material/Close';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 import { Button, InputAdornment, makeStyles, MenuItem, TextField } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
+import MaterialList from '../list/MaterialList';
 import axios from 'axios';
+
+function createData(materialId, materialName, amount) {
+  return { materialId, materialName, amount };
+}
+
+const rows = [
+  createData('Test1', 'Test 1', 10),
+  createData('Test2', 'Test 2', 20,),
+];
 
 const statuses = [
   {
@@ -44,6 +61,7 @@ function ComponentPopup(props) {
   const [componentName, setComponentName] = useState('');
   const [size, setComponentSize] = useState('');
   const [amount, setComponentAmount] = useState('');
+  const [materialAmount, setMaterialComponentAmount] = useState('');
   const [substance, setComponentSubstance] = useState('');
   const [weight, setComponentWeight] = useState('');
   const [color, setComponentColor] = useState('');
@@ -180,6 +198,47 @@ function ComponentPopup(props) {
                   label="Description"
                   onChange={(e) => setDescription(e.target.value)}
                 />
+              </div>
+            </div>
+
+            <div className='idname'>
+              <div className='txtfield'>
+                <MaterialList />
+              </div>
+              <div className='numfield'>
+                <CssTextField
+                  label="Amount"
+                  id="fullWidth"
+                  required type={'number'}
+                  InputProps={{
+                    inputProps: { min: 0, pattern: '[0-9]*' }
+                  }}
+                  onChange={(e) => setMaterialComponentAmount(e.target.value)} />
+              </div>
+              <div className='numfield'>
+                <Button>Add</Button>
+              </div>
+              <div className='tablefield'>
+                <TableContainer component={Paper}>
+                  <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>ID</TableCell>
+                        <TableCell>Name</TableCell>
+                        <TableCell>Amount</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {rows.map((row) => (
+                        <TableRow key={row.name}>
+                          <TableCell>{row.materialId}</TableCell>
+                          <TableCell>{row.materialName}</TableCell>
+                          <TableCell>{row.amount}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
               </div>
             </div>
 

@@ -1,5 +1,11 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState, useEffect, useRef, useMountEffect } from 'react';
 import MaterialTable from 'material-table';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@material-ui/core";
+import { alpha, styled } from '@mui/material/styles';
+import '../../App.css';
+import '../Popups/Popup.scss'
+import CloseIcon from '@mui/icons-material/Close'
+import { Button, InputAdornment, makeStyles, MenuItem, TextField } from '@mui/material';
 import axios from 'axios';
 
 export const Table = (props) => {
@@ -36,8 +42,105 @@ export const Table = (props) => {
         },
     ]
 
+    const statuses = [
+
+        {
+            value: 'Active',
+            label: 'Active'
+        },
+        {
+            value: 'Unactive',
+            label: 'Unactive'
+        }
+    ]
+
+    const CssTextField = styled(TextField)({
+        'width': '100%',
+        '& label.Mui-focused': {
+            color: 'black',
+        },
+        '& .MuiInput-underline:after': {
+            borderBottomColor: '#e30217',
+        },
+        '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+                borderColor: 'black',
+            },
+            '&:hover fieldset': {
+                borderColor: '#e30217',
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: '#e30217',
+            },
+        },
+    });
+
+    // General Focus Hook
+    const UseFocus = () => {
+        const htmlElRef = useRef(null);
+        const setFocus = () => {
+            htmlElRef.current && htmlElRef.current.focus();
+        };
+
+        return [htmlElRef, setFocus];
+    };
+
+    const [open, setOpen] = React.useState(false);
+    const [imageUrl, setMaterialImage] = useState('');
+    const [materialId, setMaterialId] = useState('');
+    const [materialIdRef] = UseFocus();
+    const [materialName, setMaterialName] = useState('');
+    const [materialNameRef] = UseFocus();
+    const [unit, setMaterialUnit] = useState('');
+    const [amount, setMaterialAmount] = useState('');
+    const [status, setStatus] = useState('Active');
+    const [description, setDescription] = useState('');
+    // const [material, setMaterial] = useState({
+    //     imageUrl: "",
+    //     materialId: "",
+    //     materialName: "",
+    //     unit: "",
+    //     amount: "",
+    //     status: "Active",
+    //     description: "",
+    // });
+
+    // const handleChange = (event) => {
+    //     const { name, value } = event.target;
+    //     setMaterial((prevState) => {
+    //         return {
+    //             ...prevState,
+    //             [name]: value,
+    //         };
+    //     });
+    // };
+
+    // const { imageUrl, materialId, materialName, unit, amount, status, description } = material;
+
+    const handleClickOpen = (material) => {
+        setOpen(true);
+        console.log(material);
+        // setMaterial(material)
+        setMaterialId(material.materialId);
+        setMaterialName(material.materialName);
+        setMaterialUnit(material.unit);
+        setMaterialAmount(material.amount);
+        setStatus(material.status);
+        setDescription(material.description);
+    };
+
+    const handleSaveData = () => {
+        console.log("test save");
+        console.log(materialId + " - " + materialName);
+        setOpen(false);
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (
-        <div>
+        <React.Fragment>
             <MaterialTable title={"List of Materials"}
                 data={array}
                 columns={columns}
@@ -49,8 +152,14 @@ export const Table = (props) => {
                             deleteMaterial(rowData.materialId);
                             window.location.reload();
                         }
-                    }
-
+                    },
+                    {
+                        icon: 'edit',
+                        tooltip: 'Edit this Material',
+                        onClick: (event, rowData) => {
+                            handleClickOpen(rowData);
+                        }
+                    },
                 ]}
 
                 options={{
@@ -59,6 +168,102 @@ export const Table = (props) => {
                     exportButton: false,
                     headerStyle: { backgroundColor: '#E30217', color: '#fff', }
                 }} />
-        </div>
+
+            <Dialog open={open} onClose={handleClose}
+                // material={material}
+                materialId={materialId}
+                materialName={materialName}
+                unit={unit}
+                amount={amount}
+                status={status}
+                description={description}>
+                <div className='componentpopup'>
+                    <div className='popup-inner'>
+                        <div>
+                            <button className='close-btn' onClick={handleClose}>
+                                <CloseIcon style={{ 'color': "white", }} />
+                            </button>
+                        </div>
+                        <h3 className='popuptitle'>Edit material: {materialId}</h3>
+                        <div className='popup-body'>
+                            <form>
+                                <div className='idname'>
+                                    <div className='idfield'>
+                                        <CssTextField name="materialId" label="Material ID" id="materialid" readOnly
+                                            value={materialId} />
+                                    </div>
+                                    <div className='namefield'>
+                                        <CssTextField label="Material Name" id="materialname"
+                                            name="materialName"
+                                            value={materialName}
+                                            onChange={e => setMaterialName(e.target.value)}
+                                            ref={materialNameRef}
+                                        />
+                                    </div>
+                                    <div className='idfield'>
+                                        <CssTextField label="Unit" id="unit"
+                                            name="unit"
+                                            value={unit}
+                                            onChange={e => setMaterialUnit(e.target.value)} />
+                                    </div>
+                                </div>
+                                <div className='idname'>
+                                    <div className='txtfield'>
+                                        <CssTextField
+                                            label="Amount"
+                                            id="amount"
+                                            name="amount"
+                                            required type={'number'}
+                                            InputProps={{
+                                                inputProps: { min: 0, pattern: '[0-9]*' }
+                                            }}
+                                            value={amount}
+                                            onChange={e => setMaterialAmount(e.target.value)} />
+                                    </div>
+                                    <div className='txtfield'>
+                                        <CssTextField
+                                            label="Status"
+                                            select
+                                            name="status"
+                                            id="Status" required
+                                            onChange={e => setStatus(e.target.value)}
+                                            value={status}
+                                            helperText="Choose material status">
+                                            {statuses.map((option) => (
+                                                <MenuItem key={option.value} value={option.value}>
+                                                    {option.label}
+                                                </MenuItem>
+                                            ))}
+                                        </CssTextField>
+                                    </div>
+                                    <div className='txtfield'>
+                                        <CssTextField
+                                            id='description'
+                                            label="Description"
+                                            name="description"
+                                            value={description}
+                                            onChange={e => setDescription(e.target.value)} />
+                                    </div>
+                                </div>
+
+                                <div className='btngr'>
+                                    <Button
+                                        type='submit'
+                                        variant="contained"
+                                        style={{ fontFamily: 'Muli', borderRadius: 10, backgroundColor: "#e30217", marginRight: '0.5rem' }}
+                                        size="large" onClick={handleSaveData}
+                                    >Save</Button>
+                                    <Button
+                                        variant="contained"
+                                        style={{ fontFamily: 'Muli', borderRadius: 10, backgroundColor: "#e30217" }}
+                                        size="large" onClick={handleClose}
+                                    >Cancel</Button>
+                                </div>
+                            </form>
+                        </div >
+                    </div>
+                </div>
+            </Dialog>
+        </React.Fragment>
     )
 }
