@@ -55,12 +55,27 @@ namespace GSP_API.Business.Services
 
         public async Task<Process> CreateProcess(OrderDetail orderDetail)
         {
+            if(orderDetail.OrderDetailId == 0)
+            {
+                orderDetail = new()
+                {
+                    OrderDetailId = 2,
+                    OrderId = 1,
+                    ProductId = "PRO1",
+                    Amount = 10,
+                    Price = 2,
+                    Note = "abc",
+                };
+            }
+            //delete above if not test
             var process = new Process() {
                 CreatedDate = System.DateTime.Now.Date,
                 Status = "New",
                 NeededAmount = orderDetail.Amount,
                 TotalAmount = orderDetail.Amount,
                 FinishedAmount = 0,
+                OrderDetailId = orderDetail.OrderDetailId,
+                
             };
             var listProCompo = await _productComponentService.GetProCompoByProId(orderDetail.ProductId);
 
@@ -73,6 +88,7 @@ namespace GSP_API.Business.Services
                     SectionId = _sectionService.GetSectionByComponentId(productComponent.ComponentId).Result.SectionId,
                     Status = "New",
                     FinishedAmount = 0,
+
                 });               
             }
             process.ProcessDetails.Add(new ProcessDetail()
@@ -85,6 +101,11 @@ namespace GSP_API.Business.Services
             return process;
         }
 
+        public async Task<string> AddProcessList(List<Process> processList)
+        {
+            var data = await _processRepository.AddRange(processList);
+            return data;
+        }
         public async Task<string> UpdateProcess(Process newProcess)
         {
             var data = await _processRepository.FindFirst(p => p.ProcessId == newProcess.ProcessId);

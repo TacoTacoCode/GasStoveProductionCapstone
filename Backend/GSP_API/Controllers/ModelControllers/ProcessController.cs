@@ -97,18 +97,6 @@ namespace GSP_API.Controllers.ModelControllers
         }
 
         // PUT: DelProcess/1
-        [HttpPost]
-        [Route("createProcess")]
-        public async Task<ActionResult> CreateProcess([FromBody] OrderDetailRequest orderDetailRequest)
-        {
-            var process = await _processService.CreateProcess(_mapper.Map<OrderDetail>(orderDetailRequest));
-            if (process == null)
-            {
-                return BadRequest("System error");
-            }
-            return Ok(process);
-        }
-
         [HttpPut]
         [Route("delProcess/{processId}")]
         public async Task<ActionResult> DelProcess(int processId)
@@ -123,6 +111,30 @@ namespace GSP_API.Controllers.ModelControllers
                 return Ok("Delete Successfully");
             }
             return BadRequest(data);
+        }
+
+        [HttpPost]
+        [Route("createProcess")]
+        public async Task<ActionResult> CreateProcess([FromBody] OrderDetailRequest orderDetailRequest)
+        {
+            var process = await _processService.CreateProcess(_mapper.Map<OrderDetail>(orderDetailRequest));
+            if (process == null)
+            {
+                return BadRequest("System error");
+            }
+            return Ok(process);
+        }
+
+        [HttpPost]
+        [Route("addProcessList")]
+        public async Task<ActionResult> AddListProcess([FromBody] List<ProcessRequest> processRequests)
+        {
+            var data = await _processService.AddProcessList(_mapper.Map<List<Process>>(processRequests));
+            if (data.Contains("error"))
+            {
+                return BadRequest("System errors");
+            }
+            return Ok("Add successfully");
         }
 
     }
