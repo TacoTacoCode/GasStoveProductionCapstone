@@ -134,6 +134,10 @@ namespace GSP_API.Controllers.ModelControllers
             {
                 return BadRequest("System errors");
             }
+            if(data != "true")
+            {
+                return BadRequest(data);
+            }
             return Ok("Add successfully");
         }
 

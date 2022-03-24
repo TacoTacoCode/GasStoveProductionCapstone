@@ -12,16 +12,18 @@ namespace GSP_API.Business.Services
         private readonly ProcessDetailService _processDetailService;
         private readonly ProductComponentService _productComponentService;
         private readonly SectionService _sectionService;
+        private readonly OrderDetailService _orderDetailService;
 
         public ProcessService(
             IProcessRepository processRepository,
             ProcessDetailService processDetailService,
-            ProductComponentService productComponentService, SectionService sectionService)
+            ProductComponentService productComponentService, SectionService sectionService, OrderDetailService orderDetailService)
         {
             _processRepository = processRepository;
             _processDetailService = processDetailService;
             _productComponentService = productComponentService;
             _sectionService = sectionService;
+            _orderDetailService = orderDetailService;
         }
 
         public async Task<List<Process>> GetAllProcesses()
@@ -103,6 +105,34 @@ namespace GSP_API.Business.Services
 
         public async Task<string> AddProcessList(List<Process> processList)
         {
+            ////validate
+            var orderDetail = await  _orderDetailService.GetOrderDetailById((int)processList[0].OrderDetailId);
+            //get all component need to build the product
+            var proCompos = await _productComponentService.GetProCompoByProId(orderDetail.ProductId);
+            //add amount of component need, convert to sectionId since processDetail contains SectionId 
+            var sectionDic = proCompos.ToDictionary(e => _sectionService.GetSectionByComponentId(e.ComponentId).Result.SectionId, e => e.Amount);
+            //add assemble section
+            sectionDic.Add(_sectionService.GetSectionByType(true).Result.SectionId, orderDetail.Amount);
+
+            var sumOfProduct = 0;
+            var processIndex = 1;
+            foreach (var process in processList)
+            {
+                //validate processDetail
+                foreach (var proDetail in process.ProcessDetails)
+                {
+                    if (proDetail.TotalAmount < sectionDic[(int)proDetail.SectionId]*orderDetail.Amount) {
+                        return "Lack of Component at Process No." + processIndex.ToString();
+                    }
+
+                }
+                sumOfProduct += (int) (process.NeededAmount + process.FinishedAmount);
+                processIndex += 1;
+            }
+            //validate amount
+            if (sumOfProduct != orderDetail.Amount)
+                return "Needed ammount in all processes is different from Order Detail";
+
             var data = await _processRepository.AddRange(processList);
             return data;
         }
