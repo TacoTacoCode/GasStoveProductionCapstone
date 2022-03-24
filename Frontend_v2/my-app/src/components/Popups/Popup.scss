@@ -110,19 +110,43 @@
     margin-right: 0.5rem;
 }
 
+.txtfield1 {
+    width       : 20%;
+    height      : 4vh;
+    display     : inline-flex;
+    margin-left : 0.5rem;
+    margin-right: 0.5rem;
+}
+
 .numfield {
     width       : 10%;
-    height      : 2vh;
+    height      : fit-content;
     display     : inline-block;
     margin-top  : 2.1rem;
     margin-left : 0.5rem;
     margin-right: 0.5rem;
 }
 
+.numfield1 {
+    width       : 10%;
+    height      : fit-content;
+    display     : inline-flex;
+    margin-left : 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.button_field {
+    width       : 15%;
+    height      : fit-content;
+    display     : inline-flex;
+    margin-left : 0.5rem;
+    margin-right: 0.5rem;
+}
+
 .tablefield {
-    width       : 50%;
-    display     : inline-block;
-    margin-top  : 2.1rem;
+    width       : 40%;
+    display     : inline-flex;
+    margin-top  : 2rem;
     margin-left : 0.5rem;
     margin-right: 0.5rem;
 }
@@ -162,7 +186,7 @@
 }
 
 .btngr {
-    margin-top   : 16%;
+    margin-top   : 5%;
     margin-bottom: 2%;
     margin-right : 3%;
     text-align   : right;
