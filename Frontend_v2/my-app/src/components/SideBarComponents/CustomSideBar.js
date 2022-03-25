@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SideBarAdminData, SideBarData, SideBarOrderData } from "./SideBarData";
+import { SideBarAdminData, SideBarData, SideBarOrderData, SideBarSectionData } from "./SideBarData";
 import "../SideBarComponents/SideBarCss.css";
 import { Link } from "react-router-dom";
 import * as FaIcons from 'react-icons/fa';
@@ -55,17 +55,20 @@ function CustomSideBar() {
         localStorage.clear();
         // localStorage.removeItem("user");
         window.location.href = "/login";
-      };
+    };
     let role = [];
     function linkClick() {
         window.location.href = "http://localhost:3000/dashboard/";
     }
     switch (localStorage.getItem('currentRole')) {
         case 'Admin':
-            role = SideBarAdminData.map(obj => ({...obj}));
+            role = SideBarAdminData.map(obj => ({ ...obj }));
             break;
         case 'Order Department':
-            role = SideBarOrderData.map(obj => ({...obj}));
+            role = SideBarOrderData.map(obj => ({ ...obj }));
+            break;
+        case 'Section Department':
+            role = SideBarSectionData.map(obj => ({ ...obj }));
             break;
         default:
             break;

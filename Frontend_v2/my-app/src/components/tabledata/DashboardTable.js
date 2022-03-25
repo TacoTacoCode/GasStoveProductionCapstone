@@ -2,40 +2,42 @@ import React, { useState } from 'react';
 import MaterialTable from 'material-table';
 import '../tabledata/TableDesign.css'
 
-export const Table = () => {
-    const [data, setData] = useState([
-        { id: '123', sectionname: 'Hieu', materialid: '123', material: 'Ống gas', amount: '100', available: '500', status: 'pending' },
-        { id: '124', sectionname: 'Taco', materialid: '123', material: 'Ống gas', amount: '200', available: '500', status: 'pending' },
-        { id: '125', sectionname: 'Bò', materialid: '123', material: 'Ống gas', amount: '300', available: '500', status: 'pending' },
-        { id: '126', sectionname: 'Trung', materialid: '123', material: 'Ống gas', amount: '400', available: '500', status: 'pending' },
-    ])
+export const Table = (props) => {
+
+    const { listRequestMaterials } = props;
+    const array = [];
+
+    listRequestMaterials.forEach(item => {
+        array.push(item)
+    }, []);
+
     const columns = [
         {
-            title: 'ID', field: 'id', cellStyle: { fontFamily: 'Muli' }, align: "left"
+            title: 'Request ID', field: 'importExportId', cellStyle: { fontFamily: 'Arial' }, align: "left"
         },
         {
-            title: 'Section Name', field: 'sectionname', cellStyle: { fontFamily: 'Muli' }, align: "left"
+            title: 'Section Id', field: 'sectionId', cellStyle: { fontFamily: 'Muli' }, align: "left"
         },
-        {
-            title: 'Material Id', field: 'materialid', cellStyle: { fontFamily: 'Muli' }, align: "left"
-        },
-        {
-            title: 'Material Name', field: 'material', cellStyle: { fontFamily: 'Muli' }, align: "left"
-        },
-        {
-            title: 'Request Amount', field: 'amount', cellStyle: { fontFamily: 'Muli' }, align: "left"
-        },
-        {
-            title: 'Available Amount', field: 'available', cellStyle: { fontFamily: 'Muli' }, align: "left"
-        },
-        {
-            title: 'Status', field: 'status', cellStyle: { fontFamily: 'Muli' }, align: "left"
-        },
+        // {
+        //     title: 'Material Id', field: 'materialid', cellStyle: { fontFamily: 'Muli' }, align: "left"
+        // },
+        // {
+        //     title: 'Material Name', field: 'material', cellStyle: { fontFamily: 'Muli' }, align: "left"
+        // },
+        // {
+        //     title: 'Request Amount', field: 'amount', cellStyle: { fontFamily: 'Muli' }, align: "left"
+        // },
+        // {
+        //     title: 'Available Amount', field: 'available', cellStyle: { fontFamily: 'Muli' }, align: "left"
+        // },
+        // {
+        //     title: 'Status', field: 'status', cellStyle: { fontFamily: 'Muli' }, align: "left"
+        // },
     ]
     return (
         <div>
             <MaterialTable title={"Material Requesting List"}
-                data={data}
+                data={array}
                 columns={columns}
                 actions={[
                     {

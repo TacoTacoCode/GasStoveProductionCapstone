@@ -4,8 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import swal from 'sweetalert';
 import './Signin.scss';
 import jwt from 'jwt-decode'
-import { Navigate, Route } from 'react-router-dom';
-import DashBoard from '../SideBarPages/DashBoard';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -47,7 +45,6 @@ export default function Signin() {
                     const token = response['token'];
                     const user = jwt(token);
                     localStorage.setItem('token', response['token']);
-                    console.log("Role: " + user.role);
                     localStorage.setItem('currentId', user.id)
                     localStorage.setItem('currentRole', user.role)
                     switch (user.role) {
@@ -59,6 +56,9 @@ export default function Signin() {
                             break;
                         case "Order Department":
                             window.location.href = "/orders";
+                            break;
+                        case "Section Department":
+                            window.location.href = "/section/materials";
                             break;
                         default:
                             console.log("Not Adminnnnnn");

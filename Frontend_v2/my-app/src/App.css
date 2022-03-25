@@ -65,6 +65,13 @@
   padding-top: 7%;
 }
 
+
+.table2nd {
+  padding    : 3%;
+  padding-top: 7%;
+  /* display: none; */
+}
+
 .navbar {
   background-color: #fff;
   height          : 80px;

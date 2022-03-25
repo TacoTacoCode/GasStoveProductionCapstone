@@ -40,5 +40,24 @@ export const SideBarOrderData = [
         // icon: <DashboardIcon />,
         path: "/orders",
         cName: 'nav-text'
+    },
+    {
+        title: 'Orders Details',
+        // icon: <DashboardIcon />,
+        path: "/orders/orderdetails",
+        cName: 'nav-text'
+    }
+]
+
+export const SideBarSectionData = [
+    {
+        title: 'Materials List',
+        path: "/section/materials",
+        cName: "nav-text"
+    },
+    {
+        title: 'Workers List',
+        path: "/section/workers",
+        cName: "nav-text"
     }
 ]

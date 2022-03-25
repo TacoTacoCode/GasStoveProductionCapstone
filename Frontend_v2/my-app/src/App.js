@@ -2,14 +2,16 @@ import './App.css';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import CustomSideBar from './components/SideBarComponents/CustomSideBar';
 import { BrowserRouter as Router, Routes, Route, BrowserRouter } from 'react-router-dom';
-import DashBoard from './components/SideBarPages/DashBoard';
-import Accounts from './components/SideBarPages/Accounts';
-import Materials from './components/SideBarPages/Materials';
-import Components from './components/SideBarPages/Components';
-import Products from './components/SideBarPages/Products';
-
+import DashBoard from './components/SideBarPages/admin/DashBoard';
+import Accounts from './components/SideBarPages/admin/Accounts';
+import Materials from './components/SideBarPages/admin/Materials';
+import Components from './components/SideBarPages/admin/Components';
+import Products from './components/SideBarPages/admin/Products';
 import Signin from './components/login/Signin';
-import Orders from './components/SideBarPages/Orders';
+import Orders from './components/SideBarPages/orderdepartment/Orders';
+import SectionMaterials from './components/SideBarPages/sectiondepartment/SectionMaterials';
+import WorkerList from './components/SideBarPages/sectiondepartment/WorkerList';
+import OrderDetails from './components/SideBarPages/orderdepartment/OrderDetails';
 
 
 const theme = createTheme({
@@ -62,6 +64,9 @@ function App() {
             <Route path='/dashboard/products' exact element={<Products />}></Route>
             <Route path='/dashboard/components' exact element={<Components />}></Route>
             <Route path='/orders' exact element={<Orders />}></Route>
+            <Route path='/orders/orderdetails' exact element={<OrderDetails />}></Route>
+            <Route path='/section/materials' exact element={<SectionMaterials />}></Route>
+            <Route path='/section/workers' exact element={<WorkerList />}></Route>
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
