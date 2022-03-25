@@ -126,6 +126,18 @@ namespace GSP_API.Controllers.ModelControllers
         }
 
         [HttpPost]
+        [Route("distribute")]
+        public async Task<ActionResult> DistributeProcess([FromBody] DistributeProcessRequest distributeProcessRequest)
+        {
+            var procesList = await _processService.DistributeProcess(distributeProcessRequest.Process, distributeProcessRequest.ProcessAmmounts);
+            if (procesList.Count() == 0)
+            {
+                return BadRequest("System error");
+            }
+            return Ok(procesList);
+        }
+
+        [HttpPost]
         [Route("addProcessList")]
         public async Task<ActionResult> AddListProcess([FromBody] List<ProcessRequest> processRequests)
         {

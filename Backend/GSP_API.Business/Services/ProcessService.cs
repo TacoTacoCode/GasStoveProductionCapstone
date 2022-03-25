@@ -103,6 +103,55 @@ namespace GSP_API.Business.Services
             return process;
         }
 
+        public async Task<List<Process>> DistributeProcess(Process process, int[] amounts)
+        {
+            var processList = new List<Process>();
+            var orderDetail = await _orderDetailService.GetOrderDetailById((int)process.OrderDetailId);
+
+            //GetProCompo and map each compoID -> sectionID since ProcessDetail contains sectionID
+            var listProCompo = await _productComponentService.GetProCompoByProId(orderDetail.ProductId);
+            var secDic = listProCompo.ToDictionary(e => _sectionService.GetSectionByComponentId(e.ComponentId).Result.SectionId, e => e.Amount);
+            
+            var assembleSection = await _sectionService.GetSectionByType(true);
+
+           
+            foreach (var number in amounts)
+            {
+                //create process
+                var newProcess = new Process()
+                {
+                    CreatedDate = process.CreatedDate,
+                    Status = "New",
+                    NeededAmount = number,
+                    TotalAmount = number,
+                    FinishedAmount = number == amounts.First() ? process.FinishedAmount : 0,
+                    OrderDetailId = process.OrderDetailId,
+                };
+                //Create processDetail
+                foreach (var item in secDic)
+                {
+                    newProcess.ProcessDetails.Add(new ProcessDetail()
+                    {
+                        TotalAmount = number * item.Value,
+                        SectionId = item.Key,
+                        Status = "New",
+                        FinishedAmount = 0,
+                    });
+                }
+                //add assemble process
+                newProcess.ProcessDetails.Add(new ProcessDetail()
+                {
+                    TotalAmount = newProcess.TotalAmount - newProcess.FinishedAmount,
+                    SectionId = assembleSection.SectionId,
+                    Status = "New",
+                    FinishedAmount = 0,
+                });
+                //add to return list
+                processList.Add(newProcess);
+            }
+            return processList;
+        }
+
         public async Task<string> AddProcessList(List<Process> processList)
         {
             ////validate
@@ -136,6 +185,7 @@ namespace GSP_API.Business.Services
             var data = await _processRepository.AddRange(processList);
             return data;
         }
+
         public async Task<string> UpdateProcess(Process newProcess)
         {
             var data = await _processRepository.FindFirst(p => p.ProcessId == newProcess.ProcessId);
