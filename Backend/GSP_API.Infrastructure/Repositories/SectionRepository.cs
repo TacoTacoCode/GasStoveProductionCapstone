@@ -16,7 +16,7 @@ namespace GSP_API.Infrastructure.Repositories
 
         public async Task<Section> GetSectionAndWorkersByLead(int sectionLeadId)
         {
-            var data = await this.DbSet.Include(s => s.Accounts).SingleAsync();
+            var data = await this.DbSet.Include(s => s.Accounts).FirstAsync();
             return data;
         }
     }
