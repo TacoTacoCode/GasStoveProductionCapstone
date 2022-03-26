@@ -26,6 +26,11 @@ namespace GSP_API.Business.Services
             return await _processDetailRepository.GetById(p => p.ProcessDetailId == processDetailId);
         }
 
+        public async Task<List<ProcessDetail>> GetProcessDetailBySectionId(int sectionId)
+        {
+            return await _processDetailRepository.GetAll(p => p.SectionId == sectionId);
+        }
+
         public async Task<string> AddProcessDetail(ProcessDetail processDetail)
         {
             return await _processDetailRepository.Add(processDetail);
