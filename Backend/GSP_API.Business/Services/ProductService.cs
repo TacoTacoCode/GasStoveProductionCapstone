@@ -57,6 +57,7 @@ namespace GSP_API.Business.Services
             return await _productRepository.Update(pros);
 
         }
+
         public async Task<string> UpdateProdct(Product product, Dictionary<string, int> compoItems)
         {
             foreach (var item in compoItems)
@@ -69,7 +70,6 @@ namespace GSP_API.Business.Services
             }
             return await _productRepository.Add(product);
         }
-
 
         public async Task<string> UpdateProduct(Product newProduct)
         {

@@ -78,9 +78,9 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> AddProduct([FromBody]ProductCompoRequest proComRequest)
         {
             var data = await _productService.AddProduct(_mapper.Map<Product>(proComRequest.product), proComRequest.compos);
-            if (data == null)
+            if (data.Contains("error"))
             {
-                return BadRequest("Not Found");
+                return BadRequest(data);
             }
             return Ok("Add successfully");
         }

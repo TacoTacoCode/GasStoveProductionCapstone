@@ -58,6 +58,19 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok(list);
         }
 
+        [HttpPost]
+        [Route("addComponent")]
+        public async Task<ActionResult> AddComponent([FromBody] ComponentRequest component)
+        {
+            var data = await _componentService.AddComponent(_mapper.Map<Component>(component));
+            if (data.Contains("error"))
+            {
+                return BadRequest(data);
+            }
+            return Ok("Add successfully");
+        }
+
+
         // GET: getComponent/1
         [HttpGet]
         [Route("getComponent/{componentId}")]
