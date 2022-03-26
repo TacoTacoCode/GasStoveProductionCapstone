@@ -93,6 +93,7 @@ namespace GSP_API.Business.Services
 
                 });               
             }
+            //Add assemble Section
             process.ProcessDetails.Add(new ProcessDetail()
             {
                 TotalAmount = orderDetail.Amount,
@@ -161,14 +162,15 @@ namespace GSP_API.Business.Services
             //add amount of component need, convert to sectionId since processDetail contains SectionId 
             var sectionDic = proCompos.ToDictionary(e => _sectionService.GetSectionByComponentId(e.ComponentId).Result.SectionId, e => e.Amount);
             //add assemble section
-            sectionDic.Add(_sectionService.GetSectionByType(true).Result.SectionId, orderDetail.Amount);
+            var assembleSection = await _sectionService.GetSectionByType(true);
+            sectionDic.Add(assembleSection.SectionId, orderDetail.Amount);
 
             var sumOfProduct = 0;
             var processIndex = 1;
             foreach (var process in processList)
             {
                 //validate processDetail
-                foreach (var proDetail in process.ProcessDetails)
+                foreach (var proDetail in process.ProcessDetails.SkipLast(1))
                 {
                     if (proDetail.TotalAmount < sectionDic[(int)proDetail.SectionId]*orderDetail.Amount) {
                         return "Lack of Component at Process No." + processIndex.ToString();
