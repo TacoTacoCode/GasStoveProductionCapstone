@@ -75,9 +75,9 @@ namespace GSP_API.Controllers.ModelControllers
         // POST: AddProduct/[product]
         [HttpPost]
         [Route("addProduct")]
-        public async Task<ActionResult> AddProduct([FromBody]ProductCompoRequest proComRequest)
+        public async Task<ActionResult> AddProduct([FromBody]ProductRequest productRequest)
         {
-            var data = await _productService.AddProduct(_mapper.Map<Product>(proComRequest.product), proComRequest.compos);
+            var data = await _productService.AddProduct(_mapper.Map<Product>(productRequest));
             if (data.Contains("error"))
             {
                 return BadRequest(data);

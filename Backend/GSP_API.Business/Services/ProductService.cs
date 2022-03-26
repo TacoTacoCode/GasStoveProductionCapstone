@@ -31,43 +31,8 @@ namespace GSP_API.Business.Services
             return await _productRepository.GetAll(p => p.Status == status);
         }
 
-        public async Task<string> AddProduct(Product product, Dictionary<string, int> compoItems)
+        public async Task<string> AddProduct(Product product)
         {
-            var pros = await _productRepository.FindFirst(p => p.ProductId == product.ProductId);
-            if(pros == null)
-            {
-                foreach (var item in compoItems)
-                {
-                    product.ProductComponents.Add(new()
-                    {
-                        ComponentId = item.Key,
-                        Amount = item.Value
-                    }); ;
-                }
-                return await _productRepository.Add(product);
-            }
-            foreach (var item in compoItems)
-            {
-                pros.ProductComponents.Add(new()
-                {
-                    ComponentId = item.Key,
-                    Amount = item.Value
-                }); ;
-            }
-            return await _productRepository.Update(pros);
-
-        }
-
-        public async Task<string> UpdateProdct(Product product, Dictionary<string, int> compoItems)
-        {
-            foreach (var item in compoItems)
-            {
-                product.ProductComponents.Add(new()
-                {
-                    ComponentId = item.Key,
-                    Amount = item.Value
-                }); ;
-            }
             return await _productRepository.Add(product);
         }
 

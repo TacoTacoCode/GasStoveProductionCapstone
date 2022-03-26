@@ -22,7 +22,7 @@ namespace GSP_API.Extensions.Profiles
             CreateMap<Material, MaterialResponse>();
 
             CreateMap<ComponentRequest, Component>()
-                .ForMember(dest => dest.ComponentMaterials, act => act.MapFrom(src => src.ComponentMaterial)); ;
+                .ForMember(dest => dest.ComponentMaterials, act => act.MapFrom(src => src.ComponentMaterial));
             CreateMap<Component, ComponentResponse>();
 
             CreateMap<ImportExportRequest, ImportExport>();
@@ -37,7 +37,8 @@ namespace GSP_API.Extensions.Profiles
             CreateMap<OrderDetailRequest, OrderDetail>();
             CreateMap<OrderDetail, OrderDetailResponse>();
 
-            CreateMap<ProductRequest, Product>();
+            CreateMap<ProductRequest, Product>()
+                .ForMember(dest => dest.ProductComponents, act => act.MapFrom(src => src.ProductComponents));
             CreateMap<Product, ProductResponse>();
 
             CreateMap<ProcessRequest, Process>();
