@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './Popup.scss'
+import '../../styles/Popup.scss'
 import CloseIcon from '@mui/icons-material/Close'
 import { Button, InputAdornment, makeStyles, MenuItem, TextField } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import './Popup.scss'
+import React, { useState, useEffect } from 'react'
+import '../../styles/Popup.scss'
 import CloseIcon from '@mui/icons-material/Close'
 import { Button, InputAdornment, makeStyles, MenuItem, TextField } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
@@ -106,6 +106,9 @@ function AccountPopup(props) {
   const [sectionID, setAccountSection] = useState('');
   const [isActive, setStatus] = useState('Active');
 
+  const [roles, setRoleList] = useState([]);
+  const [sections, setSectionList] = useState([]);
+
   const [file, setFile] = useState();
   const [fileName, setFileName] = useState("");
 
@@ -128,6 +131,15 @@ function AccountPopup(props) {
       console.log(ex);
     }
   };
+
+  useEffect(() => {
+    axios.get("https://localhost:5001/getRoles").then(res => {
+      setRoleList(res.data)
+    });
+    axios.get("https://localhost:5001/getAllSections").then(res => {
+      setSectionList(res.data)
+    });
+  }, [])
 
   const postData = () => {
     const formData = new FormData();
@@ -243,8 +255,8 @@ function AccountPopup(props) {
                   helperText="Choose Role"
                 >
                   {roles.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
+                    <MenuItem key={option.roleId} value={option.roleId}>
+                      {option.name}
                     </MenuItem>
                   ))}
                 </CssTextField>
@@ -259,8 +271,8 @@ function AccountPopup(props) {
                   helperText="Choose Section"
                 >
                   {sections.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
+                    <MenuItem key={option.sectionId} value={option.sectionId}>
+                      {option.sectionId}
                     </MenuItem>
                   ))}
                 </CssTextField>

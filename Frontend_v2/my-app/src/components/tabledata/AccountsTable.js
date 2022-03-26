@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import MaterialTable from 'material-table';
-import '../Popups/Popup.scss'
+import '../../styles/Popup.scss'
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@material-ui/core";
 import { Button, InputAdornment, makeStyles, MenuItem, TextField } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
@@ -69,62 +69,6 @@ export const Table = (props) => {
         }
     ]
 
-    //demo
-    const roles = [
-        {
-            value: "1  ",
-            label: 'Admin'
-        },
-        {
-            value: "2  ",
-            label: 'Manufacturer Deparment'
-        },
-        {
-            value: "3  ",
-            label: 'Order Department'
-        },
-        {
-            value: "4  ",
-            label: 'Guest'
-        }
-    ]
-
-    //demo
-    const sections = [
-        {
-            value: 1,
-            label: 'Section1'
-        },
-        {
-            value: 2,
-            label: 'Section2'
-        },
-        {
-            value: 3,
-            label: 'Section3'
-        },
-        {
-            value: 4,
-            label: 'Section4'
-        },
-        {
-            value: 5,
-            label: 'Section4'
-        },
-        {
-            value: 6,
-            label: 'Section4'
-        },
-        {
-            value: 7,
-            label: 'Section4'
-        },
-        {
-            value: 8,
-            label: 'Section4'
-        }
-    ]
-
     const CssTextField = styled(TextField)({
         'width': '100%',
         '& label.Mui-focused': {
@@ -146,7 +90,7 @@ export const Table = (props) => {
         },
     });
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const [avatarUrl, setAvatarUrl] = useState('');
     const [accountId, setAccountID] = useState('');
     const [name, setname] = useState('');
@@ -159,6 +103,18 @@ export const Table = (props) => {
     const [roleId, setAccountRole] = useState('');
     const [sectionId, setAccountSection] = useState('');
     const [isActive, setStatus] = useState('Active');
+
+    const [roles, setRoleList] = useState([]);
+    const [sections, setSectionList] = useState([]);
+
+    useEffect(() => {
+        axios.get("https://localhost:5001/getRoles").then(res => {
+            setRoleList(res.data)
+        });
+        axios.get("https://localhost:5001/getAllSections").then(res => {
+            setSectionList(res.data)
+        });
+    }, [])
 
     const handleClickOpen = (account) => {
         setOpen(true);
@@ -238,7 +194,7 @@ export const Table = (props) => {
                                 <CloseIcon style={{ 'color': "white", }} />
                             </button>
                         </div>
-                        <h3 className='popuptitle'>Edit account: {accountId}</h3>
+                        <h3 className='popuptitle'>Edit account: {name}</h3>
                         <div className='popup-body'>
                             <form>
                                 <div className='idname'>
@@ -324,8 +280,8 @@ export const Table = (props) => {
                                             helperText="Choose Role"
                                         >
                                             {roles.map((option) => (
-                                                <MenuItem key={option.value} value={option.value}>
-                                                    {option.label}
+                                                <MenuItem key={option.roleId} value={option.roleId}>
+                                                    {option.name}
                                                 </MenuItem>
                                             ))}
                                         </CssTextField>
@@ -341,10 +297,10 @@ export const Table = (props) => {
                                             helperText="Choose Section"
                                         >
                                             {sections.map((option) => (
-                                                <MenuItem key={option.value} value={option.value}>
-                                                    {option.label}
+                                                <MenuItem key={option.sectionId} value={option.sectionId}>
+                                                    {option.sectionId}
                                                 </MenuItem>
-                                            ))}s
+                                            ))}
                                         </CssTextField>
                                     </div>
                                 </div>

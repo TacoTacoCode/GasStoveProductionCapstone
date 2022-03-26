@@ -1,5 +1,5 @@
 import React from 'react'
-import './MaterialRequest.css'
+import './MaterialRequest.scss'
 import CloseIcon from '@mui/icons-material/Close'
 import { Button, InputAdornment, makeStyles, MenuItem, TextField } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';

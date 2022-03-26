@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './Popup.scss'
+import '../../styles/Popup.scss'
 import CloseIcon from '@mui/icons-material/Close'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -104,7 +104,7 @@ function ProductPopup(props) {
   }
 
   return (props.trigger) ? (
-    <div className='Productpopup'>
+    <div className='popup'>
       <div className='popup-inner'>
         <div><button className='close-btn' onClick={() => props.setTrigger(false)}>
           <CloseIcon style={{ 'color': "white", }} />

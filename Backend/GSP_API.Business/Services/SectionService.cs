@@ -1,5 +1,6 @@
 ﻿using GSP_API.Domain.Interfaces;
 using GSP_API.Domain.Repositories.Models;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,9 +22,9 @@ namespace GSP_API.Business.Services
             return (int)data.WorkerAmount;
         }
 
-        public async Task<Section> GetAllSections()
+        public async Task<List<Section>> GetAllSections()
         {
-            return await _sectionRepository.GetById(p => p.SectionId != 0);
+            return await _sectionRepository.GetAll(p => p.SectionId != 0);
         }
 
         public async Task<Section> GetSectionById(int sectionId)

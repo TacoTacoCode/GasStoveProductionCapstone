@@ -3,7 +3,7 @@ import MaterialTable from 'material-table';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@material-ui/core";
 import { alpha, styled } from '@mui/material/styles';
 import '../../App.css';
-import '../Popups/Popup.scss'
+import '../../styles/Popup.scss'
 import CloseIcon from '@mui/icons-material/Close'
 import { Button, InputAdornment, makeStyles, MenuItem, TextField } from '@mui/material';
 import axios from 'axios';
