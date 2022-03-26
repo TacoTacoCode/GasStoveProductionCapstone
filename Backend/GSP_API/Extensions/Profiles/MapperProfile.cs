@@ -21,7 +21,8 @@ namespace GSP_API.Extensions.Profiles
             CreateMap<MaterialRequest, Material>();
             CreateMap<Material, MaterialResponse>();
 
-            CreateMap<ComponentRequest, Component>();
+            CreateMap<ComponentRequest, Component>()
+                .ForMember(dest => dest.ComponentMaterials, act => act.MapFrom(src => src.ComponentMaterial)); ;
             CreateMap<Component, ComponentResponse>();
 
             CreateMap<ImportExportRequest, ImportExport>();
