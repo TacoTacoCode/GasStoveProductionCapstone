@@ -1,5 +1,5 @@
 ﻿using GSP_API.Domain.Repositories.Models;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace GSP_API.Models.Response
 {
@@ -12,9 +12,9 @@ namespace GSP_API.Models.Response
         public string Note { get; set; }
 
 
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual Account Account { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual Attendance Attendance { get; set; }
     }
 }

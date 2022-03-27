@@ -1,5 +1,5 @@
 ﻿using GSP_API.Domain.Repositories.Models;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace GSP_API.Models.Request
 {
@@ -13,15 +13,15 @@ namespace GSP_API.Models.Request
         public int? ExportedAmount { get; set; }
 
 
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual ImportExport ImportExport { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual Component Item { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual Product Item1 { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual Material ItemNavigation { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual ProcessDetail ProcessDetail { get; set; }
     }
 }

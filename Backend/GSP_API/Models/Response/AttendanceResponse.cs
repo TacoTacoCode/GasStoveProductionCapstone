@@ -1,7 +1,7 @@
 ﻿using GSP_API.Domain.Repositories.Models;
 using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace GSP_API.Models.Response
 {
@@ -13,7 +13,7 @@ namespace GSP_API.Models.Response
         public string Note { get; set; }
 
 
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual ICollection<AttendanceDetail> AttendanceDetail { get; set; }
     }
 }

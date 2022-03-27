@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using GSP_API.Domain.Repositories.Models;
 
 namespace GSP_API.Models.Request

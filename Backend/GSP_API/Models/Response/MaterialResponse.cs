@@ -1,6 +1,6 @@
 ﻿using GSP_API.Domain.Repositories.Models;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace GSP_API.Models.Response
 {
@@ -15,9 +15,9 @@ namespace GSP_API.Models.Response
         public string Description { get; set; }
 
 
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual ICollection<ComponentMaterial> ComponentMaterial { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual ICollection<ImportExportDetail> ImportExportDetail { get; set; }
     }
 }

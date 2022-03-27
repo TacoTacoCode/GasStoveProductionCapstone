@@ -1,7 +1,7 @@
 ﻿using GSP_API.Domain.Repositories.Models;
 using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace GSP_API.Models.Request
 {
@@ -18,9 +18,9 @@ namespace GSP_API.Models.Request
         public DateTime? ExpectedFinishDate { get; set; }
         public string Status { get; set; }
 
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual OrderDetail OrderDetail { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual ICollection<ProcessDetail> ProcessDetails { get; set; }
     }
 }

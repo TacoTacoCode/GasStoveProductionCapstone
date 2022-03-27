@@ -1,7 +1,7 @@
 ﻿using GSP_API.Domain.Repositories.Models;
 using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace GSP_API.Models.Response
 {
@@ -15,9 +15,9 @@ namespace GSP_API.Models.Response
         public string Status { get; set; }
         public DateTime? FirstExportDate { get; set; }
 
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual ItemType ItemTypeNavigation { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual ICollection<ImportExportDetail> ImportExportDetails { get; set; }
     }
 }
