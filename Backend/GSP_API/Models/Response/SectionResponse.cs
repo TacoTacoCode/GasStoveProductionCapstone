@@ -18,7 +18,7 @@ namespace GSP_API.Models.Response
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public virtual Account SectionLead { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public virtual ICollection<Account> Accounts { get; set; }
+        public virtual ICollection<AccountResponse> Accounts { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public virtual ICollection<Process> ProcessDetails { get; set; }
     }

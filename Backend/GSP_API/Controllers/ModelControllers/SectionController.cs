@@ -69,7 +69,8 @@ namespace GSP_API.Controllers.ModelControllers
             {
                 return BadRequest("Not found");
             }
-            return Ok(data);
+            var response = _mapper.Map<SectionResponse>(data);
+            return Ok(response);
         }
 
         // POST: AddSection/[section]
