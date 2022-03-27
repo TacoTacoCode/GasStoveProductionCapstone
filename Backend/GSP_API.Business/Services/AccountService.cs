@@ -57,6 +57,10 @@ namespace GSP_API.Business.Services
             var data = await _accountRepository.FindFirst(p => p.AccountId == newAccount.AccountId);
             if (data != null)
             {
+                if(newAccount.Password == null)
+                {
+                    newAccount.Password = data.Password;
+                }
                 return await _accountRepository.Update(newAccount);
             }
             return null;
