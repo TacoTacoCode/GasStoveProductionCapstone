@@ -47,8 +47,8 @@ export default function Signin() {
                     const user = jwt(token);
                     console.log("Check: " + user.id + " - " + user.role)
                     localStorage.setItem('token', response['token']);
-                    localStorage.setItem('currentId', "32");
-                    localStorage.setItem('currentRole', "Admin");
+                    // localStorage.setItem('currentId', "32");
+                    // localStorage.setItem('currentRole', "Admin");
                     console.log(user.role);
                     switch (user.role) {
                         case "Admin":
