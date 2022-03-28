@@ -1,5 +1,4 @@
-﻿using GSP_API.Domain.Repositories.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
@@ -15,9 +14,6 @@ namespace GSP_API.Models.Request
         public string Status { get; set; }
         public DateTime? FirstExportDate { get; set; }
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual ItemType ItemTypeNavigation { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual ICollection<ImportExportDetail> ImportExportDetails { get; set; }
+        public virtual ICollection<ImportExportDetailRequest> ImportExportDetails { get; set; }
     }
 }
