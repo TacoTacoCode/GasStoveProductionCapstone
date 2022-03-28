@@ -199,6 +199,7 @@ export const Table = (props) => {
       });
     props.setSubmittedTime();
     handleClose();
+    window.location.reload();
   };
 
   const handleClose = () => {
@@ -226,7 +227,6 @@ export const Table = (props) => {
             tooltip: "Edit this Component",
             onClick: (event, rowData) => {
               handleClickOpen(rowData);
-              window.location.reload();
             },
           },
         ]}

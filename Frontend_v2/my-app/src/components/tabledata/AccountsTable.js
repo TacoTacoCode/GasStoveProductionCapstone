@@ -198,6 +198,7 @@ export const Table = (props) => {
         });
       });
     handleClose();
+    window.location.reload();
   };
 
   const handleClose = () => {
@@ -227,7 +228,6 @@ export const Table = (props) => {
             tooltip: "Edit this Account",
             onClick: (event, rowData) => {
               handleClickOpen(rowData);
-              window.location.reload();
             },
           },
         ]}
