@@ -7,6 +7,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import axios from 'axios';
+import swal from 'sweetalert';
 
 const statuses = [
   {
@@ -93,8 +94,20 @@ const CssTextField = styled(TextField)({
 
 
 function AccountPopup(props) {
+  /*được thì nên gom tất cả các state liên quan đến các trường dữ liệu trong form
+  lại thành 1 state lớn cho dễ kiểm soát
+
+  Có thể tạo 1 file utils chứa các Schema, khi cần dùng thì import ra xài
+  tui tháy thằng này lặp lại bên bảng dữ liệu
+
+  Các bảng dữ liệu đều có chung 1 format, nếu có thể hãy cân nhắc việc tạo 1 file duy nhất
+  tùy thuộc vào dữ liệu đang xét để render ra giao diện
+  
+  Form nên to ra một chút, các trường dữ liệu nên format theo cùng 1 hàng với cùng 1
+  chiều rộng (address có thể dài hơn)
+  */
   const [avatarUrl, setAvatarUrl] = useState('');
-  const [accountID, setAccountID] = useState('');
+  const [accountID, setAccountID] = useState(0);
   const [accountName, setAccountName] = useState('');
   const [password, setAccountPassword] = useState('');
   const [email, setAccountEmail] = useState('');
@@ -104,18 +117,34 @@ function AccountPopup(props) {
   const [phone, setAccountPhone] = useState('');
   const [roleID, setAccountRole] = useState('');
   const [sectionID, setAccountSection] = useState('');
+
+  //thằng này có thể thì cho nó đang boolean luôn đi
   const [isActive, setStatus] = useState('Active');
 
+  //cái này có thể cân nhắc đem ra ngoài component cha để thực hiện trong useEffect một lần mỗi lần load trang (bên Table cũng có cái này)
   const [roles, setRoleList] = useState([]);
   const [sections, setSectionList] = useState([]);
 
   const [file, setFile] = useState();
   const [fileName, setFileName] = useState("");
 
-  const saveFile = (e) => {
+  //tạo hàm fake url của ảnh được chọn (ảnh trên máy thì làm có gì có web url đúng chứ =D)
+  const handlePreviewAvatar = (e) => {
+    console.log(e.target.value)
+    const file = e.target.files[0];
+    file.preview = URL.createObjectURL(file);
+    setAvatarUrl(file);
     setFile(e.target.files[0]);
     setFileName(e.target.files[0].name);
   };
+
+  //đổi ảnh khác thì clean bộ nhớ
+  useEffect(() => {
+    //clean up function for avatarUrl
+    return () => {
+      return avatarUrl && URL.revokeObjectURL(avatarUrl.preview);
+    }
+  }, [avatarUrl])
 
   const uploadFile = async (e) => {
     const formData = new FormData();
@@ -141,24 +170,64 @@ function AccountPopup(props) {
     });
   }, [])
 
-  const postData = () => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("fileName", fileName);
-    axios.post("https://localhost:5001/addAccount", {
-      accountID,
+  const postData = (e) => {
+    // uploadFile().then(res => {
+    //   //get the return avatarURL then parse it to object POST
+    // })
+    const jsonObj = {
+      accountId: accountID,
       password,
       email,
-      accountName,
+      name: accountName,
       gender,
-      dateOfBirth,
+      dateOfBirth: new Date(dateOfBirth).toISOString(), //convert to ISO string
       address,
       phone,
-      avatarUrl,
-      roleID,
-      sectionID,
-      isActive
-    })
+      avatarUrl: "string", //parse url here
+      roleId: roleID,
+      sectionId: sectionID,
+      isActive: isActive === 'Active' ? true : false
+    }
+
+    //lúc trước khi gửi dữ liệu thì nên có hàm check những trường dữ liệu bắt buộc nha (bên table nữa)
+    console.log(JSON.stringify(jsonObj))
+    axios.post("https://localhost:5001/addAccount", jsonObj).then(res => {
+      swal("Success", "Add new account successfully", "success", {
+        buttons: false,
+        timer: 2000,
+      })
+
+      //reset data
+      handleCancelClick();
+    }).catch(err => {
+      swal("Error", "Add new account failed", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      console.log(err)
+    });
+
+    props.setSubmittedTime();
+  }
+
+  const handleCancelClick = () => {
+    //reset all value when cancel submit (not include close popup function)
+    //React 18 said that when React.lifecycle ended then all state change would be update, not updateed one by one like before
+    setAccountID('');
+    setAccountName('');
+    setAccountPassword('');
+    setAccountEmail('');
+    setAccountGender(true);
+    setAccountDateOfBirth(null);
+    setAccountAddress('');
+    setAccountPhone('');
+    setAccountRole('');
+    setAccountSection('');
+    setStatus('Active');
+    setAvatarUrl('');
+    setFile('');
+    setFileName('');
+    props.setTrigger(false)
   }
 
   return (props.trigger) ? (
@@ -172,17 +241,20 @@ function AccountPopup(props) {
           <form>
             <div className='imagefield'>
               Account's Image
-              <input type="file" onChange={saveFile} />
-              <button onClick={uploadFile}>Upload</button>
+              <input type="file" onChange={handlePreviewAvatar} />
+            </div>
+            <div>
+              {avatarUrl ? <img src={avatarUrl.preview} alt='avatar' width="100px" /> : null}
             </div>
             <div className='idname'>
               <div className='namefield'>
-                <CssTextField label="Account Name" id="fullWidth" required onChange={(e) => setAccountName(e.target.value)} />
+                <CssTextField label="Account Name" value={accountName} id="fullWidth" required onChange={(e) => setAccountName(e.target.value)} />
               </div>
               <div className='txtfield'>
                 <CssTextField
                   label="Gender"
                   select
+                  value={gender}
                   id="fullWidth" required
                   onChange={(e) => setAccountGender(e.target.value)}
                   helperText="Choose gender"
@@ -198,6 +270,7 @@ function AccountPopup(props) {
                 <CssTextField
                   label="Phone"
                   id="fullWidth"
+                  value={phone}
                   required type={'tel'}
                   InputProps={{
                     inputProps: { min: 0, max: 11, pattern: '[0-9]*' }
@@ -207,15 +280,17 @@ function AccountPopup(props) {
             </div>
             <div className='idname'>
               <div className='txtfield'>
-                <CssTextField label="Password" type={'password'} id="fullWidth" required onChange={(e) => setAccountPassword(e.target.value)} />
+                <CssTextField label="Password" type={'password'} value={password} id="fullWidth" required onChange={(e) => setAccountPassword(e.target.value)} />
               </div>
               <div className='txtfield'>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
                     label="Day of Birth"
                     inputFormat="dd/MM/yyyy"
-                    value={dateOfBirth}
+                    selected={dateOfBirth}
                     onChange={(e) => setAccountDateOfBirth(e)}
+                    value={dateOfBirth}
+                    onSelect={(e) => setAccountDateOfBirth(e)}
                     renderInput={(params) => <CssTextField {...params} id="fullWidth" />}
                   />
                 </LocalizationProvider>
@@ -224,6 +299,7 @@ function AccountPopup(props) {
                 <CssTextField
                   label="Status"
                   select
+                  value={isActive}
                   id="fullWidth" required
                   onChange={(e) => setStatus(e.target.value)}
                   helperText="Choose Account status"
@@ -238,10 +314,10 @@ function AccountPopup(props) {
             </div>
             <div className='idname'>
               <div className='txtfield'>
-                <CssTextField label="Email" type={'email'} id="fullWidth" required onChange={(e) => setAccountEmail(e.target.value)} />
+                <CssTextField label="Email" type={'email'} value={email} id="fullWidth" required onChange={(e) => setAccountEmail(e.target.value)} />
               </div>
               <div className='namefield'>
-                <CssTextField label="Address" id="fullWidth" required onChange={(e) => setAccountAddress(e.target.value)} />
+                <CssTextField label="Address" id="fullWidth" value={address} required onChange={(e) => setAccountAddress(e.target.value)} />
               </div>
 
             </div>
@@ -250,6 +326,7 @@ function AccountPopup(props) {
                 <CssTextField
                   label="Role"
                   select
+                  value={roleID}
                   id="fullWidth" required
                   onChange={(e) => setAccountRole(e.target.value)}
                   helperText="Choose Role"
@@ -266,6 +343,7 @@ function AccountPopup(props) {
                 <CssTextField
                   label="Section"
                   select
+                  value={sectionID}
                   id="fullWidth" required
                   onChange={(e) => setAccountSection(e.target.value)}
                   helperText="Choose Section"
@@ -287,7 +365,7 @@ function AccountPopup(props) {
               <Button
                 variant="contained"
                 style={{ fontFamily: 'Muli', borderRadius: 10, backgroundColor: "#e30217" }}
-                size="large" onClick={() => props.setTrigger(false)}
+                size="large" onClick={handleCancelClick}
               >Cancel</Button>
             </div>
           </form>

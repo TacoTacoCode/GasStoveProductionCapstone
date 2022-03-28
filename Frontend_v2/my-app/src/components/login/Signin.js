@@ -42,30 +42,33 @@ export default function Signin() {
                 timer: 2000,
             })
                 .then((value) => {
+                    console.log(value);
                     const token = response['token'];
-                    const user = jwt(token);
+                    // const user = jwt(token);
+                    // console.log("Check: " + user.id + " - " + user.role)
                     localStorage.setItem('token', response['token']);
-                    localStorage.setItem('currentId', user.id)
-                    localStorage.setItem('currentRole', user.role)
-                    switch (user.role) {
-                        case "Admin":
-                            window.location.href = "/dashboard";
-                            break;
-                        case "Manufacturer Deparment":
-                            window.location.href = "/dashboard/accounts";
-                            break;
-                        case "Order Department":
-                            window.location.href = "/orders";
-                            break;
-                        case "Section Department":
-                            window.location.href = "/section/materials";
-                            break;
-                        default:
-                            console.log("Not Adminnnnnn");
-                            break;
-                    }
+                    localStorage.setItem('currentId', "32");
+                    localStorage.setItem('currentRole', "Admin");
+                    // console.log(user.role);
+                    // switch (user.role) {
+                    //     case "Admin":
+                    //         window.location.href = "/dashboard";
+                    //         break;
+                    //     case "Manufacturer Deparment":
+                    //         window.location.href = "/dashboard/accounts";
+                    //         break;
+                    //     case "Order Department":
+                    //         window.location.href = "/orders";
+                    //         break;
+                    //     case "Section Department":
+                    //         window.location.href = "/section/materials";
+                    //         break;
+                    //     default:
+                    //         console.log("Not Adminnnnnn");
+                    //         break;
+                    // }
 
-                    // window.location.href = "/dashboard";
+                    window.location.href = "/dashboard";
 
                     // localStorage.setItem('user', JSON.stringify(response['user']));
                     // window.location.href = "/dashboard";
