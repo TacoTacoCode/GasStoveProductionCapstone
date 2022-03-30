@@ -10,7 +10,7 @@ namespace GSP_API.Domain.Repositories
 {
     public partial class TestDbContext : DbContext
     {
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
         public TestDbContext()
         {
         }
@@ -45,13 +45,12 @@ namespace GSP_API.Domain.Repositories
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(_configuration.GetConnectionString("TestDatabase"));
-                //optionsBuilder.UseSqlServer("Data Source=ADMIN;Initial Catalog=GSP_DB_test;Persist Security Info=True;User ID=sa;Password=123456");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+            modelBuilder.HasAnnotation("Relational:Collation", "Vietnamese_CI_AS");
 
             modelBuilder.Entity<Account>(entity =>
             {
@@ -175,8 +174,6 @@ namespace GSP_API.Domain.Repositories
                 entity.ToTable("ImportExport");
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
-
-                entity.Property(e => e.FirstExportDate).HasColumnType("date");
 
                 entity.Property(e => e.ItemType)
                     .HasMaxLength(1)
@@ -327,6 +324,8 @@ namespace GSP_API.Domain.Repositories
                 entity.Property(e => e.ExpiryDate).HasColumnType("date");
 
                 entity.Property(e => e.FinishedDate).HasColumnType("date");
+
+                entity.Property(e => e.FirstExportDate).HasColumnType("date");
 
                 entity.Property(e => e.Status).HasMaxLength(100);
 

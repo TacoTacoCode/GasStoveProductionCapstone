@@ -18,7 +18,6 @@ namespace GSP_API.Domain.Repositories.Models
         public string ItemType { get; set; }
         public bool? IsImport { get; set; }
         public string Status { get; set; }
-        public DateTime? FirstExportDate { get; set; }
 
         public virtual ItemType ItemTypeNavigation { get; set; }
         public virtual ICollection<ImportExportDetail> ImportExportDetails { get; set; }

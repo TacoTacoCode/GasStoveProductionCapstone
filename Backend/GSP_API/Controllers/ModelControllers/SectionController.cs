@@ -47,6 +47,19 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok(data);
         }
 
+        // GET: getWorkerAmounts/sec/1
+        [HttpGet]
+        [Route("getCompoId/sec/{sectionId}")]
+        public async Task<ActionResult<int>> GetCompoIdBySectionId(int sectionId)
+        {
+            var data = await _sectionService.GetCompoIdBySectionId(sectionId);
+            if (data.Contains("section"))
+            {
+                return StatusCode(400, data);
+            }
+            return Ok(data);
+        }
+
         // GET: getSectionById/1
         [HttpGet]
         [Route("getSectionById/{sectionId}")]

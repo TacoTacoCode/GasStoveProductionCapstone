@@ -22,6 +22,20 @@ namespace GSP_API.Business.Services
             return (int)data.WorkerAmount;
         }
 
+        public async Task<string> GetCompoIdBySectionId(int sectionId)
+        {
+            var data = await _sectionRepository.GetById(p => p.SectionId == sectionId);
+            if(data == null)
+            {
+                return "Cannot found section";
+            }
+            if(data.ComponentId == null)
+            {
+                return "Assemble section!!!";
+            }
+            return data.ComponentId;
+        }
+
         public async Task<List<Section>> GetAllSections()
         {
             return await _sectionRepository.GetAll(p => p.SectionId != 0);

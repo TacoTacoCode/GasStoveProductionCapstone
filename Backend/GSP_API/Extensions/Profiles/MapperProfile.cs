@@ -25,8 +25,11 @@ namespace GSP_API.Extensions.Profiles
                 .ForMember(dest => dest.ComponentMaterials, act => act.MapFrom(src => src.ComponentMaterial));
             CreateMap<Component, ComponentResponse>();
 
-            CreateMap<ImportExportRequest, ImportExport>();
-            CreateMap<ImportExport, ImportExportResponse>();
+            CreateMap<ImportExportRequest, ImportExport>()
+                .ForMember(dest => dest.ImportExportDetails, act => act.MapFrom(src => src.ImportExportDetails));
+            CreateMap<ImportExport, ImportExportResponse>()
+                .ForMember(dest => dest.ImportExportDetails, act => act.MapFrom(src => src.ImportExportDetails));
+
 
             CreateMap<ImportExportDetailRequest, ImportExportDetail>();
             CreateMap<ImportExportDetail, ImportExportDetailResponse>();
@@ -52,6 +55,9 @@ namespace GSP_API.Extensions.Profiles
 
             CreateMap<SectionRequest, Section>();
             CreateMap<Section, SectionResponse>();
+
+            CreateMap<ComponentRequest, ComponentMaterial>();
+            CreateMap<ComponentMaterial, CompoMateResponse>();
         }
     }
 }

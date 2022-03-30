@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GSP_API.Business.Services;
 using GSP_API.Models.Request;
+using GSP_API.Models.Response;
 
 namespace GSP_API.Controllers.ModelControllers
 {
@@ -21,14 +22,14 @@ namespace GSP_API.Controllers.ModelControllers
 
         [HttpGet]
         [Route("getMateByCompoId/{compoId}")]
-        public async Task<ActionResult<MaterialRequest>> GetMaterialByCompoId(string compoId)
+        public async Task<ActionResult<List<CompoMateResponse>>> GetMaterialByCompoId(string compoId)
         {
             var data = await _compoMateService.GetCompoMateByCompoId(compoId);
             if (data == null)
             {
                 return BadRequest("Not Found");
             }
-            var mates = _mapper.Map<MaterialRequest>(data);
+            var mates = _mapper.Map<List<CompoMateResponse>>(data);
             return Ok(mates);
         }
 

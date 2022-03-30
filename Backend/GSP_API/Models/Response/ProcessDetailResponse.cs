@@ -17,6 +17,8 @@ namespace GSP_API.Models.Response
         public DateTime? FinishedDate { get; set; }
         public string Status { get; set; }
         public DateTime? ExpectedFinishDate { get; set; }
+        public DateTime? FirstExportDate { get; set; }
+
 
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

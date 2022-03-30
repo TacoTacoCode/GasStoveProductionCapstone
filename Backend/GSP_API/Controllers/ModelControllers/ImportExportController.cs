@@ -77,6 +77,7 @@ namespace GSP_API.Controllers.ModelControllers
             }
         }
 
+/*
         // PUT: UpdateImEx/[imEx]
         [HttpPut]
         [Route("updateImEx")]
@@ -94,6 +95,7 @@ namespace GSP_API.Controllers.ModelControllers
                     return BadRequest(result);
             }
         }
+*/
 
         // PUT: DelImEx/1
         [HttpPut]

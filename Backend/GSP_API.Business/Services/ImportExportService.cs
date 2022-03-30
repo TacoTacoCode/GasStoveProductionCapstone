@@ -50,23 +50,13 @@ namespace GSP_API.Business.Services
             return await _importExportRepository.GetById(p => p.ImportExportId == imExId);
         }
 
-        
-
         public async Task<string> AddImEx(ImportExport imEx)
         {
             var data = await _importExportRepository.Add(imEx);
-            //If Add ImEx successfully
-            switch (data)
-            {
-                case "true":
-                    List<ImportExportDetail> imExDetailList = (List<ImportExportDetail>)imEx.ImportExportDetails;
-                    return await _importExportDetailService.AddRangeImExDetail(imExDetailList);
-                default:
-                    return data;
-            }
+            return data;
         }
 
-        public async Task<string> UpdateImEx(ImportExport newImEx)
+        /*public async Task<string> UpdateImEx(ImportExport newImEx)
         {
 
             var data = await _importExportRepository.FindFirst(p => p.ImportExportId == newImEx.ImportExportId);
@@ -241,7 +231,7 @@ namespace GSP_API.Business.Services
                 }
             }
             return null;
-        }
+        }*/
 
         public async Task<string> DelImEx(int imExId)
         {

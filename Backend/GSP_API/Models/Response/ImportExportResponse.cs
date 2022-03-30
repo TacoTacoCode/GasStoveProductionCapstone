@@ -13,7 +13,6 @@ namespace GSP_API.Models.Response
         public string ItemType { get; set; }
         public bool? IsImport { get; set; }
         public string Status { get; set; }
-        public DateTime? FirstExportDate { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual ItemType ItemTypeNavigation { get; set; }

@@ -52,7 +52,19 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok(imExDetail);
         }
 
-        // POST: AddImExDetail/[imExDetail]
+        // POST: provideItem/[imExDetail]
+        [HttpPost]
+        [Route("provideItem")]
+        public async Task<ActionResult> ProvideItem([FromBody] ImportExportDetailRequest importExportDetailRequest)
+        {
+            var data = await _importExportDetailService.ProvideItem(importExportDetailRequest.ImportExportDetailId,(int)importExportDetailRequest.Amount); ;
+            if (data == null)
+            {
+                return BadRequest("Not Found");
+            }
+            return Ok("Add successfully");
+        }
+
         [HttpPost]
         [Route("addImExDetail")]
         public async Task<ActionResult> AddImExDetail([FromBody] ImportExportDetailRequest importExportDetailRequest)
@@ -64,6 +76,7 @@ namespace GSP_API.Controllers.ModelControllers
             }
             return Ok("Add successfully");
         }
+
 
         // PUT: UpdateImportExportDetail/[imExDetail]
         [HttpPut]

@@ -22,6 +22,7 @@ namespace GSP_API.Domain.Repositories.Models
         public DateTime? FinishedDate { get; set; }
         public string Status { get; set; }
         public DateTime? ExpectedFinishDate { get; set; }
+        public DateTime? FirstExportDate { get; set; }
 
         public virtual Process Process { get; set; }
         public virtual Section Section { get; set; }
