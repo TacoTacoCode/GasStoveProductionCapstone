@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../../App.css";
 import { ImportExcelButton } from "../../button/ImportExcelButton";
 import { Table } from "../../tabledata/MaterialTable";
-import ComponentPopup from "../../Popups/MaterialPopup";
+import MaterialPopup from "../../Popups/MaterialPopup";
 import axios from "axios";
 
 function Materials() {
@@ -34,7 +34,7 @@ function Materials() {
       >
         Add Material
       </ImportExcelButton>
-      <ComponentPopup
+      <MaterialPopup
         trigger={addmaterialBtn}
         setTrigger={setaddmaterialBtn}
         setSubmittedTime={() => {
@@ -42,7 +42,7 @@ function Materials() {
         }}
       >
         <h3 className="popuptitle">Add a material</h3>
-      </ComponentPopup>
+      </MaterialPopup>
       <div className="materials">
         <Table
           listMaterial={listMaterial}

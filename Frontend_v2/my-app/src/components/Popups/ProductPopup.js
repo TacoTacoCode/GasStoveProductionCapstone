@@ -134,14 +134,15 @@ function ProductPopup(props) {
       description,
       productComponents: productComponent
         ? productComponent?.map((item) => {
-            return {
-              productId: productID,
-              componentId: item.componentId,
-              amount: item.amount,
-            };
-          })
+          return {
+            productId: productID,
+            componentId: item.componentId,
+            amount: item.amount,
+          };
+        })
         : [],
     };
+    console.log(jsonObj);
     axios
       .post("https://localhost:5001/addProduct", jsonObj)
       .then((res) => {
@@ -308,8 +309,8 @@ function ProductPopup(props) {
                 />
               </div>
               {componentActive != null &&
-              componentAmount != null &&
-              componentAmount > 0 ? (
+                componentAmount != null &&
+                componentAmount > 0 ? (
                 <div className="button_field">
                   <Button
                     style={{
