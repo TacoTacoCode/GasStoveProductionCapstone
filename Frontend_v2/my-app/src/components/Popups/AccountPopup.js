@@ -31,46 +31,6 @@ const genders = [
   }
 ]
 
-//demo
-const roles = [
-  {
-    value: 1,
-    label: 'Role1'
-  },
-  {
-    value: 2,
-    label: 'Role2'
-  },
-  {
-    value: 3,
-    label: 'Role3'
-  },
-  {
-    value: 4,
-    label: 'Role4'
-  }
-]
-
-//demo
-const sections = [
-  {
-    value: 1,
-    label: 'Section1'
-  },
-  {
-    value: 2,
-    label: 'Section2'
-  },
-  {
-    value: 3,
-    label: 'Section3'
-  },
-  {
-    value: 4,
-    label: 'Section4'
-  }
-]
-
 const CssTextField = styled(TextField)({
   'width': '100%',
   '& label.Mui-focused': {

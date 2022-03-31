@@ -1,27 +1,12 @@
 import React, { Fragment, useEffect, useState } from "react";
 import MaterialTable from "material-table";
 import "../../styles/Popup.scss";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-} from "@material-ui/core";
-import {
-  Button,
-  InputAdornment,
-  makeStyles,
-  MenuItem,
-  TextField,
-} from "@mui/material";
-import { alpha, styled } from "@mui/material/styles";
-import CloseIcon from "@mui/icons-material/Close";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DatePicker from "@mui/lab/DatePicker";
 import axios from "axios";
 import swal from "sweetalert";
+import AccountEditPopup from "../Popups/AccountEditPopup";
+import { AiFillCheckCircle, AiFillCloseCircle } from 'react-icons/ai';
+import { IconContext } from "react-icons";
+import moment from 'moment';
 
 export const Table = (props) => {
   const { listAccount } = props;
@@ -74,70 +59,38 @@ export const Table = (props) => {
       title: "Gender",
       field: "gender",
       cellStyle: { fontFamily: "Arial" },
+      render:
+        rowData => (rowData.gender == true)
+          ? "Male" : "Female"
     },
     {
       title: "Date of Birth",
-      field: "accountId",
+      field: "dateOfBirth",
       cellStyle: { fontFamily: "Arial" },
+      render:
+        rowData => moment(rowData.dateOfBirth).format('DD MMM, YYYY'),
+    },
+    {
+      title: "Status",
+      field: "status",
+      render:
+        rowData => (rowData.isActive == false)
+          ? <IconContext.Provider value={{ color: "red", className: "global-class-name" }}>
+            <div>
+              <AiFillCloseCircle size={40} />
+            </div>
+          </IconContext.Provider>
+          : <IconContext.Provider value={{ color: "green", className: "global-class-name" }}>
+            <div>
+              <AiFillCheckCircle size={40} />
+            </div>
+          </IconContext.Provider >
     },
   ];
 
-  const statuses = [
-    {
-      value: true,
-      label: "Active",
-    },
-    {
-      value: false,
-      label: "Unactive",
-    },
-  ];
-
-  const genders = [
-    {
-      value: true,
-      label: "Male",
-    },
-    {
-      value: false,
-      label: "Female",
-    },
-  ];
-
-  const CssTextField = styled(TextField)({
-    width: "100%",
-    "& label.Mui-focused": {
-      color: "black",
-    },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "#e30217",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "black",
-      },
-      "&:hover fieldset": {
-        borderColor: "#e30217",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#e30217",
-      },
-    },
-  });
-
+  const [editDatas, setEditDatas] = useState([]);
   const [open, setOpen] = useState(false);
-  const [avatarUrl, setAvatarUrl] = useState("");
-  const [accountId, setAccountID] = useState("");
-  const [name, setname] = useState("");
-  const [password, setAccountPassword] = useState("");
-  const [email, setAccountEmail] = useState("");
-  const [gender, setAccountGender] = useState(true);
-  const [dateOfBirth, setAccountDateOfBirth] = useState(null);
-  const [address, setAccountAddress] = useState("");
-  const [phone, setAccountPhone] = useState("");
-  const [roleId, setAccountRole] = useState("");
-  const [sectionId, setAccountSection] = useState("");
-  const [isActive, setStatus] = useState("Active");
+  const [newDataSubmitted, setNewDataSubmitted] = useState(1);
 
   const [roles, setRoleList] = useState([]);
   const [sections, setSectionList] = useState([]);
@@ -151,59 +104,10 @@ export const Table = (props) => {
     });
   }, []);
 
-  const handleClickOpen = (account) => {
+  const handleEditData = (rowData) => {
+    setEditDatas(rowData);
     setOpen(true);
-    // setMaterial(material)
-    setAccountID(account.accountId);
-    setname(account.name);
-    setAccountPassword(account.password);
-    setAccountEmail(account.email);
-    setAccountGender(account.gender);
-    setAccountDateOfBirth(account.dateOfBirth);
-    setAccountAddress(account.address);
-    setAccountPhone(account.phone);
-    setAccountRole(account.roleId);
-    setAccountSection(account.sectionId);
-    setStatus(account.isActive);
-  };
-
-  const handleSaveData = () => {
-    const jsonObj = {
-      accountId: accountId,
-      email: email,
-      name: name,
-      password: password,
-      gender: gender,
-      dateOfBirth: dateOfBirth,
-      address: address,
-      phone: phone,
-      avatarUrl: avatarUrl,
-      roleId: roleId,
-      sectionId: sectionId,
-      isActive: isActive ? true : false,
-    };
-    axios
-      .put("https://localhost:5001/updateAccount", jsonObj)
-      .then((res) => {
-        swal("Success", "Update account successfully", "success", {
-          buttons: false,
-          timer: 2000,
-        });
-        props.setNewDataSubmit();
-      })
-      .catch((err) => {
-        swal("Error", "Something went wrong", "error", {
-          buttons: false,
-          timer: 2000,
-        });
-      });
-    handleClose();
-    window.location.reload();
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  }
 
   return (
     <React.Fragment>
@@ -211,9 +115,6 @@ export const Table = (props) => {
         title={"List of Accounts"}
         data={array}
         columns={columns}
-        // onRowClick={(event, array) => {
-        //     setaddAccountBtn(true)
-        // }}
         actions={[
           {
             icon: "delete",
@@ -227,7 +128,7 @@ export const Table = (props) => {
             icon: "edit",
             tooltip: "Edit this Account",
             onClick: (event, rowData) => {
-              handleClickOpen(rowData);
+              handleEditData(rowData);
             },
           },
         ]}
@@ -238,209 +139,17 @@ export const Table = (props) => {
           headerStyle: { backgroundColor: "#E30217", color: "#fff" },
         }}
       />
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        accountId={accountId}
-        name={name}
-        password={password}
-        gender={gender}
-        email={email}
-        dateOfBirth={dateOfBirth}
-        address={address}
-        phone={phone}
-        roleId={roleId}
-        isActive={isActive}
-        sectionId={sectionId}
+      <AccountEditPopup
+        data={editDatas}
+        setData={setEditDatas}
+        IsOpen={open}
+        setOpen={setOpen}
+        setSubmittedTime={() => {
+          setNewDataSubmitted((prev) => prev + 1);
+        }}
       >
-        <div className="componentpopup">
-          <div className="popup-inner">
-            <div>
-              <button className="close-btn" onClick={handleClose}>
-                <CloseIcon style={{ color: "white" }} />
-              </button>
-            </div>
-            <h3 className="popuptitle">Edit account: {name}</h3>
-            <div className="popup-body">
-              <form>
-                <div className="idname">
-                  <div className="namefield">
-                    <CssTextField
-                      label="Account Name"
-                      id="fullWidth"
-                      value={name}
-                      required
-                      onChange={(e) => setname(e.target.value)}
-                    />
-                  </div>
-                  <div className="txtfield">
-                    <CssTextField
-                      label="Gender"
-                      select
-                      id="fullWidth"
-                      required
-                      value={gender}
-                      onChange={(e) => setAccountGender(e.target.value)}
-                      helperText="Choose gender"
-                    >
-                      {genders.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </CssTextField>
-                  </div>
-                  <div className="txtfield">
-                    <CssTextField
-                      label="Phone"
-                      id="fullWidth"
-                      value={phone}
-                      required
-                      type={"tel"}
-                      InputProps={{
-                        inputProps: { min: 0, max: 11, pattern: "[0-9]*" },
-                      }}
-                      onChange={(e) => setAccountPhone(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <div className="idname">
-                  <div className="txtfield">
-                    <CssTextField
-                      label="Password"
-                      type={"password"}
-                      id="fullWidth"
-                      value={password}
-                      required
-                      onChange={(e) => setAccountPassword(e.target.value)}
-                    />
-                  </div>
-                  <div className="txtfield">
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <DatePicker
-                        label="Day of Birth"
-                        inputFormat="dd/MM/yyyy"
-                        value={dateOfBirth}
-                        selected={dateOfBirth}
-                        onChange={(e) => setAccountDateOfBirth(e)}
-                        onSelect={(e) => setAccountDateOfBirth(e)}
-                        renderInput={(params) => (
-                          <CssTextField {...params} id="fullWidth" />
-                        )}
-                      />
-                    </LocalizationProvider>
-                  </div>
-                  <div className="txtfield">
-                    <CssTextField
-                      label="Status"
-                      select
-                      id="fullWidth"
-                      required
-                      value={isActive}
-                      onChange={(e) => setStatus(e.target.value)}
-                    >
-                      {statuses.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </CssTextField>
-                  </div>
-                </div>
-                <div className="idname">
-                  <div className="txtfield">
-                    <CssTextField
-                      label="Email"
-                      value={email}
-                      type={"email"}
-                      id="fullWidth"
-                      required
-                      onChange={(e) => setAccountEmail(e.target.value)}
-                    />
-                  </div>
-                  <div className="namefield">
-                    <CssTextField
-                      label="Address"
-                      id="fullWidth"
-                      value={address}
-                      required
-                      onChange={(e) => setAccountAddress(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <div className="idname">
-                  <div className="txtfield">
-                    <CssTextField
-                      label="Role"
-                      select
-                      value={roleId}
-                      id="fullWidth"
-                      required
-                      onChange={(e) => setAccountRole(e.target.value)}
-                      helperText="Choose Role"
-                    >
-                      {roles.map((option) => (
-                        <MenuItem key={option.roleId} value={option.roleId}>
-                          {option.name}
-                        </MenuItem>
-                      ))}
-                    </CssTextField>
-                  </div>
-
-                  <div className="txtfield">
-                    <CssTextField
-                      label="Section"
-                      select
-                      id="fullWidth"
-                      required
-                      value={sectionId}
-                      onChange={(e) => setAccountSection(e.target.value)}
-                      helperText="Choose Section"
-                    >
-                      {sections.map((option) => (
-                        <MenuItem
-                          key={option.sectionId}
-                          value={option.sectionId}
-                        >
-                          {option.sectionId}
-                        </MenuItem>
-                      ))}
-                    </CssTextField>
-                  </div>
-                </div>
-                <div className="btngr">
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    style={{
-                      fontFamily: "Muli",
-                      borderRadius: 10,
-                      backgroundColor: "#e30217",
-                      marginRight: "0.5rem",
-                    }}
-                    size="large"
-                    onClick={handleSaveData}
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    variant="contained"
-                    style={{
-                      fontFamily: "Muli",
-                      borderRadius: 10,
-                      backgroundColor: "#e30217",
-                    }}
-                    size="large"
-                    onClick={handleClose}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </Dialog>
+        <h3 className="popuptitle">Edit account : {editDatas.name} </h3>
+      </AccountEditPopup>
     </React.Fragment>
   );
 };

@@ -42,7 +42,9 @@ function Accounts() {
         setSubmittedTime={() => {
           setNewDataSubmitted((prevState) => prevState + 1);
         }}
-      ></AccountPopup>
+      >
+        <h3 className="popuptitle">Add an account</h3>
+      </AccountPopup>
       <div className="accounts">
         <Table
           listAccount={listAccount}

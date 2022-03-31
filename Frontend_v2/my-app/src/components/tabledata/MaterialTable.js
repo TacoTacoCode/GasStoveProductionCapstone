@@ -1,29 +1,7 @@
 import React, {
-  Fragment,
   useState,
-  useEffect,
-  useRef,
-  useMountEffect,
 } from "react";
 import MaterialTable from "material-table";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-} from "@material-ui/core";
-import { alpha, styled } from "@mui/material/styles";
-import "../../App.css";
-import "../../styles/Popup.scss";
-import CloseIcon from "@mui/icons-material/Close";
-import {
-  Button,
-  InputAdornment,
-  makeStyles,
-  MenuItem,
-  TextField,
-} from "@mui/material";
 import axios from "axios";
 import swal from "sweetalert";
 import MaterialEditPopup from "../Popups/MaterialEditPopup";
@@ -100,53 +78,12 @@ export const Table = (props) => {
               <AiFillCheckCircle size={40} />
             </div>
           </IconContext.Provider >
-
     },
   ];
-
-  const statuses = [
-    {
-      value: "Active",
-      label: "Active",
-    },
-    {
-      value: "Inactive",
-      label: "Inactive",
-    },
-  ];
-
-  const CssTextField = styled(TextField)({
-    width: "100%",
-    "& label.Mui-focused": {
-      color: "black",
-    },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "#e30217",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "black",
-      },
-      "&:hover fieldset": {
-        borderColor: "#e30217",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#e30217",
-      },
-    },
-  });
 
   const [editDatas, setEditDatas] = useState([]);
   const [open, setOpen] = useState(false);
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
-
-  const [imageUrl, setMaterialImage] = useState("");
-  const [materialId, setMaterialId] = useState("");
-  const [materialName, setMaterialName] = useState("");
-  const [unit, setMaterialUnit] = useState("");
-  const [amount, setMaterialAmount] = useState("");
-  const [status, setStatus] = useState("Active");
-  const [description, setDescription] = useState("");
 
   const handleEditData = (rowData) => {
     setEditDatas(rowData);
