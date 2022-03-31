@@ -58,6 +58,8 @@ namespace GSP_API.Extensions.Profiles
 
             CreateMap<ComponentRequest, ComponentMaterial>();
             CreateMap<ComponentMaterial, CompoMateResponse>();
+
+            CreateMap<ProductComponent, ProductCompoResponse>();
         }
     }
 }

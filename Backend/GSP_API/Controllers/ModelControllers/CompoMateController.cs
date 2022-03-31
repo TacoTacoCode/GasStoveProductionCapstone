@@ -10,6 +10,7 @@ using GSP_API.Models.Response;
 
 namespace GSP_API.Controllers.ModelControllers
 {
+    [ApiController]
     public class CompoMateController : Controller
     {
         private readonly ComponentMaterialService _compoMateService;

@@ -1,5 +1,6 @@
 ﻿using GSP_API.Domain.Interfaces;
 using GSP_API.Domain.Repositories.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,6 +25,11 @@ namespace GSP_API.Business.Services
         public async Task<List<ProductComponent>> GetProCompoByProId(string productId)
         {
             return await _productComponentRepository.GetAll(p => p.ProductId == productId);
+        }
+
+        public Task GetCompoByProductId(string productId)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<string> AddProCompo(ProductComponent proCompo)
