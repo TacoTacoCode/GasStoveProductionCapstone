@@ -1,14 +1,13 @@
 ﻿using GSP_API.Domain.Repositories.Models;
 using GSP_API.Business.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using AutoMapper;
 using GSP_API.Models.Response;
 using System.Collections.Generic;
 using GSP_API.Models.Request;
 using System.Threading.Tasks;
-using System.IO;
 using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace GSP_API.Controllers.ModelControllers
 {
@@ -85,8 +84,23 @@ namespace GSP_API.Controllers.ModelControllers
         // POST: AddAccount/[account]
         [HttpPost]
         [Route("addAccount")]
-        public async Task<ActionResult> AddAccount([FromBody] AccountRequest newAccount)
-        {           
+        public async Task<ActionResult> AddAccount([FromForm] AccountRequest newAccount, IFormFile file)
+        {
+            if (!Directory.Exists("Images"))
+            {
+                Directory.CreateDirectory("Images");
+            }
+            if(file != null)
+            {
+                var imageName = Path.GetFileName(file.FileName);
+                var imgsrc = Path.Combine("Images", imageName);
+                using (var fileStream = new FileStream(imgsrc, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+                newAccount.AvatarUrl = imgsrc;
+            }
+           
             var data = await _accountService.AddAccount(_mapper.Map<Account>(newAccount));
             if (data.Contains("error"))
             {

@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace GSP_API.Models.Request
 {
@@ -19,8 +21,7 @@ namespace GSP_API.Models.Request
         public string RoleId { get; set; }
         public int? SectionId { get; set; }
         public bool? IsActive { get; set; }
-
-
+/*
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual Role Role { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
@@ -33,6 +34,7 @@ namespace GSP_API.Models.Request
         public virtual ICollection<RefreshToken> RefreshTokens { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual ICollection<Section> Sections { get; set; }
+*/
     }    
 
 }
