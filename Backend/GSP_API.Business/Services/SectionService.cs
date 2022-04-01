@@ -9,11 +9,13 @@ namespace GSP_API.Business.Services
     public class SectionService
     {
         private readonly ISectionRepository _sectionRepository;        
+        private readonly IComponentRepository _compoRepository;
 
         public SectionService(
-            ISectionRepository sectionRepository)
+            ISectionRepository sectionRepository, IComponentRepository compoRepository)
         {
             _sectionRepository = sectionRepository;
+            _compoRepository = compoRepository;
         }
 
         public async Task<int> GetWorkerAmountBySectionId(int sectionId)
@@ -34,6 +36,21 @@ namespace GSP_API.Business.Services
                 return "Assemble section!!!";
             }
             return data.ComponentId;
+        }
+
+        public async Task<string> GetCompoNameBySectionId(int sectionId)
+        {
+            var data = await _sectionRepository.GetById(p => p.SectionId == sectionId);
+            if (data == null)
+            {
+                return "Cannot found section";
+            }
+            if (data.ComponentId == null)
+            {
+                return "Assemble section!!!";
+            }
+            var compo = await _compoRepository.FindFirst(e => e.ComponentId == data.ComponentId);
+            return compo.ComponentName;
         }
 
         public async Task<List<Section>> GetAllSections()
