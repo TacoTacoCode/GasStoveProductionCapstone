@@ -3,8 +3,6 @@ import "../../styles/Popup.scss";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Button,
-  InputAdornment,
-  makeStyles,
   MenuItem,
   TextField,
 } from "@mui/material";

@@ -20,6 +20,9 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import swal from "sweetalert";
+import ProductEditPopup from "../Popups/ProductEditPopup";
+import { AiFillCheckCircle, AiFillCloseCircle } from 'react-icons/ai';
+import { IconContext } from "react-icons";
 
 export const Table = (props) => {
   const { listProduct } = props;
@@ -28,20 +31,6 @@ export const Table = (props) => {
   listProduct.forEach((item) => {
     array.push(item);
   });
-
-  function createData(componentId, componentName, amount) {
-    return { componentId, componentName, amount };
-  }
-
-  const [productComponent, setListProductComponent] = useState([]);
-  const [listComponentActive, setComponentList] = useState([]);
-  const [componentActive, setComponentChoice] = useState(null);
-
-  useEffect(() => {
-    axios.get("https://localhost:5001/getComponents/Active").then((res) => {
-      setComponentList(res.data);
-    });
-  }, []);
 
   function deleteProduct(id) {
     axios
@@ -91,6 +80,22 @@ export const Table = (props) => {
       field: "price",
       cellStyle: { fontFamily: "Muli" },
     },
+    {
+      title: "Status",
+      field: "status",
+      render:
+        rowData => (rowData.status == 'Inactive')
+          ? <IconContext.Provider value={{ color: "red", className: "global-class-name" }}>
+            <div>
+              <AiFillCloseCircle size={40} />
+            </div>
+          </IconContext.Provider>
+          : <IconContext.Provider value={{ color: "green", className: "global-class-name" }}>
+            <div>
+              <AiFillCheckCircle size={40} />
+            </div>
+          </IconContext.Provider >
+    },
   ];
 
   const componentColumns = [
@@ -117,8 +122,8 @@ export const Table = (props) => {
       label: "Active",
     },
     {
-      value: "Unactive",
-      label: "Unactive",
+      value: "Inactive",
+      label: "Inactive",
     },
   ];
 
@@ -143,7 +148,11 @@ export const Table = (props) => {
     },
   });
 
+  const [editDatas, setEditDatas] = useState([]);
   const [open, setOpen] = useState(false);
+  const [newDataSubmitted, setNewDataSubmitted] = useState(1);
+  const [productComponent, setListProductComponent] = useState([]);
+
   const [imageUrl, setProductImage] = useState("");
   const [productId, setProductID] = useState("");
   const [productName, setProductName] = useState("");
@@ -153,62 +162,16 @@ export const Table = (props) => {
   const [status, setStatus] = useState("Active");
   const [description, setDescription] = useState("");
 
-  const handleClickOpen = (product) => {
+  const handleEditData = (rowData) => {
+    setEditDatas(rowData);
     setOpen(true);
-    // setMaterial(material)
-    setProductID(product.productId);
-    setProductName(product.productName);
-    setProductPrice(product.price);
-    setProductAmount(product.amount);
-    setStatus(product.status);
-    setDescription(product.description);
-  };
-
-  const handleSaveData = (e) => {
-    e.preventDefault();
-
-    const jsonObj = {
-      productId: productId,
-      productName: productName,
-      price: price,
-      amount: amount,
-      status: status,
-      description: description,
-      imageUrl: imageUrl,
-      productComponents: productComponent?.map((item) => {
-        return {
-          productId: productId,
-          componentId: item.componentId,
-          amount: item.amount,
-        };
-      }),
-    };
-    axios
-      .put("https://localhost:5001/updateProduct", jsonObj)
-      .then((res) => {
-        swal("Success", "Update product success", "success", {
-          button: false,
-          time: 2000,
-        });
-      })
-      .catch((ex) => {
-        swal("Error", "Update product fail", "error", {
-          button: false,
-          time: 2000,
-        });
-      });
-    props.setSubmittedTime();
-    handleClose();
-    window.location.reload();
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    setListProductComponent([]);
-  };
+    axios.get("https://localhost:5001/getCompoByProductId/" + rowData.productId).then(
+      (res) => setListProductComponent(res.data)
+    )
+  }
 
   return (
-    <div>
+    <React.Fragment>
       <MaterialTable
         title={"List of Products"}
         data={array}
@@ -226,7 +189,7 @@ export const Table = (props) => {
             icon: "edit",
             tooltip: "Edit this Component",
             onClick: (event, rowData) => {
-              handleClickOpen(rowData);
+              handleEditData(rowData);
             },
           },
         ]}
@@ -237,226 +200,19 @@ export const Table = (props) => {
           headerStyle: { backgroundColor: "#E30217", color: "#fff" },
         }}
       />
-
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        // material={material}
-        productId={productId}
-        productName={productName}
-        price={price}
-        amount={amount}
-        status={status}
-        description={description}
+      <ProductEditPopup
+        productCompos={productComponent}
+        data={editDatas}
+        setData={setEditDatas}
+        IsOpen={open}
+        setOpen={setOpen}
+        setSubmittedTime={() => {
+          setNewDataSubmitted((prev) => prev + 1);
+        }}
       >
-        <div className="componentpopup">
-          <div className="popup-inner">
-            <div>
-              <button className="close-btn" onClick={handleClose}>
-                <CloseIcon style={{ color: "white" }} />
-              </button>
-            </div>
-            <h3 className="popuptitle">Edit material: {productId}</h3>
-            <div className="popup-body">
-              <form>
-                <div className="idname">
-                  <div className="idfield">
-                    <CssTextField
-                      label="Product ID"
-                      id="fullWidth"
-                      required
-                      value={productId}
-                    />
-                  </div>
-                  <div className="namefield">
-                    <CssTextField
-                      label="Product Name"
-                      id="fullWidth"
-                      required
-                      value={productName}
-                      onChange={(e) => setProductName(e.target.value)}
-                    />
-                  </div>
-                  <div className="idfield">
-                    <CssTextField
-                      label="Amount"
-                      id="fullWidth"
-                      required
-                      type={"number"}
-                      InputProps={{
-                        inputProps: { min: 0, pattern: "[0-9]*" },
-                      }}
-                      value={amount}
-                      onChange={(e) => setProductAmount(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <div className="idname">
-                  <div className="txtfield">
-                    <CssTextField
-                      label="Price"
-                      id="fullWidth"
-                      required
-                      type={"number"}
-                      InputProps={{
-                        inputProps: { min: 0, pattern: "[0-9]*" },
-                      }}
-                      value={price}
-                      onChange={(e) => setProductPrice(e.target.value)}
-                    />
-                  </div>
-                  <div className="txtfield">
-                    <CssTextField
-                      label="Status"
-                      select
-                      name="status"
-                      id="Status"
-                      required
-                      onChange={(e) => setStatus(e.target.value)}
-                      value={status === "Active" ? "Active" : "Unactive"}
-                      helperText="Choose product status"
-                    >
-                      {statuses.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </CssTextField>
-                  </div>
-                  <div className="txtfield">
-                    <CssTextField
-                      id="description"
-                      label="Description"
-                      name="description"
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <div className="txtfield">
-                  <CssTextField
-                    label="Material Active List"
-                    select
-                    id="fullWidth"
-                    value={componentActive}
-                    onChange={(e) => setComponentChoice(e.target.value)}
-                    helperText="Choose Active Material"
-                  >
-                    {listComponentActive
-                      .filter((item) => {
-                        return !productComponent.find(
-                          (item2) => item2.componentId === item.componentId
-                        );
-                      })
-                      .map((component) => (
-                        <MenuItem key={component.componentId} value={component}>
-                          {component.componentName}
-                        </MenuItem>
-                      ))}
-                  </CssTextField>
-                </div>
-                <div className="numfield">
-                  <CssTextField
-                    label="Amount"
-                    id="fullWidth"
-                    value={componentAmount}
-                    type={"number"}
-                    InputProps={{
-                      inputProps: { min: 0, pattern: "[0-9]*" },
-                    }}
-                    onChange={(e) => setComponentProductAmount(e.target.value)}
-                  />
-                </div>
-                {componentActive != null &&
-                  componentAmount != null &&
-                  componentAmount > 0 ? (
-                  <div className="button_field">
-                    <Button
-                      style={{
-                        fontFamily: "Muli",
-                        borderRadius: 10,
-                        backgroundColor: "#e30217",
-                        color: "white",
-                      }}
-                      onClick={() => {
-                        setListProductComponent((productComponent) => [
-                          ...productComponent,
-                          createData(
-                            componentActive.componentId,
-                            componentActive.componentName,
-                            componentAmount
-                          ),
-                        ]);
-                        setComponentProductAmount(0);
-                        setComponentChoice(null);
-                      }}
-                    >
-                      ADD
-                    </Button>
-                  </div>
-                ) : null}
-                <div className="tablefield">
-                  <MaterialTable
-                    data={productComponent}
-                    columns={componentColumns}
-                    editable={{
-                      onRowDelete: (oldData) =>
-                        new Promise((resolve, reject) => {
-                          setTimeout(() => {
-                            const dataDelete = [...productComponent];
-                            const index = oldData.tableData.id;
-                            dataDelete.splice(index, 1);
-                            setListProductComponent([...dataDelete]);
-                            resolve();
-                          }, 1);
-                        }),
-                    }}
-                    options={{
-                      toolbar: false,
-                      maxBodyHeight: 200,
-                      search: false,
-                      paging: false,
-                      showTitle: false,
-                      addRowPosition: "first",
-                      actionsColumnIndex: -1,
-                      exportButton: false,
-                      headerStyle: { backgroundColor: "#E30217", color: "#fff" },
-                    }}
-                  />
-                </div>
-                <div className="btngr">
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    style={{
-                      fontFamily: "Muli",
-                      borderRadius: 10,
-                      backgroundColor: "#e30217",
-                      marginRight: "0.5rem",
-                    }}
-                    size="large"
-                    onClick={handleSaveData}
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    variant="contained"
-                    style={{
-                      fontFamily: "Muli",
-                      borderRadius: 10,
-                      backgroundColor: "#e30217",
-                    }}
-                    size="large"
-                    onClick={handleClose}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </Dialog>
-    </div>
+        <h3 className="popuptitle">Edit component : {editDatas.productId} </h3>
+      </ProductEditPopup>
+
+    </React.Fragment>
   );
 };

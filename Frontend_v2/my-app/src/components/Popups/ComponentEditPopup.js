@@ -79,7 +79,6 @@ function ComponentEditPopup(props) {
   const [status, setStatus] = useState({ ...props.data.status });
   const [description, setDescription] = useState({ ...props.data.description });
 
-  const [getComponentMaterial, setGetListComponentMaterial] = useState([]);
   const [componentMaterial, setListComponentMaterial] = useState({ ...props.compoMates });
   const [listMaterialActive, setMaterialList] = useState([]);
   const [materialActive, setMaterialChoose] = useState(null);
@@ -134,10 +133,6 @@ function ComponentEditPopup(props) {
       setMaterialList(res.data);
     });
   }, []);
-
-  // useEffect(() => {
-  //   setListComponentMaterial(getComponentMaterial);
-  // }, [componentMaterial]);
 
   // const [file, setFile] = useState();
   // const [fileName, setFileName] = useState("");
@@ -462,7 +457,7 @@ function ComponentEditPopup(props) {
                 size="large"
                 onClick={changeData}
               >
-                Edit Material
+                Edit Component
               </Button>
               <Button
                 variant="contained"
