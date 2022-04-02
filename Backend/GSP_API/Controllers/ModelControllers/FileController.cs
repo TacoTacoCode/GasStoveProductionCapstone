@@ -46,6 +46,22 @@ namespace GSP_API.Controllers.ModelControllers
             }
         }
 
+        [HttpGet]
+        [Route("getImageFile/{filePath}")]
+        public async Task<IActionResult> GetImagesFile(string filePath)
+        {
+            string contentType = "application/octet-stream";
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound();
+            }
+            else
+            {
+                byte[] fileBype = await System.IO.File.ReadAllBytesAsync(filePath);
+                return File(fileBype, contentType);
+            }
+        }
+
         // POST: uploadFile/product/[file]
         [HttpPost]
         [Route("uploadFile/product")]
