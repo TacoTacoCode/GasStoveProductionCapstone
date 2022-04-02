@@ -31,7 +31,34 @@ export const Table = (props) => {
           timer: 2000,
         });
       });
-    props.setNewDataSubmit();
+  }
+  function getImage(fileName) {
+    if (fileName == null) {
+      console.log(fileName);
+      return fileName;
+    }
+    axios({
+      url: "https://localhost:5001/getImageFile/" + fileName,
+      method: 'GET',
+      responseType: 'blob'
+    })
+      .then((response) => {
+        // console.log('test value blob: ' + fileName);
+        // console.log(response.data);
+        // var binaryData = [];
+        // binaryData.push(response.data);
+        // console.log(binaryData);
+        // return URL.createObjectURL(new Blob(binaryData));
+
+        var test = new File([response.data], fileName);
+        console.log("Test Image: ");
+        console.log(test);
+        test.preview = URL.createObjectURL(test);
+        console.log("Test Preview Image: ");
+        console.log(test.preview);
+        return URL.createObjectURL(test).preview;
+        // return URL.createObjectURL(new Blob(response.data));
+      })
   }
 
   const [addAccountBtn, setaddAccountBtn] = useState(false);
@@ -49,9 +76,28 @@ export const Table = (props) => {
     {
       title: "Avatar",
       field: "avatarUrl",
-      render: (rowData) => (
-        <img style={{ height: "60px", width: "60px" }} src={rowData.avt} />
-      ),
+      render: (rowData) => {
+        <img style={{ height: "60px", width: "60px" }} src={"data:image/*;base64," + getImage(rowData.avatarUrl)} />
+        console.log("Test file review text: ");
+        console.log(getImage(rowData.avatarUrl));
+        // var x = getImage(rowData.avatarUrl);
+        // if (x == null) {
+        //   console.log(Date.now());
+        //   console.log('vo if');
+        //   var url = "";
+        // } else {
+        //   console.log('vo else');
+        //   url = File(x, rowData.avatarUrl);
+        //   console.log(url);
+        //   url.preview = URL.createObjectURL(x);
+        // }
+        // (
+        //   <div>
+        //     <img style={{ height: "60px", width: "60px" }} src={"data:image/*;base64," + url} />
+        //   </div>
+        // );
+      }
+      ,
       cellStyle: { fontFamily: "Muli" },
       align: "left",
     },

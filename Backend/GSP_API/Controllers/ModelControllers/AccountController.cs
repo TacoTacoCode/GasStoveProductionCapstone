@@ -98,7 +98,7 @@ namespace GSP_API.Controllers.ModelControllers
                 {
                     await file.CopyToAsync(fileStream);
                 }
-                newAccount.AvatarUrl = imgsrc;
+                newAccount.AvatarUrl = imageName;
             }
            
             var data = await _accountService.AddAccount(_mapper.Map<Account>(newAccount));

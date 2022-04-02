@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SideBarAdminData, SideBarData, SideBarOrderData, SideBarSectionData } from "./SideBarData";
 import "../SideBarComponents/SideBarCss.css";
 import { Link } from "react-router-dom";
@@ -53,6 +53,7 @@ function CustomSideBar() {
     const handleLogout = () => {
         // localStorage.removeItem("token");
         localStorage.clear();
+        setCurrentUser({ id: '', role: '' });
         // localStorage.removeItem("user");
         window.location.href = "/login";
     };
@@ -60,10 +61,12 @@ function CustomSideBar() {
     function linkClick() {
         window.location.href = "http://localhost:3000/dashboard/";
     }
-    
+
+    const [currentUser, setCurrentUser] = useState({ id: localStorage.getItem('currentId'), role: localStorage.getItem('currentRole') });
+
     let role = [];
-    
-    switch (localStorage.getItem('currentRole')) {
+
+    switch (currentUser.role) {
         case 'Admin':
             role = SideBarAdminData.map(obj => ({ ...obj }));
             break;
@@ -90,6 +93,9 @@ function CustomSideBar() {
                     <Typography variant="h5" className={classes.menuItem} onClick={linkClick}>
                         UFA Company Managing System
                     </Typography>
+                    <MenuItem onClick={() => console.log('Check : ' + currentUser.id + " " + currentUser.role)}>
+                        <FaIcons.FaUserCircle />
+                    </MenuItem>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Toolbar>
 

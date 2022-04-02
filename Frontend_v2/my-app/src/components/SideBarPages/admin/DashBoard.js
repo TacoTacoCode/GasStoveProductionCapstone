@@ -21,10 +21,9 @@ export default function DashBoard() {
 
   return (
     <>
-    <h1>{localStorage.getItem('currentUser')}</h1>
       <ImportExcelButton>Import from Excel</ImportExcelButton>
       <div className='dashboard'>
-        <Table listRequestMaterials={listRequestMaterials}/>
+        <Table listRequestMaterials={listRequestMaterials} />
       </div>
     </>
   );

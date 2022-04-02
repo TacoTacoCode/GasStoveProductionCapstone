@@ -36,20 +36,17 @@ export default function Signin() {
             phone,
             password
         });
-        if ('token' in response) {
-            swal("Success", "gi cai gi cung duoc", "success", {
+        if (response.success) {
+            swal("Success", "Login Successful!", "success", {
                 buttons: false,
                 timer: 2000,
             })
                 .then((value) => {
-                    console.log(value);
                     const token = response['token'];
                     const user = jwt(token);
-                    console.log("Check: " + user.id + " - " + user.role)
                     localStorage.setItem('token', response['token']);
-                    // localStorage.setItem('currentId', "32");
+                    localStorage.setItem('currentId', user.id);
                     localStorage.setItem('currentRole', user.role);
-                    console.log(user.role);
                     switch (user.role) {
                         case "Admin":
                             window.location.href = "/dashboard";
@@ -68,13 +65,10 @@ export default function Signin() {
                             break;
                     }
 
-                    // window.location.href = "/dashboard";
-
-                    // localStorage.setItem('user', JSON.stringify(response['user']));
-                    // window.location.href = "/dashboard";
+                    window.location.href = "/dashboard";
                 });
         } else {
-            swal("Failed", "gi cai gi cung duoc", "error");
+            swal("Failed", "User or Password is not correct", "error");
         }
 
     }

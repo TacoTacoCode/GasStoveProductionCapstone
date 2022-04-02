@@ -47,9 +47,10 @@ namespace GSP_API.Controllers.ModelControllers
         }
 
         [HttpGet]
-        [Route("getImageFile/{filePath}")]
-        public async Task<IActionResult> GetImagesFile(string filePath)
+        [Route("getImageFile/{fileName}")]
+        public async Task<IActionResult> GetImagesFile(string fileName)
         {
+            var filePath = Path.Combine("Images", fileName);
             string contentType = "application/octet-stream";
             if (!System.IO.File.Exists(filePath))
             {
@@ -58,7 +59,8 @@ namespace GSP_API.Controllers.ModelControllers
             else
             {
                 byte[] fileBype = await System.IO.File.ReadAllBytesAsync(filePath);
-                return File(fileBype, contentType);
+                var file = File(fileBype, contentType, fileName);
+                return file;
             }
         }
 

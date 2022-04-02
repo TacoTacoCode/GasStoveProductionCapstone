@@ -92,6 +92,7 @@ function AccountPopup(props) {
   const handlePreviewAvatar = (e) => {
     console.log(e.target.value)
     const file = e.target.files[0];
+    console.log(file);
     file.preview = URL.createObjectURL(file);
     setAvatarUrl(file);
     setFile(e.target.files[0]);
@@ -169,7 +170,41 @@ function AccountPopup(props) {
 
     props.setSubmittedTime();
   }
+  const postData2 = (e) => {
+    // uploadFile().then(res => {
+    //   //get the return avatarURL then parse it to object POST
+    // })
+    const formData = new FormData();
+    formData.append("accountId", accountID);
+    formData.append("password", password);
+    formData.append("email", email);
+    formData.append("name", accountName);
+    formData.append("gender", gender);
+    formData.append("dateOfBirth", new Date(dateOfBirth).toISOString());
+    formData.append("address", address);
+    formData.append("phone", phone);
+    formData.append("roleId", roleID);
+    formData.append("sectionId", sectionID);
+    formData.append("isActive", isActive === 'Active');
+    formData.append("file", file);
+    axios.post("https://localhost:5001/addAccount", formData).then(res => {
+      swal("Success", "Add new account successfully", "success", {
+        buttons: false,
+        timer: 2000,
+      })
 
+      //reset data
+      handleCancelClick();
+    }).catch(err => {
+      swal("Error", "Add new account failed", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      console.log(err)
+    });
+
+    props.setSubmittedTime();
+  }
   const handleCancelClick = () => {
     //reset all value when cancel submit (not include close popup function)
     //React 18 said that when React.lifecycle ended then all state change would be update, not updateed one by one like before
@@ -321,7 +356,7 @@ function AccountPopup(props) {
               <Button
                 variant="contained"
                 style={{ fontFamily: 'Muli', borderRadius: 10, backgroundColor: "#e30217", marginRight: '0.5rem' }}
-                size="large" onClick={postData}>Add Account</Button>
+                size="large" onClick={postData2}>Add Account</Button>
               <Button
                 variant="contained"
                 style={{ fontFamily: 'Muli', borderRadius: 10, backgroundColor: "#e30217" }}
