@@ -48,7 +48,7 @@ export default function Signin() {
                     console.log("Check: " + user.id + " - " + user.role)
                     localStorage.setItem('token', response['token']);
                     // localStorage.setItem('currentId', "32");
-                    // localStorage.setItem('currentRole', "Admin");
+                    localStorage.setItem('currentRole', user.role);
                     console.log(user.role);
                     switch (user.role) {
                         case "Admin":
@@ -68,7 +68,7 @@ export default function Signin() {
                             break;
                     }
 
-                    window.location.href = "/dashboard";
+                    // window.location.href = "/dashboard";
 
                     // localStorage.setItem('user', JSON.stringify(response['user']));
                     // window.location.href = "/dashboard";

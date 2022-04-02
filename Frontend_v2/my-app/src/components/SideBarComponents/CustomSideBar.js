@@ -56,10 +56,13 @@ function CustomSideBar() {
         // localStorage.removeItem("user");
         window.location.href = "/login";
     };
-    let role = [];
+
     function linkClick() {
         window.location.href = "http://localhost:3000/dashboard/";
     }
+    
+    let role = [];
+    
     switch (localStorage.getItem('currentRole')) {
         case 'Admin':
             role = SideBarAdminData.map(obj => ({ ...obj }));

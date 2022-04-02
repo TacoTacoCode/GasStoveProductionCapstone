@@ -1,5 +1,5 @@
 
-import {React, useEffect} from 'react'
+import { React, useEffect } from 'react'
 import '../../../App.css';
 import { ImportExcelButton } from '../../button/ImportExcelButton';
 import { OrderDetailTable } from '../../tabledata/OrderDetailTable';
@@ -12,19 +12,20 @@ function OrderDetails() {
     const [addOrderDetailsBtn, setAddOrderDetailsBtn] = useState(false);
     const location = useLocation();
     const [listOrderDetail, setListOrderDetail] = useState([])
+    const [listOrder, setListOrder] = useState([]);
 
-    
+
     useEffect(() => {
         const getAllOrderDetail = 'https://localhost:5001/getOrderDetailsOf/ord/' + location.state.orderId
         //Gọi API bằng axios
         axios.get(getAllOrderDetail).then((res) => {
             setListOrderDetail(res.data);
         }).catch((err) => {
-          console.log(err);
-          alert("Xảy ra lỗi");
+            console.log(err);
+            alert("Xảy ra lỗi");
         })
-  
-      }, []);
+
+    }, []);
 
     return (
         <>
@@ -37,7 +38,7 @@ function OrderDetails() {
                 <h3>ComponentPopup</h3>
             </ComponentPopup>
             <div className='components'>
-                <OrderDetailTable listOrderDetail={listOrderDetail}/></div></>
+                <OrderDetailTable listOrderDetail={listOrderDetail} listOrder={listOrder}/></div></>
     )
 }
 

@@ -12,6 +12,8 @@ import Orders from './components/SideBarPages/orderdepartment/Orders';
 import SectionMaterials from './components/SideBarPages/sectiondepartment/SectionMaterials';
 import WorkerList from './components/SideBarPages/sectiondepartment/WorkerList';
 import OrderDetails from './components/SideBarPages/orderdepartment/OrderDetails';
+import CreateProcess from './components/NonSideBarPage/CreateProcess';
+import DivideProcessTabs from './components/Tabs/DivideProcessTabs';
 
 
 const theme = createTheme({
@@ -67,6 +69,8 @@ function App() {
             <Route path='/orders/orderdetails' exact element={<OrderDetails />}></Route>
             <Route path='/section/materials' exact element={<SectionMaterials />}></Route>
             <Route path='/section/workers' exact element={<WorkerList />}></Route>
+            <Route path='/createProcess' exact element={<CreateProcess />}></Route>
+            <Route path='/divideProcessTabs' exact element={<DivideProcessTabs />}></Route>
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

@@ -37,7 +37,7 @@ const CssTextField = styled(TextField)({
     },
 });
 
-function MaterialPopup(props) {
+function CreateOrderPopup(props) {
     const [status, setStatus] = React.useState('inprogress');
 
     const handleChangeStatus = (event) => {
@@ -46,7 +46,6 @@ function MaterialPopup(props) {
 
 
     return (props.trigger) ? (
-        console.log("ádasd:" +props.trigger),
         <div className='componentpopup'>
             <div className='popup-inner'>
                 <div><button className='close-btn' onClick={() => props.setTrigger(false)}>
@@ -112,7 +111,7 @@ function MaterialPopup(props) {
                 </div>
             </div>
         </div>
-    ) : <h1>hahahahaha</h1>;
+    ) : "";
 }
 
-export default MaterialPopup
+export default CreateOrderPopup
