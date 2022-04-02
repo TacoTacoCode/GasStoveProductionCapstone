@@ -14,6 +14,7 @@ import WorkerList from './components/SideBarPages/sectiondepartment/WorkerList';
 import OrderDetails from './components/SideBarPages/orderdepartment/OrderDetails';
 import CreateProcess from './components/NonSideBarPage/CreateProcess';
 import DivideProcessTabs from './components/Tabs/DivideProcessTabs';
+import Profile from './components/SideBarPages/Profile';
 
 
 const theme = createTheme({
@@ -60,6 +61,7 @@ function App() {
         <BrowserRouter>
           <CustomSideBar />
           <Routes>
+            <Route path='/profile' exact element={<Profile />}></Route>
             <Route path='/dashboard' exact element={<DashBoard />}></Route>
             <Route path='/dashboard/accounts' exact element={<Accounts />}></Route>
             <Route path='/dashboard/materials' exact element={<Materials />}></Route>

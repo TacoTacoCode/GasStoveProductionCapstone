@@ -10,6 +10,7 @@ import { Typography, typography } from '@material-ui/core'
 import Toolbar from '@mui/material/Toolbar';
 import { makeStyles } from '@material-ui/core/styles'
 import MenuItem from '@material-ui/core/MenuItem';
+import Profile from "../SideBarPages/Profile";
 
 const styles = makeStyles({
     bar: {
@@ -62,6 +63,11 @@ function CustomSideBar() {
         window.location.href = "http://localhost:3000/dashboard/";
     }
 
+    function handleOpenProfile() {
+        console.log('Check : ' + currentUser.id + " " + currentUser.role)
+        window.location.href = "http://localhost:3000/profile/";
+    }
+
     const [currentUser, setCurrentUser] = useState({ id: localStorage.getItem('currentId'), role: localStorage.getItem('currentRole') });
 
     let role = [];
@@ -79,8 +85,8 @@ function CustomSideBar() {
         default:
             break;
     }
-    return (
 
+    return (
         <>
             <IconContext.Provider value={{ color: '#e30217' }}>
                 <Toolbar position="sticky" color="rgba(0, 0, 0, 0.87)" className={classes.bar}>
@@ -93,8 +99,8 @@ function CustomSideBar() {
                     <Typography variant="h5" className={classes.menuItem} onClick={linkClick}>
                         UFA Company Managing System
                     </Typography>
-                    <MenuItem onClick={() => console.log('Check : ' + currentUser.id + " " + currentUser.role)}>
-                        <FaIcons.FaUserCircle />
+                    <MenuItem onClick={handleOpenProfile}>
+                        <FaIcons.FaUserCircle size={36} />
                     </MenuItem>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Toolbar>
