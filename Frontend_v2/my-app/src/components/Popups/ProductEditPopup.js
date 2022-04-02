@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useReducer, useCallback } from "react";
 import "../../styles/Popup.scss";
 import CloseIcon from "@mui/icons-material/Close";
 import MaterialTable from "material-table";
@@ -13,9 +13,16 @@ import { alpha, styled } from "@mui/material/styles";
 import axios from "axios";
 import swal from "sweetalert";
 
-function createData(componentId, componentName, amount) {
-  return { componentId, componentName, amount };
-}
+const statuses = [
+  {
+    value: "Active",
+    label: "Active",
+  },
+  {
+    value: "Inactive",
+    label: "Inactive",
+  },
+];
 
 const columns = [
   {
@@ -32,17 +39,6 @@ const columns = [
     title: "Amount",
     field: "amount",
     cellStyle: { fontFamily: "Arial" },
-  },
-];
-
-const statuses = [
-  {
-    value: "Active",
-    label: "Active",
-  },
-  {
-    value: "Inactive",
-    label: "Inactive",
   },
 ];
 
@@ -67,10 +63,55 @@ const CssTextField = styled(TextField)({
   },
 });
 
-function ProductPopup(props) {
-  const [productComponent, setListProductComponent] = useState([]);
+function createData(componentId, componentName, amount) {
+  return { componentId, componentName, amount };
+}
+
+function ProductEditPopup(props) {
+  const [imageUrl, setProductImage] = useState({ ...props.data.imageUrl });
+  const [productID, setProductID] = useState({ ...props.data.productId });
+  const [productName, setProductName] = useState({ ...props.data.productName });
+  const [price, setProductPrice] = useState({ ...props.data.price });
+  const [amount, setProductAmount] = useState({ ...props.data.amount });
+  const [status, setStatus] = useState({ ...props.data.status });
+  const [description, setDescription] = useState({ ...props.data.description });
+
+  const [productComponent, setListProductComponent] = useState({ ...props.productCompos });
   const [listComponentActive, setComponentList] = useState([]);
-  const [componentActive, setComponentChoice] = useState(null);
+  const [componentActive, setComponentChoose] = useState(null);
+  const [componentAmount, setComponentProductAmount] = useState(null);
+
+  useEffect(() => {
+    setProductImage(props.data.imageUrl);
+  }, [props.data.imageUrl])
+
+  useEffect(() => {
+    setProductID(props.data.productId);
+  }, [props.data.productId])
+
+  useEffect(() => {
+    setProductName(props.data.productName);
+  }, [props.data.productName])
+
+  useEffect(() => {
+    setProductPrice(props.data.price);
+  }, [props.data.price])
+
+  useEffect(() => {
+    setProductAmount(props.data.amount);
+  }, [props.data.amount])
+
+  useEffect(() => {
+    setStatus(props.data.status);
+  }, [props.data.status])
+
+  useEffect(() => {
+    setDescription(props.data.description);
+  }, [props.data.description])
+
+  useEffect(() => {
+    setListProductComponent(props.productCompos);
+  }, [props.productCompos])
 
   useEffect(() => {
     axios.get("https://localhost:5001/getComponents/Active").then((res) => {
@@ -78,121 +119,97 @@ function ProductPopup(props) {
     });
   }, []);
 
-  const [imageUrl, setProductImage] = useState("");
-  const [productID, setProductID] = useState("");
-  const [productName, setProductName] = useState("");
-  const [price, setProductPrice] = useState("");
-  const [amount, setProductAmount] = useState("");
-  const [componentAmount, setComponentProductAmount] = useState(null);
-  const [status, setStatus] = useState("Active");
-  const [description, setDescription] = useState("");
+  // useEffect(() => {
+  //   setListComponentMaterial(getComponentMaterial);
+  // }, [componentMaterial]);
 
-  const [file, setFile] = useState();
-  const [fileName, setFileName] = useState("");
+  // const [file, setFile] = useState();
+  // const [fileName, setFileName] = useState("");
 
   const handlePreviewAvatar = (e) => {
     console.log(e.target.value);
     const file = e.target.files[0];
     file.preview = URL.createObjectURL(file);
-    setProductImage(file);
-    setFile(e.target.files[0]);
-    setFileName(e.target.files[0].name);
+    // setMaterialImage(file);
+    // setFile(e.target.files[0]);
+    // setFileName(e.target.files[0].name);
+    console.log(file.preview);
   };
 
-  //đổi ảnh khác thì clean bộ nhớ
-  useEffect(() => {
-    //clean up function for avatarUrl
-    return () => {
-      return imageUrl && URL.revokeObjectURL(imageUrl.preview);
-    };
-  }, [imageUrl]);
-
-  const uploadFile = async (e) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("fileName", fileName);
-    try {
-      const res = await axios.post("http://localhost:3000/upload", formData);
-      console.log(res);
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
-
-  const postData = (e) => {
-    // const formData = new FormData();
-    // formData.append("file", file);
-    // formData.append("fileName", fileName);
+  const changeData = (e) => {
     e.preventDefault();
+    //thêm ảnh lên server
+    //uploadFile();
     const jsonObj = {
       productId: productID,
       productName,
-      amount,
+      amount: +amount,
       price,
       imageUrl,
       status,
       description,
       productComponents: productComponent
-        ? productComponent?.map((item) => {
-          return {
-            productId: productID,
-            componentId: item.componentId,
-            amount: item.amount,
-          };
-        })
-        : [],
     };
-    console.log(jsonObj);
+    console.log(JSON.stringify(jsonObj));
     axios
-      .post("https://localhost:5001/addProduct", jsonObj)
+      .put("https://localhost:5001/updateProduct", jsonObj)
       .then((res) => {
-        swal("Success", "Add product success", "success", {
+        swal("Success", "Update product successfully", "success", {
           button: false,
           timer: 2000,
         });
-        props.setSubmittedTime();
+        handleCancelClick();
       })
       .catch((err) => {
-        swal("Error", "Add product fail", "error", {
+        swal("Error", "Update product failed", "error", {
           button: false,
           timer: 2000,
         });
       });
-    handleCancelClick();
+    handleClose();
+  };
+
+  var delay = (function () {
+    var timer = 0;
+    return function (callback, ms) {
+      clearTimeout(timer);
+      timer = setTimeout(callback, ms);
+    };
+  })();
+
+  const handleClose = () => {
+    props.setOpen(false);
+    delay(function () { window.location.reload(); }, 1000);
   };
 
   const handleCancelClick = () => {
-    setProductID("");
-    setProductName("");
-    setProductPrice("");
-    setProductAmount("");
-    setComponentProductAmount("");
-    setStatus("Active");
-    setDescription("");
-    setProductImage("");
-    setFile("");
-    setFileName("");
-
-    setListProductComponent([]);
-    setComponentChoice(null);
-
-    props.setTrigger(false);
+    setProductImage('');
+    setProductID(props.data.productId);
+    setProductName(props.data.productName);
+    setProductPrice(props.data.price);
+    setProductAmount(props.data.amount);
+    setStatus(props.data.status);
+    setListProductComponent(props.productCompos);
+    setDescription(props.data.description);
+    props.setOpen(false);
   };
 
-  return props.trigger ? (
-    <div className="popup">
+  return props.IsOpen ? (
+    <div className="componentpopup">
       <div className="popup-inner">
         <div>
-          <button className="close-btn" onClick={() => props.setTrigger(false)}>
+          <button className="close-btn" onClick={() => props.setOpen(false)}>
             <CloseIcon style={{ color: "white" }} />
           </button>
         </div>
         {props.children}
         <div className="popup-body">
           <form>
-            <div className="imagefield">
-              Product's Image
-              <input type="file" onChange={handlePreviewAvatar} />
+            <div className="idname">
+              <div className="imagefield">
+                Account's Image
+                <input type="file" onChange={handlePreviewAvatar} />
+              </div>
             </div>
             <div>
               {imageUrl ? (
@@ -280,7 +297,7 @@ function ProductPopup(props) {
                   select
                   id="fullWidth"
                   value={componentActive}
-                  onChange={(e) => setComponentChoice(e.target.value)}
+                  onChange={(e) => setComponentChoose(e.target.value)}
                   helperText="Choose Active Component"
                 >
                   {listComponentActive
@@ -329,7 +346,7 @@ function ProductPopup(props) {
                         ),
                       ]);
                       setComponentProductAmount(0);
-                      setComponentChoice(null);
+                      setComponentChoose(null);
                     }}
                   >
                     ADD
@@ -341,6 +358,16 @@ function ProductPopup(props) {
                   data={productComponent}
                   columns={columns}
                   editable={{
+                    onRowUpdate: (newData, oldData) =>
+                      new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                          const dataUpdate = [...productComponent];
+                          const index = oldData.tableData.id;
+                          dataUpdate[index] = newData;
+                          setListProductComponent([...dataUpdate]);
+                          resolve();
+                        }, 1)
+                      }),
                     onRowDelete: (oldData) =>
                       new Promise((resolve, reject) => {
                         setTimeout(() => {
@@ -367,6 +394,7 @@ function ProductPopup(props) {
               </div>
             </div>
 
+
             <div className="btngr">
               <Button
                 type="submit"
@@ -378,9 +406,9 @@ function ProductPopup(props) {
                   marginRight: "0.5rem",
                 }}
                 size="large"
-                onClick={postData}
+                onClick={changeData}
               >
-                Add Product
+                Edit Product
               </Button>
               <Button
                 variant="contained"
@@ -390,18 +418,18 @@ function ProductPopup(props) {
                   backgroundColor: "#e30217",
                 }}
                 size="large"
-                onClick={() => props.setTrigger(false)}
+                onClick={handleCancelClick}
               >
                 Cancel
               </Button>
             </div>
           </form>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   ) : (
     ""
   );
 }
 
-export default ProductPopup;
+export default ProductEditPopup;

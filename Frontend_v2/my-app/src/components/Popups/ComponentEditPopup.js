@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect, useRef, useReducer, useCallback } from "react";
 import "../../styles/Popup.scss";
 import CloseIcon from "@mui/icons-material/Close";
 import MaterialTable from "material-table";
@@ -13,9 +13,16 @@ import { alpha, styled } from "@mui/material/styles";
 import axios from "axios";
 import swal from "sweetalert";
 
-function createData(materialId, materialName, amount) {
-  return { materialId, materialName, amount };
-}
+const statuses = [
+  {
+    value: "Active",
+    label: "Active",
+  },
+  {
+    value: "Inactive",
+    label: "Inactive",
+  },
+];
 
 const columns = [
   {
@@ -32,17 +39,6 @@ const columns = [
     title: "Amount",
     field: "amount",
     cellStyle: { fontFamily: "Arial" },
-  },
-];
-
-const statuses = [
-  {
-    value: "Active",
-    label: "Active",
-  },
-  {
-    value: "Inactive",
-    label: "Inactive",
   },
 ];
 
@@ -67,11 +63,70 @@ const CssTextField = styled(TextField)({
   },
 });
 
-function ComponentPopup(props) {
-  //set a map from combobox then add them to the table
-  const [componentMaterial, setListComponentMaterial] = useState([]);
+function createData(materialId, materialName, amount) {
+  return { materialId, materialName, amount };
+}
+
+function ComponentEditPopup(props) {
+  const [imageUrl, setComponentImage] = useState({ ...props.data.imageUrl });
+  const [componentID, setComponentID] = useState({ ...props.data.componentId });
+  const [componentName, setComponentName] = useState({ ...props.data.componentName });
+  const [size, setComponentSize] = useState({ ...props.data.size });
+  const [amount, setComponentAmount] = useState({ ...props.data.amount });
+  const [substance, setComponentSubstance] = useState({ ...props.data.substance });
+  const [weight, setComponentWeight] = useState({ ...props.data.weight });
+  const [color, setComponentColor] = useState({ ...props.data.color });
+  const [status, setStatus] = useState({ ...props.data.status });
+  const [description, setDescription] = useState({ ...props.data.description });
+
+  const [componentMaterial, setListComponentMaterial] = useState({ ...props.compoMates });
   const [listMaterialActive, setMaterialList] = useState([]);
   const [materialActive, setMaterialChoose] = useState(null);
+  const [materialAmount, setMaterialComponentAmount] = useState(null);
+
+  useEffect(() => {
+    setComponentImage(props.data.imageUrl);
+  }, [props.data.imageUrl])
+
+  useEffect(() => {
+    setComponentID(props.data.componentId);
+  }, [props.data.componentId])
+
+  useEffect(() => {
+    setComponentName(props.data.componentName);
+  }, [props.data.componentName])
+
+  useEffect(() => {
+    setComponentSize(props.data.size);
+  }, [props.data.size])
+
+  useEffect(() => {
+    setComponentAmount(props.data.amount);
+  }, [props.data.amount])
+
+  useEffect(() => {
+    setComponentSubstance(props.data.substance);
+  }, [props.data.substance])
+
+  useEffect(() => {
+    setComponentWeight(props.data.weight);
+  }, [props.data.weight])
+
+  useEffect(() => {
+    setComponentColor(props.data.color);
+  }, [props.data.color])
+
+  useEffect(() => {
+    setStatus(props.data.status);
+  }, [props.data.status])
+
+  useEffect(() => {
+    setDescription(props.data.description);
+  }, [props.data.description])
+
+  useEffect(() => {
+    setListComponentMaterial(props.compoMates);
+  }, [props.compoMates])
 
   useEffect(() => {
     axios.get("https://localhost:5001/getMaterials/Active").then((res) => {
@@ -79,63 +134,23 @@ function ComponentPopup(props) {
     });
   }, []);
 
-  // const [importExportDetail, setimportExportDetailTest] = useState(null);
-  // const [productComponent, setProductComponent] = useState(null);
-  // const [section, setSection] = useState(null);
-  const [imageUrl, setComponentImage] = useState("");
-  const [componentID, setComponentID] = useState("");
-  const [componentName, setComponentName] = useState("");
-  const [size, setComponentSize] = useState("");
-  const [amount, setComponentAmount] = useState("");
-  const [materialAmount, setMaterialComponentAmount] = useState(null);
-  const [substance, setComponentSubstance] = useState("");
-  const [weight, setComponentWeight] = useState("");
-  const [color, setComponentColor] = useState("");
-  const [status, setStatus] = useState("Active");
-  const [description, setDescription] = useState("");
-
-  const [file, setFile] = useState();
-  const [fileName, setFileName] = useState("");
+  // const [file, setFile] = useState();
+  // const [fileName, setFileName] = useState("");
 
   const handlePreviewAvatar = (e) => {
     console.log(e.target.value);
     const file = e.target.files[0];
     file.preview = URL.createObjectURL(file);
-    setComponentImage(file);
-    setFile(e.target.files[0]);
-    setFileName(e.target.files[0].name);
+    // setMaterialImage(file);
+    // setFile(e.target.files[0]);
+    // setFileName(e.target.files[0].name);
+    console.log(file.preview);
   };
 
-  //đổi ảnh khác thì clean bộ nhớ
-  useEffect(() => {
-    //clean up function for avatarUrl
-    return () => {
-      return imageUrl && URL.revokeObjectURL(imageUrl.preview);
-    };
-  }, [imageUrl]);
-
-  const saveFile = (e) => {
-    setFile(e.target.files[0]);
-    setFileName(e.target.files[0].name);
-  };
-
-  const uploadFile = async (e) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("fileName", fileName);
-    try {
-      const res = await axios.post("http://localhost:3000/upload", formData);
-      console.log(res);
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
-
-  const postData = (e) => {
-    // const formData = new FormData();
-    // formData.append("file", file);
-    // formData.append("fileName", fileName);
+  const changeData = (e) => {
     e.preventDefault();
+    //thêm ảnh lên server
+    //uploadFile();
     const jsonObj = {
       componentId: componentID,
       componentName,
@@ -147,67 +162,71 @@ function ComponentPopup(props) {
       color,
       weight,
       description,
-      componentMaterial: componentMaterial.map((item) => {
-        return {
-          componentId: componentID,
-          materialId: item.materialId,
-          amount: +item.amount,
-        };
-      }),
+      componentMaterial
     };
+    console.log(JSON.stringify(jsonObj));
     axios
-      .post("https://localhost:5001/addComponent", jsonObj)
+      .put("https://localhost:5001/updateComponent", jsonObj)
       .then((res) => {
-        swal("Success", "Add component success", "success", {
+        swal("Success", "Update component successfully", "success", {
           button: false,
-          time: 2000,
+          timer: 2000,
         });
-        props.setSubmittedTime();
+        handleCancelClick();
       })
-      .catch((ex) => {
-        swal("Error", "Add component fail", "error", {
+      .catch((err) => {
+        swal("Error", "Update component failed", "error", {
           button: false,
-          time: 2000,
+          timer: 2000,
         });
       });
-    handleCancelClick();
+    handleClose();
+  };
+
+  var delay = (function () {
+    var timer = 0;
+    return function (callback, ms) {
+      clearTimeout(timer);
+      timer = setTimeout(callback, ms);
+    };
+  })();
+
+  const handleClose = () => {
+    props.setOpen(false);
+    delay(function () { window.location.reload(); }, 1000);
   };
 
   const handleCancelClick = () => {
-    setComponentID("");
-    setComponentName("");
-    setComponentAmount("");
-    setComponentImage("");
-    setComponentSize("");
-    setComponentSubstance("");
-    setComponentWeight("");
-    setComponentColor("");
-    setStatus("Active");
-    setDescription("");
-    setComponentImage("");
-    setFile("");
-    setFileName("");
-
-    setMaterialChoose(null);
-    setListComponentMaterial([]);
-
-    props.setTrigger(false);
+    setComponentImage('');
+    setComponentID(props.data.componentId);
+    setComponentName(props.data.componentName);
+    setComponentSize(props.data.size);
+    setComponentAmount(props.data.amount);
+    setComponentSubstance(props.data.substance);
+    setComponentWeight(props.data.weight);
+    setComponentColor(props.data.color);
+    setStatus(props.data.status);
+    setListComponentMaterial(props.compoMates);
+    setDescription(props.data.description);
+    props.setOpen(false);
   };
 
-  return props.trigger ? (
+  return props.IsOpen ? (
     <div className="componentpopup">
       <div className="popup-inner">
         <div>
-          <button className="close-btn" onClick={() => props.setTrigger(false)}>
+          <button className="close-btn" onClick={() => props.setOpen(false)}>
             <CloseIcon style={{ color: "white" }} />
           </button>
         </div>
         {props.children}
         <div className="popup-body">
-          <form id="Form1">
-            <div className="imagefield">
-              Component's Image
-              <input type="file" onChange={handlePreviewAvatar} />
+          <form>
+            <div className="idname">
+              <div className="imagefield">
+                Account's Image
+                <input type="file" onChange={handlePreviewAvatar} />
+              </div>
             </div>
             <div>
               {imageUrl ? (
@@ -389,6 +408,16 @@ function ComponentPopup(props) {
                   data={componentMaterial}
                   columns={columns}
                   editable={{
+                    onRowUpdate: (newData, oldData) =>
+                      new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                          const dataUpdate = [...componentMaterial];
+                          const index = oldData.tableData.id;
+                          dataUpdate[index] = newData;
+                          setListComponentMaterial([...dataUpdate]);
+                          resolve();
+                        }, 1)
+                      }),
                     onRowDelete: (oldData) =>
                       new Promise((resolve, reject) => {
                         setTimeout(() => {
@@ -426,9 +455,9 @@ function ComponentPopup(props) {
                   marginRight: "0.5rem",
                 }}
                 size="large"
-                onClick={postData}
+                onClick={changeData}
               >
-                Add Component
+                Edit Component
               </Button>
               <Button
                 variant="contained"
@@ -445,11 +474,11 @@ function ComponentPopup(props) {
             </div>
           </form>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   ) : (
     ""
   );
 }
 
-export default ComponentPopup;
+export default ComponentEditPopup;

@@ -92,17 +92,17 @@ export const Table = (props) => {
   const [open, setOpen] = useState(false);
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
 
-  const [roles, setRoleList] = useState([]);
-  const [sections, setSectionList] = useState([]);
+  // const [roles, setRoleList] = useState([]);
+  // const [sections, setSectionList] = useState([]);
 
-  useEffect(() => {
-    axios.get("https://localhost:5001/getRoles").then((res) => {
-      setRoleList(res.data);
-    });
-    axios.get("https://localhost:5001/getAllSections").then((res) => {
-      setSectionList(res.data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   axios.get("https://localhost:5001/getRoles").then((res) => {
+  //     setRoleList(res.data);
+  //   });
+  //   axios.get("https://localhost:5001/getAllSections").then((res) => {
+  //     setSectionList(res.data);
+  //   });
+  // }, []);
 
   const handleEditData = (rowData) => {
     setEditDatas(rowData);
