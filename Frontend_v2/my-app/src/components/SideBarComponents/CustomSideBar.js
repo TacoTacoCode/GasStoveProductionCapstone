@@ -10,7 +10,7 @@ import { Typography, typography } from '@material-ui/core'
 import Toolbar from '@mui/material/Toolbar';
 import { makeStyles } from '@material-ui/core/styles'
 import MenuItem from '@material-ui/core/MenuItem';
-import Profile from "../SideBarPages/Profile";
+import axios from "axios";
 
 const styles = makeStyles({
     bar: {
@@ -59,6 +59,23 @@ function CustomSideBar() {
         window.location.href = "/login";
     };
 
+    const [currentUserBar, setCurrentUserBar] = useState({});
+    const [roles, setRoles] = useState([]);
+
+    useEffect(() => {
+        axios.get("https://localhost:5001/getAccountById/" + currentUser.id)
+            .then((res) => {
+                setCurrentUserBar(res.data);
+            });
+    }, []);
+
+    useEffect(() => {
+        axios.get("https://localhost:5001/getRoles")
+            .then((res) => {
+                setRoles(res.data);
+            });
+    }, [])
+
     function linkClick() {
         window.location.href = "http://localhost:3000/dashboard/";
     }
@@ -101,6 +118,15 @@ function CustomSideBar() {
                     </Typography>
                     <MenuItem onClick={handleOpenProfile}>
                         <FaIcons.FaUserCircle size={36} />
+                        &emsp;
+                        {currentUserBar.name}&emsp;:&emsp;
+                        {
+                            roles.map((item) => {
+                                if (item.roleId == currentUserBar.roleId) {
+                                    return item.name
+                                }
+                            })
+                        }
                     </MenuItem>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Toolbar>
