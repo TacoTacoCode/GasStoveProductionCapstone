@@ -6,6 +6,10 @@ import ComponentPopup from "../../Popups/ComponentPopup";
 import axios from "axios";
 
 function Components() {
+  useEffect(() => {
+    document.title = "UFA - Manage Components"
+  }, []);
+
   const [addcomponentBtn, setAddcomponentBtn] = useState(false);
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
   const [listComponent, setListComponent] = useState([]);
@@ -44,7 +48,7 @@ function Components() {
       <div className="components">
         <Table listComponent={listComponent} setSubmittedTime={() => {
           setNewDataSubmitted((prevState) => prevState + 1);
-        }}/>
+        }} />
       </div>
     </>
   );

@@ -7,6 +7,9 @@ import '../../styles/Profile.scss';
 import axios from "axios";
 
 function Profile() {
+    useEffect(() => {
+        document.title = "UFA - My Profile"
+    }, []);
     // state = {
     //     name: 'Dinh Nhu Hieu',
     //     phone: '0335365325',

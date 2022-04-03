@@ -6,6 +6,10 @@ import ProductPopup from "../../Popups/ProductPopup";
 import axios from "axios";
 
 function Products() {
+  useEffect(() => {
+    document.title = "UFA - Manage Products"
+  }, []);
+
   const [addProductBtn, setaddProductBtn] = useState(false);
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
   const [listProduct, setListProduct] = useState([]);

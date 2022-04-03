@@ -6,6 +6,10 @@ import AccountPopup from "../../Popups/AccountPopup";
 import axios from "axios";
 
 function Accounts() {
+  useEffect(() => {
+    document.title = "UFA - Manage Accounts"
+  }, []);
+
   const [addAccountBtn, setaddAccountBtn] = useState(false);
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
   //biến này giúp tải lại dữ liệu mà không cần load lại trang (khi update data)

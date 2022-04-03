@@ -5,6 +5,10 @@ import { ImportExcelButton } from '../../button/ImportExcelButton';
 import axios from 'axios';
 
 export default function DashBoard() {
+  useEffect(() => {
+    document.title = "UFA - Dashboard"
+  }, []);
+
   const [listRequestMaterials, setListRequestMaterials] = useState([]);
 
   useEffect(() => {

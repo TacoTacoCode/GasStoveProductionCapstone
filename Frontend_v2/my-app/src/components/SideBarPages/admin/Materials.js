@@ -6,6 +6,10 @@ import MaterialPopup from "../../Popups/MaterialPopup";
 import axios from "axios";
 
 function Materials() {
+  useEffect(() => {
+    document.title = "UFA - Manage Materials"
+  }, []);
+
   const [addmaterialBtn, setaddmaterialBtn] = useState(false);
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
   const [listMaterial, setListMaterial] = useState([]);
