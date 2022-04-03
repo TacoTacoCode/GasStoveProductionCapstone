@@ -4,6 +4,11 @@ import FooterPage from "../SideBarComponents/FooterPage";
 import NavigationProfile from "../SideBarComponents/NavigationProfile";
 import ProfileEditPopup from "../Popups/ProfileEditPopup";
 import '../../styles/Profile.scss';
+import * as FaIcons from 'react-icons/fa';
+import {
+    Button,
+    TextField,
+} from "@mui/material";
 import axios from "axios";
 
 function Profile() {
@@ -52,6 +57,11 @@ function Profile() {
             {/* Header */}
             {/* <HeaderPage /> */}
             <div className="line_panel" />
+            <div className="back_button">
+                <Button onClick={() => window.location.href = "http://localhost:3000/dashboard/"}>
+                    <FaIcons.FaArrowLeft size={40} color="white" />
+                </Button>
+            </div>
             {/* Content */}
             <section className="mid_panel">
                 {/* Left */}
@@ -173,8 +183,6 @@ function Profile() {
                 </div>
             </section>
             <div className="line_panel" />
-            {/* Footer */}
-            <FooterPage />
             <ProfileEditPopup
                 data={editDatas}
                 setData={setEditDatas}

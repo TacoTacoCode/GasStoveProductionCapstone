@@ -10,6 +10,7 @@ import { Typography, typography } from '@material-ui/core'
 import Toolbar from '@mui/material/Toolbar';
 import { makeStyles } from '@material-ui/core/styles'
 import MenuItem from '@material-ui/core/MenuItem';
+import Avatar from '@mui/material/Avatar';
 import axios from "axios";
 
 const styles = makeStyles({
@@ -117,7 +118,7 @@ function CustomSideBar() {
                         UFA Company Managing System
                     </Typography>
                     <MenuItem onClick={handleOpenProfile}>
-                        <FaIcons.FaUserCircle size={36} />
+                        <Avatar src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + currentUserBar.avatarUrl} sx={{ width: 36, height: 36 }} />
                         &emsp;
                         {currentUserBar.name}&emsp;:&emsp;
                         {

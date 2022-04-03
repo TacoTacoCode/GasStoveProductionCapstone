@@ -15,11 +15,11 @@ import swal from "sweetalert";
 
 const statuses = [
   {
-    value: "Active",
+    value: true,
     label: "Active",
   },
   {
-    value: "Inactive",
+    value: false,
     label: "Inactive",
   },
 ];
@@ -75,6 +75,8 @@ function AccountEditPopup(props) {
 
   useEffect(() => {
     setAvatarUrl(props.data.avatarUrl);
+    console.log("Test");
+    console.log(avatarUrl);
   }, [props.data.avatarUrl])
 
   useEffect(() => {
@@ -131,16 +133,17 @@ function AccountEditPopup(props) {
     });
   }, [])
 
-  // const [file, setFile] = useState();
-  // const [fileName, setFileName] = useState("");
+  const [file, setFile] = useState();
+  const [fileName, setFileName] = useState("");
 
   const handlePreviewAvatar = (e) => {
     console.log(e.target.value);
     const file = e.target.files[0];
     file.preview = URL.createObjectURL(file);
-    // setMaterialImage(file);
-    // setFile(e.target.files[0]);
-    // setFileName(e.target.files[0].name);
+    setAvatarUrl(file);
+    setFile(e.target.files[0]);
+    setFileName(e.target.files[0].name);
+    console.log(file);
     console.log(file.preview);
   };
 
@@ -148,20 +151,33 @@ function AccountEditPopup(props) {
     e.preventDefault();
     //thêm ảnh lên server
     //uploadFile();
-    const jsonObj = {
-      accountId: accountID,
-      // password,
-      email,
-      name: accountName,
-      gender,
-      dateOfBirth: new Date(dateOfBirth).toISOString(), //convert to ISO string
-      address,
-      phone,
-      avatarUrl: "string", //parse url here
-      roleId: roleID,
-      sectionId: sectionID,
-      isActive: isActive === 'Active' ? true : false
-    };
+    // const jsonObj = {
+    //   accountId: accountID,
+    //   // password,
+    //   email,
+    //   name: accountName,
+    //   gender,
+    //   dateOfBirth: new Date(dateOfBirth).toISOString(), //convert to ISO string
+    //   address,
+    //   phone,
+    //   avatarUrl: file, //parse url here
+    //   roleId: roleID,
+    //   sectionId: sectionID,
+    //   isActive: isActive ? true : false
+    // };
+    const jsonObj = new FormData();
+    jsonObj.append("accountId", accountID);
+    jsonObj.append("password", password);
+    jsonObj.append("email", email);
+    jsonObj.append("name", accountName);
+    jsonObj.append("gender", gender);
+    jsonObj.append("dateOfBirth", new Date(dateOfBirth).toISOString());
+    jsonObj.append("address", address);
+    jsonObj.append("phone", phone);
+    jsonObj.append("roleId", roleID);
+    jsonObj.append("sectionId", sectionID);
+    jsonObj.append("isActive", isActive);
+    jsonObj.append("file", file);
     console.log(JSON.stringify(jsonObj));
     axios
       .put("https://localhost:5001/updateAccount", jsonObj)
@@ -206,7 +222,7 @@ function AccountEditPopup(props) {
     setAccountRole(props.data.roleId);
     setAccountSection(props.data.sectionId);
     setStatus(props.data.isActive);
-    setAvatarUrl('');
+    setAvatarUrl(props.data.avatarUrl);
     props.setOpen(false);
   };
 
@@ -285,12 +301,9 @@ function AccountEditPopup(props) {
                 <CssTextField
                   label="Status"
                   select
-                  id="fullWidth"
-                  required
                   value={isActive}
-                  selected={isActive}
+                  id="fullWidth" required
                   onChange={(e) => setStatus(e.target.value)}
-                  onSelect={(e) => setStatus(e.target.value)}
                   helperText="Choose Account status"
                 >
                   {statuses.map((option) => (
