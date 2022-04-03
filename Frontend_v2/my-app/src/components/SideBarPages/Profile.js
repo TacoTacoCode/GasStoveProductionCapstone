@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { TabLink, Tabs, TabContent } from "react-tabs-redux";
 import FooterPage from "../SideBarComponents/FooterPage";
 import NavigationProfile from "../SideBarComponents/NavigationProfile";
+import ProfileEditPopup from "../Popups/ProfileEditPopup";
 import '../../styles/Profile.scss';
 import axios from "axios";
 
@@ -35,6 +36,13 @@ function Profile() {
             });
     }, [])
 
+    const [editDatas, setEditDatas] = useState([]);
+    const [open, setOpen] = useState(false);
+
+    const handleEditProfile = (currentUserEdit) => {
+        setEditDatas(currentUserEdit);
+        setOpen(true);
+    }
 
     return (
         <>
@@ -53,8 +61,8 @@ function Profile() {
                     <div className="row1">
                         <div className="row1_inside">
                             <div className="inline_row1">
-                                <h3 className="row1_h3">&emsp;{currentUser.name}</h3>
-                                <h4 className="row1_h4">&emsp;
+                                <h3 className="row1_h3">&emsp;Full Name:&emsp;{currentUser.name}</h3>
+                                <h4 className="row1_h4">&emsp;Role:&emsp;
                                     {
                                         roles.map((item) => {
                                             if (item.roleId == currentUser.roleId) {
@@ -66,7 +74,7 @@ function Profile() {
                             </div>
                             <div className="inline_row2">
                                 <span className="span_1">
-                                    <button className="button_edit_profile">Edit Profile</button>
+                                    <button className="button_edit_profile" onClick={() => handleEditProfile(currentUser)}>Edit Profile</button>
                                 </span>
                             </div>
                         </div>
@@ -164,6 +172,14 @@ function Profile() {
             <div className="line_panel" />
             {/* Footer */}
             <FooterPage />
+            <ProfileEditPopup
+                data={editDatas}
+                setData={setEditDatas}
+                IsOpen={open}
+                setOpen={setOpen}
+            >
+                <h3 className="popuptitle">Edit Profile : {editDatas.name} </h3>
+            </ProfileEditPopup>
         </>
     )
 }
