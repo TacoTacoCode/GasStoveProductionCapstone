@@ -44,7 +44,7 @@ namespace GSP_API.Controllers.ModelControllers
         [Route("getAllAccounts")]
         public async Task<ActionResult<List<AccountResponse>>> GetAllAccounts()
         {
-            var data = await _accountService.GetAllAccounts();            
+            var data = await _accountService.GetAllAccounts();
             if (data == null)
             {
                 return BadRequest("Not found");
@@ -86,34 +86,28 @@ namespace GSP_API.Controllers.ModelControllers
         [Route("addAccount")]
         public async Task<ActionResult> AddAccount([FromForm] AccountRequest newAccount, IFormFile file)
         {
-            if (!Directory.Exists("Images"))
-            {
-                Directory.CreateDirectory("Images");
+            Stream fileStream = null;
+            var fileName = "no-face.png?alt=media&token=83eda3a8-5787-4f09-af2b-473462ada9e6";
+            if (file != null)
+            {   
+                fileStream = file.OpenReadStream();
+                fileName = file.FileName;
             }
-            if(file != null)
-            {
-                var imageName = Path.GetFileName(file.FileName);
-                var imgsrc = Path.Combine("Images", imageName);
-                using (var fileStream = new FileStream(imgsrc, FileMode.Create))
-                {
-                    await file.CopyToAsync(fileStream);
-                }
-                newAccount.AvatarUrl = imageName;
-            }
-           
-            var data = await _accountService.AddAccount(_mapper.Map<Account>(newAccount));
+
+            var data = await _accountService.AddAccount(_mapper.Map<Account>(newAccount), fileStream, fileName);
+            fileStream.Dispose();
             if (data.Contains("error"))
             {
                 return StatusCode(500, data);
-            }            
+            }
             return Ok("Add successfully");
         }
 
         // PUT: UpdateAccount/[account]
         [HttpPut]
         [Route("updateAccount")]
-        public async Task<ActionResult> UpdateAccount([FromBody]AccountRequest accountRequest)
-        {            
+        public async Task<ActionResult> UpdateAccount([FromBody] AccountRequest accountRequest)
+        {
             var data = await _accountService.UpdateAccount(_mapper.Map<Account>(accountRequest));
             if (data == null)
             {

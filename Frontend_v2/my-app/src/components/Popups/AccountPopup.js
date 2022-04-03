@@ -201,9 +201,11 @@ function AccountPopup(props) {
         timer: 2000,
       })
       console.log(err)
+      window.location.reload();
+    }).finally(() => {
+      window.location.reload();
     });
-
-    props.setSubmittedTime();
+    //props.setSubmittedTime();
   }
   const handleCancelClick = () => {
     //reset all value when cancel submit (not include close popup function)

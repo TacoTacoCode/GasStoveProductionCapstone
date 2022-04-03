@@ -1,8 +1,9 @@
 ﻿using GSP_API.Domain.Interfaces;
 using GSP_API.Domain.Repositories.Models;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
-
+using GSP_API.Business.Extensions;
 namespace GSP_API.Business.Services
 {
     public class AccountService
@@ -22,7 +23,8 @@ namespace GSP_API.Business.Services
 
         public async Task<List<Account>> GetAllAccounts()
         {
-            return await _accountRepository.GetAll(p => p.AccountId != 0);
+            var accounts =  await _accountRepository.GetAll(p => p.AccountId != 0);
+            return accounts;
         }
 
         public async Task<Account> GetAccountById(int accountId)
@@ -45,10 +47,24 @@ namespace GSP_API.Business.Services
             return await _accountRepository.GetById(p => p.Name == name && p.Phone == phone);
         }
 
-        public async Task<string> AddAccount(Account account)
+        public async Task<string> AddAccount(Account account, Stream fileStream, string fileName)
         {
             var hassPw = GSP_API.Business.Extensions.Hash.ComputeSha256Hash(account.Password);
             account.Password = hassPw;
+
+            var imageUrl = fileName;
+            if (fileStream != null)
+            {
+                try
+                {
+                    imageUrl = await FireBaseUtil.Upload(fileStream, fileName);
+                }
+                catch (System.Exception ex)
+                {
+                    return ex.Message;
+                }   
+            }
+            account.AvatarUrl = imageUrl.Substring(imageUrl.IndexOf("%2F")+3);
             return await _accountRepository.Add(account);
         }
 

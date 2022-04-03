@@ -33,35 +33,6 @@ export const Table = (props) => {
       });
   }
 
-  // function getImage(fileName) {
-  //   if (fileName == null) {
-  //     console.log(fileName);
-  //     return fileName;
-  //   }
-  //   axios({
-  //     url: "https://localhost:5001/getImageFile/" + fileName,
-  //     method: 'GET',
-  //     responseType: 'blob'
-  //   })
-  //     .then((response) => {
-  //       // console.log('test value blob: ' + fileName);
-  //       // console.log(response.data);
-  //       // var binaryData = [];
-  //       // binaryData.push(response.data);
-  //       // console.log(binaryData);
-  //       // return URL.createObjectURL(new Blob(binaryData));
-
-  //       var test = new File([response.data], fileName);
-  //       console.log("Test Image: ");
-  //       console.log(test);
-  //       test.preview = URL.createObjectURL(test);
-  //       console.log("Test Preview Image: ");
-  //       console.log(test.preview);
-  //       return URL.createObjectURL(test).preview;
-  //       // return URL.createObjectURL(new Blob(response.data));
-  //     })
-  // }
-
   const [addAccountBtn, setaddAccountBtn] = useState(false);
   const columns = [
     {
@@ -77,27 +48,11 @@ export const Table = (props) => {
     {
       title: "Avatar",
       field: "avatarUrl",
-      render: (rowData) => {
-        <img style={{ height: "60px", width: "60px" }} src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.avatarUrl} />
-        // console.log("Test file review text: ");
-        console.log("https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.avatarUrl);
-        // var x = getImage(rowData.avatarUrl);
-        // if (x == null) {
-        //   console.log(Date.now());
-        //   console.log('vo if');
-        //   var url = "";
-        // } else {
-        //   console.log('vo else');
-        //   url = File(x, rowData.avatarUrl);
-        //   console.log(url);
-        //   url.preview = URL.createObjectURL(x);
-        // }
-        // (
-        //   <div>
-        //     <img style={{ height: "60px", width: "60px" }} src={"data:image/*;base64," + url} />
-        //   </div>
-        // );
-      }
+      render: (rowData) =>
+        <img
+          style={{ height: "60px", width: "60px" }}
+          src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.avatarUrl}
+        />
       ,
       cellStyle: { fontFamily: "Muli" },
       align: "left",
@@ -163,14 +118,15 @@ export const Table = (props) => {
         data={array}
         columns={columns}
         actions={[
-          {
+          rowData => ({
             icon: "delete",
             tooltip: "Delete User",
             onClick: (event, rowData) => {
               deleteAccount(rowData.accountId);
               window.location.reload();
             },
-          },
+            disabled: (rowData.isActive == false)
+          }),
           {
             icon: "edit",
             tooltip: "Edit this Account",
