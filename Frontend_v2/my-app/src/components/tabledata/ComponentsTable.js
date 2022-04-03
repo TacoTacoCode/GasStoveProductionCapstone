@@ -48,7 +48,7 @@ export const Table = (props) => {
       title: "Component Image",
       field: "imageUrl",
       render: (rowData) => (
-        <img style={{ height: "70px", width: "70px" }} src={rowData.imageUrl} />
+        <img style={{ height: "70px", width: "70px" }} src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.imageUrl} />
       ),
       cellStyle: { fontFamily: "Arial" },
       align: "left",

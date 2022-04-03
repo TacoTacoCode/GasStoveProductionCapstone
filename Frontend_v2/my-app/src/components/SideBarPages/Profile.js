@@ -57,7 +57,7 @@ function Profile() {
                 {/* Left */}
                 <NavigationProfile
                     name={currentUser.name}
-                    image="https://1.bp.blogspot.com/-fZFuHlaPUhs/YGLZa02W4xI/AAAAAAAArDQ/CBAWz3Nr7qU65dmF9oleJoHrpClyTOA-ACNcBGAsYHQ/s0/63af987a2cf528462ae90e36c72f6e96.jpeg"
+                    image={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + currentUser.avatarUrl}
                 />
                 <div className="row">
                     {/* Right 1 */}

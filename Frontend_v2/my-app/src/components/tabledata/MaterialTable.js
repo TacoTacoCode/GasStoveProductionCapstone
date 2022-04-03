@@ -45,7 +45,7 @@ export const Table = (props) => {
       title: "Image",
       field: "imageUrl",
       render: (rowData) => (
-        <img style={{ height: "60px", width: "60px" }} src={rowData.imageUrl} />
+        <img style={{ height: "60px", width: "60px" }} src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.imageUrl} />
       ),
     },
     {

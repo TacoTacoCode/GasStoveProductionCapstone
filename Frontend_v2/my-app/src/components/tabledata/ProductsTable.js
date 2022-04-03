@@ -1,21 +1,9 @@
 import React, { useState, useEffect } from "react";
 import MaterialTable from "material-table";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-} from "@material-ui/core";
 import { alpha, styled } from "@mui/material/styles";
 import "../../App.css";
 import "../../styles/Popup.scss";
-import CloseIcon from "@mui/icons-material/Close";
 import {
-  Button,
-  InputAdornment,
-  makeStyles,
-  MenuItem,
   TextField,
 } from "@mui/material";
 import axios from "axios";
@@ -60,7 +48,7 @@ export const Table = (props) => {
       title: "Product Image",
       field: "imageUrl",
       render: (rowData) => (
-        <img style={{ height: "70px", width: "70px" }} src={rowData.imageUrl} />
+        <img style={{ height: "70px", width: "70px" }} src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.imageUrl} />
       ),
       cellStyle: { fontFamily: "Arial" },
       align: "left",

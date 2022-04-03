@@ -11,10 +11,6 @@ import {
 import { alpha, styled } from "@mui/material/styles";
 import axios from "axios";
 import swal from "sweetalert";
-import SingleImageUploadComponent from "../SingleImageUploadComponent";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 
 const statuses = [
   {
@@ -150,7 +146,6 @@ function MaterialPopup(props) {
             <div className="idname">
               <div className="imagefield">
                 Material's Image
-                {/* <SingleImageUploadComponent /> */}
                 <input type="file" onChange={handlePreviewAvatar} />
               </div>
             </div>
