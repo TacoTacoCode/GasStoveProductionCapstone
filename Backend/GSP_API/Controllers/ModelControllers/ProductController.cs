@@ -75,9 +75,16 @@ namespace GSP_API.Controllers.ModelControllers
         // POST: AddProduct/[product]
         [HttpPost]
         [Route("addProduct")]
-        public async Task<ActionResult> AddProduct([FromBody]ProductRequest productRequest)
+        public async Task<ActionResult> AddProduct([FromForm]ProductRequest productRequest, IFormFile file)
         {
-            var data = await _productService.AddProduct(_mapper.Map<Product>(productRequest));
+            Stream fileStream = null;
+            var fileName = "no-image.jpg?alt=media&token=c45f5852-28eb-4b4d-87a8-2caefb10df12";
+            if (file != null)
+            {
+                fileStream = file.OpenReadStream();
+                fileName = file.FileName;
+            }
+            var data = await _productService.AddProduct(_mapper.Map<Product>(productRequest), fileStream, fileName);
             if (data.Contains("error"))
             {
                 return BadRequest(data);
@@ -88,9 +95,16 @@ namespace GSP_API.Controllers.ModelControllers
         // PUT: UpdateProduct/[product]
         [HttpPut]
         [Route("updateProduct")]
-        public async Task<ActionResult> UpdateProduct([FromBody] ProductRequest productRequest)
+        public async Task<ActionResult> UpdateProduct([FromForm] ProductRequest productRequest, IFormFile file)
         {
-            var data = await _productService.UpdateProduct(_mapper.Map<Product>(productRequest));
+            Stream fileStream = null;
+            var fileName = productRequest.ImageUrl;
+            if (file != null)
+            {
+                fileStream = file.OpenReadStream();
+                fileName = file.FileName;
+            }
+            var data = await _productService.UpdateProduct(_mapper.Map<Product>(productRequest), fileStream, fileName);
             if (data == null)
             {
                 return BadRequest("Not found");
