@@ -157,41 +157,25 @@ function AccountEditPopup(props) {
 
   const changeData = (e) => {
     e.preventDefault();
-    //thêm ảnh lên server
-    //uploadFile();
-    // const jsonObj = {
-    //   accountId: accountID,
-    //   // password,
-    //   email,
-    //   name: accountName,
-    //   gender,
-    //   dateOfBirth: new Date(dateOfBirth).toISOString(), //convert to ISO string
-    //   address,
-    //   phone,
-    //   avatarUrl: file, //parse url here
-    //   roleId: roleID,
-    //   sectionId: sectionID,
-    //   isActive: isActive ? true : false
-    // };
-    let jsonObj = new FormData()
-    jsonObj.append("accountId", accountID)
-    //jsonObj.append("password", password);
-    jsonObj.append("email", email);
-    jsonObj.append("name", accountName);
-    jsonObj.append("gender", gender);
-    jsonObj.append("dateOfBirth", new Date(dateOfBirth).toISOString());
-    jsonObj.append("address", address);
-    jsonObj.append("phone", phone);
-    jsonObj.append("roleId", roleID);
+    let formData = new FormData()
+    formData.append("accountId", accountID)
+    //formData.append("password", password);
+    formData.append("email", email);
+    formData.append("name", accountName);
+    formData.append("gender", gender);
+    formData.append("dateOfBirth", new Date(dateOfBirth).toISOString());
+    formData.append("address", address);
+    formData.append("phone", phone);
+    formData.append("roleId", roleID);
     if (sectionID != null) {
-      jsonObj.append("sectionId", sectionID);
+      formData.append("sectionId", sectionID);
     }
-    jsonObj.append("isActive", isActive);
-    jsonObj.append("avatarUrl", avatarUrl);
-    jsonObj.append("file", file);
-    console.log(JSON.stringify(jsonObj));
+    formData.append("isActive", isActive);
+    formData.append("avatarUrl", avatarUrl);
+    formData.append("file", file);
+
     axios
-      .put("https://localhost:5001/updateAccount", jsonObj)
+      .put("https://localhost:5001/updateAccount", formData)
       .then((res) => {
         swal("Success", "Update account successfully", "success", {
           button: false,
@@ -205,8 +189,9 @@ function AccountEditPopup(props) {
           timer: 2000,
         });
         handleCancelClick();
+      }).finally(() => {
+        handleClose();
       });
-    //handleClose();
   };
 
   var delay = (function () {
@@ -218,7 +203,6 @@ function AccountEditPopup(props) {
   })();
 
   const handleClose = () => {
-    props.setOpen(false);
     delay(function () { window.location.reload(); }, 1000);
   };
 
@@ -235,7 +219,7 @@ function AccountEditPopup(props) {
     setAccountSection(props.data.sectionId);
     setStatus(props.data.isActive);
     setAvatarUrl(props.data.avatarUrl);
-    handleClose();
+    props.setOpen(false);
   };
 
   return props.IsOpen ? (

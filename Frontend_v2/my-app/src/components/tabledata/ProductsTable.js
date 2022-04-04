@@ -11,6 +11,7 @@ import swal from "sweetalert";
 import ProductEditPopup from "../Popups/ProductEditPopup";
 import { AiFillCheckCircle, AiFillCloseCircle } from 'react-icons/ai';
 import { IconContext } from "react-icons";
+import Avatar from '@mui/material/Avatar';
 
 export const Table = (props) => {
   const { listProduct } = props;
@@ -48,7 +49,9 @@ export const Table = (props) => {
       title: "Product Image",
       field: "imageUrl",
       render: (rowData) => (
-        <img style={{ height: "70px", width: "70px" }} src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.imageUrl} />
+        (rowData.imageUrl != null)
+          ? <img style={{ height: "80px", width: "80px" }} src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.imageUrl} />
+          : <Avatar sx={{ width: 80, height: 80 }} variant="square" />
       ),
       cellStyle: { fontFamily: "Arial" },
       align: "left",
@@ -136,19 +139,10 @@ export const Table = (props) => {
     },
   });
 
-  const [editDatas, setEditDatas] = useState([]);
+  const [editDatas, setEditDatas] = useState(null);
   const [open, setOpen] = useState(false);
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
   const [productComponent, setListProductComponent] = useState([]);
-
-  const [imageUrl, setProductImage] = useState("");
-  const [productId, setProductID] = useState("");
-  const [productName, setProductName] = useState("");
-  const [price, setProductPrice] = useState("");
-  const [amount, setProductAmount] = useState("");
-  const [componentAmount, setComponentProductAmount] = useState("");
-  const [status, setStatus] = useState("Active");
-  const [description, setDescription] = useState("");
 
   const handleEditData = (rowData) => {
     setEditDatas(rowData);
@@ -165,17 +159,18 @@ export const Table = (props) => {
         data={array}
         columns={columns}
         actions={[
-          {
+          rowData => ({
             icon: "delete",
-            tooltip: "Delete this Material",
+            tooltip: "Delete Product",
             onClick: (event, rowData) => {
               deleteProduct(rowData.productId);
               window.location.reload();
             },
-          },
+            disabled: (rowData.isActive == false)
+          }),
           {
             icon: "edit",
-            tooltip: "Edit this Component",
+            tooltip: "Edit this Product",
             onClick: (event, rowData) => {
               handleEditData(rowData);
             },
@@ -188,19 +183,20 @@ export const Table = (props) => {
           headerStyle: { backgroundColor: "#E30217", color: "#fff" },
         }}
       />
-      <ProductEditPopup
-        productCompos={productComponent}
-        data={editDatas}
-        setData={setEditDatas}
-        IsOpen={open}
-        setOpen={setOpen}
-        setSubmittedTime={() => {
-          setNewDataSubmitted((prev) => prev + 1);
-        }}
-      >
-        <h3 className="popuptitle">Edit component : {editDatas.productId} </h3>
-      </ProductEditPopup>
-
+      {editDatas &&
+        <ProductEditPopup
+          productCompos={productComponent}
+          data={editDatas}
+          setData={setEditDatas}
+          IsOpen={open}
+          setOpen={setOpen}
+          setSubmittedTime={() => {
+            setNewDataSubmitted((prev) => prev + 1);
+          }}
+        >
+          <h3 className="popuptitle">Edit component : {editDatas.productId} </h3>
+        </ProductEditPopup>
+      }
     </React.Fragment>
   );
 };

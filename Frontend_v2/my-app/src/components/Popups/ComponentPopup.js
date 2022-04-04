@@ -119,34 +119,9 @@ function ComponentPopup(props) {
     setFileName(e.target.files[0].name);
   };
 
-  const uploadFile = async (e) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("fileName", fileName);
-    try {
-      const res = await axios.post("http://localhost:3000/upload", formData);
-      console.log(res);
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
-
   const postData = (e) => {
-    // const formData = new FormData();
-    // formData.append("file", file);
-    // formData.append("fileName", fileName);
     e.preventDefault();
     const jsonObj = {
-      componentId: componentID,
-      componentName,
-      amount: +amount,
-      imageUrl,
-      status,
-      substance,
-      size,
-      color,
-      weight,
-      description,
       componentMaterial: componentMaterial.map((item) => {
         return {
           componentId: componentID,
@@ -155,22 +130,41 @@ function ComponentPopup(props) {
         };
       }),
     };
+    const formData = new FormData();
+    formData.append("componentId", componentID);
+    formData.append("componentName", componentName);
+    formData.append("amount", amount);
+    formData.append("status", status);
+    formData.append("substance", substance);
+    formData.append("size", size);
+    formData.append("color", color);
+    formData.append("weight", weight);
+    formData.append("description", description);
+    if (jsonObj.componentMaterial.length != 0) {
+      formData.append("componentMaterial", jsonObj.componentMaterial);
+    }
+    if (file != null) {
+      formData.append("file", file);
+    }
     axios
-      .post("https://localhost:5001/addComponent", jsonObj)
-      .then((res) => {
-        swal("Success", "Add component success", "success", {
-          button: false,
-          time: 2000,
-        });
-        props.setSubmittedTime();
-      })
-      .catch((ex) => {
-        swal("Error", "Add component fail", "error", {
-          button: false,
-          time: 2000,
-        });
+      .post("https://localhost:5001/addComponent", formData)
+      .then(res => {
+        swal("Success", "Add new component successfully", "success", {
+          buttons: false,
+          timer: 2000,
+        })
+        //reset data
+        handleCancelClick();
+      }).catch(err => {
+        swal("Error", "Add new component failed", "error", {
+          buttons: false,
+          timer: 2000,
+        })
+        console.log(err)
+        window.location.reload();
+      }).finally(() => {
+        window.location.reload();
       });
-    handleCancelClick();
   };
 
   const handleCancelClick = () => {
@@ -205,14 +199,12 @@ function ComponentPopup(props) {
         {props.children}
         <div className="popup-body">
           <form id="Form1">
-            <div className="imagefield">
+            <div className='imagefield'>
               Component's Image
               <input type="file" onChange={handlePreviewAvatar} />
             </div>
             <div>
-              {imageUrl ? (
-                <img src={imageUrl.preview} alt="avatar" width="100px" />
-              ) : null}
+              {imageUrl ? <img src={imageUrl.preview} alt='image' width="100px" /> : null}
             </div>
             <div className="idname">
               <div className="idfield">

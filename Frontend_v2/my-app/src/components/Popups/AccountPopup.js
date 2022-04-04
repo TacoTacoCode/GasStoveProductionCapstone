@@ -54,18 +54,6 @@ const CssTextField = styled(TextField)({
 
 
 function AccountPopup(props) {
-  /*được thì nên gom tất cả các state liên quan đến các trường dữ liệu trong form
-  lại thành 1 state lớn cho dễ kiểm soát
-
-  Có thể tạo 1 file utils chứa các Schema, khi cần dùng thì import ra xài
-  tui tháy thằng này lặp lại bên bảng dữ liệu
-
-  Các bảng dữ liệu đều có chung 1 format, nếu có thể hãy cân nhắc việc tạo 1 file duy nhất
-  tùy thuộc vào dữ liệu đang xét để render ra giao diện
-  
-  Form nên to ra một chút, các trường dữ liệu nên format theo cùng 1 hàng với cùng 1
-  chiều rộng (address có thể dài hơn)
-  */
   const [avatarUrl, setAvatarUrl] = useState('');
   const [accountID, setAccountID] = useState(0);
   const [accountName, setAccountName] = useState('');
@@ -78,17 +66,14 @@ function AccountPopup(props) {
   const [roleID, setAccountRole] = useState('');
   const [sectionID, setAccountSection] = useState('');
 
-  //thằng này có thể thì cho nó đang boolean luôn đi
   const [isActive, setStatus] = useState(true);
 
-  //cái này có thể cân nhắc đem ra ngoài component cha để thực hiện trong useEffect một lần mỗi lần load trang (bên Table cũng có cái này)
   const [roles, setRoleList] = useState([]);
   const [sections, setSectionList] = useState([]);
 
   const [file, setFile] = useState();
   const [fileName, setFileName] = useState("");
 
-  //tạo hàm fake url của ảnh được chọn (ảnh trên máy thì làm có gì có web url đúng chứ =D)
   const handlePreviewAvatar = (e) => {
     console.log(e.target.value)
     const file = e.target.files[0];
@@ -106,21 +91,6 @@ function AccountPopup(props) {
       return avatarUrl && URL.revokeObjectURL(avatarUrl.preview);
     }
   }, [avatarUrl])
-
-  const uploadFile = async (e) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("fileName", fileName);
-    try {
-      const res = await axios.post(
-        "http://localhost:3000/upload",
-        formData
-      );
-      console.log(res);
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
 
   useEffect(() => {
     axios.get("https://localhost:5001/getRoles").then(res => {
@@ -170,10 +140,8 @@ function AccountPopup(props) {
 
     props.setSubmittedTime();
   }
+
   const postData2 = (e) => {
-    // uploadFile().then(res => {
-    //   //get the return avatarURL then parse it to object POST
-    // })
     const formData = new FormData();
     formData.append("accountId", accountID);
     formData.append("password", password);
@@ -184,28 +152,31 @@ function AccountPopup(props) {
     formData.append("address", address);
     formData.append("phone", phone);
     formData.append("roleId", roleID);
-    formData.append("sectionId", sectionID);
+    if (sectionID != null) {
+      formData.append("sectionId", sectionID);
+    }
     formData.append("isActive", isActive);
-    formData.append("file", file);
-    axios.post("https://localhost:5001/addAccount", formData).then(res => {
-      swal("Success", "Add new account successfully", "success", {
-        buttons: false,
-        timer: 2000,
-      })
-
-      //reset data
-      handleCancelClick();
-    }).catch(err => {
-      swal("Error", "Add new account failed", "error", {
-        buttons: false,
-        timer: 2000,
-      })
-      console.log(err)
-      window.location.reload();
-    }).finally(() => {
-      window.location.reload();
-    });
-    //props.setSubmittedTime();
+    if (file != null) {
+      formData.append("file", file);
+    }
+    axios.post("https://localhost:5001/addAccount", formData)
+      .then(res => {
+        swal("Success", "Add new account successfully", "success", {
+          buttons: false,
+          timer: 2000,
+        })
+        //reset data
+        handleCancelClick();
+      }).catch(err => {
+        swal("Error", "Add new account failed", "error", {
+          buttons: false,
+          timer: 2000,
+        })
+        console.log(err)
+        window.location.reload();
+      }).finally(() => {
+        window.location.reload();
+      });
   }
   const handleCancelClick = () => {
     //reset all value when cancel submit (not include close popup function)

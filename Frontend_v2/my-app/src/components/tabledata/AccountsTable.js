@@ -7,6 +7,7 @@ import AccountEditPopup from "../Popups/AccountEditPopup";
 import { AiFillCheckCircle, AiFillCloseCircle } from 'react-icons/ai';
 import { IconContext } from "react-icons";
 import moment from 'moment';
+import { Avatar } from "@mui/material";
 
 export const Table = (props) => {
   const { listAccount } = props;
@@ -48,12 +49,11 @@ export const Table = (props) => {
     {
       title: "Avatar",
       field: "avatarUrl",
-      render: (rowData) =>
-        <img
-          style={{ height: "60px", width: "60px" }}
-          src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.avatarUrl}
-        />
-      ,
+      render: (rowData) => (
+        (rowData.avatarUrl != null)
+          ? <Avatar sx={{ width: 80, height: 80 }} src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.avatarUrl} />
+          : <Avatar sx={{ width: 80, height: 80 }} />
+      ),
       cellStyle: { fontFamily: "Muli" },
       align: "left",
     },
@@ -93,18 +93,6 @@ export const Table = (props) => {
   const [editDatas, setEditDatas] = useState(null);
   const [open, setOpen] = useState(false);
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
-
-  // const [roles, setRoleList] = useState([]);
-  // const [sections, setSectionList] = useState([]);
-
-  // useEffect(() => {
-  //   axios.get("https://localhost:5001/getRoles").then((res) => {
-  //     setRoleList(res.data);
-  //   });
-  //   axios.get("https://localhost:5001/getAllSections").then((res) => {
-  //     setSectionList(res.data);
-  //   });
-  // }, []);
 
   const handleEditData = (rowData) => {
     setEditDatas(rowData);

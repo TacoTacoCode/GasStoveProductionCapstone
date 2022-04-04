@@ -98,10 +98,12 @@ section::after {
 
 .row1_h3 {
     color: black;
+    margin-left: 3%;
 }
 
 .row1_h4 {
     color: red;
+    margin-left: 3%;
 }
 
 .row1_inside>* {
@@ -112,6 +114,7 @@ section::after {
 
 .inline_row1 {
     width: 58%;
+    margin-top        : 2sch;
 }
 
 .inline_row2 {
@@ -207,14 +210,14 @@ section::after {
     font-size    : large;
 }
 
-.tabs {
+.profile-tabs {
     width         : 75%;
     display       : inline-block;
     margin-right  : 30px;
     vertical-align: top;
 }
 
-.tabs-1 .tab-links {
+.profile-tabs-1 .profile-tab-links {
     background-color       : #ffffff;
     margin                 : 0;
     padding                : 0;
@@ -227,7 +230,7 @@ section::after {
     top                    : 5px;
 }
 
-.tabs-1 .tab-link {
+.profile-tabs-1 .tab-link {
     padding    : 0 15px;
     cursor     : pointer;
     border     : 1px solid transparent;
@@ -242,14 +245,14 @@ section::after {
     font-size  : large;
 }
 
-.tabs-1 .tab-link:hover,
-.tabs-1 .tab-link:focus {
+.profile-tabs-1 .tab-link:hover,
+.profile-tabs-1 .tab-link:focus {
     color: #666464;
 }
 
-.tabs-1 .tab-link-active,
-.tabs-1 .tab-link-active:hover,
-.tabs-1 .tab-link-active:focus {
+.profile-tabs-1 .tab-link-active,
+.profile-tabs-1 .tab-link-active:hover,
+.profile-tabs-1 .tab-link-active:focus {
     color                  : whitesmoke;
     font-weight            : bold;
     border                 : 1px solid #868686;
@@ -259,7 +262,7 @@ section::after {
     background-color       : #e61b1b;
 }
 
-.tabs-1 .content {
+.profile-tabs-1 .profile-content {
     background-color: white;
     padding   : 2ch;
     border    : 1px solid #868686;

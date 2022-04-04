@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { TabLink, Tabs, TabContent } from "react-tabs-redux";
-import FooterPage from "../SideBarComponents/FooterPage";
 import NavigationProfile from "../SideBarComponents/NavigationProfile";
 import ProfileEditPopup from "../Popups/ProfileEditPopup";
 import '../../styles/Profile.scss';
@@ -44,7 +43,7 @@ function Profile() {
             });
     }, [])
 
-    const [editDatas, setEditDatas] = useState([]);
+    const [editDatas, setEditDatas] = useState(null);
     const [open, setOpen] = useState(false);
 
     const handleEditProfile = (currentUserEdit) => {
@@ -74,8 +73,10 @@ function Profile() {
                     <div className="row1">
                         <div className="row1_inside">
                             <div className="inline_row1">
-                                <h3 className="row1_h3">&emsp;Full Name:&emsp;{currentUser.name}</h3>
-                                <h4 className="row1_h4">&emsp;Role:&emsp;
+                                <br />
+                                <h3 className="row1_h3">Full Name:&emsp;{currentUser.name}</h3>
+                                <br />
+                                <h4 className="row1_h4">Role:&emsp;
                                     {
                                         roles.map((item) => {
                                             if (item.roleId == currentUser.roleId) {
@@ -96,14 +97,14 @@ function Profile() {
                     {/* Right 2 */}
                     <div className="row2">
                         {/* Tab */}
-                        <Tabs className="tabs tabs-1">
-                            <div className="tab-links">
-                                <TabLink to="tab1">About</TabLink>
-                                <TabLink to="tab2">Working Information</TabLink>
+                        <Tabs className="profile-tabs profile-tabs-1">
+                            <div className="profile-tab-links">
+                                <TabLink to="profile-tab1">About</TabLink>
+                                <TabLink to="profile-tab2">Working Information</TabLink>
                             </div>
 
-                            <div className="content">
-                                <TabContent for="tab1">
+                            <div className="profile-content">
+                                <TabContent for="profile-tab1">
                                     <div className="row2_inside">
                                         <div className="inline2_row1">
                                             <h3 className="row2_h5">Phone</h3>
@@ -147,7 +148,7 @@ function Profile() {
                                         </div>
                                     </div>
                                 </TabContent>
-                                <TabContent for="tab2">
+                                <TabContent for="profile-tab2">
                                     <div className="row2_inside">
                                         <div className="inline2_row1">
                                             <h3 className="row2_h5">Worker ID</h3>
@@ -183,14 +184,16 @@ function Profile() {
                 </div>
             </section>
             <div className="line_panel" />
-            <ProfileEditPopup
-                data={editDatas}
-                setData={setEditDatas}
-                IsOpen={open}
-                setOpen={setOpen}
-            >
-                <h3 className="popuptitle">Edit Profile : {editDatas.name} </h3>
-            </ProfileEditPopup>
+            {editDatas &&
+                <ProfileEditPopup
+                    data={editDatas}
+                    setData={setEditDatas}
+                    IsOpen={open}
+                    setOpen={setOpen}
+                >
+                    <h3 className="popuptitle">Edit Profile : {editDatas.name} </h3>
+                </ProfileEditPopup>
+            }
         </>
     )
 }

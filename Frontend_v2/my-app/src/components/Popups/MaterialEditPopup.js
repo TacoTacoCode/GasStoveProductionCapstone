@@ -51,6 +51,12 @@ function MaterialEditPopup(props) {
   const [status, setMaterialStatus] = useState({ ...props.data.status });
   const [description, setDescription] = useState({ ...props.data.description });
 
+  const [curImg, setCurImg] = useState('');
+
+  useEffect(() => {
+    setCurImg("https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + props.data.imageUrl);
+  }, [props.data.imageUrl])
+
   useEffect(() => {
     setMaterialImage(props.data.imageUrl);
   }, [props.data.imageUrl])
@@ -79,65 +85,47 @@ function MaterialEditPopup(props) {
     setDescription(props.data.description);
   }, [props.data.description])
 
-  // const [file, setFile] = useState();
-  // const [fileName, setFileName] = useState("");
+  const [file, setFile] = useState();
+  const [fileName, setFileName] = useState("");
 
   const handlePreviewAvatar = (e) => {
     console.log(e.target.value);
     const file = e.target.files[0];
     file.preview = URL.createObjectURL(file);
-    // setMaterialImage(file);
-    // setFile(e.target.files[0]);
-    // setFileName(e.target.files[0].name);
+    setMaterialImage(file);
+    setFile(e.target.files[0]);
+    setFileName(e.target.files[0].name);
     console.log(file.preview);
   };
 
   const changeData = (e) => {
     e.preventDefault();
-    //thêm ảnh lên server
-    //uploadFile();
-    const jsonObj = {
-      materialId: materialID,
-      materialName: materialName,
-      amount: amount,
-      unit: unit,
-      imageUrl: "",
-      status: status,
-      description: description,
-    };
-    console.log(JSON.stringify(jsonObj));
-    axios
-      .put("https://localhost:5001/updateMaterial", jsonObj)
+    const formData = new FormData();
+    formData.append("materialId", materialID);
+    formData.append("materialName", materialName);
+    formData.append("amount", amount);
+    formData.append("unit", unit);
+    formData.append("status", status);
+    formData.append("description", description);
+    formData.append("file", file);
+    axios.put("https://localhost:5001/updateMaterial", formData)
       .then((res) => {
         swal("Success", "Update material successfully", "success", {
-          button: false,
+          buttons: false,
           timer: 2000,
-        });
-        handleCancelClick();
-      })
-      .catch((err) => {
+        })
+      }).catch(err => {
         swal("Error", "Update material failed", "error", {
-          button: false,
+          buttons: false,
           timer: 2000,
-        });
+        })
+        console.log(err)
+      }).finally(() => {
+        handleCancelClick();
       });
-    handleClose();
   };
 
-  var delay = (function () {
-    var timer = 0;
-    return function (callback, ms) {
-      clearTimeout(timer);
-      timer = setTimeout(callback, ms);
-    };
-  })();
-
-  const handleClose = () => {
-    props.setOpen(false);
-    delay(function () { window.location.reload(); }, 1000);
-  };
-
-  const handleCancelClick = () => {
+  const resetData = () => {
     setMaterialImage(props.data.imageUrl);
     setMaterialID(props.data.materialId);
     setMaterialName(props.data.materialName);
@@ -145,6 +133,10 @@ function MaterialEditPopup(props) {
     setMaterialAmount(props.data.amount);
     setMaterialStatus(props.data.status);
     setDescription(props.data.description);
+  };
+
+  const handleCancelClick = () => {
+    resetData();
     props.setOpen(false);
   };
 
@@ -166,9 +158,10 @@ function MaterialEditPopup(props) {
               </div>
             </div>
             <div>
-              {imageUrl ? (
-                <img src={imageUrl.preview} alt="avatar" width="100px" />
-              ) : null}
+              <img src={curImg} alt="avatar" width="100px" />
+              {/* {imageUrl ? (
+                <img src={imageUrl.preview} alt="image" width="100px" />
+              ) : null} */}
             </div>
             <div className="idname">
               <div className="idfield">

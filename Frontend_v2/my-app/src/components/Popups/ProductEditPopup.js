@@ -81,6 +81,12 @@ function ProductEditPopup(props) {
   const [componentActive, setComponentChoose] = useState(null);
   const [componentAmount, setComponentProductAmount] = useState(null);
 
+  const [curImg, setCurImg] = useState('');
+
+  useEffect(() => {
+    setCurImg("https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + props.data.imageUrl);
+  }, [props.data.imageUrl])
+
   useEffect(() => {
     setProductImage(props.data.imageUrl);
   }, [props.data.imageUrl])
@@ -119,54 +125,57 @@ function ProductEditPopup(props) {
     });
   }, []);
 
-  // useEffect(() => {
-  //   setListComponentMaterial(getComponentMaterial);
-  // }, [componentMaterial]);
-
-  // const [file, setFile] = useState();
-  // const [fileName, setFileName] = useState("");
+  const [file, setFile] = useState();
+  const [fileName, setFileName] = useState("");
 
   const handlePreviewAvatar = (e) => {
     console.log(e.target.value);
     const file = e.target.files[0];
     file.preview = URL.createObjectURL(file);
-    // setMaterialImage(file);
-    // setFile(e.target.files[0]);
-    // setFileName(e.target.files[0].name);
+    setCurImg(file.preview);
+    setFile(e.target.files[0]);
+    setFileName(e.target.files[0].name);
     console.log(file.preview);
   };
 
   const changeData = (e) => {
     e.preventDefault();
-    //thêm ảnh lên server
-    //uploadFile();
     const jsonObj = {
-      productId: productID,
-      productName,
-      amount: +amount,
-      price,
-      imageUrl,
-      status,
-      description,
       productComponents: productComponent
+        ? productComponent?.map((item) => {
+          return {
+            productId: productID,
+            componentId: item.componentId,
+            amount: item.amount,
+          };
+        })
+        : [],
     };
-    console.log(JSON.stringify(jsonObj));
+    const formData = new FormData();
+    formData.append("productId", productID);
+    formData.append("productName", productName);
+    formData.append("amount", amount);
+    formData.append("price", price);
+    formData.append("status", status);
+    formData.append("description", description);
+    formData.append("productComponents", jsonObj.productComponents);
+    formData.append("file", file);
     axios
-      .put("https://localhost:5001/updateProduct", jsonObj)
+      .put("https://localhost:5001/updateProduct", formData)
       .then((res) => {
         swal("Success", "Update product successfully", "success", {
           button: false,
           timer: 2000,
         });
-        handleCancelClick();
       })
       .catch((err) => {
         swal("Error", "Update product failed", "error", {
           button: false,
           timer: 2000,
-        });
-      });
-    handleClose();
+        })
+      }).finally(() => {
+        handleCancelClick();
+      })
   };
 
   var delay = (function () {
@@ -191,7 +200,7 @@ function ProductEditPopup(props) {
     setStatus(props.data.status);
     setListProductComponent(props.productCompos);
     setDescription(props.data.description);
-    props.setOpen(false);
+    handleClose();
   };
 
   return props.IsOpen ? (
@@ -207,14 +216,15 @@ function ProductEditPopup(props) {
           <form>
             <div className="idname">
               <div className="imagefield">
-                Account's Image
+                Product's Image
                 <input type="file" onChange={handlePreviewAvatar} />
               </div>
             </div>
             <div>
-              {imageUrl ? (
+              <img src={curImg} alt="avatar" width="100px" />
+              {/* {imageUrl ? (
                 <img src={imageUrl.preview} alt="avatar" width="100px" />
-              ) : null}
+              ) : null} */}
             </div>
             <div className="idname">
               <div className="idfield">

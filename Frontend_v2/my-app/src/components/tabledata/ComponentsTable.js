@@ -6,6 +6,7 @@ import swal from "sweetalert";
 import ComponentEditPopup from "../Popups/ComponentEditPopup";
 import { AiFillCheckCircle, AiFillCloseCircle } from 'react-icons/ai';
 import { IconContext } from "react-icons";
+import { Avatar } from "@mui/material";
 
 export const Table = (props) => {
   const { listComponent } = props;
@@ -15,7 +16,7 @@ export const Table = (props) => {
     array.push(item);
   });
 
-  const [editDatas, setEditDatas] = useState([]);
+  const [editDatas, setEditDatas] = useState(null);
   const [open, setOpen] = useState(false);
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
   const [componentMaterial, setListComponentMaterial] = useState([]);
@@ -28,7 +29,6 @@ export const Table = (props) => {
           button: false,
           timer: 2000,
         });
-        props.setSubmittedTime();
       })
       .catch((err) => {
         swal("Error", "Delete Component failed", "error", {
@@ -48,7 +48,9 @@ export const Table = (props) => {
       title: "Component Image",
       field: "imageUrl",
       render: (rowData) => (
-        <img style={{ height: "70px", width: "70px" }} src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.imageUrl} />
+        (rowData.imageUrl != null)
+          ? <img style={{ height: "80px", width: "80px" }} src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.imageUrl} />
+          : <Avatar sx={{ width: 80, height: 80 }} variant="square" />
       ),
       cellStyle: { fontFamily: "Arial" },
       align: "left",
@@ -101,14 +103,15 @@ export const Table = (props) => {
         data={array}
         columns={columns}
         actions={[
-          {
+          rowData => ({
             icon: "delete",
             tooltip: "Delete this component",
             onClick: (event, rowData) => {
               deleteComponent(rowData.componentId);
               window.location.reload();
             },
-          },
+            disabled: (rowData.isActive == false)
+          }),
           {
             icon: "edit",
             tooltip: "Edit this component",
@@ -124,18 +127,20 @@ export const Table = (props) => {
           headerStyle: { backgroundColor: "#E30217", color: "#fff" },
         }}
       />
-      <ComponentEditPopup
-        compoMates={componentMaterial}
-        data={editDatas}
-        setData={setEditDatas}
-        IsOpen={open}
-        setOpen={setOpen}
-        setSubmittedTime={() => {
-          setNewDataSubmitted((prev) => prev + 1);
-        }}
-      >
-        <h3 className="popuptitle">Edit component : {editDatas.componentId} </h3>
-      </ComponentEditPopup>
+      {editDatas &&
+        <ComponentEditPopup
+          compoMates={componentMaterial}
+          data={editDatas}
+          setData={setEditDatas}
+          IsOpen={open}
+          setOpen={setOpen}
+          setSubmittedTime={() => {
+            setNewDataSubmitted((prev) => prev + 1);
+          }}
+        >
+          <h3 className="popuptitle">Edit component : {editDatas.componentId} </h3>
+        </ComponentEditPopup>
+      }
     </React.Fragment>
   );
 };

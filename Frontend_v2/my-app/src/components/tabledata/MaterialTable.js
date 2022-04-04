@@ -7,6 +7,7 @@ import swal from "sweetalert";
 import MaterialEditPopup from "../Popups/MaterialEditPopup";
 import { AiFillCheckCircle, AiFillCloseCircle } from 'react-icons/ai';
 import { IconContext } from "react-icons";
+import { Avatar } from "@mui/material";
 
 export const Table = (props) => {
   const { listMaterial } = props;
@@ -31,8 +32,6 @@ export const Table = (props) => {
           timer: 2000,
         });
       });
-
-    props.setSubmittedTime();
   }
 
   const columns = [
@@ -45,7 +44,9 @@ export const Table = (props) => {
       title: "Image",
       field: "imageUrl",
       render: (rowData) => (
-        <img style={{ height: "60px", width: "60px" }} src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.imageUrl} />
+        (rowData.imageUrl != null)
+          ? <img style={{ height: "80px", width: "80px" }} src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.imageUrl} />
+          : <Avatar sx={{ width: 80, height: 80 }} variant="square" />
       ),
     },
     {
@@ -81,7 +82,7 @@ export const Table = (props) => {
     },
   ];
 
-  const [editDatas, setEditDatas] = useState([]);
+  const [editDatas, setEditDatas] = useState(null);
   const [open, setOpen] = useState(false);
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
 
@@ -97,13 +98,15 @@ export const Table = (props) => {
         data={array}
         columns={columns}
         actions={[
-          {
+          rowData => ({
             icon: "delete",
-            tooltip: "Delete this Material",
+            tooltip: "Delete Material",
             onClick: (event, rowData) => {
               deleteMaterial(rowData.materialId);
+              window.location.reload();
             },
-          },
+            disabled: (rowData.isActive == false)
+          }),
           {
             icon: "edit",
             tooltip: "Edit this Material",
@@ -119,18 +122,19 @@ export const Table = (props) => {
           headerStyle: { backgroundColor: "#E30217", color: "#fff" },
         }}
       />
-      <MaterialEditPopup
-        data={editDatas}
-        setData={setEditDatas}
-        IsOpen={open}
-        setOpen={setOpen}
-        setSubmittedTime={() => {
-          setNewDataSubmitted((prev) => prev + 1);
-        }}
-      >
-        <h3 className="popuptitle">Edit material {editDatas.materialId} </h3>
-      </MaterialEditPopup>
-
+      {editDatas &&
+        <MaterialEditPopup
+          data={editDatas}
+          setData={setEditDatas}
+          IsOpen={open}
+          setOpen={setOpen}
+          setSubmittedTime={() => {
+            setNewDataSubmitted((prev) => prev + 1);
+          }}
+        >
+          <h3 className="popuptitle">Edit material {editDatas.materialId} </h3>
+        </MaterialEditPopup>
+      }
     </React.Fragment>
   );
 };

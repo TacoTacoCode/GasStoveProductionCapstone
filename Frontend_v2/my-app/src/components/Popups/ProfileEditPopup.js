@@ -15,11 +15,11 @@ import swal from "sweetalert";
 
 const statuses = [
   {
-    value: "Active",
+    value: true,
     label: "Active",
   },
   {
-    value: "Inactive",
+    value: false,
     label: "Inactive",
   },
 ];
@@ -60,7 +60,7 @@ function ProfileEditPopup(props) {
   const [avatarUrl, setAvatarUrl] = useState({ ...props.data.avatarUrl });
   const [accountID, setAccountID] = useState({ ...props.data.accountId });
   const [accountName, setAccountName] = useState({ ...props.data.name });
-  const [password, setAccountPassword] = useState({ ...props.data.password });
+  // const [password, setAccountPassword] = useState({ ...props.data.password });
   const [email, setAccountEmail] = useState({ ...props.data.email });
   const [gender, setAccountGender] = useState({ ...props.data.gender });
   const [dateOfBirth, setAccountDateOfBirth] = useState({ ...props.data.dateOfBirth });
@@ -72,6 +72,12 @@ function ProfileEditPopup(props) {
 
   const [roles, setRoleList] = useState([]);
   const [sections, setSectionList] = useState([]);
+
+  const [curImg, setCurImg] = useState('');
+
+  useEffect(() => {
+    setCurImg("https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + props.data.avatarUrl);
+  }, [props.data.avatarUrl])
 
   useEffect(() => {
     setAvatarUrl(props.data.avatarUrl);
@@ -85,9 +91,9 @@ function ProfileEditPopup(props) {
     setAccountName(props.data.name);
   }, [props.data.name])
 
-  useEffect(() => {
-    setAccountPassword(props.data.password);
-  }, [props.data.password])
+  // useEffect(() => {
+  //   setAccountPassword(props.data.password);
+  // }, [props.data.password])
 
   useEffect(() => {
     setAccountEmail(props.data.email);
@@ -131,40 +137,40 @@ function ProfileEditPopup(props) {
     });
   }, [])
 
-  // const [file, setFile] = useState();
-  // const [fileName, setFileName] = useState("");
+  const [file, setFile] = useState();
+  const [fileName, setFileName] = useState("");
 
   const handlePreviewAvatar = (e) => {
     console.log(e.target.value);
     const file = e.target.files[0];
     file.preview = URL.createObjectURL(file);
-    // setMaterialImage(file);
-    // setFile(e.target.files[0]);
-    // setFileName(e.target.files[0].name);
+    setCurImg(file.preview);
+    setFile(e.target.files[0]);
+    setFileName(e.target.files[0].name);
     console.log(file.preview);
   };
 
   const changeData = (e) => {
     e.preventDefault();
-    //thêm ảnh lên server
-    //uploadFile();
-    const jsonObj = {
-      accountId: accountID,
-      // password,
-      email,
-      name: accountName,
-      gender,
-      dateOfBirth: new Date(dateOfBirth).toISOString(), //convert to ISO string
-      address,
-      phone,
-      avatarUrl: "string", //parse url here
-      roleId: roleID,
-      sectionId: sectionID,
-      isActive: isActive === 'Active' ? true : false
-    };
-    console.log(JSON.stringify(jsonObj));
+    let formData = new FormData()
+    formData.append("accountId", accountID)
+    //formData.append("password", password);
+    formData.append("email", email);
+    formData.append("name", accountName);
+    formData.append("gender", gender);
+    formData.append("dateOfBirth", new Date(dateOfBirth).toISOString());
+    formData.append("address", address);
+    formData.append("phone", phone);
+    formData.append("roleId", roleID);
+    if (sectionID != null) {
+      formData.append("sectionId", sectionID);
+    }
+    formData.append("isActive", isActive);
+    formData.append("avatarUrl", avatarUrl);
+    formData.append("file", file);
+
     axios
-      .put("https://localhost:5001/updateAccount", jsonObj)
+      .put("https://localhost:5001/updateAccount", formData)
       .then((res) => {
         swal("Success", "Update account successfully", "success", {
           button: false,
@@ -177,8 +183,10 @@ function ProfileEditPopup(props) {
           button: false,
           timer: 2000,
         });
+        handleCancelClick();
+      }).finally(() => {
+        handleClose();
       });
-    handleClose();
   };
 
   var delay = (function () {
@@ -190,14 +198,13 @@ function ProfileEditPopup(props) {
   })();
 
   const handleClose = () => {
-    props.setOpen(false);
     delay(function () { window.location.reload(); }, 1000);
   };
 
   const handleCancelClick = () => {
     setAccountID(props.data.accountId);
     setAccountName(props.data.name);
-    setAccountPassword(props.data.password);
+    // setAccountPassword(props.data.password);
     setAccountEmail(props.data.email);
     setAccountGender(props.data.gender);
     setAccountDateOfBirth(props.data.dateOfBirth);
@@ -206,7 +213,7 @@ function ProfileEditPopup(props) {
     setAccountRole(props.data.roleId);
     setAccountSection(props.data.sectionId);
     setStatus(props.data.isActive);
-    setAvatarUrl('');
+    setAvatarUrl(props.data.avatarUrl);
     props.setOpen(false);
   };
 
@@ -223,14 +230,15 @@ function ProfileEditPopup(props) {
           <form>
             <div className="idname">
               <div className="imagefield">
-                Account's Image
+                Your Avatar :
                 <input type="file" onChange={handlePreviewAvatar} />
               </div>
             </div>
             <div>
-              {avatarUrl ? (
+              <img src={curImg} alt="avatar" width="100px" />
+              {/* {avatarUrl ? (
                 <img src={avatarUrl.preview} alt="avatar" width="100px" />
-              ) : null}
+              ) : null} */}
             </div>
             <div className='idname'>
               <div className='namefield'>

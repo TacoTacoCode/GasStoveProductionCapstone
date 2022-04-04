@@ -57,13 +57,13 @@ function MaterialPopup(props) {
   const [fileName, setFileName] = useState("");
 
   const handlePreviewAvatar = (e) => {
-    console.log(e.target.value);
+    console.log(e.target.value)
     const file = e.target.files[0];
+    console.log(file);
     file.preview = URL.createObjectURL(file);
     setMaterialImage(file);
     setFile(e.target.files[0]);
     setFileName(e.target.files[0].name);
-    console.log(file.preview);
   };
 
   //đổi ảnh khác thì clean bộ nhớ
@@ -74,52 +74,36 @@ function MaterialPopup(props) {
     };
   }, [imageUrl]);
 
-  const uploadFile = async (e) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("fileName", fileName);
-    try {
-      const res = await axios.post("http://localhost:3000/upload", formData);
-      console.log(res);
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
-
   const postData = (e) => {
-    e.preventDefault();
-    //thêm ảnh lên server
-    //uploadFile();
-    const jsonObj = {
-      materialId: materialID,
-      materialName: materialName,
-      amount: amount,
-      unit: unit,
-      imageUrl: "",
-      status: status,
-      description: description,
-    };
-    console.log(JSON.stringify(jsonObj));
-    axios
-      .post("https://localhost:5001/addMaterial", jsonObj)
-      .then((res) => {
+    const formData = new FormData();
+    formData.append("materialId", materialID);
+    formData.append("materialName", materialName);
+    formData.append("amount", amount);
+    formData.append("unit", unit);
+    formData.append("status", status);
+    formData.append("description", description);
+    formData.append("file", file);
+    axios.post("https://localhost:5001/addMaterial", formData)
+      .then(res => {
         swal("Success", "Add new material successfully", "success", {
-          button: false,
+          buttons: false,
           timer: 2000,
-        });
+        })
+        //reset data
         handleCancelClick();
-      })
-      .catch((err) => {
+      }).catch(err => {
         swal("Error", "Add new material failed", "error", {
-          button: false,
+          buttons: false,
           timer: 2000,
-        });
+        })
+        console.log(err)
+        window.location.reload();
+      }).finally(() => {
+        window.location.reload();
       });
+  }
 
-    props.setSubmittedTime();
-  };
-
-  const handleCancelClick = () => {
+  const resetData = () => {
     //reset data
     setMaterialImage("");
     setMaterialID("");
@@ -128,7 +112,11 @@ function MaterialPopup(props) {
     setMaterialAmount("");
     setStatus("Active");
     setDescription("");
+  };
 
+  const handleCancelClick = () => {
+    //reset data
+    resetData();
     props.setTrigger(false);
   };
 
@@ -151,7 +139,7 @@ function MaterialPopup(props) {
             </div>
             <div>
               {imageUrl ? (
-                <img src={imageUrl.preview} alt="avatar" width="100px" />
+                <img src={imageUrl.preview} alt="image" width="100px" />
               ) : null}
             </div>
             <div className="idname">

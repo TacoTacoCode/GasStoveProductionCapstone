@@ -89,8 +89,9 @@ function ProductPopup(props) {
   const [fileName, setFileName] = useState("");
 
   const handlePreviewAvatar = (e) => {
-    console.log(e.target.value);
+    console.log(e.target.value)
     const file = e.target.files[0];
+    console.log(file);
     file.preview = URL.createObjectURL(file);
     setProductImage(file);
     setFile(e.target.files[0]);
@@ -105,31 +106,9 @@ function ProductPopup(props) {
     };
   }, [imageUrl]);
 
-  const uploadFile = async (e) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("fileName", fileName);
-    try {
-      const res = await axios.post("http://localhost:3000/upload", formData);
-      console.log(res);
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
-
   const postData = (e) => {
-    // const formData = new FormData();
-    // formData.append("file", file);
-    // formData.append("fileName", fileName);
     e.preventDefault();
     const jsonObj = {
-      productId: productID,
-      productName,
-      amount,
-      price,
-      imageUrl,
-      status,
-      description,
       productComponents: productComponent
         ? productComponent?.map((item) => {
           return {
@@ -140,23 +119,38 @@ function ProductPopup(props) {
         })
         : [],
     };
-    console.log(jsonObj);
+    const formData = new FormData();
+    formData.append("productId", productID);
+    formData.append("productName", productName);
+    formData.append("amount", amount);
+    formData.append("price", price);
+    formData.append("status", status);
+    formData.append("description", description);
+    if (jsonObj.productComponents.length != 0) {
+      formData.append("productComponents", jsonObj.productComponents);
+    }
+    if (file != null) {
+      formData.append("file", file);
+    }
     axios
-      .post("https://localhost:5001/addProduct", jsonObj)
-      .then((res) => {
-        swal("Success", "Add product success", "success", {
-          button: false,
+      .post("https://localhost:5001/addProduct", formData)
+      .then(res => {
+        swal("Success", "Add new product successfully", "success", {
+          buttons: false,
           timer: 2000,
-        });
-        props.setSubmittedTime();
-      })
-      .catch((err) => {
-        swal("Error", "Add product fail", "error", {
-          button: false,
+        })
+        //reset data
+        handleCancelClick();
+      }).catch(err => {
+        swal("Error", "Add new product failed", "error", {
+          buttons: false,
           timer: 2000,
-        });
+        })
+        console.log(err)
+        window.location.reload();
+      }).finally(() => {
+        window.location.reload();
       });
-    handleCancelClick();
   };
 
   const handleCancelClick = () => {
