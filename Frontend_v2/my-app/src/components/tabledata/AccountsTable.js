@@ -90,7 +90,7 @@ export const Table = (props) => {
     },
   ];
 
-  const [editDatas, setEditDatas] = useState([]);
+  const [editDatas, setEditDatas] = useState(null);
   const [open, setOpen] = useState(false);
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
 
@@ -142,17 +142,19 @@ export const Table = (props) => {
           headerStyle: { backgroundColor: "#E30217", color: "#fff" },
         }}
       />
-      <AccountEditPopup
-        data={editDatas}
-        setData={setEditDatas}
-        IsOpen={open}
-        setOpen={setOpen}
-        setSubmittedTime={() => {
-          setNewDataSubmitted((prev) => prev + 1);
-        }}
-      >
-        <h3 className="popuptitle">Edit account : {editDatas.name} </h3>
-      </AccountEditPopup>
+      {editDatas &&
+        <AccountEditPopup
+          data={editDatas}
+          setData={setEditDatas}
+          IsOpen={open}
+          setOpen={setOpen}
+          setSubmittedTime={() => {
+            setNewDataSubmitted((prev) => prev + 1);
+          }}
+        >
+          <h3 className="popuptitle">Edit account : {editDatas.name} </h3>
+        </AccountEditPopup>
+      }
     </React.Fragment>
   );
 };
