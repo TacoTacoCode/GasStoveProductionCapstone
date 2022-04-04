@@ -1,6 +1,8 @@
-﻿using GSP_API.Domain.Interfaces;
+﻿using GSP_API.Business.Extensions;
+using GSP_API.Domain.Interfaces;
 using GSP_API.Domain.Repositories.Models;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -31,8 +33,21 @@ namespace GSP_API.Business.Services
             return await _materialRepository.GetById(p => p.MaterialId == materialId);
         }
 
-        public async Task<string> AddMaterial(Material material)
+        public async Task<string> AddMaterial(Material material, Stream fileStream, string fileName)
         {
+            var imageUrl = fileName;
+            if (fileStream != null)
+            {
+                try
+                {
+                    imageUrl = await FireBaseUtil.Upload(fileStream, fileName);
+                }
+                catch (System.Exception ex)
+                {
+                    return ex.Message;
+                }
+            }
+            material.ImageUrl = imageUrl.Substring(imageUrl.IndexOf("%2F") + 3);
             return await _materialRepository.Add(material);
         }
 

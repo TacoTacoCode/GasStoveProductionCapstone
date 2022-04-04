@@ -60,16 +60,24 @@ namespace GSP_API.Controllers.ModelControllers
 
         [HttpPost]
         [Route("addComponent")]
-        public async Task<ActionResult> AddComponent([FromBody] ComponentRequest component)
+        public async Task<ActionResult> AddComponent([FromBody] ComponentRequest component, IFormFile file)
         {
-            var data = await _componentService.AddComponent(_mapper.Map<Component>(component));
+            Stream fileStream = null;
+            var fileName = "no-image.jpg?alt=media&token=c45f5852-28eb-4b4d-87a8-2caefb10df12";
+            if (file != null)
+            {
+                fileStream = file.OpenReadStream();
+                fileName = file.FileName;
+            }
+
+            var data = await _componentService.AddComponent(_mapper.Map<Component>(component), fileStream, fileName);
+            fileStream.Dispose();
             if (data.Contains("error"))
             {
-                return BadRequest(data);
+                return StatusCode(500, data);
             }
             return Ok("Add successfully");
         }
-
 
         // GET: getComponent/1
         [HttpGet]
