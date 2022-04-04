@@ -34,6 +34,7 @@ a {
 .mid_panel {
     width : 100%;
     height: 63.5%;
+    background-color: whitesmoke;
 }
 
 // .top-title {
@@ -65,9 +66,9 @@ section::after {
 
 .row1 {
     float           : inline-start;
-    height          : 12.5ch;
+    height          : 14ch;
     width           : 100%;
-    background-color: whitesmoke;
+    background-color: white;
 }
 
 .row1:after {
@@ -110,7 +111,7 @@ section::after {
 }
 
 .inline_row1 {
-    width: 60%;
+    width: 58%;
 }
 
 .inline_row2 {
@@ -263,4 +264,10 @@ section::after {
     padding   : 2ch;
     border    : 1px solid #868686;
     border-top: 1px solid transparent;
+}
+
+.back_button{
+    background-color: #e30217;
+    width: 100%;
+    height: fit-content;
 }

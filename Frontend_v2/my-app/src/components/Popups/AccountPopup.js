@@ -11,12 +11,12 @@ import swal from 'sweetalert';
 
 const statuses = [
   {
-    value: 'Active',
+    value: true,
     label: 'Active'
   },
   {
-    value: 'Unactive',
-    label: 'Unactive'
+    value: false,
+    label: 'Inactive'
   }
 ]
 
@@ -79,7 +79,7 @@ function AccountPopup(props) {
   const [sectionID, setAccountSection] = useState('');
 
   //thằng này có thể thì cho nó đang boolean luôn đi
-  const [isActive, setStatus] = useState('Active');
+  const [isActive, setStatus] = useState(true);
 
   //cái này có thể cân nhắc đem ra ngoài component cha để thực hiện trong useEffect một lần mỗi lần load trang (bên Table cũng có cái này)
   const [roles, setRoleList] = useState([]);
@@ -147,7 +147,7 @@ function AccountPopup(props) {
       avatarUrl: "string", //parse url here
       roleId: roleID,
       sectionId: sectionID,
-      isActive: isActive === 'Active' ? true : false
+      isActive: isActive ? true : false
     }
 
     //lúc trước khi gửi dữ liệu thì nên có hàm check những trường dữ liệu bắt buộc nha (bên table nữa)
@@ -185,7 +185,7 @@ function AccountPopup(props) {
     formData.append("phone", phone);
     formData.append("roleId", roleID);
     formData.append("sectionId", sectionID);
-    formData.append("isActive", isActive === 'Active');
+    formData.append("isActive", isActive);
     formData.append("file", file);
     axios.post("https://localhost:5001/addAccount", formData).then(res => {
       swal("Success", "Add new account successfully", "success", {
@@ -220,7 +220,7 @@ function AccountPopup(props) {
     setAccountPhone('');
     setAccountRole('');
     setAccountSection('');
-    setStatus('Active');
+    setStatus(true);
     setAvatarUrl('');
     setFile('');
     setFileName('');
