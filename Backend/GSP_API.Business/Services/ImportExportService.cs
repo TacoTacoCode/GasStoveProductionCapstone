@@ -52,6 +52,7 @@ namespace GSP_API.Business.Services
 
         public async Task<string> AddImEx(ImportExport imEx)
         {
+            imEx.Status = "New";
             var data = await _importExportRepository.Add(imEx);
             return data;
         }

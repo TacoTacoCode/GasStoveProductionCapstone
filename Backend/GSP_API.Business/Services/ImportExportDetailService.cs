@@ -1,5 +1,6 @@
 ﻿using GSP_API.Domain.Interfaces;
 using GSP_API.Domain.Repositories.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,13 +12,15 @@ namespace GSP_API.Business.Services
         private readonly ProcessDetailService _processDetailService;
         private readonly ComponentService _componentService;
         private readonly MaterialService _materialService;
+        private readonly ProductService _productService;
         public ImportExportDetailService(
-            IImportExportDetailRepository importExportDetailRepository, ProcessDetailService processDetailService, ComponentService componentService, MaterialService materialService)
+            IImportExportDetailRepository importExportDetailRepository, ProcessDetailService processDetailService, ComponentService componentService, MaterialService materialService, ProductService productService)
         {
             _importExportDetailRepository = importExportDetailRepository;
             _processDetailService = processDetailService;
             _componentService = componentService;
             _materialService = materialService;
+            _productService = productService;
         }
 
         public async Task<List<ImportExportDetail>> GetImExDetailByImEx(int imExId)
@@ -90,6 +93,8 @@ namespace GSP_API.Business.Services
                     {
                         item.Amount -= amount;
                         exportDetail.ExportedAmount += amount;
+                        await _componentService.UpdateComponent(item, null, null);
+
                     }
                     else
                     {
@@ -103,6 +108,7 @@ namespace GSP_API.Business.Services
                     {
                         item.Amount -= amount;
                         exportDetail.ExportedAmount += amount;
+                        await _materialService.UpdateMaterial(item, null, null);
                     }
                     else
                     {
@@ -111,6 +117,60 @@ namespace GSP_API.Business.Services
                 }
                 await _importExportDetailRepository.Update(exportDetail);
                 return "Provided";
+            }
+            catch (System.Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        public async Task<string> ImportItem(int exportDetalId, int amount)
+        {
+            try
+            {
+                var exportDetail = await _importExportDetailRepository.FindFirst(e => e.ImportExportDetailId == exportDetalId);
+                
+                if (exportDetail.ProcessDetailId != null)
+                {
+                    var processDetail = await _processDetailService.GetProcessDetailById((int)exportDetail.ProcessDetailId);
+                    processDetail.FinishedAmount += amount;
+
+                    //cal average = totalAmount/totalDate
+
+                    var datePass = DateTime.Now.Subtract((DateTime)processDetail.FirstExportDate).TotalDays;
+                    var average = Convert.ToInt32(processDetail.FinishedAmount / datePass);
+                    processDetail.AverageAmount = average;
+
+                    //from average cal expected date
+                    var calDate = Convert.ToInt32(processDetail.TotalAmount / average);
+                    processDetail.ExpectedFinishDate = ((DateTime)processDetail.FirstExportDate).AddDays(calDate);
+
+                    //update status
+                    if (processDetail.FinishedAmount == processDetail.TotalAmount)
+                    {
+                        processDetail.Status = "Done";
+                        processDetail.FinishedDate = DateTime.Now.Date;
+                    }
+                    await _processDetailService.UpdateProcessDetail(processDetail);
+
+
+                }
+                //import to warehouse
+
+                if (exportDetail.ItemId == "C")
+                {
+                    var item = await _componentService.GetComponentById(exportDetail.ItemId);
+                    item.Amount += amount;
+                    await _componentService.UpdateComponent(item,null,null);
+                }
+                else if (exportDetail.ItemId == "P")
+                {
+                    var item = await _productService.GetProductById(exportDetail.ItemId);
+                    item.Amount += amount;
+                    await _productService.UpdateProduct(item, null, null);
+
+                }
+                return "Imported";
             }
             catch (System.Exception ex)
             {
