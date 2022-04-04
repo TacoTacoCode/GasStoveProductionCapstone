@@ -106,9 +106,16 @@ namespace GSP_API.Controllers.ModelControllers
         // PUT: UpdateAccount/[account]
         [HttpPut]
         [Route("updateAccount")]
-        public async Task<ActionResult> UpdateAccount([FromBody] AccountRequest accountRequest)
+        public async Task<ActionResult> UpdateAccount([FromForm] AccountRequest accountRequest, IFormFile file)
         {
-            var data = await _accountService.UpdateAccount(_mapper.Map<Account>(accountRequest));
+            Stream fileStream = null;
+            var fileName = accountRequest.AvatarUrl;
+            if (file != null)
+            {
+                fileStream = file.OpenReadStream();
+                fileName = file.FileName;
+            }
+            var data = await _accountService.UpdateAccount(_mapper.Map<Account>(accountRequest), fileStream, fileName);
             if (data == null)
             {
                 return BadRequest("Not found");

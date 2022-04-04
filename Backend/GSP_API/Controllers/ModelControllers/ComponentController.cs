@@ -109,9 +109,16 @@ namespace GSP_API.Controllers.ModelControllers
         // PUT: UpdateComponent/[component]
         [HttpPut]
         [Route("updateComponent")]
-        public async Task<ActionResult<ComponentResponse>> UpdateComponent([FromBody] ComponentRequest componentRequest)
+        public async Task<ActionResult<ComponentResponse>> UpdateComponent([FromForm] ComponentRequest componentRequest, IFormFile file)
         {
-            var data = await _componentService.UpdateComponent(_mapper.Map<Component>(componentRequest));
+            Stream fileStream = null;
+            var fileName = componentRequest.ImageUrl;
+            if (file != null)
+            {
+                fileStream = file.OpenReadStream();
+                fileName = file.FileName;
+            }
+            var data = await _componentService.UpdateComponent(_mapper.Map<Component>(componentRequest), fileStream, fileName);
             if (data == null)
             {
                 return BadRequest("Not found");

@@ -51,9 +51,21 @@ namespace GSP_API.Business.Services
             return await _componentRepository.Add(component);
         }
 
-        public async Task<string> UpdateComponent(Component newComponent)
+        public async Task<string> UpdateComponent(Component newComponent, Stream fileStream, string fileName)
         {
-
+            var imageUrl = "";
+            if (fileStream != null)
+            {
+                try
+                {
+                    imageUrl = await FireBaseUtil.Upload(fileStream, fileName);
+                    newComponent.ImageUrl = imageUrl.Substring(imageUrl.IndexOf("%2F") + 3);
+                }
+                catch (System.Exception ex)
+                {
+                    return ex.Message;
+                }
+            }
             var data = await _componentRepository.FindFirst(p => p.ComponentId == newComponent.ComponentId);
             if (data != null)
             {

@@ -68,8 +68,21 @@ namespace GSP_API.Business.Services
             return await _accountRepository.Add(account);
         }
 
-        public async Task<string> UpdateAccount(Account newAccount)
+        public async Task<string> UpdateAccount(Account newAccount, Stream fileStream, string fileName)
         {
+            var imageUrl = "";
+            if (fileStream != null)
+            {
+                try
+                {
+                    imageUrl = await FireBaseUtil.Upload(fileStream, fileName);
+                    newAccount.AvatarUrl = imageUrl.Substring(imageUrl.IndexOf("%2F") + 3);
+                }
+                catch (System.Exception ex)
+                {
+                    return ex.Message;
+                }
+            }
             var data = await _accountRepository.FindFirst(p => p.AccountId == newAccount.AccountId);
             if (data != null)
             {

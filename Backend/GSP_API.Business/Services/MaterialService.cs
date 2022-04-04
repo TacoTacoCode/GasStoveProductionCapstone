@@ -51,8 +51,21 @@ namespace GSP_API.Business.Services
             return await _materialRepository.Add(material);
         }
 
-        public async Task<string> UpdateMaterial(Material newMaterial)
+        public async Task<string> UpdateMaterial(Material newMaterial, Stream fileStream, string fileName)
         {
+            var imageUrl = "";
+            if (fileStream != null)
+            {
+                try
+                {
+                    imageUrl = await FireBaseUtil.Upload(fileStream, fileName);
+                    newMaterial.ImageUrl = imageUrl.Substring(imageUrl.IndexOf("%2F") + 3);
+                }
+                catch (System.Exception ex)
+                {
+                    return ex.Message;
+                }
+            }
             var data = await _materialRepository.FindFirst(p => p.MaterialId == newMaterial.MaterialId);
             if (data != null)
             {

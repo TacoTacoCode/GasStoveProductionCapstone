@@ -60,7 +60,7 @@ function AccountEditPopup(props) {
   const [avatarUrl, setAvatarUrl] = useState({ ...props.data.avatarUrl });
   const [accountID, setAccountID] = useState({ ...props.data.accountId });
   const [accountName, setAccountName] = useState({ ...props.data.name });
-  const [password, setAccountPassword] = useState({ ...props.data.password });
+  //const [password, setAccountPassword] = useState({ ...props.data.password });
   const [email, setAccountEmail] = useState({ ...props.data.email });
   const [gender, setAccountGender] = useState({ ...props.data.gender });
   const [dateOfBirth, setAccountDateOfBirth] = useState({ ...props.data.dateOfBirth });
@@ -72,11 +72,16 @@ function AccountEditPopup(props) {
 
   const [roles, setRoleList] = useState([]);
   const [sections, setSectionList] = useState([]);
-
+  const [curImg, setCurImg] = useState('');
+  useEffect(() => {
+    setCurImg("https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + props.data.avatarUrl);
+    // console.log("Test");
+    // console.log(avatarUrl);
+  }, [props.data.avatarUrl])
   useEffect(() => {
     setAvatarUrl(props.data.avatarUrl);
-    console.log("Test");
-    console.log(avatarUrl);
+    // console.log("Test");
+    // console.log(avatarUrl);
   }, [props.data.avatarUrl])
 
   useEffect(() => {
@@ -87,9 +92,9 @@ function AccountEditPopup(props) {
     setAccountName(props.data.name);
   }, [props.data.name])
 
-  useEffect(() => {
-    setAccountPassword(props.data.password);
-  }, [props.data.password])
+  // useEffect(() => {
+  //   setAccountPassword(props.data.password);
+  // }, [props.data.password])
 
   useEffect(() => {
     setAccountEmail(props.data.email);
@@ -129,7 +134,9 @@ function AccountEditPopup(props) {
       setRoleList(res.data)
     });
     axios.get("https://localhost:5001/getAllSections").then(res => {
-      setSectionList(res.data)
+      var secs = [...res.data]
+      secs.push('null')
+      setSectionList(secs)
     });
   }, [])
 
@@ -137,14 +144,15 @@ function AccountEditPopup(props) {
   const [fileName, setFileName] = useState("");
 
   const handlePreviewAvatar = (e) => {
-    console.log(e.target.value);
+    //console.log(e.target.value);
     const file = e.target.files[0];
     file.preview = URL.createObjectURL(file);
-    setAvatarUrl(file);
+    //setAvatarUrl(file);
+    setCurImg(file.preview);
     setFile(e.target.files[0]);
     setFileName(e.target.files[0].name);
-    console.log(file);
-    console.log(file.preview);
+    // console.log(file);
+    // console.log(file.preview);
   };
 
   const changeData = (e) => {
@@ -165,9 +173,9 @@ function AccountEditPopup(props) {
     //   sectionId: sectionID,
     //   isActive: isActive ? true : false
     // };
-    const jsonObj = new FormData();
-    jsonObj.append("accountId", accountID);
-    jsonObj.append("password", password);
+    let jsonObj = new FormData()
+    jsonObj.append("accountId", accountID)
+    //jsonObj.append("password", password);
     jsonObj.append("email", email);
     jsonObj.append("name", accountName);
     jsonObj.append("gender", gender);
@@ -175,8 +183,11 @@ function AccountEditPopup(props) {
     jsonObj.append("address", address);
     jsonObj.append("phone", phone);
     jsonObj.append("roleId", roleID);
-    jsonObj.append("sectionId", sectionID);
+    if (sectionID != null) {
+      jsonObj.append("sectionId", sectionID);
+    }
     jsonObj.append("isActive", isActive);
+    jsonObj.append("avatarUrl", avatarUrl);
     jsonObj.append("file", file);
     console.log(JSON.stringify(jsonObj));
     axios
@@ -193,8 +204,9 @@ function AccountEditPopup(props) {
           button: false,
           timer: 2000,
         });
+        handleCancelClick();
       });
-    handleClose();
+    //handleClose();
   };
 
   var delay = (function () {
@@ -213,7 +225,7 @@ function AccountEditPopup(props) {
   const handleCancelClick = () => {
     setAccountID(props.data.accountId);
     setAccountName(props.data.name);
-    setAccountPassword(props.data.password);
+    //setAccountPassword(props.data.password);
     setAccountEmail(props.data.email);
     setAccountGender(props.data.gender);
     setAccountDateOfBirth(props.data.dateOfBirth);
@@ -223,7 +235,7 @@ function AccountEditPopup(props) {
     setAccountSection(props.data.sectionId);
     setStatus(props.data.isActive);
     setAvatarUrl(props.data.avatarUrl);
-    props.setOpen(false);
+    handleClose();
   };
 
   return props.IsOpen ? (
@@ -244,9 +256,10 @@ function AccountEditPopup(props) {
               </div>
             </div>
             <div>
-              {avatarUrl ? (
+              <img src={curImg} alt="avatar" width="100px" />
+              {/* {avatarUrl ? (
                 <img src={avatarUrl.preview} alt="avatar" width="100px" />
-              ) : null}
+              ) : null} */}
             </div>
             <div className='idname'>
               <div className='namefield'>
@@ -346,7 +359,7 @@ function AccountEditPopup(props) {
                   label="Section"
                   select
                   value={sectionID}
-                  id="fullWidth" required
+                  id="fullWidth"
                   onChange={(e) => setAccountSection(e.target.value)}
                   helperText="Choose Section"
                 >

@@ -95,9 +95,16 @@ namespace GSP_API.Controllers.ModelControllers
         // PUT: UpdateMaterial/[material]
         [HttpPut]
         [Route("updateMaterial")]
-        public async Task<ActionResult> UpdateMaterial([FromBody] MaterialRequest materialRequest)
+        public async Task<ActionResult> UpdateMaterial([FromForm] MaterialRequest materialRequest, IFormFile file)
         {
-            var data = await _materialService.UpdateMaterial(_mapper.Map<Material>(materialRequest));
+            Stream fileStream = null;
+            var fileName = materialRequest.ImageUrl;
+            if (file != null)
+            {
+                fileStream = file.OpenReadStream();
+                fileName = file.FileName;
+            }
+            var data = await _materialService.UpdateMaterial(_mapper.Map<Material>(materialRequest), fileStream, fileName);
             if (data == null)
             {
                 return BadRequest("Not found");
