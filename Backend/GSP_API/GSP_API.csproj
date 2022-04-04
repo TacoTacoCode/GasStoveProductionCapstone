@@ -5,9 +5,6 @@
 		<StartupObject></StartupObject>
 	</PropertyGroup>
 
-	<ItemGroup>
-	  <Compile Remove="SectionController.cs" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="11.0.0" />

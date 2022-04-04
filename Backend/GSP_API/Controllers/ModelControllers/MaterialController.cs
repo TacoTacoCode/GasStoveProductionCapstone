@@ -73,7 +73,7 @@ namespace GSP_API.Controllers.ModelControllers
         // POST: AddMaterial/[material]
         [HttpPost]
         [Route("addMaterial")]
-        public async Task<ActionResult> AddMaterial([FromBody] MaterialRequest materialRequest, IFormFile file)
+        public async Task<ActionResult> AddMaterial([FromForm] MaterialRequest materialRequest, IFormFile file)
         {
             Stream fileStream = null;
             var fileName = "no-image.jpg?alt=media&token=c45f5852-28eb-4b4d-87a8-2caefb10df12";
