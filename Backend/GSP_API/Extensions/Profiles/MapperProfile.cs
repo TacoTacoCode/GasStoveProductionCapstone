@@ -34,7 +34,8 @@ namespace GSP_API.Extensions.Profiles
             CreateMap<ImportExportDetailRequest, ImportExportDetail>();
             CreateMap<ImportExportDetail, ImportExportDetailResponse>();
 
-            CreateMap<OrderRequest, Order>();
+            CreateMap<OrderRequest, Order>()
+                .ForMember(dest => dest.OrderDetails, act => act.MapFrom(src => src.OrderDetail));
             CreateMap<Order, OrderResponse>();
 
             CreateMap<OrderDetailRequest, OrderDetail>();

@@ -15,10 +15,7 @@ namespace GSP_API.Models.Request
         public string Note { get; set; }
         public bool? IsShorTerm { get; set; }
 
-
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual Account Account { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual ICollection<OrderDetail> OrderDetail { get; set; }
+        public virtual ICollection<OrderDetailRequest> OrderDetail { get; set; }
     }
 }
