@@ -14,5 +14,7 @@ namespace GSP_API.Models.Response
         public string MaterialId { get; set; }
         public int? Amount { get; set; }
 
+        public virtual MaterialResponse Material { get; set; }
+
     }
 }

@@ -47,7 +47,7 @@ namespace GSP_API.Business.Services
 
         public async Task<List<ComponentMaterial>> GetCompoMateByCompoId(string compoId)
         {
-            return await _componentMaterialRepository.GetAll(e => e.ComponentId == compoId);
+            return await _componentMaterialRepository.GetCompoMates(compoId);
         }
     }
 }

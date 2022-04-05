@@ -15,5 +15,10 @@ namespace GSP_API.Infrastructure.Repositories
         {
         }
 
+        public async Task<List<ComponentMaterial>> GetCompoMates(string compoId)
+        {
+            var data =await this.DbSet.Where(e => e.ComponentId == compoId).Include(e => e.Material).ToListAsync();
+            return data;
+        }
     }
 }

@@ -13,13 +13,13 @@ namespace GSP_API.Models.Response
         public bool? IsAssemble { get; set; }
 
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual Component Component { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual Account SectionLead { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual ICollection<AccountResponse> Accounts { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual ICollection<Process> ProcessDetails { get; set; }
+        //[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        //public virtual Component Component { get; set; }
+        //[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        //public virtual Account SectionLead { get; set; }
+        //[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        //public virtual ICollection<AccountResponse> Accounts { get; set; }
+        //[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        //public virtual ICollection<Process> ProcessDetails { get; set; }
     }
 }

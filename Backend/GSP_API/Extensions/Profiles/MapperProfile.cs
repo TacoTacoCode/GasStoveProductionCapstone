@@ -60,6 +60,11 @@ namespace GSP_API.Extensions.Profiles
             CreateMap<ComponentMaterial, CompoMateResponse>();
 
             CreateMap<ProductComponent, ProductCompoResponse>();
+
+            CreateMap<ComponentMaterial, CompoMateResponse>()
+                .ForMember(dest => dest.Material, act => act.MapFrom(src => src.Material));
+
+
         }
     }
 }

@@ -62,13 +62,13 @@ namespace GSP_API.Controllers.ModelControllers
 
         // GET: getWorkerAmounts/sec/1
         [HttpGet]
-        [Route("getCompoName/sec/{sectionId}")]
-        public async Task<ActionResult<int>> GetCompoNameBySectionId(int sectionId)
+        [Route("getCompos/sec/{sectionId}")]
+        public async Task<ActionResult> GetComposBySectionId(int sectionId)
         {
-            var data = await _sectionService.GetCompoNameBySectionId(sectionId);
-            if (data.Contains("section"))
+            var data = await _sectionService.GetCompoBySectionId(sectionId);
+            if (data == null)
             {
-                return StatusCode(400, data);
+                return StatusCode(400, "Cannot find components in this section");
             }
             return Ok(data);
         }

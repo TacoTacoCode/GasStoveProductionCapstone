@@ -38,19 +38,19 @@ namespace GSP_API.Business.Services
             return data.ComponentId;
         }
 
-        public async Task<string> GetCompoNameBySectionId(int sectionId)
+        public async Task<Component> GetCompoBySectionId(int sectionId)
         {
             var data = await _sectionRepository.GetById(p => p.SectionId == sectionId);
             if (data == null)
             {
-                return "Cannot found section";
+                return null;
             }
             if (data.ComponentId == null)
             {
-                return "Assemble section!!!";
+                return null;
             }
             var compo = await _compoRepository.FindFirst(e => e.ComponentId == data.ComponentId);
-            return compo.ComponentName;
+            return compo;
         }
 
         public async Task<List<Section>> GetAllSections()
