@@ -9,6 +9,7 @@ namespace GSP_API.Models.Request
         public int? ImportExportId { get; set; }
         public int? ProcessDetailId { get; set; }
         public string ItemId { get; set; }
+        public string ItemType { get; set; }
         public int? Amount { get; set; }
         public int? ExportedAmount { get; set; }
     }

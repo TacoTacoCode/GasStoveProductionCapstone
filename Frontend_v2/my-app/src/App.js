@@ -15,7 +15,8 @@ import OrderDetails from './components/SideBarPages/orderdepartment/OrderDetails
 import CreateProcess from './components/NonSideBarPage/CreateProcess';
 import DivideProcessTabs from './components/Tabs/DivideProcessTabs';
 import Profile from './components/SideBarPages/Profile';
-
+import ProcessDetail from './components/SideBarPages/sectiondepartment/SectionCompo/ProcessDetail';
+import Panel from './components/SideBarPages/sectiondepartment/SectionCompo/Panel';
 
 const theme = createTheme({
   App: {
@@ -73,6 +74,8 @@ function App() {
             <Route path='/section/workers' exact element={<WorkerList />}></Route>
             <Route path='/createProcess' exact element={<CreateProcess />}></Route>
             <Route path='/divideProcessTabs' exact element={<DivideProcessTabs />}></Route>
+            <Route path='/section/processDetail' exact element={< ProcessDetail />}></Route>
+            <Route path='/section/exportElement' exact element={< Panel />}></Route>
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

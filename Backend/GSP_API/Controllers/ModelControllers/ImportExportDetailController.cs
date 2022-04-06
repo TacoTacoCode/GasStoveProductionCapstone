@@ -57,12 +57,21 @@ namespace GSP_API.Controllers.ModelControllers
         [Route("provideItem")]
         public async Task<ActionResult> ProvideItem([FromBody] ImportExportDetailRequest importExportDetailRequest)
         {
-            var data = await _importExportDetailService.ProvideItem(importExportDetailRequest.ImportExportDetailId,(int)importExportDetailRequest.Amount); ;
-            if (data == null)
+            var imExDetail = _mapper.Map<ImportExportDetail>(importExportDetailRequest);
+            var data = await _importExportDetailService.ProvideItem(imExDetail, importExportDetailRequest.ItemType);
+            if (data.Contains("error"))
             {
-                return BadRequest("Not Found");
+                return BadRequest(data);
             }
-            return Ok("Add successfully");
+            if (data.Contains("Not enough"))
+            {
+                return BadRequest(data);
+            }
+            if (data.Contains("exceed"))
+            {
+                return BadRequest(data);
+            }
+            return Ok(data);
         }
 
         [HttpPost]

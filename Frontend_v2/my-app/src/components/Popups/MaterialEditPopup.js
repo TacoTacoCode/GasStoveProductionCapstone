@@ -92,7 +92,7 @@ function MaterialEditPopup(props) {
     console.log(e.target.value);
     const file = e.target.files[0];
     file.preview = URL.createObjectURL(file);
-    setMaterialImage(file);
+    setCurImg(file.preview);
     setFile(e.target.files[0]);
     setFileName(e.target.files[0].name);
     console.log(file.preview);
@@ -138,6 +138,7 @@ function MaterialEditPopup(props) {
   const handleCancelClick = () => {
     resetData();
     props.setOpen(false);
+    window.location.reload();
   };
 
   return props.IsOpen ? (

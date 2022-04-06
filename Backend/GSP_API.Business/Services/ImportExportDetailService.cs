@@ -61,38 +61,26 @@ namespace GSP_API.Business.Services
 
         public async Task<string> AddRangeImExDetail(List<ImportExportDetail> importExportDetailsList)
         {
-            return await _importExportDetailRepository.AddRange(importExportDetailsList);            
+            return await _importExportDetailRepository.AddRange(importExportDetailsList);
         }
 
-        public async Task<string> ProvideItem(int exportDetalId, int amount)
+        public async Task<string> ProvideItem(ImportExportDetail exportDetail, string itemType)
         {
             try
             {
-                var exportDetail = await _importExportDetailRepository.FindFirst(e => e.ImportExportDetailId == exportDetalId);
-                
-                if (exportDetail.ProcessDetailId != null)
-                {
-                    var processDetail = await _processDetailService.GetProcessDetailById((int)exportDetail.ProcessDetailId);
-                    //update date if null
-                    if (processDetail.FirstExportDate == null)
-                    {
-                        processDetail.FirstExportDate = System.DateTime.Now;
-                    }
-                    //update status
-                    if (processDetail.Status.Equals("New"))
-                    {
-                        processDetail.Status = "Processing";
-                    }
-                    await _processDetailService.UpdateProcessDetail(processDetail);
-                }
+                var oldExportDetail = await _importExportDetailRepository.FindFirst(e => e.ImportExportDetailId == exportDetail.ImportExportDetailId);
                 //update amount
-                if (exportDetail.ItemId == "C")
+                if (itemType == "C")
                 {
                     var item = await _componentService.GetComponentById(exportDetail.ItemId);
-                    if (!((int)item.Amount < amount))
+                    if (!((int)item.Amount < exportDetail.ExportedAmount))
                     {
-                        item.Amount -= amount;
-                        exportDetail.ExportedAmount += amount;
+                        item.Amount -= exportDetail.ExportedAmount;
+                        exportDetail.ExportedAmount += (oldExportDetail.ExportedAmount ?? 0);
+                        if (exportDetail.ExportedAmount > exportDetail.Amount)
+                        {
+                            return "Exported amount is exceed request amount";
+                        }
                         await _componentService.UpdateComponent(item, null, null);
 
                     }
@@ -101,13 +89,17 @@ namespace GSP_API.Business.Services
                         return "Not enough component: " + item.ComponentName;
                     }
                 }
-                else if(exportDetail.ItemId == "M")
+                else if (itemType == "M")
                 {
                     var item = await _materialService.GetMaterialById(exportDetail.ItemId);
-                    if (!((int)item.Amount < amount))
+                    if (!((int)item.Amount < exportDetail.ExportedAmount))
                     {
-                        item.Amount -= amount;
-                        exportDetail.ExportedAmount += amount;
+                        item.Amount -= exportDetail.ExportedAmount;
+                        exportDetail.ExportedAmount += (oldExportDetail.ExportedAmount ?? 0);
+                        if (exportDetail.ExportedAmount > exportDetail.Amount)
+                        {
+                            return "Exported amount is exceed request amount";
+                        }
                         await _materialService.UpdateMaterial(item, null, null);
                     }
                     else
@@ -115,7 +107,29 @@ namespace GSP_API.Business.Services
                         return "Not enough material: " + item.MaterialName;
                     }
                 }
+                //exportDetail.Amount = oldExportDetail.Amount;
                 await _importExportDetailRepository.Update(exportDetail);
+                
+                //update date
+                if (exportDetail.ProcessDetailId != null)
+                {
+                    var flag = false;
+                    var processDetail = await _processDetailService.GetProcessDetailById((int)exportDetail.ProcessDetailId);
+                    //update date if null
+                    if (processDetail.FirstExportDate == null)
+                    {
+                        processDetail.FirstExportDate = System.DateTime.Now;
+                        flag = true;
+                    }
+                    //update status
+                    if (processDetail.Status.Equals("New"))
+                    {
+                        flag = true;
+                        processDetail.Status = "Processing";
+                    }
+                    if (flag)
+                        await _processDetailService.UpdateProcessDetail(processDetail);
+                }
                 return "Provided";
             }
             catch (System.Exception ex)
@@ -129,7 +143,7 @@ namespace GSP_API.Business.Services
             try
             {
                 var exportDetail = await _importExportDetailRepository.FindFirst(e => e.ImportExportDetailId == exportDetalId);
-                
+
                 if (exportDetail.ProcessDetailId != null)
                 {
                     var processDetail = await _processDetailService.GetProcessDetailById((int)exportDetail.ProcessDetailId);
@@ -161,7 +175,7 @@ namespace GSP_API.Business.Services
                 {
                     var item = await _componentService.GetComponentById(exportDetail.ItemId);
                     item.Amount += amount;
-                    await _componentService.UpdateComponent(item,null,null);
+                    await _componentService.UpdateComponent(item, null, null);
                 }
                 else if (exportDetail.ItemId == "P")
                 {

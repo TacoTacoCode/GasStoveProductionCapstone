@@ -63,7 +63,8 @@ export default function Signin() {
                             window.location.href = "/orders";
                             break;
                         case "Section Department":
-                            window.location.href = "/section/materials";
+                            //window.location.href = "/section/materials";
+                            window.location.href = "/section/processDetail";
                             break;
                         default:
                             console.log("Not Adminnnnnn");
