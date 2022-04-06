@@ -15,8 +15,7 @@ namespace GSP_API.Models.Response
         public string Status { get; set; }
         public string Description { get; set; }
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual ICollection<ImportExportDetail> ImportExportDetails { get; set; }
+
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

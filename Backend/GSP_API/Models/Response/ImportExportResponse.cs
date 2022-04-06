@@ -17,6 +17,6 @@ namespace GSP_API.Models.Response
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual ItemType ItemTypeNavigation { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual ICollection<ImportExportDetail> ImportExportDetails { get; set; }
+        public virtual ICollection<ImportExportDetailResponse> ImportExportDetails { get; set; }
     }
 }

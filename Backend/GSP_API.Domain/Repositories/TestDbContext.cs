@@ -201,21 +201,6 @@ namespace GSP_API.Domain.Repositories
                     .HasForeignKey(d => d.ImportExportId)
                     .HasConstraintName("FK_ImportExportDetail_ImportExport");
 
-                entity.HasOne(d => d.Item)
-                    .WithMany(p => p.ImportExportDetails)
-                    .HasForeignKey(d => d.ItemId)
-                    .HasConstraintName("FK_ImportExportDetail_Component1");
-
-                entity.HasOne(d => d.ItemNavigation)
-                    .WithMany(p => p.ImportExportDetails)
-                    .HasForeignKey(d => d.ItemId)
-                    .HasConstraintName("FK_ImportExportDetail_Material1");
-
-                entity.HasOne(d => d.Item1)
-                    .WithMany(p => p.ImportExportDetails)
-                    .HasForeignKey(d => d.ItemId)
-                    .HasConstraintName("FK_ImportExportDetail_Product");
-
                 entity.HasOne(d => d.ProcessDetail)
                     .WithMany(p => p.ImportExportDetails)
                     .HasForeignKey(d => d.ProcessDetailId)

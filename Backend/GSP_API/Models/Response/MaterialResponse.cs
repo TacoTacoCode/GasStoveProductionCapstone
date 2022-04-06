@@ -17,7 +17,6 @@ namespace GSP_API.Models.Response
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual ICollection<ComponentMaterial> ComponentMaterial { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual ICollection<ImportExportDetail> ImportExportDetail { get; set; }
+
     }
 }

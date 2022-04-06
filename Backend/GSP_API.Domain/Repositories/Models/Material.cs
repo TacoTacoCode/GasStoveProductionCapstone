@@ -10,7 +10,6 @@ namespace GSP_API.Domain.Repositories.Models
         public Material()
         {
             ComponentMaterials = new HashSet<ComponentMaterial>();
-            ImportExportDetails = new HashSet<ImportExportDetail>();
         }
 
         public string MaterialId { get; set; }
@@ -22,6 +21,5 @@ namespace GSP_API.Domain.Repositories.Models
         public string Description { get; set; }
 
         public virtual ICollection<ComponentMaterial> ComponentMaterials { get; set; }
-        public virtual ICollection<ImportExportDetail> ImportExportDetails { get; set; }
     }
 }

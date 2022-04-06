@@ -10,7 +10,6 @@ namespace GSP_API.Domain.Repositories.Models
         public Component()
         {
             ComponentMaterials = new HashSet<ComponentMaterial>();
-            ImportExportDetails = new HashSet<ImportExportDetail>();
             ProductComponents = new HashSet<ProductComponent>();
             Sections = new HashSet<Section>();
         }
@@ -27,7 +26,6 @@ namespace GSP_API.Domain.Repositories.Models
         public string Description { get; set; }
 
         public virtual ICollection<ComponentMaterial> ComponentMaterials { get; set; }
-        public virtual ICollection<ImportExportDetail> ImportExportDetails { get; set; }
         public virtual ICollection<ProductComponent> ProductComponents { get; set; }
         public virtual ICollection<Section> Sections { get; set; }
     }
