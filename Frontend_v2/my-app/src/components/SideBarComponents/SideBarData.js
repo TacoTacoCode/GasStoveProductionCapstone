@@ -41,12 +41,12 @@ export const SideBarOrderData = [
         path: "/orders",
         cName: 'nav-text'
     },
-    {
-        title: 'Orders Details',
-        // icon: <DashboardIcon />,
-        path: "/orders/orderdetails",
-        cName: 'nav-text'
-    }
+    // {
+    //     title: 'Orders Details',
+    //     // icon: <DashboardIcon />,
+    //     path: "/orders/orderdetails",
+    //     cName: 'nav-text'
+    // }
 ]
 
 export const SideBarSectionData = [

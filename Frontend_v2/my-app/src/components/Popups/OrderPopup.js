@@ -42,11 +42,6 @@ const columns = [
     field: "price",
     cellStyle: { fontFamily: "Arial" },
   },
-  {
-    title: "Note",
-    field: "description",
-    cellStyle: { fontFamily: "Arial" },
-  },
 ];
 
 const isShortTerms = [
@@ -350,7 +345,7 @@ function OrderPopup(props) {
                           productActive.productName,
                           productAmount,
                           productActive.price,
-                          productActive.description
+                          ""
                         ),
                       ]);
                       setOrderProductAmount(0);

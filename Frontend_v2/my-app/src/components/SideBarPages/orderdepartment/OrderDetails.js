@@ -34,11 +34,11 @@ function OrderDetails() {
                     setAddOrderDetailsBtn(true)
                 }
                 }>Add Order Detail</ImportExcelButton>
-            <ComponentPopup trigger={addOrderDetailsBtn} setTrigger={setAddOrderDetailsBtn}>
+            {/* <ComponentPopup trigger={addOrderDetailsBtn} setTrigger={setAddOrderDetailsBtn}>
                 <h3>ComponentPopup</h3>
-            </ComponentPopup>
+            </ComponentPopup> */}
             <div className='components'>
-                <OrderDetailTable listOrderDetail={listOrderDetail} listOrder={listOrder}/></div></>
+                <OrderDetailTable listOrderDetail={listOrderDetail} listOrder={listOrder} /></div></>
     )
 }
 

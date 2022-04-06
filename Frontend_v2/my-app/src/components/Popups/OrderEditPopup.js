@@ -82,9 +82,9 @@ const CssTextField = styled(TextField)({
   },
 });
 
-function createData(productId, amount, price, description) {
-  return { productId, amount, price, description };
-}
+// function createData(productId, amount, price, description) {
+//   return { productId, amount, price, description };
+// }
 
 function OrderEditPopup(props) {
   const [accountId, setAccountId] = useState({ ...props.data.accountId });
@@ -100,8 +100,8 @@ function OrderEditPopup(props) {
   //select product
   const [orderProduct, setListOrderProduct] = useState({ ...props.orderProducts });
   const [listProductActive, setProductList] = useState([]);
-  const [productActive, setProductChoice] = useState(null);
-  const [productAmount, setOrderProductAmount] = useState(null);
+  // const [productActive, setProductChoice] = useState(null);
+  // const [productAmount, setOrderProductAmount] = useState(null);
 
   useEffect(() => {
     setAccountId(props.data.accountId);
@@ -152,16 +152,16 @@ function OrderEditPopup(props) {
       status,
       note,
       isShorTerm,
-      orderDetail: orderProduct
-        ? orderProduct?.map((item) => {
-          return {
-            productId: item.productId,
-            amount: item.amount,
-            price: item.price,
-            note: item.description
-          };
-        })
-        : [],
+      // orderDetail: orderProduct
+      //   ? orderProduct?.map((item) => {
+      //     return {
+      //       productId: item.productId,
+      //       amount: item.amount,
+      //       price: item.price,
+      //       note: item.description
+      //     };
+      //   })
+      //   : [],
     }
     axios
       .put("https://localhost:5001/updateOrder", jsonObj)
@@ -307,7 +307,7 @@ function OrderEditPopup(props) {
               </div>
             </div>
             <div className="idname">
-              <div className="txtfield">
+              {/* <div className="txtfield">
                 <CssTextField
                   label="Product List"
                   select
@@ -369,39 +369,39 @@ function OrderEditPopup(props) {
                     ADD
                   </Button>
                 </div>
-              ) : null}
+              ) : null} */}
+
               <div className="tablefield">
                 <MaterialTable
+                  title={"Order Details"}
                   data={orderProduct}
                   columns={columns}
-                  editable={{
-                    onRowUpdate: (newData, oldData) =>
-                      new Promise((resolve, reject) => {
-                        setTimeout(() => {
-                          const dataUpdate = [...orderProduct];
-                          const index = oldData.tableData.id;
-                          dataUpdate[index] = newData;
-                          setListOrderProduct([...dataUpdate]);
-                          resolve();
-                        }, 1)
-                      }),
-                    onRowDelete: (oldData) =>
-                      new Promise((resolve, reject) => {
-                        setTimeout(() => {
-                          const dataDelete = [...orderProduct];
-                          const index = oldData.tableData.id;
-                          dataDelete.splice(index, 1);
-                          setListOrderProduct([...dataDelete]);
-                          resolve();
-                        }, 1);
-                      }),
-                  }}
+                  // editable={{
+                  //   onRowUpdate: (newData, oldData) =>
+                  //     new Promise((resolve, reject) => {
+                  //       setTimeout(() => {
+                  //         const dataUpdate = [...orderProduct];
+                  //         const index = oldData.tableData.id;
+                  //         dataUpdate[index] = newData;
+                  //         setListOrderProduct([...dataUpdate]);
+                  //         resolve();
+                  //       }, 1)
+                  //     }),
+                  //   onRowDelete: (oldData) =>
+                  //     new Promise((resolve, reject) => {
+                  //       setTimeout(() => {
+                  //         const dataDelete = [...orderProduct];
+                  //         const index = oldData.tableData.id;
+                  //         dataDelete.splice(index, 1);
+                  //         setListOrderProduct([...dataDelete]);
+                  //         resolve();
+                  //       }, 1);
+                  //     }),
+                  // }}
                   options={{
-                    toolbar: false,
                     maxBodyHeight: 200,
                     search: false,
                     paging: false,
-                    showTitle: false,
                     addRowPosition: "first",
                     actionsColumnIndex: -1,
                     exportButton: false,

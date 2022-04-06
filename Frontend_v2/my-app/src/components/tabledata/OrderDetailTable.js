@@ -1,15 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MaterialTable from 'material-table';
 import { useNavigate } from 'react-router-dom';
 import { IconButton } from '@material-ui/core';
-import { Icon, TextField } from '@mui/material';
+import * as FaIcons from 'react-icons/fa';
+import {
+    Button,
+    TextField,
+} from "@mui/material";
 import { color } from '@mui/system';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import axios from 'axios';
 import OrderPopup from "../Popups/OrderPopup";
 import { styled } from '@material-ui/styles';
+import OrderDetailEditPopup from '../Popups/OrderDetailEditPopup';
 
 export const OrderDetailTable = (props) => {
+    useEffect(() => {
+        document.title = "UFA - Order Details"
+    }, []);
+
     const [orderDetailId, setOrderDetailId] = useState();
     const [orderId, setOrderId] = useState();
     const [productId, setProductId] = useState();
@@ -78,8 +87,25 @@ export const OrderDetailTable = (props) => {
             title: 'Note', field: 'note', cellStyle: { fontFamily: 'Muli', width: "20%" }, align: 'left'
         },
     ]
+
+    const [editDatas, setEditDatas] = useState(null);
+    const [open, setOpen] = useState(false);
+
+    const handleEditData = (rowData) => {
+        setEditDatas(rowData);
+        setOpen(true);
+        // axios.get("https://localhost:5001/getProducts/Active").then(
+        //     (res) => setListProduct(res.data)
+        // );
+    }
+
     return (
         <div>
+            <div className="back_button">
+                <Button onClick={() => window.location.href = "http://localhost:3000/orders/"}>
+                    <FaIcons.FaArrowLeft size={40} color="white" />
+                </Button>
+            </div>
             <MaterialTable title={"List of Order Details"}
                 data={array}
                 columns={columns}
@@ -95,6 +121,13 @@ export const OrderDetailTable = (props) => {
                 // }}
                 actions={[
                     {
+                        icon: "edit",
+                        tooltip: "Edit this order detail",
+                        onClick: (event, rowData) => {
+                            handleEditData(rowData);
+                        },
+                    },
+                    {
                         icon: () => <AddBoxIcon />,
                         tooltip: 'Create Process(s) for this Order Detail',
                         onClick: (event, rowData) => {
@@ -103,15 +136,10 @@ export const OrderDetailTable = (props) => {
                             // console.log("data: " + createProcess(rowData));
                             //navigate('/createProcess')
                             // setAddcomponentBtn(true);
-                            // <CreateOrderPopup trigger={addcomponentBtn} setTrigger={setAddcomponentBtn}
-                            // >
-                            //     <h3 className="popuptitle">Add a component</h3>  
-                            // </CreateOrderPopup>
                             // deleteComponent(rowData.componentId);
                             // window.location.reload();
                         }
                     }
-
                 ]}
                 options={{
                     addRowPosition: 'first',
@@ -119,6 +147,16 @@ export const OrderDetailTable = (props) => {
                     exportButton: false,
                     headerStyle: { backgroundColor: '#E30217', color: '#fff' }
                 }} />
+            {editDatas &&
+                <OrderDetailEditPopup
+                    data={editDatas}
+                    setData={setEditDatas}
+                    IsOpen={open}
+                    setOpen={setOpen}
+                >
+                    <h3 className="popuptitle">Edit order detail : {editDatas.orderDetailId} </h3>
+                </OrderDetailEditPopup>
+            }
         </div>
     )
 }
