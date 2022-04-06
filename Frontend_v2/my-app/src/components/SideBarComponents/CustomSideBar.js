@@ -77,8 +77,10 @@ function CustomSideBar() {
             });
     }, [])
 
+    var currentLink = "";
+
     function linkClick() {
-        window.location.href = "http://localhost:3000/dashboard/";
+        window.location.href = "http://localhost:3000/" + currentLink;
     }
 
     function handleOpenProfile() {
@@ -93,12 +95,15 @@ function CustomSideBar() {
     switch (currentUser.role) {
         case 'Admin':
             role = SideBarAdminData.map(obj => ({ ...obj }));
+            currentLink = "dashboard";
             break;
         case 'Order Department':
             role = SideBarOrderData.map(obj => ({ ...obj }));
+            currentLink = "orders";
             break;
         case 'Section Department':
             role = SideBarSectionData.map(obj => ({ ...obj }));
+            currentLink = "section/materials";
             break;
         default:
             break;
