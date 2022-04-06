@@ -9,6 +9,8 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { TextField } from '@mui/material';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import { styled } from '@material-ui/styles';
+import OrderEditPopup from '../Popups/OrderEditPopup';
+import axios from "axios";
 
 export const Table = (props) => {
     // const [openTable, setOpenTable] = React.useState(false);
@@ -18,23 +20,17 @@ export const Table = (props) => {
     const CssTextField = styled(TextField)({
         width: "100%",
         "& .MuiOutlinedInput-root": {
-          "& fieldset": {
-            border: "none",
-          },
+            "& fieldset": {
+                border: "none",
+            },
         },
-      });
+    });
     const { listOrder } = props;
     const array = [];
 
     listOrder.forEach(item => {
         array.push(item)
     }, []);
-
-    // const date = new Date(array.expiryDate).toLocaleDateString;
-
-    // const handleShowTable = () => {
-    //     setOpenTable(true);
-    // };
 
     const columns = [
         {
@@ -44,13 +40,13 @@ export const Table = (props) => {
             title: 'Account ID', field: 'accountId', cellStyle: { fontFamily: 'Muli' }
         },
         {
-            title: 'Expiry Date', field: 'expiryDate', render: 
-            rowData => <LocalizationProvider dateAdapter={AdapterDateFns}><DesktopDatePicker
-            disableOpenPicker
-                inputFormat="MM/dd/yyyy"
-                value={array[0].expiryDate}
-                renderInput={(params) => <CssTextField disabled {...params} />}
-            /></LocalizationProvider>
+            title: 'Expiry Date', field: 'expiryDate', render:
+                rowData => <LocalizationProvider dateAdapter={AdapterDateFns}><DesktopDatePicker
+                    disableOpenPicker
+                    inputFormat="MM/dd/yyyy"
+                    value={array[0].expiryDate}
+                    renderInput={(params) => <CssTextField disabled {...params} />}
+                /></LocalizationProvider>
             , cellStyle: { fontFamily: 'Muli' }
         },
         {
@@ -66,19 +62,55 @@ export const Table = (props) => {
         //     title: 'Order Category', field: 'category', cellStyle: { fontFamily: 'Muli' }
         // },
     ]
+
+    const [editDatas, setEditDatas] = useState(null);
+    const [open, setOpen] = useState(false);
+    const [orderProduct, setListOrderProduct] = useState([]);
+    const [customerList, setCustomerList] = useState([]);
+
+    const handleEditData = (rowData) => {
+        setEditDatas(rowData);
+        setOpen(true);
+        axios.get("https://localhost:5001/getOrderDetailsOf/ord/" + rowData.orderId).then(
+            (res) => setListOrderProduct(res.data)
+        );
+        axios.get("https://localhost:5001/getAllAccounts")
+            .then((res) => {
+                for (let index = 0; index < res.data.length; index++) {
+                    if (res.data[index].roleId == "CUS") {
+                        customerList.push(res.data[index]);
+                    }
+                }
+                console.log(customerList);
+            })
+            .catch((err) => {
+                console.log(err);
+                alert("Xảy ra lỗi");
+            });
+    }
+
     return (
-        <div>
+        <React.Fragment>
             <MaterialTable title={"List of Orders"}
                 data={array}
                 columns={columns}
                 onRowClick={(event, data) => {
-                    console.log("aiujf: " + data.isShorTerm);
+                    console.log("test short term: " + data.isShorTerm);
                     localStorage.setItem("orderType", data.isShorTerm)
                     // localStorage.setItem("orderid", data.accountid)
                     // console.log("OrderId: "+ localStorage.getItem("orderid"));
                     // handleShowTable();
                     navigate('/orders/orderdetails', { state: data });
                 }}
+                actions={[
+                    {
+                        icon: "edit",
+                        tooltip: "Edit this order",
+                        onClick: (event, rowData) => {
+                            handleEditData(rowData);
+                        },
+                    },
+                ]}
                 // onRowSelected
                 options={{
                     addRowPosition: 'first',
@@ -86,11 +118,18 @@ export const Table = (props) => {
                     exportButton: false,
                     headerStyle: { backgroundColor: '#E30217', color: '#fff', }
                 }} />
-            {/* {openTable
-                ? <OrderDetailTable data={data.accountid} />
-                : null
-            } */}
-
-        </div>
+            {editDatas &&
+                <OrderEditPopup
+                    customerActive={customerList}
+                    orderProducts={orderProduct}
+                    data={editDatas}
+                    setData={setEditDatas}
+                    IsOpen={open}
+                    setOpen={setOpen}
+                >
+                    <h3 className="popuptitle">Edit order : {editDatas.orderId} </h3>
+                </OrderEditPopup>
+            }
+        </React.Fragment>
     )
 }

@@ -6,7 +6,7 @@ import { Icon, TextField } from '@mui/material';
 import { color } from '@mui/system';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import axios from 'axios';
-import CreateOrderPopup from "../Popups/CreateOrderPopup";
+import OrderPopup from "../Popups/OrderPopup";
 import { styled } from '@material-ui/styles';
 
 export const OrderDetailTable = (props) => {
