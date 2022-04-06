@@ -66,10 +66,6 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> GetComposBySectionId(int sectionId)
         {
             var data = await _sectionService.GetCompoBySectionId(sectionId);
-            if (data == null)
-            {
-                return StatusCode(400, "Cannot find components in this section");
-            }
             return Ok(data);
         }
 

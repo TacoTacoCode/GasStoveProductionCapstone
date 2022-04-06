@@ -3,7 +3,7 @@ import React from 'react'
 
 function ProcessDetailTable(props) {
 
-    const { listProcessDetail} = props
+    const { listProcessDetail } = props
 
     // const array = [];
 
@@ -23,19 +23,17 @@ function ProcessDetailTable(props) {
             title: 'Expiry Date', field: 'expiryDate', cellStyle: { fontFamily: 'Muli', width: "15%" }, align: 'left'
         },
     ]
-  return (
-      <div><MaterialTable title={"Process Details"}
-          data={listProcessDetail}
-          columns={columns}
-
-
-          options={{
-              addRowPosition: 'first',
-              actionsColumnIndex: -1,
-              exportButton: false,
-              headerStyle: { backgroundColor: '#E30217', color: '#fff' }
-          }} /></div>
-  )
+    return (
+        <div><MaterialTable title={"Process Details"}
+            data={listProcessDetail}
+            columns={columns}
+            options={{
+                addRowPosition: 'first',
+                actionsColumnIndex: -1,
+                exportButton: false,
+                headerStyle: { backgroundColor: '#E30217', color: '#fff' }
+            }} /></div>
+    )
 }
 
 export default ProcessDetailTable

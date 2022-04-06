@@ -45,33 +45,22 @@ function CreateProcess() {
     const processDetail = process.processDetails;
     //console.log(processDetail);
     const [tableData, setTableData] = useState([])
-    
+
 
     useEffect(() => {
-        let abc = [...tableData]
-        processDetail.map((e, index) => {
+        let datas = []
+        let promises = processDetail.map((e, index) =>
             axios.get('https://localhost:5001/getCompos/sec/' + e.sectionId)
-                .then((res) => {
-                    abc[index] = ({
-                        "componentName": res.data.componentName,
-                        "totalAmount": e.totalAmount,
-                        "expiryDate": e.expiryDate
-                    })
-                    // setTableData(abc)
-                }).catch((err) => {
-                    abc[index] = ({
-                        "componentName": "assemble section",
-                        "totalAmount": e.totalAmount,
-                        "expiryDate": e.expiryDate,
-                        "tableData": { id: e.sectionId }
-                    })
-
-//doi ti search cai 
-                })
-        });
-        setTableData(abc)
-        // console.log(tableData);
-        // setTableData((tableData) => [...tableData, abc])
+        )
+        Promise.all(promises).then((e) => e.map((ele, index) =>
+            datas.push({
+                "componentName": ele.data.componentName ?? 'Assemble Section',
+                "totalAmount": processDetail[index].totalAmount,
+                "expiryDate": processDetail[index].expiryDate
+            })
+        )).then(() => {
+            setTableData(datas)
+        })
     }, [])
 
     const orderDetailId = process.orderDetailId
