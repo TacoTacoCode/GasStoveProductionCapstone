@@ -19,23 +19,25 @@ export const OrderDetailTable = (props) => {
     // const [addcomponentBtn, setAddcomponentBtn] = useState(false);
 
     function createProcess(orderDetail) {
-        setOrderDetailId(orderDetail.orderDetailId);
-        setOrderId(orderDetail.orderId);
-        setProductId(orderDetail.productId);
-        setAmount(orderDetail.amount);
-        setPrice(orderDetail.price);
-        setNote(orderDetail.note);
+        // console.log({ orderDetail })
+        // setOrderDetailId(orderDetail.orderDetailId);
+        // setOrderId(orderDetail.orderId);
+        // setProductId(orderDetail.productId);
+        // setAmount(orderDetail.amount);
+        // setPrice(orderDetail.price);
+        // setNote(orderDetail.note);
         axios.post('https://localhost:5001/createProcess', {
-            orderDetailId,
-            orderId,
-            productId,
-            amount,
-            price,
-            note
+            "orderDetailId": orderDetail.orderDetailId,
+            "orderId": orderDetail.orderId,
+            "productId": orderDetail.productId,
+            "amount": orderDetail.amount,
+            "price": orderDetail.price,
+            "note": orderDetail.note
         })
             .then((response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 localStorage.setItem('process', JSON.stringify(response.data))
+                navigate('/createProcess')
             }
             ).catch((err) => {
                 console.log(err);
@@ -96,13 +98,14 @@ export const OrderDetailTable = (props) => {
                         icon: () => <AddBoxIcon />,
                         tooltip: 'Create Process(s) for this Order Detail',
                         onClick: (event, rowData) => {
+                            //console.log(rowData);
                             createProcess(rowData);
-                            console.log("data: " + createProcess(rowData));
-                            navigate('/createProcess', { state: createProcess(rowData) })
+                            // console.log("data: " + createProcess(rowData));
+                            //navigate('/createProcess')
                             // setAddcomponentBtn(true);
                             // <CreateOrderPopup trigger={addcomponentBtn} setTrigger={setAddcomponentBtn}
                             // >
-                            //     <h3 className="popuptitle">Add a component</h3>
+                            //     <h3 className="popuptitle">Add a component</h3>  
                             // </CreateOrderPopup>
                             // deleteComponent(rowData.componentId);
                             // window.location.reload();

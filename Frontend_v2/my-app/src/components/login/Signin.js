@@ -69,8 +69,6 @@ export default function Signin() {
                             console.log("Not Adminnnnnn");
                             break;
                     }
-
-                    window.location.href = "/dashboard";
                 });
         } else {
             swal("Failed", "User or Password is not correct", "error");
