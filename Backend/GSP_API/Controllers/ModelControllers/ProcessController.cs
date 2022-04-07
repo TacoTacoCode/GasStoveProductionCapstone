@@ -153,5 +153,13 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok("Add successfully");
         }
 
+        [HttpGet]
+        [Route("getNoProcess/{orderDetailId}")]
+        public async Task<ActionResult> GetNoProcess(int orderDetailId)
+        {
+            var data = await _processService.GetNoProcess(orderDetailId);
+            return Ok(data);
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using GSP_API.Domain.Interfaces;
 using GSP_API.Domain.Repositories.Models;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -207,6 +208,12 @@ namespace GSP_API.Business.Services
                 return await _processRepository.Update(data);
             }
             return null;
+        }
+
+        public async Task<int> GetNoProcess(int orderDetailId)
+        {
+            var processList = await _processRepository.GetAll(p => p.OrderDetailId == orderDetailId);
+            return processList == null ? 0 : processList.Count;  
         }
     }
 }
