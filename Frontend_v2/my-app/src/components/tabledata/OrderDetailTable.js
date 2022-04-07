@@ -92,20 +92,41 @@ export const OrderDetailTable = (props) => {
     ]
 
     function deleteOrderDetail(id) {
-        axios
-            .put("https://localhost:5001/delOrderDetail/" + id)
-            .then((response) => {
-                swal("Success", "Delete this Order Detail successfully", "success", {
-                    button: false,
-                    timer: 2000,
-                });
-            })
-            .catch((err) => {
-                swal("Error", "Delete this Order Detail failed", "error", {
-                    button: false,
-                    time: 2000,
-                });
+        swal({
+            title: "Are you sure to delete this order?",
+            text: 'This order detail has a/many process(es)!\nOnce deleted, you will not be able to recover this order detail!',
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    try {
+                        axios
+                            .put("https://localhost:5001/delOrderDetail/" + id)
+                            .then((response) => {
+                                swal("Success", "Delete this Order Detail successfully", "success", {
+                                    button: false,
+                                    timer: 2000,
+                                });
+                            })
+                            .catch((err) => {
+                                swal("Error", "Delete this Order Detail failed", "error", {
+                                    button: false,
+                                    time: 2000,
+                                });
+                            })
+                            .finally(function () {
+                                window.location.reload();
+                            });
+                    } catch (error) {
+                        console.log(error);
+                    }
+                } else {
+                    swal("Your order detail is safe!");
+                }
             });
+
     }
 
     const [editDatasDetail, setEditDatasDetail] = useState(null);
@@ -162,7 +183,6 @@ export const OrderDetailTable = (props) => {
                         tooltip: "Delete this item",
                         onClick: (event, rowData) => {
                             deleteOrderDetail(rowData.orderDetailId);
-                            window.location.reload();
                         },
                         disabled: (rowData.isActive == false)
                     }),
