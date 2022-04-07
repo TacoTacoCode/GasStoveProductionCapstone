@@ -108,17 +108,6 @@ export const OrderDetailTable = (props) => {
             });
     }
 
-    // đang lỗi
-    function getNoProcess(orderDetailId) {
-        var noProcess = 0;
-        axios
-            .get("https://localhost:5001/getNoProcess/" + orderDetailId)
-            .then((res) => {
-                noProcess = res.data;
-                return noProcess;
-            });
-    }
-
     const [editDatasDetail, setEditDatasDetail] = useState(null);
     const [openDetail, setOpenDetail] = useState(false);
     const [newDataSubmitted, setNewDataSubmitted] = useState(1);
@@ -126,6 +115,19 @@ export const OrderDetailTable = (props) => {
     const handleEditData = (rowData) => {
         setEditDatasDetail(rowData);
         setOpenDetail(true);
+    }
+
+    function getNoProcess(orderDetailId) {
+        var noProcess = 0;
+        try {
+            axios.get("https://localhost:5001/getNoProcess/" + orderDetailId)
+                .then((res) => {
+                    noProcess = res.data;
+                });
+        } catch (e) {
+            return 5;
+        }
+        return noProcess;
     }
 
     const newData = array.map((value) => ({ ...value, No_Process: getNoProcess(value.orderDetailId) }));
