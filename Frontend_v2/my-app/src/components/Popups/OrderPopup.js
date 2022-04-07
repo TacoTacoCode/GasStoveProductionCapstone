@@ -89,7 +89,7 @@ const CssTextField = styled(TextField)({
 
 function OrderPopup(props) {
   const [accountId, setAccountId] = useState("");
-  const [totalPrice, setTotalPrice] = useState("");
+  const [totalPrice, setTotalPrice] = useState(0);
   const [expiryDate, setExpiryDate] = useState("");
   const [status, setStatus] = useState("inprogress");
   const [note, setNote] = useState("");
@@ -175,7 +175,7 @@ function OrderPopup(props) {
   const resetData = () => {
     //reset data
     setAccountId("");
-    setTotalPrice("");
+    setTotalPrice(0);
     setExpiryDate("");
     setStatus("inprogress");
     setNote("");
@@ -226,6 +226,7 @@ function OrderPopup(props) {
                   id="fullWidth"
                   value={totalPrice}
                   required
+                  disabled
                   type={"number"}
                   InputProps={{
                     inputProps: { min: 0, pattern: "[0-9]*" },

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useReducer, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/Popup.scss";
 import CloseIcon from "@mui/icons-material/Close";
 import MaterialTable from "material-table";
@@ -15,11 +15,21 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import axios from "axios";
 import swal from "sweetalert";
+import { Checkbox } from "@material-ui/core";
+
+function createData(productId, productName, amount, price, description) {
+  return { productId, productName, amount, price, description };
+}
 
 const columns = [
   {
     title: "ID",
     field: "productId",
+    cellStyle: { fontFamily: "Arial" },
+  },
+  {
+    title: "Name",
+    field: "productName",
     cellStyle: { fontFamily: "Arial" },
   },
   {
@@ -30,11 +40,6 @@ const columns = [
   {
     title: "Price",
     field: "price",
-    cellStyle: { fontFamily: "Arial" },
-  },
-  {
-    title: "Note",
-    field: "description",
     cellStyle: { fontFamily: "Arial" },
   },
 ];
@@ -82,96 +87,102 @@ const CssTextField = styled(TextField)({
   },
 });
 
-function OrderDetailEditPopup(props) {
-  const [productId, setProductId] = useState({ ...props.dataDetail.productId });
-  const [price, setPrice] = useState({ ...props.dataDetail.price });
-  const [amount, setAmount] = useState({ ...props.dataDetail.amount });
-  const [note, setNote] = useState({ ...props.dataDetail.note });
+function OrderDetailPopup(props) {
+  const [productId, setProductId] = useState("");
+  const [price, setPrice] = useState(0);
+  const [amount, setAmount] = useState(0);
+  const [note, setNote] = useState("");
 
-  //combobox
-  const [productList, setProductList] = useState([{ ...props.customerActive }]);
-  const [dataSet, setDataSet] = useState();
+  const [listProductActive, setListProductActive] = useState([]);
+  const [productList, setProductList] = useState([]);
+  const [productActive, setProductChoose] = useState(null);
+  const [orderProductList, setOrderProductList] = useState([]);
 
-  useEffect(() => {
-    setProductId(props.dataDetail.productId);
-  }, [props.dataDetail.productId])
-
-  useEffect(() => {
-    setPrice(props.dataDetail.price);
-  }, [props.dataDetail.price])
-
-  useEffect(() => {
-    setAmount(props.dataDetail.amount);
-  }, [props.dataDetail.amount])
-
-  useEffect(() => {
-    setNote(props.dataDetail.note);
-  }, [props.dataDetail.note])
+  const [checkList, setCheckList] = useState([]);
 
   useEffect(() => {
     axios.get("https://localhost:5001/getProducts/Active").then((res) => {
       setProductList(res.data);
     });
-    console.log(productList);
   }, []);
 
-  const changeData = (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    const getAllOrderDetail = 'https://localhost:5001/getOrderDetailsOf/ord/' + props.orderId
+    //Gọi API bằng axios
+    axios.get(getAllOrderDetail).then((res) => {
+      setOrderProductList(res.data);
+    });
+  }, []);
+
+
+  // console.log(productList);
+  // console.log(orderProductList);
+  // orderProductList.forEach((data) => {
+  //   console.log(data.productId);
+  //   if (checkList == null) {
+  //     checkList.push(data.productId);
+  //   }
+  //   else {
+  //     const boolCheck = false;
+  //     checkList.forEach(element => {
+  //       if (element.productId == data.productId) {
+  //         boolCheck = true;
+  //       }
+  //     });
+  //     if (boolCheck == false) {
+  //       checkList.push(data.productId);
+  //     }
+  //   }
+  // })
+  // console.log(checkList);
+
+  const postData = (e) => {
     const jsonObj = {
-      orderDetailId: props.dataDetail.orderDetailId,
-      orderId: props.dataDetail.orderId,
+      orderId: props.orderId,
       productId,
       amount,
       price,
       note,
     }
-    axios
-      .put("https://localhost:5001/updateOrderDetail", jsonObj)
-      .then((res) => {
-        swal("Success", "Update order detail successfully", "success", {
-          button: false,
-          timer: 2000,
-        });
-      })
-      .catch((err) => {
-        swal("Error", "Update order detail failed", "error", {
-          button: false,
+    axios.post("https://localhost:5001/addOrderDetail", jsonObj)
+      .then(res => {
+        swal("Success", "Add new order successfully", "success", {
+          buttons: false,
           timer: 2000,
         })
-      }).finally(() => {
+        //reset data
         handleCancelClick();
+      }).catch(err => {
+        swal("Error", "Add new order failed", "error", {
+          buttons: false,
+          timer: 2000,
+        })
+        console.log(err)
         window.location.reload();
-      })
-  };
+      }).finally(() => {
+        window.location.reload();
+      });
+  }
 
-  var delay = (function () {
-    var timer = 0;
-    return function (callback, ms) {
-      clearTimeout(timer);
-      timer = setTimeout(callback, ms);
-    };
-  })();
-
-  const handleClose = () => {
-    props.setOpenDetail(false);
-    delay(function () { }, 1000);
+  const resetData = () => {
+    //reset data
+    setProductId("");
+    setAmount(0);
+    setPrice(0)
+    setNote("");
   };
 
   const handleCancelClick = () => {
-    setProductId(props.dataDetail.productId);
-    setAmount(props.dataDetail.amount);
-    setPrice(props.dataDetail.price)
-    setNote(props.dataDetail.note);
-    setDataSet(null);
-
-    handleClose();
+    //reset data
+    resetData();
+    props.setTrigger(false);
   };
 
-  return props.IsOpenDetail ? (
+  return (props.trigger) ? (
     <div className="orderpopup">
       <div className="popup-inner">
         <div>
-          <button className="close-btn" onClick={() => props.setOpenDetail(false)}>
+          <button className="close-btn" onClick={() => props.setTrigger(false)}>
             <CloseIcon style={{ color: "white" }} />
           </button>
         </div>
@@ -181,19 +192,34 @@ function OrderDetailEditPopup(props) {
             <div className="idname">
               <div className="datefield">
                 <CssTextField
-                  label="Customer"
+                  label="Product ID"
                   select
                   id="fullWidth"
                   value={productId}
                   required
-                  disabled
-                  onChange={(e) => setProductId(e.target.value)}
+                  onChange={(e) => {
+                    console.log(listProductActive.find(
+                      (item2) => item2.productId === productId));
+                    // if (productId == )
+                    setProductId(e.target.value);
+                  }}
                 >
                   {productList.map((option) => (
                     <MenuItem key={option.productId} value={option.productId}>
                       {option.productName}
                     </MenuItem>
                   ))}
+                  {/* {listProductActive
+                    .filter((item) => {
+                      return !listProductActive.find(
+                        (item2) => item2.productId === item.productId
+                      );
+                    })
+                    .map((product) => (
+                      <MenuItem key={product.productId} value={product.productId}>
+                        {product.materialName}
+                      </MenuItem>
+                    ))} */}
                 </CssTextField>
               </div>
               <div className='idfield'>
@@ -242,9 +268,9 @@ function OrderDetailEditPopup(props) {
                   marginRight: "0.5rem",
                 }}
                 size="large"
-                onClick={changeData}
+                onClick={postData}
               >
-                Edit Order
+                Add Order
               </Button>
               <Button
                 variant="contained"
@@ -268,4 +294,4 @@ function OrderDetailEditPopup(props) {
   );
 }
 
-export default OrderDetailEditPopup;
+export default OrderDetailPopup;
