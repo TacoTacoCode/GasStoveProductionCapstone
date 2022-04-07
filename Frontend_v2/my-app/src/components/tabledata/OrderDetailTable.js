@@ -79,10 +79,15 @@ export const OrderDetailTable = (props) => {
             title: 'Amount', field: 'amount', cellStyle: { fontFamily: 'Muli', width: "15%" }, align: 'left'
         },
         {
-            title: 'Price', field: 'price', cellStyle: { fontFamily: 'Muli', width: "20%" }, align: 'left'
+            title: 'Price', field: 'price', cellStyle: { fontFamily: 'Muli', width: "15%" }, align: 'left'
         },
         {
             title: 'Note', field: 'note', cellStyle: { fontFamily: 'Muli', width: "20%" }, align: 'left'
+        },
+        {
+            title: "No of process",
+            field: "No_Process",
+            cellStyle: { fontFamily: 'Muli', width: "20%" }, align: 'left'
         },
     ]
 
@@ -103,6 +108,17 @@ export const OrderDetailTable = (props) => {
             });
     }
 
+    // đang lỗi
+    function getNoProcess(orderDetailId) {
+        var noProcess = 0;
+        axios
+            .get("https://localhost:5001/getNoProcess/" + orderDetailId)
+            .then((res) => {
+                noProcess = res.data;
+                return noProcess;
+            });
+    }
+
     const [editDatasDetail, setEditDatasDetail] = useState(null);
     const [openDetail, setOpenDetail] = useState(false);
     const [newDataSubmitted, setNewDataSubmitted] = useState(1);
@@ -111,6 +127,8 @@ export const OrderDetailTable = (props) => {
         setEditDatasDetail(rowData);
         setOpenDetail(true);
     }
+
+    const newData = array.map((value) => ({ ...value, No_Process: getNoProcess(value.orderDetailId) }));
 
     return (
         <React.Fragment>
@@ -124,7 +142,7 @@ export const OrderDetailTable = (props) => {
                 </Button>
             </div>
             <MaterialTable title={"List of Order Details"}
-                data={array}
+                data={newData}
                 columns={columns}
                 localization={{
                     header: {

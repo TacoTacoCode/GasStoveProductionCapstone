@@ -51,7 +51,7 @@ namespace GSP_API.Business.Services
             if (data != null)
             {
                 //data.Status = "Inactive";
-                return await _orderDetailRepository.Update(data);
+                return await _orderDetailRepository.Delete(data);
             }
             return null;
         }
