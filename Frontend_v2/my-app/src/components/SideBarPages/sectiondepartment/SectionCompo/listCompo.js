@@ -1,8 +1,6 @@
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
 import { Input } from '@material-ui/core';
 import { useEffect, useState } from 'react';
@@ -49,32 +47,33 @@ export default function CheckboxList(props) {
                     >
                         {listMate[index] &&
                             <Tooltip title={`Max Value: ${maxValue}`}>
-                                <ListItemButton role={undefined} dense>
-                                    <ListItemIcon>
-                                        <Checkbox
-                                            edge="start"
-                                            checked={listMate[index].amount > 0}
-                                            tabIndex={-1}
-                                            disableRipple
-                                            inputProps={{ 'aria-labelledby': labelId }}
-                                        />
-                                    </ListItemIcon>
+                                <ListItem
+                                    style={{ alignItems: 'right' }}
+                                    role={undefined} dense>
+                                    <Checkbox
+                                        style={{ marginLeft: '10%', marginRight: '10%' }}
+                                        edge="start"
+                                        checked={listMate[index].amount > 0}
+                                        tabIndex={-1}
+                                        disableRipple
+                                        inputProps={{ 'aria-labelledby': labelId }}
+                                    />
                                     <div>
                                         <h3>{`${value.itemName}`}</h3>
                                         <Input
-                                            defaultValue={0}
+                                            value={listMate[index] ? listMate[index].amount : 0}
                                             inputProps={{
                                                 step: 1,
                                                 min: 0,
                                                 max: maxValue,
                                                 type: 'number',
                                             }}
-                                            onBlur={(e) => handleInputAmount(index, e.target.value)}
+                                            onChange={(e) => handleInputAmount(index, e.target.value)}
 
                                         />
                                     </div>
 
-                                </ListItemButton>
+                                </ListItem>
                             </Tooltip>
                         }
                     </ListItem>

@@ -14,7 +14,7 @@ export const ImportCompo = (props) => {
         {
             title: "Task Id",
             field: "processDetailId",
-            cellStyle: { fontFamily: "Muli" },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
             render: (rowData) =>
                 <Select
                     id="demo-simple-select"
@@ -36,13 +36,13 @@ export const ImportCompo = (props) => {
         {
             title: "Product Name",
             field: "productName",
-            cellStyle: { fontFamily: "Muli" },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
             render: (e) => tableData[e.tableData.id].productName
         },
         {
             title: "Amount",
             field: "amount",
-            cellStyle: { fontFamily: "Muli" },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
             render: (rowData) =>
                 <TextField
                     value={tableData[rowData.tableData.id].amount}
@@ -194,7 +194,7 @@ export const ImportCompo = (props) => {
                     actionsColumnIndex: -1,
                     exportButton: false,
                     search: false,
-                    headerStyle: { backgroundColor: "#E30217", color: "#fff" },
+                    headerStyle: { backgroundColor: "#E30217", color: "#fff", textAlign: 'center' },
                 }}
             /> : null}
     </div>

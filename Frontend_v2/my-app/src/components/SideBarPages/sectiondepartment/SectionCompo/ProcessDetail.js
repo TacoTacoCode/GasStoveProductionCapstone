@@ -27,7 +27,7 @@ function ProcessDetail() {
             })
     }, []);
     return (
-        <>
+        curSectionInfo && <>
             <div className="importexport">
                 <ImportExcelButton
                     type="button"
@@ -39,7 +39,7 @@ function ProcessDetail() {
                             window.location.href = "/section/importElement";
                     }}
                 >
-                    Import
+                    Import {curSectionInfo.isAssemble ? `Product` : 'Component'}
                 </ImportExcelButton>
                 <ImportExcelButton
                     type="button"
@@ -52,10 +52,10 @@ function ProcessDetail() {
 
                     }}
                 >
-                    Export
+                    Request {curSectionInfo.isAssemble ? `Component` : 'Material'}
                 </ImportExcelButton></div>
             {curSectionInfo !== null ?
-                <div className="process-details" style={{ margin: "80px" }}>
+                <div className="process-details" style={{ margin: "5% 10%" }}>
                     {
                         curSectionInfo.isAssemble ?
                             <ExTable listProcessDetail={listProcessDetail} />

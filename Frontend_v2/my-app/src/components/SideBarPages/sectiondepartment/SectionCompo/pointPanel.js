@@ -51,10 +51,10 @@ const PointPanel = (props) => {
                 />
             </AccordionSummary>
             <AccordionDetails>
-                <CheckboxList
+                {curProcess && <CheckboxList
                     listCompoMate={detailItem}
                     index={index}
-                    task={curProcess} />
+                    task={curProcess} />}
             </AccordionDetails>
         </Accordion>
     );

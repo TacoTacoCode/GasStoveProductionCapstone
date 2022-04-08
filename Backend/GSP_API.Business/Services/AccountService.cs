@@ -31,6 +31,10 @@ namespace GSP_API.Business.Services
         {
             return await _accountRepository.GetById(p => p.AccountId == accountId);
         }
+        public async Task<List<Account>> GetAccountBySectionId(int sectionId)
+        {
+            return await _accountRepository.GetAll(p => p.SectionId == sectionId);
+        }
 
         public async Task<Account> GetAccountByEmail(string email)
         {

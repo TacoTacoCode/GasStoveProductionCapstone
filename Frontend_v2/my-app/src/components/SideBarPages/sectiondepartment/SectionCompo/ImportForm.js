@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ImportForm = () => {
-    console.log('render')
     const [listProcessDetail, setListProcessDetail] = useState(() => JSON.parse(localStorage['listProcessDetail']));
     const [secInfo, setSecInfo] = useState(() => JSON.parse(localStorage['currentSectionInfo']));
     const [selected, setSelected] = useState([])
@@ -45,7 +44,21 @@ const ImportForm = () => {
 
     const handleAmountInput = (index, value) => {
         let arr = [...selected]
-        arr[index]['amount'] = value
+        if (value === '') {
+            arr[index].amount = 0
+        }
+        else {
+            let aValue = parseInt(value)
+            if (arr[index].maxAmount < aValue) {
+                arr[index].amount = arr[index].maxAmount
+            }
+            else if (0 > aValue) {
+                arr[index].amount = 0
+            }
+            else {
+                arr[index].amount = aValue
+            }
+        }
         setSelected(arr)
     }
     const classes = useStyles();
@@ -54,7 +67,7 @@ const ImportForm = () => {
         const submitData = {
             "sectionId": secInfo.sectionId,
             "createdDate": new Date().toLocaleDateString(),
-            "itemType": secInfo.isAssemble ? "P" : "C",
+            "itemType": "C",
             'isImport': true,
             "importExportDetails": selected
         }
@@ -106,14 +119,14 @@ const ImportForm = () => {
                         </FormControl>
                         <FormControl>
                             <TextField
-                                defaultValue={value['amount']}
+                                value={value['amount']}
                                 type={'number'}
                                 inputProps={{ min: '0' }}
                                 style={{
                                     display: 'inline-block', float: 'center',
                                     marginInline: '5%', marginTop: '5.5%'
                                 }}
-                                onBlur={(e) => handleAmountInput(index, e.target.value)}
+                                onChange={(e) => handleAmountInput(index, e.target.value)}
                             />
                         </FormControl>
                         <IconButton

@@ -40,13 +40,13 @@ export const ExTable = (props) => {
         {
             title: "Task Id",
             field: "processDetailId",
-            cellStyle: { fontFamily: "Muli" },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
             render: (e) => `0${e.processDetailId}`
         },
         {
             title: "Product Image",
             field: 'productImage',
-            cellStyle: { fontFamily: "Muli" },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
             render: (e) =>
                 <img src={`https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F${listProCom[e.tableData.id].product.imageUrl}`}
                     width="100px" height="100px" />
@@ -54,30 +54,30 @@ export const ExTable = (props) => {
         {
             title: "Product Name",
             field: 'productName',
-            cellStyle: { fontFamily: "Muli" },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
             render: (e) => `${listProCom[e.tableData.id].product.productName}`
         },
         {
             title: "Finished Amount",
             field: "finishedAmount",
-            cellStyle: { fontFamily: "Muli" },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
         },
         {
             title: "Total Amount",
             field: "totalAmount",
-            cellStyle: { fontFamily: "Muli" },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
         },
         {
             title: "Average amount per day",
             field: "averageAmount",
-            cellStyle: { fontFamily: "Muli" },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
             render:
                 rowData => rowData.averageAmount ? rowData.averageAmount : 0,
         },
         {
             title: "Expiry Date",
             field: "expiryDate",
-            cellStyle: { fontFamily: "Muli" },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
             render:
                 rowData => moment(rowData.expiryDate).format('DD MMM, YYYY'),
         },
@@ -96,7 +96,7 @@ export const ExTable = (props) => {
                         actionsColumnIndex: -1,
                         exportButton: false,
                         search: false,
-                        headerStyle: { backgroundColor: "#E30217", color: "#fff" },
+                        headerStyle: { backgroundColor: "#E30217", color: "#fff", textAlign: 'center' },
                     }}
                 /> : null}
         </React.Fragment>

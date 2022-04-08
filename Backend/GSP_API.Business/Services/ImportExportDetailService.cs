@@ -154,6 +154,7 @@ namespace GSP_API.Business.Services
                         processDetail.FinishedDate = DateTime.Now.Date;
                     }else if(processDetail.FinishedAmount > processDetail.TotalAmount)
                     {
+                        processDetail.Status = "Done";
                         amount = processDetail.FinishedAmount - processDetail.TotalAmount;
                         processDetail.FinishedAmount = processDetail.TotalAmount;
                         processDetail.FinishedDate = DateTime.Now.Date;

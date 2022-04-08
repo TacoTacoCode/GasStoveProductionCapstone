@@ -14,7 +14,7 @@ export const ExportCompo = (props) => {
         {
             title: "Task Id",
             field: "processDetailId",
-            cellStyle: { fontFamily: "Muli" },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
             render: (rowData) =>
                 <Select
                     id="demo-simple-select"
@@ -36,13 +36,13 @@ export const ExportCompo = (props) => {
         {
             title: "Product Name",
             field: "productName",
-            cellStyle: { fontFamily: "Muli" },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
             render: (e) => tableData[e.tableData.id].productName
         },
         {
             title: "Component",
             field: "component",
-            cellStyle: { fontFamily: "Muli" },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
             render: (rowData) =>
                 <Select
                     id="demo-simple-select"
@@ -67,7 +67,7 @@ export const ExportCompo = (props) => {
         {
             title: "Amount",
             field: "amount",
-            cellStyle: { fontFamily: "Muli" },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
             render: (rowData) =>
                 <Tooltip title={`Maximum is ${tableData[rowData.tableData.id].maxAmount}`}>
                     <TextField
@@ -240,7 +240,7 @@ export const ExportCompo = (props) => {
                     actionsColumnIndex: -1,
                     exportButton: false,
                     search: false,
-                    headerStyle: { backgroundColor: "#E30217", color: "#fff" },
+                    headerStyle: { backgroundColor: "#E30217", color: "#fff", textAlign: 'center' },
                 }}
             /> : null}
     </div>

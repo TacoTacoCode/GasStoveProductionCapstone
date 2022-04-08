@@ -51,6 +51,11 @@ export const SideBarOrderData = [
 
 export const SideBarSectionData = [
     {
+        title: 'Task List',
+        path: "/section/processDetail",
+        cName: "nav-text"
+    },
+    {
         title: 'Materials List',
         path: "/section/materials",
         cName: "nav-text"
