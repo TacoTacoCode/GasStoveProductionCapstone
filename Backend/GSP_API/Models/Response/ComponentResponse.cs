@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 
 namespace GSP_API.Models.Response
 {
+    [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     public class ComponentResponse
     {
         public string ComponentId { get; set; }
@@ -19,12 +20,12 @@ namespace GSP_API.Models.Response
         public string Description { get; set; }
 
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual ICollection<ComponentMaterial> ComponentMaterial { get; set; }
+        //[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        //public virtual ICollection<ComponentMaterial> ComponentMaterial { get; set; }
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual ICollection<ProductComponent> ProductComponent { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual ICollection<Section> Section { get; set; }
+        //[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        //public virtual ICollection<ProductComponent> ProductComponent { get; set; }
+        //[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        //public virtual ICollection<Section> Section { get; set; }
     }
 }

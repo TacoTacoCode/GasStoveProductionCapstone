@@ -14,5 +14,8 @@ namespace GSP_API.Models.Response
         public string ComponentId { get; set; }
         public int? Amount { get; set; }
 
+
+        public virtual ComponentResponse Component { get; set; }
+        public virtual ProductResponse Product { get; set; }
     }
 }

@@ -53,7 +53,29 @@ namespace GSP_API.Business.Services
         public async Task<string> AddImEx(ImportExport imEx)
         {
             imEx.Status = "New";
+            var error = new List<string>();
+            if ((bool)imEx.IsImport)
+            {
+                imEx.Status = "Done";
+                foreach (var imExDetail in imEx.ImportExportDetails)
+                {
+                    var result = await _importExportDetailService.ImportItem(imExDetail, imEx.ItemType);
+                    if (result.Contains("Error"))
+                    {
+                        error.Add(result);
+                    }
+
+                }
+            }
             var data = await _importExportRepository.Add(imEx);
+            if (data.Contains("error"))
+            {
+                error.Add(data);
+            }
+            if (error.Count > 0)
+            {
+                return error.ToArray().ToString();
+            }
             return data;
         }
 

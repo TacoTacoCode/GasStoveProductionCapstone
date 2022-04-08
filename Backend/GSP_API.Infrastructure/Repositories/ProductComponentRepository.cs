@@ -16,6 +16,13 @@ namespace GSP_API.Infrastructure.Repositories
 
         }
 
+        public Task<List<ProductComponent>> GetProCompo(string productId)
+        {
+            var data = DbSet.Where(p => p.ProductId == productId)
+                .Include(p => p.Product).Include(p => p.Component).ToListAsync();
+            return data;
+        }
+
         public List<ProductComponent> GetProCompoByProId2(string productId)
         {
             var data = DbSet.Where(p => p.ProductId == productId).Include(p => p.Component.Sections).ToList();
