@@ -102,7 +102,8 @@ function OrderPopup(props) {
   const [orderProduct, setListOrderProduct] = useState([]);
   const [listProductActive, setProductList] = useState([]);
   const [productActive, setProductChoice] = useState(null);
-  const [productAmount, setOrderProductAmount] = useState(null);
+  const [productAmount, setOrderProductAmount] = useState(0);
+  const [productPrice, setOrderProductPrice] = useState(0);
 
   useEffect(() => {
     axios.get("https://localhost:5001/getProducts/Active").then((res) => {
@@ -166,9 +167,8 @@ function OrderPopup(props) {
           timer: 2000,
         })
         console.log(err)
-        window.location.reload();
-      }).finally(() => {
-        window.location.reload();
+      }).finally(function () {
+        handleDelay();
       });
   }
 
@@ -180,7 +180,8 @@ function OrderPopup(props) {
     setStatus("inprogress");
     setNote("");
     setIsShortTerm(true);
-    setOrderProductAmount("");
+    setOrderProductPrice(0);
+    setOrderProductAmount(0);
     setListOrderProduct([]);
     setProductChoice(null);
   };
@@ -189,6 +190,18 @@ function OrderPopup(props) {
     //reset data
     resetData();
     props.setTrigger(false);
+  };
+
+  var delay = (function () {
+    var timer = 0;
+    return function (callback, ms) {
+      clearTimeout(timer);
+      timer = setTimeout(callback, ms);
+    };
+  })();
+
+  const handleDelay = () => {
+    delay(function () { window.location.reload(); }, 1000);
   };
 
   return (props.trigger) ? (
@@ -202,6 +215,8 @@ function OrderPopup(props) {
         {props.children}
         <div className="popup-body">
           <form>
+            <br />
+            <text className="content_choose">Order : </text>
             <div className="idname">
               <div className="datefield">
                 <CssTextField
@@ -250,7 +265,7 @@ function OrderPopup(props) {
               </div>
             </div>
             <div className="idname">
-              <div className='namefield'>
+              {/* <div className='namefield'>
                 <CssTextField
                   label="Status"
                   select
@@ -264,9 +279,8 @@ function OrderPopup(props) {
                       {option.label}
                     </MenuItem>
                   ))}
-
                 </CssTextField>
-              </div>
+              </div> */}
               <div className='txtfield'>
                 <CssTextField
                   label="Short Term"
@@ -282,9 +296,7 @@ function OrderPopup(props) {
                   ))}
                 </CssTextField>
               </div>
-            </div>
-            <div className="idname">
-              <div className="txtfield">
+              <div className="namefield">
                 <CssTextField
                   label="Note"
                   value={note}
@@ -292,15 +304,17 @@ function OrderPopup(props) {
                 />
               </div>
             </div>
-            <div className="idname">
-              <div className="txtfield">
+            <br />
+            <br />
+            <text className="content_choose">Order Detail : </text>
+            <div>
+              <div className="txtfield_Choose">
                 <CssTextField
                   label="Product List"
                   select
                   id="fullWidth"
                   value={productActive}
                   onChange={(e) => setProductChoice(e.target.value)}
-                  helperText="Choose Product"
                 >
                   {listProductActive
                     .filter((item) => {
@@ -315,7 +329,7 @@ function OrderPopup(props) {
                     ))}
                 </CssTextField>
               </div>
-              <div className="numfield">
+              <div className="numfield_choose">
                 <CssTextField
                   label="Amount"
                   id="fullWidth"
@@ -327,36 +341,59 @@ function OrderPopup(props) {
                   onChange={(e) => setOrderProductAmount(e.target.value)}
                 />
               </div>
+              <div className="numfield_choose">
+                <CssTextField
+                  label="Price"
+                  id="fullWidth"
+                  value={productPrice}
+                  type={"number"}
+                  InputProps={{
+                    inputProps: { min: 0, pattern: "[0-9]*" },
+                  }}
+                  onChange={(e) => setOrderProductPrice(e.target.value)}
+                />
+              </div>
               {productActive != null &&
                 productAmount != null &&
-                productAmount > 0 ? (
-                <div className="button_field">
-                  <Button
-                    style={{
-                      fontFamily: "Muli",
-                      borderRadius: 10,
-                      backgroundColor: "#e30217",
-                      color: "white",
-                    }}
-                    onClick={() => {
-                      setListOrderProduct((orderProduct) => [
-                        ...orderProduct,
-                        createData(
-                          productActive.productId,
-                          productActive.productName,
-                          productAmount,
-                          productActive.price,
-                          ""
-                        ),
-                      ]);
-                      setOrderProductAmount(0);
-                      setProductChoice(null);
-                    }}
-                  >
-                    ADD
-                  </Button>
-                </div>
-              ) : null}
+                productAmount > 0 &&
+                productPrice != null &&
+                productPrice > 0 ? (
+                <Button
+                  style={{
+                    fontFamily: "Muli",
+                    borderRadius: 10,
+                    backgroundColor: "#e30217",
+                    color: "white",
+                  }}
+                  onClick={() => {
+                    setListOrderProduct((orderProduct) => [
+                      ...orderProduct,
+                      createData(
+                        productActive.productId,
+                        productActive.productName,
+                        productAmount,
+                        productPrice,
+                        ""
+                      ),
+                    ]);
+                    setOrderProductAmount(0);
+                    setProductChoice(null);
+                  }}
+                >
+                  ADD
+                </Button>
+              )
+                : <Button
+                  style={{
+                    fontFamily: "Muli",
+                    borderRadius: 10,
+                    backgroundColor: "#a9a9a9",
+                    color: "white",
+                  }}
+                  disabled
+                >
+                  ADD
+                </Button>}
               <div className="tablefield">
                 <MaterialTable
                   data={orderProduct}

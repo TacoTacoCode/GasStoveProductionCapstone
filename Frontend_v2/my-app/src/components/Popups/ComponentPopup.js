@@ -161,9 +161,8 @@ function ComponentPopup(props) {
           timer: 2000,
         })
         console.log(err)
-        window.location.reload();
       }).finally(() => {
-        window.location.reload();
+        handleDelay();
       });
   };
 
@@ -188,6 +187,18 @@ function ComponentPopup(props) {
     props.setTrigger(false);
   };
 
+  var delay = (function () {
+    var timer = 0;
+    return function (callback, ms) {
+      clearTimeout(timer);
+      timer = setTimeout(callback, ms);
+    };
+  })();
+
+  const handleDelay = () => {
+    delay(function () { window.location.reload(); }, 1000);
+  };
+
   return props.trigger ? (
     <div className="componentpopup">
       <div className="popup-inner">
@@ -199,6 +210,8 @@ function ComponentPopup(props) {
         {props.children}
         <div className="popup-body">
           <form id="Form1">
+            <br />
+            <text className="content_choose">Component : </text>
             <div className='imagefield'>
               Component's Image
               <input type="file" onChange={handlePreviewAvatar} />
@@ -309,9 +322,11 @@ function ComponentPopup(props) {
                 />
               </div>
             </div>
-
+            <br />
+            <br />
+            <text className="content_choose">Component Detail : </text>
             <div className="idname">
-              <div className="txtfield1">
+              <div className="txtfield_Choose">
                 <CssTextField
                   label="Material Active List"
                   select
@@ -334,7 +349,7 @@ function ComponentPopup(props) {
                     ))}
                 </CssTextField>
               </div>
-              <div className="numfield1">
+              <div className="numfield_choose">
                 <CssTextField
                   label="Amount"
                   id="fullWidth"
@@ -349,33 +364,41 @@ function ComponentPopup(props) {
               </div>
 
               {materialActive != null && materialAmount != null ? (
-                <div className="button_field">
-                  <Button
-                    style={{
-                      fontFamily: "Muli",
-                      borderRadius: 10,
-                      backgroundColor: "#e30217",
-                      color: "white",
-                    }}
-                    onClick={() => {
-                      setListComponentMaterial((componentMaterial) => [
-                        ...componentMaterial,
-                        createData(
-                          materialActive.materialId,
-                          materialActive.materialName,
-                          materialAmount
-                        ),
-                      ]);
-                      setMaterialComponentAmount(0);
-                      setMaterialChoose(null);
-                      //console log here won print the new state, you have to wait for new lifecycle
-                      //console.log(componentMaterial);
-                    }}
-                  >
-                    ADD
-                  </Button>
-                </div>
-              ) : null}
+                <Button
+                  style={{
+                    fontFamily: "Muli",
+                    borderRadius: 10,
+                    backgroundColor: "#e30217",
+                    color: "white",
+                  }}
+                  onClick={() => {
+                    setListComponentMaterial((componentMaterial) => [
+                      ...componentMaterial,
+                      createData(
+                        materialActive.materialId,
+                        materialActive.materialName,
+                        materialAmount
+                      ),
+                    ]);
+                    setMaterialComponentAmount(0);
+                    setMaterialChoose(null);
+                    //console log here won print the new state, you have to wait for new lifecycle
+                    //console.log(componentMaterial);
+                  }}
+                >
+                  ADD
+                </Button>
+              ) : <Button
+                style={{
+                  fontFamily: "Muli",
+                  borderRadius: 10,
+                  backgroundColor: "#a9a9a9",
+                  color: "white",
+                }}
+                disabled
+              >
+                ADD
+              </Button>}
               <div className="tablefield">
                 <MaterialTable
                   data={componentMaterial}

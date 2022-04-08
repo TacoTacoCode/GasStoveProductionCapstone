@@ -350,7 +350,7 @@ function ComponentEditPopup(props) {
             </div>
 
             <div className="idname">
-              <div className="txtfield1">
+              <div className="txtfield_Choose">
                 <CssTextField
                   label="Material Active List"
                   select
@@ -373,7 +373,7 @@ function ComponentEditPopup(props) {
                     ))}
                 </CssTextField>
               </div>
-              <div className="numfield1">
+              <div className="numfield_choose">
                 <CssTextField
                   label="Amount"
                   id="fullWidth"
@@ -388,33 +388,41 @@ function ComponentEditPopup(props) {
               </div>
 
               {materialActive != null && materialAmount != null ? (
-                <div className="button_field">
-                  <Button
-                    style={{
-                      fontFamily: "Muli",
-                      borderRadius: 10,
-                      backgroundColor: "#e30217",
-                      color: "white",
-                    }}
-                    onClick={() => {
-                      setListComponentMaterial((componentMaterial) => [
-                        ...componentMaterial,
-                        createData(
-                          materialActive.materialId,
-                          materialActive.materialName,
-                          materialAmount
-                        ),
-                      ]);
-                      setMaterialComponentAmount(0);
-                      setMaterialChoose(null);
-                      //console log here won print the new state, you have to wait for new lifecycle
-                      //console.log(componentMaterial);
-                    }}
-                  >
-                    ADD
-                  </Button>
-                </div>
-              ) : null}
+                <Button
+                  style={{
+                    fontFamily: "Muli",
+                    borderRadius: 10,
+                    backgroundColor: "#e30217",
+                    color: "white",
+                  }}
+                  onClick={() => {
+                    setListComponentMaterial((componentMaterial) => [
+                      ...componentMaterial,
+                      createData(
+                        materialActive.materialId,
+                        materialActive.materialName,
+                        materialAmount
+                      ),
+                    ]);
+                    setMaterialComponentAmount(0);
+                    setMaterialChoose(null);
+                    //console log here won print the new state, you have to wait for new lifecycle
+                    //console.log(componentMaterial);
+                  }}
+                >
+                  ADD
+                </Button>
+              ) : <Button
+                style={{
+                  fontFamily: "Muli",
+                  borderRadius: 10,
+                  backgroundColor: "#a9a9a9",
+                  color: "white",
+                }}
+                disabled
+              >
+                ADD
+              </Button>}
               <div className="tablefield">
                 <MaterialTable
                   data={componentMaterial}

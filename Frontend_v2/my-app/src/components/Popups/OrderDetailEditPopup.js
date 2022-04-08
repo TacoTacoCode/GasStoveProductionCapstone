@@ -178,6 +178,8 @@ function OrderDetailEditPopup(props) {
         {props.children}
         <div className="popup-body">
           <form>
+            <br />
+            <text className="content_choose">Detail : </text>
             <div className="idname">
               <div className="datefield">
                 <CssTextField

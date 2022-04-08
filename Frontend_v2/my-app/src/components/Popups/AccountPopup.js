@@ -136,9 +136,9 @@ function AccountPopup(props) {
         timer: 2000,
       })
       console.log(err)
+    }).finally(function () {
+      handleDelay();
     });
-
-    props.setSubmittedTime();
   }
 
   const postData2 = (e) => {
@@ -197,6 +197,18 @@ function AccountPopup(props) {
     setFileName('');
     props.setTrigger(false)
   }
+
+  var delay = (function () {
+    var timer = 0;
+    return function (callback, ms) {
+      clearTimeout(timer);
+      timer = setTimeout(callback, ms);
+    };
+  })();
+
+  const handleDelay = () => {
+    delay(function () { window.location.reload(); }, 1000);
+  };
 
   return (props.trigger) ? (
     <div className='Accountpopup'>

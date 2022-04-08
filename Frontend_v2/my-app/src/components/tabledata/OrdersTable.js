@@ -3,11 +3,8 @@ import MaterialTable from 'material-table';
 import { useNavigate } from 'react-router-dom';
 import OrderDetails from '../SideBarPages/orderdepartment/OrderDetails';
 import { OrderDetailTable } from './OrderDetailTable';
-import MobileDatePicker from '@mui/lab/MobileDatePicker';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import moment from 'moment';
 import { TextField } from '@mui/material';
-import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import { styled } from '@material-ui/styles';
 import OrderEditPopup from '../Popups/OrderEditPopup';
 import axios from "axios";
@@ -40,14 +37,11 @@ export const Table = (props) => {
             title: 'Account ID', field: 'accountId', cellStyle: { fontFamily: 'Muli' }
         },
         {
-            title: 'Expiry Date', field: 'expiryDate', render:
-                rowData => <LocalizationProvider dateAdapter={AdapterDateFns}><DesktopDatePicker
-                    disableOpenPicker
-                    inputFormat="MM/dd/yyyy"
-                    value={array[0].expiryDate}
-                    renderInput={(params) => <CssTextField disabled {...params} />}
-                /></LocalizationProvider>
-            , cellStyle: { fontFamily: 'Muli' }
+            title: 'Expiry Date',
+            field: 'expiryDate',
+            cellStyle: { fontFamily: 'Muli' },
+            render:
+                rowData => moment(rowData.expiryDate).format('DD MMM, YYYY'),
         },
         {
             title: 'Total Price', field: 'totalPrice', cellStyle: { fontFamily: 'Muli' },

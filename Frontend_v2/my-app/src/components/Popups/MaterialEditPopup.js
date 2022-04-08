@@ -122,6 +122,7 @@ function MaterialEditPopup(props) {
         console.log(err)
       }).finally(() => {
         handleCancelClick();
+        handleDelay();
       });
   };
 
@@ -138,7 +139,18 @@ function MaterialEditPopup(props) {
   const handleCancelClick = () => {
     resetData();
     props.setOpen(false);
-    window.location.reload();
+  };
+
+  var delay = (function () {
+    var timer = 0;
+    return function (callback, ms) {
+      clearTimeout(timer);
+      timer = setTimeout(callback, ms);
+    };
+  })();
+
+  const handleDelay = () => {
+    delay(function () { window.location.reload(); }, 1000);
   };
 
   return props.IsOpen ? (
@@ -152,6 +164,8 @@ function MaterialEditPopup(props) {
         {props.children}
         <div className="popup-body">
           <form>
+            <br />
+            <text className="content_choose">Material : </text>
             <div className="idname">
               <div className="imagefield">
                 Material's Image

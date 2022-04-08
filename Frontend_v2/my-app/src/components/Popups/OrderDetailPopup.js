@@ -21,51 +21,6 @@ function createData(productId, productName, amount, price, description) {
   return { productId, productName, amount, price, description };
 }
 
-const columns = [
-  {
-    title: "ID",
-    field: "productId",
-    cellStyle: { fontFamily: "Arial" },
-  },
-  {
-    title: "Name",
-    field: "productName",
-    cellStyle: { fontFamily: "Arial" },
-  },
-  {
-    title: "Amount",
-    field: "amount",
-    cellStyle: { fontFamily: "Arial" },
-  },
-  {
-    title: "Price",
-    field: "price",
-    cellStyle: { fontFamily: "Arial" },
-  },
-];
-
-const isShortTerms = [
-  {
-    value: true,
-    label: "True",
-  },
-  {
-    value: false,
-    label: "False",
-  }
-];
-
-const statuses = [
-  {
-    value: 'inprogress',
-    label: 'In Progress'
-  },
-  {
-    value: 'finished',
-    label: 'Finished'
-  }
-];
-
 const CssTextField = styled(TextField)({
   width: "100%",
   "& label.Mui-focused": {
@@ -158,7 +113,6 @@ function OrderDetailPopup(props) {
           timer: 2000,
         })
         console.log(err)
-        window.location.reload();
       }).finally(() => {
         window.location.reload();
       });
@@ -189,6 +143,8 @@ function OrderDetailPopup(props) {
         {props.children}
         <div className="popup-body">
           <form>
+            <br />
+            <text className="content_choose">Detail : </text>
             <div className="idname">
               <div className="datefield">
                 <CssTextField
