@@ -9,7 +9,7 @@ namespace GSP_API.Domain.Repositories.Models
     {
         public Account()
         {
-            AttendanceDetails = new HashSet<AttendanceDetail>();
+            Attendances = new HashSet<Attendance>();
             Orders = new HashSet<Order>();
             RefreshTokens = new HashSet<RefreshToken>();
             Sections = new HashSet<Section>();
@@ -30,7 +30,7 @@ namespace GSP_API.Domain.Repositories.Models
 
         public virtual Role Role { get; set; }
         public virtual Section Section { get; set; }
-        public virtual ICollection<AttendanceDetail> AttendanceDetails { get; set; }
+        public virtual ICollection<Attendance> Attendances { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<RefreshToken> RefreshTokens { get; set; }
         public virtual ICollection<Section> Sections { get; set; }

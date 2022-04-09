@@ -102,18 +102,20 @@ namespace GSP_API.Domain.Repositories
                 entity.Property(e => e.CheckDate).HasColumnType("date");
 
                 entity.Property(e => e.Note).HasMaxLength(100);
+
+                entity.HasOne(d => d.Account)
+                    .WithMany(p => p.Attendances)
+                    .HasForeignKey(d => d.AccountId)
+                    .HasConstraintName("FK_Attendance_Account");
             });
 
             modelBuilder.Entity<AttendanceDetail>(entity =>
             {
                 entity.ToTable("AttendanceDetail");
 
-                entity.Property(e => e.Note).HasMaxLength(100);
+                entity.Property(e => e.CheckDate).HasColumnType("date");
 
-                entity.HasOne(d => d.Account)
-                    .WithMany(p => p.AttendanceDetails)
-                    .HasForeignKey(d => d.AccountId)
-                    .HasConstraintName("FK_AttendanceDetail_Account");
+                entity.Property(e => e.Note).HasMaxLength(100);
 
                 entity.HasOne(d => d.Attendance)
                     .WithMany(p => p.AttendanceDetails)
