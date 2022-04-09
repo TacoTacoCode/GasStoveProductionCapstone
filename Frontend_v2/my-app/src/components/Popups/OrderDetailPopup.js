@@ -4,18 +4,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import MaterialTable from "material-table";
 import {
   Button,
-  InputAdornment,
-  makeStyles,
   MenuItem,
   TextField,
 } from "@mui/material";
 import { alpha, styled } from "@mui/material/styles";
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DatePicker from '@mui/lab/DatePicker';
 import axios from "axios";
 import swal from "sweetalert";
-import { Checkbox } from "@material-ui/core";
 
 function createData(productId, productName, amount, price, description) {
   return { productId, productName, amount, price, description };

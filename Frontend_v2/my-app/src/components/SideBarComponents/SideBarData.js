@@ -9,8 +9,14 @@ export const SideBarAdminData = [
         cName: 'nav-text'
     },
     {
+        title: "Manage Sections",
+        // icon: <DashboardIcon />,
+        path: "/dashboard/sections",
+        cName: 'nav-text'
+    },
+    {
         title: "Manage Accounts",
-        // icon: <ManageAccountsIcon />,
+        // icon: <DashboardIcon />,
         path: "/dashboard/accounts",
         cName: 'nav-text'
     },

@@ -3,6 +3,7 @@ import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import CustomSideBar from './components/SideBarComponents/CustomSideBar';
 import { BrowserRouter as Router, Routes, Route, BrowserRouter } from 'react-router-dom';
 import DashBoard from './components/SideBarPages/admin/DashBoard';
+import Sections from './components/SideBarPages/admin/Sections';
 import Accounts from './components/SideBarPages/admin/Accounts';
 import Materials from './components/SideBarPages/admin/Materials';
 import Components from './components/SideBarPages/admin/Components';
@@ -67,6 +68,7 @@ function App() {
           <Routes>
             <Route path='/profile' exact element={<Profile />}></Route>
             <Route path='/dashboard' exact element={<DashBoard />}></Route>
+            <Route path='/dashboard/sections' exact element={<Sections />}></Route>
             <Route path='/dashboard/accounts' exact element={<Accounts />}></Route>
             <Route path='/dashboard/materials' exact element={<Materials />}></Route>
             <Route path='/dashboard/products' exact element={<Products />}></Route>

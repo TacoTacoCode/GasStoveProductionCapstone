@@ -1,0 +1,233 @@
+import React, { useState, useEffect, useRef, useReducer, useCallback } from "react";
+import "../../styles/Popup.scss";
+import CloseIcon from "@mui/icons-material/Close";
+import MaterialTable from "material-table";
+import {
+  Button,
+  InputAdornment,
+  makeStyles,
+  MenuItem,
+  TextField,
+} from "@mui/material";
+import { alpha, styled } from "@mui/material/styles";
+import axios from "axios";
+import swal from "sweetalert";
+
+const statuses = [
+  {
+    value: true,
+    label: "Assembled",
+  },
+  {
+    value: false,
+    label: "Not Assembled Yet",
+  },
+];
+
+const CssTextField = styled(TextField)({
+  width: "100%",
+  "& label.Mui-focused": {
+    color: "black",
+  },
+  "& .MuiInput-underline:after": {
+    borderBottomColor: "#e30217",
+  },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "black",
+    },
+    "&:hover fieldset": {
+      borderColor: "#e30217",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "#e30217",
+    },
+  },
+});
+
+function createData(componentId, componentName, amount) {
+  return { componentId, componentName, amount };
+}
+
+function SectionEditPopup(props) {
+  const [sectionLeaderId, setSectionLeaderId] = useState({ ...props.data.sectionLeadId });
+  const [componentId, setComponentId] = useState({ ...props.data.componentId });
+  const [isAssemble, setIsAssemble] = useState({ ...props.data.isAssemble });
+
+  const [listComponentActive, setComponentList] = useState([]);
+  const [listAccountActive, setAccountList] = useState([]);
+
+  useEffect(() => {
+    setSectionLeaderId(props.data.sectionLeadId);
+  }, [props.data.sectionLeadId])
+
+  useEffect(() => {
+    setComponentId(props.data.componentId);
+  }, [props.data.componentId])
+
+  useEffect(() => {
+    setIsAssemble(props.data.isAssemble);
+  }, [props.data.isAssemble])
+
+  useEffect(() => {
+    axios.get("https://localhost:5001/getComponents/Active").then((res) => {
+      setComponentList(res.data);
+    });
+    axios.get("https://localhost:5001/getActiveAccounts").then((res) => {
+      setAccountList(res.data);
+    });
+  }, []);
+
+  const changeData = (e) => {
+    e.preventDefault();
+    const jsonObj = {
+      sectionId: props.data.sectionId,
+      sectionLeadId: sectionLeaderId,
+      componentId,
+      workerAmount: props.data.workerAmount,
+      isAssemble
+    };
+    axios
+      .put("https://localhost:5001/updateSection", jsonObj)
+      .then((res) => {
+        swal("Success", "Update section successfully", "success", {
+          button: false,
+          timer: 2000,
+        });
+      })
+      .catch((err) => {
+        swal("Error", "Update section failed", "error", {
+          button: false,
+          timer: 2000,
+        })
+      }).finally(() => {
+        handleCancelClick();
+        delay(function () { window.location.reload(); }, 1000);
+      })
+  };
+
+  var delay = (function () {
+    var timer = 0;
+    return function (callback, ms) {
+      clearTimeout(timer);
+      timer = setTimeout(callback, ms);
+    };
+  })();
+
+  const handleClose = () => {
+    props.setOpen(false);
+  };
+
+  const handleCancelClick = () => {
+    setSectionLeaderId(props.data.sectionLeadId);
+    setComponentId(props.data.componentId);
+    setIsAssemble(props.data.isAssemble);
+    handleClose();
+  };
+
+  return props.IsOpen ? (
+    <div className="componentpopup">
+      <div className="popup-inner">
+        <div>
+          <button className="close-btn" onClick={() => props.setOpen(false)}>
+            <CloseIcon style={{ color: "white" }} />
+          </button>
+        </div>
+        {props.children}
+        <div className="popup-body">
+          <br />
+          <text className="content_choose">Section : </text>
+          <br />
+          <br />
+          <form>
+            <div className="idname_section">
+              {/* <div className="datefield"> */}
+              <CssTextField
+                label="Section Leader"
+                select
+                id="fullWidth"
+                required
+                value={sectionLeaderId}
+                onChange={(e) => setSectionLeaderId(e.target.value)}
+              >
+                {listAccountActive.map((leader) => (
+                  <MenuItem key={leader.accountId} value={leader.accountId}>
+                    {leader.name}
+                  </MenuItem>
+                ))}
+              </CssTextField>
+              {/* </div> */}
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              {/* <div className="idfield"> */}
+              <CssTextField
+                label="Status"
+                select
+                id="fullWidth"
+                required
+                value={isAssemble}
+                onChange={(e) => setIsAssemble(e.target.value)}
+              >
+                {statuses.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </CssTextField>
+              {/* </div> */}
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              {/* <div className="txtfield"> */}
+              <CssTextField
+                label="Component"
+                select
+                id="fullWidth"
+                required
+                value={componentId}
+                onChange={(e) => setComponentId(e.target.value)}
+              >
+                {listComponentActive.map((component) => (
+                  <MenuItem key={component.componentId} value={component.componentId}>
+                    {component.componentName}
+                  </MenuItem>
+                ))}
+              </CssTextField>
+              {/* </div> */}
+            </div>
+
+            <div className="btngr">
+              <Button
+                type="submit"
+                variant="contained"
+                style={{
+                  fontFamily: "Muli",
+                  borderRadius: 10,
+                  backgroundColor: "#e30217",
+                  marginRight: "0.5rem",
+                }}
+                size="large"
+                onClick={changeData}
+              >
+                Edit Section
+              </Button>
+              <Button
+                variant="contained"
+                style={{
+                  fontFamily: "Muli",
+                  borderRadius: 10,
+                  backgroundColor: "#e30217",
+                }}
+                size="large"
+                onClick={handleCancelClick}
+              >
+                Cancel
+              </Button>
+            </div>
+          </form>
+        </div>
+      </div >
+    </div >
+  ) : (
+    ""
+  );
+}
+
+export default SectionEditPopup;
