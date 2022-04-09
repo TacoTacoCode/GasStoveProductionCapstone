@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../../App.css";
+import { FaClipboardList, FaPlus } from 'react-icons/fa';
+import { AiFillFileExcel } from 'react-icons/ai';
 import { ImportExcelButton } from "../../button/ImportExcelButton";
 import { Table } from "../../tabledata/AccountsTable";
 import AccountPopup from "../../Popups/AccountPopup";
@@ -33,13 +35,22 @@ function Accounts() {
   }, [newDataSubmitted]);
   return (
     <>
+      <ImportExcelButton><div>
+        <FaClipboardList size={24} style={{ verticalAlign: "middle" }} />
+        &ensp;
+        <text style={{ verticalAlign: "middle" }}>Attendance List</text>
+      </div></ImportExcelButton>
       <ImportExcelButton
         type="button"
         onClick={() => {
           setImportFile(true);
         }}
       >
-        Import Account File
+        <div>
+          <AiFillFileExcel size={24} style={{ verticalAlign: "middle" }} />
+          &ensp;
+          <text style={{ verticalAlign: "middle" }}>Import Account File</text>
+        </div>
       </ImportExcelButton>
       <ImportFilePopup
         trigger={importFile}
@@ -54,7 +65,11 @@ function Accounts() {
           setaddAccountBtn(true);
         }}
       >
-        Add Account
+        <div>
+          <FaPlus size={24} style={{ verticalAlign: "middle" }} />
+          &ensp;
+          <text style={{ verticalAlign: "middle" }}>Add Account</text>
+        </div>
       </ImportExcelButton>
       <AccountPopup
         trigger={addAccountBtn}

@@ -11,7 +11,7 @@ import { alpha, styled } from "@mui/material/styles";
 import axios from "axios";
 import swal from "sweetalert";
 
-const statuses = [
+const states = [
   {
     value: true,
     label: "Assembled",
@@ -19,6 +19,17 @@ const statuses = [
   {
     value: false,
     label: "Not Assembled Yet",
+  },
+];
+
+const statuses = [
+  {
+    value: "Active",
+    label: "Active",
+  },
+  {
+    value: "Unactive",
+    label: "Unactive",
   },
 ];
 
@@ -59,6 +70,8 @@ function SectionPopup(props) {
   const [sectionLeaderId, setSectionLeaderId] = useState("");
   const [componentId, setComponentId] = useState("");
   const [isAssemble, setIsAssemble] = useState(true);
+  const [status, setStatus] = useState(true);
+
 
   const postData = (e) => {
     e.preventDefault();
@@ -66,7 +79,8 @@ function SectionPopup(props) {
       sectionLeadId: sectionLeaderId,
       componentId,
       workerAmount: 0,
-      isAssemble
+      isAssemble,
+      status
     };
     axios
       .post("https://localhost:5001/addSection", jsonObj)
@@ -142,14 +156,14 @@ function SectionPopup(props) {
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               {/* <div className="idfield"> */}
               <CssTextField
-                label="Status"
+                label="State"
                 select
                 id="fullWidth"
                 required
                 value={isAssemble}
                 onChange={(e) => setIsAssemble(e.target.value)}
               >
-                {statuses.map((option) => (
+                {states.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>
@@ -169,6 +183,23 @@ function SectionPopup(props) {
                 {listComponentActive.map((component) => (
                   <MenuItem key={component.componentId} value={component.componentId}>
                     {component.componentName}
+                  </MenuItem>
+                ))}
+              </CssTextField>
+              {/* </div> */}
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              {/* <div className="idfield"> */}
+              <CssTextField
+                label="Status"
+                select
+                id="fullWidth"
+                required
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+              >
+                {statuses.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
                   </MenuItem>
                 ))}
               </CssTextField>

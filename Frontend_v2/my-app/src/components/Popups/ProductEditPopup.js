@@ -19,8 +19,8 @@ const statuses = [
     label: "Active",
   },
   {
-    value: "Inactive",
-    label: "Inactive",
+    value: "Unactive",
+    label: "Unactive",
   },
 ];
 
@@ -175,6 +175,7 @@ function ProductEditPopup(props) {
         })
       }).finally(() => {
         handleCancelClick();
+        delay(function () { window.location.reload(); }, 1000);
       })
   };
 
@@ -200,7 +201,7 @@ function ProductEditPopup(props) {
     setStatus(props.data.status);
     setListProductComponent(props.productCompos);
     setDescription(props.data.description);
-    handleClose();
+    props.setOpen(false);
   };
 
   return props.IsOpen ? (
@@ -282,7 +283,7 @@ function ProductEditPopup(props) {
                   select
                   id="fullWidth"
                   required
-                  value={status === "Active" ? "Active" : "Unactive"}
+                  value={status}
                   onChange={(e) => setStatus(e.target.value)}
                   helperText="Choose product status"
                 >

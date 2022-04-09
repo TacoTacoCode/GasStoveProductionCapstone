@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../../App.css";
+import { FaClipboardList, FaPlus } from 'react-icons/fa';
+import { AiFillFileExcel } from 'react-icons/ai';
 import { ImportExcelButton } from "../../button/ImportExcelButton";
 import { Table } from "../../tabledata/ComponentsTable";
 import ComponentPopup from "../../Popups/ComponentPopup";
@@ -40,7 +42,11 @@ function Components() {
           setImportFile(true);
         }}
       >
-        Import Component File
+        <div>
+          <AiFillFileExcel size={24} style={{ verticalAlign: "middle" }} />
+          &ensp;
+          <text style={{ verticalAlign: "middle" }}>Import Component File</text>
+        </div>
       </ImportExcelButton>
       <ImportFilePopup
         trigger={importFile}
@@ -55,7 +61,11 @@ function Components() {
           setAddcomponentBtn(true);
         }}
       >
-        Add Component
+        <div>
+          <FaPlus size={24} style={{ verticalAlign: "middle" }} />
+          &ensp;
+          <text style={{ verticalAlign: "middle" }}>Add Component</text>
+        </div>
       </ImportExcelButton>
       <ComponentPopup trigger={addcomponentBtn} setTrigger={setAddcomponentBtn} setSubmittedTime={() => {
         setNewDataSubmitted((prev) => prev + 1);

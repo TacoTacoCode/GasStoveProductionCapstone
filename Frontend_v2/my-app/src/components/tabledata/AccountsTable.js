@@ -18,19 +18,39 @@ export const Table = (props) => {
   }, []);
 
   function deleteAccount(id) {
-    axios
-      .put("https://localhost:5001/delAccount/" + id)
-      .then((response) => {
-        swal("Success", "Delete account successfully", "success", {
-          buttons: false,
-          timer: 2000,
-        });
-      })
-      .catch((err) => {
-        swal("Error", "Something went wrong", "error", {
-          buttons: false,
-          timer: 2000,
-        });
+    swal({
+      title: "Are you sure to delete this account?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          try {
+            axios
+              .put("https://localhost:5001/delAccount/" + id)
+              .then((response) => {
+                swal("Success", "Delete account successfully", "success", {
+                  buttons: false,
+                  timer: 2000,
+                });
+              })
+              .catch((err) => {
+                swal("Error", "Something went wrong", "error", {
+                  buttons: false,
+                  timer: 2000,
+                });
+              });
+          } catch (error) {
+            console.log(error);
+          }
+          delay(function () { window.location.reload(); }, 1000);
+        } else {
+          swal({
+            title: "Your account is safe!",
+            icon: "info",
+          });
+        }
       });
   }
 
@@ -99,6 +119,14 @@ export const Table = (props) => {
     setOpen(true);
   }
 
+  var delay = (function () {
+    var timer = 0;
+    return function (callback, ms) {
+      clearTimeout(timer);
+      timer = setTimeout(callback, ms);
+    };
+  })();
+
   return (
     <React.Fragment>
       <MaterialTable
@@ -111,7 +139,6 @@ export const Table = (props) => {
             tooltip: "Delete User",
             onClick: (event, rowData) => {
               deleteAccount(rowData.accountId);
-              window.location.reload();
             },
             disabled: (rowData.isActive == false)
           }),

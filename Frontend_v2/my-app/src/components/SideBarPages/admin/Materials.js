@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../../App.css";
+import { FaClipboardList, FaPlus } from 'react-icons/fa';
+import { AiFillFileExcel } from 'react-icons/ai';
 import { ImportExcelButton } from "../../button/ImportExcelButton";
 import { Table } from "../../tabledata/MaterialTable";
 import MaterialPopup from "../../Popups/MaterialPopup";
@@ -38,7 +40,11 @@ function Materials() {
           setImportFile(true);
         }}
       >
-        Import Material File
+        <div>
+          <AiFillFileExcel size={24} style={{ verticalAlign: "middle" }} />
+          &ensp;
+          <text style={{ verticalAlign: "middle" }}>Import Material File</text>
+        </div>
       </ImportExcelButton>
       <ImportFilePopup
         trigger={importFile}
@@ -53,7 +59,11 @@ function Materials() {
           setaddmaterialBtn(true);
         }}
       >
-        Add Material
+        <div>
+          <FaPlus size={24} style={{ verticalAlign: "middle" }} />
+          &ensp;
+          <text style={{ verticalAlign: "middle" }}>Add Material</text>
+        </div>
       </ImportExcelButton>
       <MaterialPopup
         trigger={addmaterialBtn}

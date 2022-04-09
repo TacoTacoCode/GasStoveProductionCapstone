@@ -39,8 +39,8 @@ const statuses = [
     label: "Active",
   },
   {
-    value: "Inactive",
-    label: "Inactive",
+    value: "Unactive",
+    label: "Unactive",
   },
 ];
 
@@ -258,7 +258,7 @@ function ProductPopup(props) {
                   select
                   id="fullWidth"
                   required
-                  value={status === "Active" ? "Active" : "Unactive"}
+                  value={status}
                   onChange={(e) => setStatus(e.target.value)}
                   helperText="Choose product status"
                 >

@@ -20,7 +20,7 @@ const statuses = [
   },
   {
     value: false,
-    label: "Inactive",
+    label: "Unactive",
   },
 ];
 
@@ -181,15 +181,15 @@ function AccountEditPopup(props) {
           button: false,
           timer: 2000,
         });
-        handleCancelClick();
       })
       .catch((err) => {
         swal("Error", "Update account failed", "error", {
           button: false,
           timer: 2000,
         });
-        handleCancelClick();
+
       }).finally(() => {
+        handleCancelClick();
         handleDelay();
       });
   };

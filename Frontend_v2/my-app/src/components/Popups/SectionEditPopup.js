@@ -13,7 +13,7 @@ import { alpha, styled } from "@mui/material/styles";
 import axios from "axios";
 import swal from "sweetalert";
 
-const statuses = [
+const states = [
   {
     value: true,
     label: "Assembled",
@@ -21,6 +21,17 @@ const statuses = [
   {
     value: false,
     label: "Not Assembled Yet",
+  },
+];
+
+const statuses = [
+  {
+    value: "Active",
+    label: "Active",
+  },
+  {
+    value: "Unactive",
+    label: "Unactive",
   },
 ];
 
@@ -45,14 +56,11 @@ const CssTextField = styled(TextField)({
   },
 });
 
-function createData(componentId, componentName, amount) {
-  return { componentId, componentName, amount };
-}
-
 function SectionEditPopup(props) {
   const [sectionLeaderId, setSectionLeaderId] = useState({ ...props.data.sectionLeadId });
   const [componentId, setComponentId] = useState({ ...props.data.componentId });
   const [isAssemble, setIsAssemble] = useState({ ...props.data.isAssemble });
+  const [status, setStatus] = useState({ ...props.data.status });
 
   const [listComponentActive, setComponentList] = useState([]);
   const [listAccountActive, setAccountList] = useState([]);
@@ -70,6 +78,10 @@ function SectionEditPopup(props) {
   }, [props.data.isAssemble])
 
   useEffect(() => {
+    setStatus(props.data.status);
+  }, [props.data.status])
+
+  useEffect(() => {
     axios.get("https://localhost:5001/getComponents/Active").then((res) => {
       setComponentList(res.data);
     });
@@ -85,7 +97,8 @@ function SectionEditPopup(props) {
       sectionLeadId: sectionLeaderId,
       componentId,
       workerAmount: props.data.workerAmount,
-      isAssemble
+      isAssemble,
+      status
     };
     axios
       .put("https://localhost:5001/updateSection", jsonObj)
@@ -160,14 +173,14 @@ function SectionEditPopup(props) {
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               {/* <div className="idfield"> */}
               <CssTextField
-                label="Status"
+                label="State"
                 select
                 id="fullWidth"
                 required
                 value={isAssemble}
                 onChange={(e) => setIsAssemble(e.target.value)}
               >
-                {statuses.map((option) => (
+                {states.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>
@@ -187,6 +200,23 @@ function SectionEditPopup(props) {
                 {listComponentActive.map((component) => (
                   <MenuItem key={component.componentId} value={component.componentId}>
                     {component.componentName}
+                  </MenuItem>
+                ))}
+              </CssTextField>
+              {/* </div> */}
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              {/* <div className="idfield"> */}
+              <CssTextField
+                label="Status"
+                select
+                id="fullWidth"
+                required
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+              >
+                {statuses.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
                   </MenuItem>
                 ))}
               </CssTextField>

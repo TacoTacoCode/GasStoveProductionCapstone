@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../../App.css";
+import { FaClipboardList, FaPlus } from 'react-icons/fa';
+import { AiFillFileExcel } from 'react-icons/ai';
 import { ImportExcelButton } from "../../button/ImportExcelButton";
 import { Table } from "../../tabledata/ProductsTable";
 import ProductPopup from "../../Popups/ProductPopup";
@@ -40,7 +42,11 @@ function Products() {
           setImportFile(true);
         }}
       >
-        Import Product File
+        <div>
+          <AiFillFileExcel size={24} style={{ verticalAlign: "middle" }} />
+          &ensp;
+          <text style={{ verticalAlign: "middle" }}>Import Product File</text>
+        </div>
       </ImportExcelButton>
       <ImportFilePopup
         trigger={importFile}
@@ -55,17 +61,12 @@ function Products() {
           setaddProductBtn(true);
         }}
       >
-        Add Product
+        <div>
+          <FaPlus size={24} style={{ verticalAlign: "middle" }} />
+          &ensp;
+          <text style={{ verticalAlign: "middle" }}>Add Product</text>
+        </div>
       </ImportExcelButton>
-      <MaterialPopup
-        trigger={addProductBtn}
-        setTrigger={setaddProductBtn}
-        setSubmittedTime={() => {
-          setNewDataSubmitted((prev) => prev + 1);
-        }}
-      >
-        <h3 className="popuptitle">Add a product</h3>
-      </MaterialPopup>
       <ProductPopup
         trigger={addProductBtn}
         setTrigger={setaddProductBtn}

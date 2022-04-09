@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../../App.css";
+import { FaClipboardList, FaPlus } from 'react-icons/fa';
 import { ImportExcelButton } from "../../button/ImportExcelButton";
 import { Table } from "../../tabledata/SectionTable";
 import axios from "axios";
@@ -39,7 +40,11 @@ function Sections() {
           setaddSectionBtn(true);
         }}
       >
-        Add Section
+        <div>
+          <FaPlus size={24} style={{ verticalAlign: "middle" }} />
+          &ensp;
+          <text style={{ verticalAlign: "middle" }}>Add Section</text>
+        </div>
       </ImportExcelButton>
       <SectionPopup
         trigger={addSectionBtn}

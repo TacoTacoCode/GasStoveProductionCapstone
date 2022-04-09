@@ -18,19 +18,39 @@ export const Table = (props) => {
   });
 
   function deleteMaterial(id) {
-    axios
-      .put("https://localhost:5001/delMaterial/" + id)
-      .then((res) => {
-        swal("Success", "Delete material successfully", "success", {
-          button: false,
-          timer: 2000,
-        });
-      })
-      .catch((err) => {
-        swal("Error", "Update material failed", "error", {
-          button: false,
-          timer: 2000,
-        });
+    swal({
+      title: "Are you sure to delete this material?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          try {
+            axios
+              .put("https://localhost:5001/delMaterial/" + id)
+              .then((res) => {
+                swal("Success", "Delete Material successfully", "success", {
+                  button: false,
+                  timer: 2000,
+                });
+              })
+              .catch((err) => {
+                swal("Error", "Update Material failed", "error", {
+                  button: false,
+                  timer: 2000,
+                });
+              });
+          } catch (error) {
+            console.log(error);
+          }
+          delay(function () { window.location.reload(); }, 1000);
+        } else {
+          swal({
+            title: "Your Material is safe!",
+            icon: "info",
+          });
+        }
       });
   }
 
@@ -68,7 +88,7 @@ export const Table = (props) => {
       title: "Status",
       field: "status",
       render:
-        rowData => (rowData.status == 'Inactive')
+        rowData => (rowData.status == 'Unactive')
           ? <IconContext.Provider value={{ color: "red", className: "global-class-name" }}>
             <div>
               <AiFillCloseCircle size={40} />
@@ -91,6 +111,14 @@ export const Table = (props) => {
     setOpen(true);
   }
 
+  var delay = (function () {
+    var timer = 0;
+    return function (callback, ms) {
+      clearTimeout(timer);
+      timer = setTimeout(callback, ms);
+    };
+  })();
+
   return (
     <React.Fragment>
       <MaterialTable
@@ -103,9 +131,8 @@ export const Table = (props) => {
             tooltip: "Delete Material",
             onClick: (event, rowData) => {
               deleteMaterial(rowData.materialId);
-              window.location.reload();
             },
-            disabled: (rowData.isActive == false)
+            disabled: (rowData.status == 'Unactive')
           }),
           {
             icon: "edit",

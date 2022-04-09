@@ -16,7 +16,7 @@ const statuses = [
   },
   {
     value: false,
-    label: 'Inactive'
+    label: 'Unactive'
   }
 ]
 
