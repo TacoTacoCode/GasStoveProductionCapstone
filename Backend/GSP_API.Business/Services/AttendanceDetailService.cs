@@ -33,11 +33,20 @@ namespace GSP_API.Business.Services
 
         public async Task<List<AttendanceDetail>> GetAttendanceDetail(int accountId, DateTime date)
         {
-            var attendace = await _attendanceRepository.FindFirst(e => e.AccountId == accountId && e.CheckDate.Equals(date));
-            if (attendace == null)
+            try
+            {
+                var attendace = await _attendanceRepository.FindFirst(e => e.AccountId == accountId 
+                                                                    && (e.CheckDate.Equals(date) 
+                                                                    || e.CheckDate.Equals(date.AddMonths(-1))));
+                if (attendace == null)
+                    return new List<AttendanceDetail>();
+                var data = await _attendanceDetailRepository.GetAll(p => p.AttendanceId == attendace.AttendanceId);
+                return data;
+            }
+            catch (Exception ex)
+            {
                 return null;
-            var data = await _attendanceDetailRepository.GetAll(p => p.AttendanceId == attendace.AttendanceId);
-            return data;
+            }
 
         }
 

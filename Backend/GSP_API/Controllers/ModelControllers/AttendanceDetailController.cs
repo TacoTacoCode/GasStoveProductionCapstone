@@ -60,7 +60,7 @@ namespace GSP_API.Controllers.ModelControllers
             var data = await _attendanceDetailService.GetAttendanceDetail(accountId, date);
             if (data == null)
             {
-                return BadRequest("Not found");
+                return BadRequest("ERROR!!!");
             }
             var attendanceDetail = _mapper.Map<List<AttendanceDetailResponse>>(data);
             return Ok(attendanceDetail);
