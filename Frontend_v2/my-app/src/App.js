@@ -21,6 +21,7 @@ import Panel from './components/SideBarPages/sectiondepartment/SectionCompo/Pane
 import ImportForm from './components/SideBarPages/sectiondepartment/SectionCompo/ImportForm';
 import { ImportCompo } from './components/SideBarPages/sectiondepartment/SectionAssemble/ImportCompo';
 import { ExportCompo } from './components/SideBarPages/sectiondepartment/SectionAssemble/ExportCompo';
+import { Attendance } from './components/SideBarPages/sectiondepartment/Attendance';
 
 const theme = createTheme({
   App: {
@@ -84,6 +85,7 @@ function App() {
             <Route path='/section/importElement' exact element={< ImportForm />}></Route>
             <Route path='/section/importCompo' exact element={< ImportCompo />}></Route>
             <Route path='/section/exportCompo' exact element={< ExportCompo />}></Route>
+            <Route path='/section/attendance' exact element={< Attendance />}></Route>
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

@@ -407,6 +407,10 @@ namespace GSP_API.Domain.Repositories
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Status)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.HasOne(d => d.Component)
                     .WithMany(p => p.Sections)
                     .HasForeignKey(d => d.ComponentId)

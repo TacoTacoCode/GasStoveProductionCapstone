@@ -11,7 +11,7 @@ namespace GSP_API.Models.Response
         public string ComponentId { get; set; }
         public int? WorkerAmount { get; set; }
         public bool? IsAssemble { get; set; }
-
+        public string Status { get; set; }
 
         //[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         //public virtual Component Component { get; set; }

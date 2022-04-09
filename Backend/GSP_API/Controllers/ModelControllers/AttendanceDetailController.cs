@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace GSP_API.Controllers.ModelControllers
 {
@@ -49,6 +50,19 @@ namespace GSP_API.Controllers.ModelControllers
                 return BadRequest("Not found");
             }
             var attendanceDetail = _mapper.Map<AttendanceDetailResponse>(data);
+            return Ok(attendanceDetail);
+        }
+
+        [HttpGet]
+        [Route("getAttendanceDetails/{accountId}/{date}")]
+        public async Task<ActionResult<AttendanceDetailResponse>> GetAttendanceDetails(int accountId, DateTime date)
+        {
+            var data = await _attendanceDetailService.GetAttendanceDetail(accountId, date);
+            if (data == null)
+            {
+                return BadRequest("Not found");
+            }
+            var attendanceDetail = _mapper.Map<List<AttendanceDetailResponse>>(data);
             return Ok(attendanceDetail);
         }
 
