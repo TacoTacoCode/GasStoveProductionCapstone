@@ -4,12 +4,14 @@ import { ImportExcelButton } from "../../button/ImportExcelButton";
 import { Table } from "../../tabledata/ComponentsTable";
 import ComponentPopup from "../../Popups/ComponentPopup";
 import axios from "axios";
+import ImportFilePopup from "../../Popups/ImportFilePopup";
 
 function Components() {
   useEffect(() => {
     document.title = "UFA - Manage Components"
   }, []);
 
+  const [importFile, setImportFile] = useState(false);
   const [addcomponentBtn, setAddcomponentBtn] = useState(false);
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
   const [listComponent, setListComponent] = useState([]);
@@ -32,6 +34,21 @@ function Components() {
 
   return (
     <>
+      <ImportExcelButton
+        type="button"
+        onClick={() => {
+          setImportFile(true);
+        }}
+      >
+        Import Component File
+      </ImportExcelButton>
+      <ImportFilePopup
+        trigger={importFile}
+        setTrigger={setImportFile}
+        dataType="component"
+      >
+        <h3 className="popuptitle">Import Component File</h3>
+      </ImportFilePopup>
       <ImportExcelButton
         type="button"
         onClick={() => {

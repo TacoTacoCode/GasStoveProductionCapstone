@@ -4,6 +4,7 @@ import { ImportExcelButton } from "../../button/ImportExcelButton";
 import { Table } from "../../tabledata/AccountsTable";
 import AccountPopup from "../../Popups/AccountPopup";
 import axios from "axios";
+import ImportFilePopup from "../../Popups/ImportFilePopup";
 
 function Accounts() {
   useEffect(() => {
@@ -11,6 +12,7 @@ function Accounts() {
   }, []);
 
   const [addAccountBtn, setaddAccountBtn] = useState(false);
+  const [importFile, setImportFile] = useState(false);
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
   //biến này giúp tải lại dữ liệu mà không cần load lại trang (khi update data)
   const [listAccount, setListAccount] = useState([]);
@@ -30,8 +32,22 @@ function Accounts() {
       });
   }, [newDataSubmitted]);
   return (
-    //hieulam
     <>
+      <ImportExcelButton
+        type="button"
+        onClick={() => {
+          setImportFile(true);
+        }}
+      >
+        Import Account File
+      </ImportExcelButton>
+      <ImportFilePopup
+        trigger={importFile}
+        setTrigger={setImportFile}
+        dataType="account"
+      >
+        <h3 className="popuptitle">Import Account File</h3>
+      </ImportFilePopup>
       <ImportExcelButton
         type="button"
         onClick={() => {

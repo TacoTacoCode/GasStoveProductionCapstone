@@ -4,6 +4,7 @@ import { ImportExcelButton } from "../../button/ImportExcelButton";
 import { Table } from "../../tabledata/MaterialTable";
 import MaterialPopup from "../../Popups/MaterialPopup";
 import axios from "axios";
+import ImportFilePopup from "../../Popups/ImportFilePopup";
 
 function Materials() {
   useEffect(() => {
@@ -12,6 +13,7 @@ function Materials() {
 
   const [addmaterialBtn, setaddmaterialBtn] = useState(false);
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
+  const [importFile, setImportFile] = useState(false);
   const [listMaterial, setListMaterial] = useState([]);
 
   useEffect(() => {
@@ -30,6 +32,21 @@ function Materials() {
 
   return (
     <>
+      <ImportExcelButton
+        type="button"
+        onClick={() => {
+          setImportFile(true);
+        }}
+      >
+        Import Material File
+      </ImportExcelButton>
+      <ImportFilePopup
+        trigger={importFile}
+        setTrigger={setImportFile}
+        dataType="material"
+      >
+        <h3 className="popuptitle">Import Material File</h3>
+      </ImportFilePopup>
       <ImportExcelButton
         type="button"
         onClick={() => {

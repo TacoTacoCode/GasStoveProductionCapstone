@@ -4,6 +4,8 @@ import { ImportExcelButton } from "../../button/ImportExcelButton";
 import { Table } from "../../tabledata/ProductsTable";
 import ProductPopup from "../../Popups/ProductPopup";
 import axios from "axios";
+import ImportFilePopup from "../../Popups/ImportFilePopup";
+import MaterialPopup from "../../Popups/MaterialPopup";
 
 function Products() {
   useEffect(() => {
@@ -12,6 +14,7 @@ function Products() {
 
   const [addProductBtn, setaddProductBtn] = useState(false);
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
+  const [importFile, setImportFile] = useState(false);
   const [listProduct, setListProduct] = useState([]);
 
   useEffect(() => {
@@ -34,11 +37,35 @@ function Products() {
       <ImportExcelButton
         type="button"
         onClick={() => {
+          setImportFile(true);
+        }}
+      >
+        Import Product File
+      </ImportExcelButton>
+      <ImportFilePopup
+        trigger={importFile}
+        setTrigger={setImportFile}
+        dataType="product"
+      >
+        <h3 className="popuptitle">Import Product File</h3>
+      </ImportFilePopup>
+      <ImportExcelButton
+        type="button"
+        onClick={() => {
           setaddProductBtn(true);
         }}
       >
         Add Product
       </ImportExcelButton>
+      <MaterialPopup
+        trigger={addProductBtn}
+        setTrigger={setaddProductBtn}
+        setSubmittedTime={() => {
+          setNewDataSubmitted((prev) => prev + 1);
+        }}
+      >
+        <h3 className="popuptitle">Add a product</h3>
+      </MaterialPopup>
       <ProductPopup
         trigger={addProductBtn}
         setTrigger={setaddProductBtn}
