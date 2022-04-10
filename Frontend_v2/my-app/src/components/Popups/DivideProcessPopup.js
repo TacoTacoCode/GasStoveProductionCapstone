@@ -51,7 +51,7 @@ function DivideProcessPopup(props) {
                             <ImportExcelButton type="button" className="btnDivide" onClick={() => {
                                 var splitArray = numberOfProcess.split(',').map((e) =>
                                     parseInt(e.trim()))
-                                navigate('/divideProcessTabs', { state: splitArray })
+                                navigate('/divideProcessTabs', { state: splitArray})
                             }
                             }>Submit</ImportExcelButton>
                         </form>

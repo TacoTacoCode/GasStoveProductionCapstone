@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import '../NonSideBarPage/process.css'
 import { Box, TextField } from '@material-ui/core';
-import { List, Typography } from '@mui/material';
+import { InputAdornment, List, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { ImportExcelButton } from '../button/ImportExcelButton';
 import axios from 'axios';
@@ -15,6 +15,7 @@ import '../Tabs/tabs.css'
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import MaterialTable from 'material-table';
 function DivideProcessTabs() {
     const CssTextField = styled(TextField)({
         width: "100%",
@@ -40,6 +41,15 @@ function DivideProcessTabs() {
     const location = useLocation();
     const arr = location.state;
     var process = JSON.parse(localStorage['process'])
+    var orderDetail = JSON.parse(localStorage.getItem('orderDetail'))
+    var listComponent = JSON.parse(localStorage.getItem('listComponent'))
+        .map((e) =>
+            e.data
+        )
+    console.log(listComponent[0].componentName);
+
+
+    console.log(orderDetail.totalAmount);
     var listProcesses = [];
 
     const [listProcessTest, setListProcessTest] = useState([...arr]);
@@ -93,20 +103,59 @@ function DivideProcessTabs() {
         setListProcess(newArr);
     }
 
+    const [tableData, setTableData] = useState([])
+
     useEffect(() => {
         axios.post('https://localhost:5001/distribute', {
             "process": process,
             "ProcessAmmounts": arr,
         })
             .then((response) => {
-                //setListProcessTest(response.data);
-                // localStorage.setItem("listProcess", JSON.stringify(response.data));
                 setListProcess(response.data)
+
             }
             ).catch((err) => {
                 console.log(err);
             })
     }, [])
+
+    // useEffect(() => {
+    //     let datas = []
+    //     listComponent.map((e, index) =>
+    //         //  console.log(listProcess[index].totalAmount)
+    //         datas.push({
+    //             "componentName": listComponent[index].componentName ?? 'Assemble Section',
+    //             "totalAmount": listProcess[index].totalAmount,
+    //             "expiryDate": listProcess[index].expiryDate
+    //         })
+    //     )
+    //     setTableData(datas)
+    // })
+
+    // useEffect(() => {
+    //     let datas = []
+    //     let promises = listComponent.map((e, index) =>
+    //         axios.post('https://localhost:5001/distribute', {
+    //             "process": process,
+    //             "ProcessAmmounts": arr,
+    //         }).then((response) => {
+    //             setListProcess(response.data)
+    //         })
+    //     )
+    //     Promise.all(promises).then((e) => {
+    //         console.log(listProcess[0].processDetails[0].totalAmount);
+    //         e.map((ele, index) =>
+    //             datas.push({
+    //                 "componentName": listComponent[index].componentName ?? 'Assemble Section',
+    //                 "totalAmount": listProcess[index].processDetails[index].totalAmount,
+    //                 "expiryDate": listProcess[index].processDetails[index].expiryDate
+    //             })
+    //         )
+    //     }
+    //     ).then(() => {
+    //         setTableData(datas)
+    //     })
+    // }, [])
 
     const handleSave = (e) => {
         e.preventDefault();
@@ -123,9 +172,37 @@ function DivideProcessTabs() {
             })
     };
 
+
+    // useEffect(() => {
+    //     let datas = []
+    //     listComponent.map((e, index) =>
+    //       //  console.log(listProcess[index].totalAmount)
+    //         datas.push({
+    //             "componentName": listComponent[index].componentName ?? 'Assemble Section',
+    //             "totalAmount": listProcess[index].totalAmount,
+    //             "expiryDate": listProcess[index].expiryDate
+    //         })
+    //     )
+    //     setTableData(datas)
+    // }, [])
+
+
+    const columns = [
+        {
+            title: 'Component Name', field: 'componentName', cellStyle: { fontFamily: 'Muli', width: "25%" }, align: 'left'
+        },
+        {
+            title: 'Total Amount', field: 'totalAmount', cellStyle: { fontFamily: 'Muli', width: "25%" }, align: 'left'
+        },
+        {
+            title: 'Expiry Date', field: 'expiryDate', cellStyle: { fontFamily: 'Muli', width: "25%" }, align: 'left'
+        },
+    ]
+
     return (
         // listProcesses = JSON.parse(localStorage.getItem("listProcess")),
         <>
+            <div style={{marginBottom: '3%'}}><ImportExcelButton type='submit' onClick={(e) => handleSave(e)}>Submit</ImportExcelButton></div>
             <div className="container">
                 <div className="bloc-tabs">
                     {arr.map((e, index) => (
@@ -144,28 +221,39 @@ function DivideProcessTabs() {
                             className={toggleState === (index + 1) ? "content  active-content" : "content"}
                         >
                             <h2>Sub Process {index + 1}</h2>
+                           
                             <hr />
                             <div className='number'>
                                 <div className='divnum'>
-                                    <CssTextField variant="outlined" className='numberfield' type='number' label={'Total Amount ' + `${index + 1}`}
+                                    <CssTextField variant="outlined" className='numberfield' type='number' label={'Total Amount'}
                                         defaultValue={listProcess[index] === undefined ? 0 : listProcess[index].totalAmount}
                                         onBlur={(e) =>
                                             updateTotalAmountChanged(e, index)
                                         }
+                                        InputProps={{
+                                            endAdornment: <InputAdornment position="end">Unit</InputAdornment>,
+                                        }}
                                     /></div>
                                 <div className='divnum'>
-                                    <CssTextField variant="outlined" className='numberfield' type='number' label={'Needed Amount ' + `${index + 1}`}
+                                    <CssTextField variant="outlined" className='numberfield' type='number' label={'Needed Amount'}
                                         defaultValue={listProcess[index] === undefined ? 0 : listProcess[index].neededAmount}
                                         onBlur={(e) =>
                                             updateNeededAmountChanged(e, index)
                                         }
+                                        InputProps={{
+                                            endAdornment: <InputAdornment position="end">Unit</InputAdornment>,
+                                        }}
                                     /></div>
                                 <div className='divnum'>
-                                    <CssTextField variant="outlined" color='secondary' className='numberfield' type='number' label={'Finished Amount ' + `${index + 1}`}
-                                        defaultValue={listProcess[index] === undefined ? 0 : listProcess[index].finishedAmount}
+                                    <CssTextField variant="outlined" color='secondary' className='numberfield' type='number' label={'Finished Amount'}
+                                        //defaultValue={listProcess[index] === undefined ? 0 : listProcess[index].finishedAmount}
+                                        defaultValue={orderDetail.finishedAmount}
                                         onBlur={(e) =>
                                             updateFinishedAmountChanged(e, index)
                                         }
+                                        InputProps={{
+                                            endAdornment: <InputAdornment position="end">Unit</InputAdornment>,
+                                        }}
                                     />
                                 </div>
                             </div>
@@ -173,8 +261,9 @@ function DivideProcessTabs() {
                                 <div className='divdate'>
                                     <LocalizationProvider dateAdapter={AdapterDateFns}><DatePicker
                                         inputFormat="MM/dd/yyyy"
-                                        defaultValue={listProcess[index] === undefined ? 0 : listProcess[index].createdDate}
-                                        value={listProcess[index] === undefined ? 0 : listProcess[index].createdDate}
+                                        //defaultValue={listProcess[index] === undefined ? 0 : listProcess[index].createdDate}
+                                        value={orderDetail.createdDate}
+                                        //value={listProcess[index] === undefined ? 0 : listProcess[index].createdDate}
                                         onChange={(date) => updateCreatedDateChanged(index, date)}
                                         renderInput={(params) => <CssTextField color='secondary' className='datefield' helperText="Created Date"
                                             variant="outlined" {...params} />}
@@ -183,8 +272,9 @@ function DivideProcessTabs() {
                                 <div className='divdate'>
                                     <LocalizationProvider dateAdapter={AdapterDateFns}><DatePicker
                                         inputFormat="MM/dd/yyyy"
-                                        defaultValue={listProcess[index] === undefined ? 0 : listProcess[index].expiryDate}
-                                        value={listProcess[index] === undefined ? 0 : listProcess[index].expiryDate}
+                                        value={orderDetail.expiryDate}
+                                        //defaultValue={listProcess[index] === undefined ? 0 : listProcess[index].expiryDate}
+                                        //value={listProcess[index] === undefined ? 0 : listProcess[index].expiryDate}
                                         onChange={(date) => updateExpiryDateChanged(index, date)}
                                         renderInput={(params) => <CssTextField color='secondary' className='datefield' helperText="Expiry Date"
                                             variant="outlined" {...params} />}
@@ -195,8 +285,9 @@ function DivideProcessTabs() {
                                 <div className='divdate'>
                                     <LocalizationProvider dateAdapter={AdapterDateFns}><DatePicker
                                         inputFormat="MM/dd/yyyy"
-                                        defaultValue={listProcess[index] === undefined ? 0 : listProcess[index].finishedDate}
-                                        value={listProcess[index] === undefined ? 0 : listProcess[index].finishedDate}
+                                        value={orderDetail.finishedDate}
+                                        //defaultValue={listProcess[index] === undefined ? 0 : listProcess[index].finishedDate}
+                                        //value={listProcess[index] === undefined ? 0 : listProcess[index].finishedDate}
                                         onChange={(date) => updateFinishedDateChanged(index, date)}
                                         renderInput={(params) => <CssTextField color='secondary' className='datefield' helperText="Finished Date"
                                             variant="outlined" {...params} />}
@@ -205,20 +296,48 @@ function DivideProcessTabs() {
                                 <div className='divdate'>
                                     <LocalizationProvider dateAdapter={AdapterDateFns}><DatePicker
                                         inputFormat="MM/dd/yyyy"
-                                        defaultValue={listProcess[index] === undefined ? 0 : listProcess[index].expectedFinishDate}
-                                        value={listProcess[index] === undefined ? 0 : listProcess[index].expectedFinishDate}
+                                        value={orderDetail.expectedFinishDate}
+                                        //defaultValue={listProcess[index] === undefined ? 0 : listProcess[index].expectedFinishDate}
+                                        //value={listProcess[index] === undefined ? 0 : listProcess[index].expectedFinishDate}
                                         onChange={(date) => updateExpectedFinishDateChanged(index, date)}
                                         renderInput={(params) => <CssTextField color='secondary' className='datefield' helperText="Expected Finished Date"
                                             variant="outlined" {...params} />}
                                     /></LocalizationProvider>
                                 </div>
                             </div>
+                            <div className='processDetailTable'>
+                                <MaterialTable title={"Process Details"}
+                                    data={tableData}
+                                    columns={columns}
+
+                                    editable={{
+                                        onRowUpdate: (newData, oldData) =>
+                                            new Promise((resolve, reject) => {
+                                                setTimeout(() => {
+                                                    {
+                                                        const data = [...tableData];
+                                                        const index = data.indexOf(oldData);
+                                                        data[index] = newData;
+                                                        setTableData(data)
+                                                    }
+                                                    resolve();
+                                                }, 500);
+                                            }),
+                                    }}
+
+                                    options={{
+                                        addRowPosition: 'first',
+                                        actionsColumnIndex: -1,
+                                        exportButton: false,
+                                        headerStyle: { backgroundColor: '#E30217', color: '#fff' }
+                                    }} />
+                            </div>
                         </div>
 
                     ))}
                 </div>
             </div>
-            <ImportExcelButton type='submit' onClick={(e) => handleSave(e)}>Submit</ImportExcelButton>
+          
         </>
     )
 }

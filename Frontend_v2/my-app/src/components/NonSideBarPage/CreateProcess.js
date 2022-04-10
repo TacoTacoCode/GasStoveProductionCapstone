@@ -20,6 +20,34 @@ import MaterialTable from 'material-table';
 import ProcessDetailTable from '../tabledata/ProcessDetailTable';
 
 function CreateProcess() {
+
+    // const styles = theme => ({
+    //     width: "100%",
+    //     "& label.Mui-focused": {
+    //         color: "black",
+    //     },
+    //     "& .MuiInput-underline:after": {
+    //         borderBottomColor: "#e30217",
+    //     },
+    //     "& .MuiOutlinedInput-root": {
+    //         "& fieldset": {
+    //             borderColor: "black",
+    //         },
+    //         "&:hover fieldset": {
+    //             borderColor: "#ff4747",
+    //         },
+    //         "&.Mui-focused fieldset": {
+    //             borderColor: "#e30217",
+    //         },
+    //     },
+    // });
+
+    const styles = theme => ({
+        multilineColor: {
+            color: 'red'
+        }
+    });
+
     const CssTextField = styled(TextField)({
         width: "100%",
         "& label.Mui-focused": {
@@ -52,13 +80,17 @@ function CreateProcess() {
         let promises = processDetail.map((e, index) =>
             axios.get('https://localhost:5001/getCompos/sec/' + e.sectionId)
         )
-        Promise.all(promises).then((e) => e.map((ele, index) =>
-            datas.push({
-                "componentName": ele.data.componentName ?? 'Assemble Section',
-                "totalAmount": processDetail[index].totalAmount,
-                "expiryDate": processDetail[index].expiryDate
-            })
-        )).then(() => {
+        Promise.all(promises).then((e) => {
+            localStorage.setItem('listComponent', JSON.stringify(e))
+            e.map((ele, index) =>
+                datas.push({
+                    "componentName": ele.data.componentName ?? 'Assemble Section',
+                    "totalAmount": processDetail[index].totalAmount,
+                    "expiryDate": processDetail[index].expiryDate
+                })
+            )
+        }
+        ).then(() => {
             setTableData(datas)
         })
     }, [])
@@ -82,16 +114,20 @@ function CreateProcess() {
 
 
     const listProcess = [
-        orderDetailId,
-        processId,
-        totalAmount,
-        finishedAmount,
-        neededAmount,
-        createdDate,
-        expectedFinishDate,
-        expiryDate,
-        finishedDate
+        {
+            orderDetailId,
+            processId,
+            totalAmount,
+            finishedAmount,
+            neededAmount,
+            createdDate,
+            expectedFinishDate,
+            expiryDate,
+            finishedDate
+        }
     ]
+
+    console.log(listProcess);
 
     // const [processDetail, setProcessDetail] = useState([]);
 
@@ -113,15 +149,17 @@ function CreateProcess() {
 
     const columns = [
         {
-            title: 'Component Name', field: 'componentName', cellStyle: { fontFamily: 'Muli', width: "10%" }, align: 'left'
+            title: 'Component Name', field: 'componentName', cellStyle: { fontFamily: 'Muli', width: "30%" }, align: 'left'
         },
         {
-            title: 'Total Amount', field: 'totalAmount', cellStyle: { fontFamily: 'Muli', width: "10%" }, align: 'left'
+            title: 'Total Amount', field: 'totalAmount', cellStyle: { fontFamily: 'Muli', width: "30%" }, align: 'left'
         },
         {
-            title: 'Expiry Date', field: 'expiryDate', cellStyle: { fontFamily: 'Muli', width: "15%" }, align: 'left'
+            title: 'Expiry Date', field: 'expiryDate', cellStyle: { fontFamily: 'Muli', width: "30%" }, align: 'left'
         },
     ]
+
+    const classes = styles();
 
     return (
         <>
@@ -130,18 +168,44 @@ function CreateProcess() {
                 noValidate
                 autoComplete="off"
             >
-                <h3 className='h3'>Create Process(s) for Order Detail {process.orderDetailId}</h3>
                 <form className='formm'>
+                    <div style={{ display: 'block', marginBottom: '5%' }}>
+                        <h3 className='h3'>Create Process(s) for Order Detail {process.orderDetailId}</h3>
+                        {localStorage.getItem("orderType") == 'true' ?
+                            <><ImportExcelButton type="button"
+                                onClick={() => {
+                                    localStorage.setItem('orderDetail', JSON.stringify(listProcess[0]));
+                                    console.log(localStorage.getItem('orderDetail'));
+                                    setDivideProcess(true);
+                                }
+                                }>Divide Process</ImportExcelButton>
+                                <DivideProcessPopup
+                                    listProcess={listProcess}
+                                    trigger={divideProcess}
+                                    setTrigger={setDivideProcess}
+                                >
+                                    <h3 className="popuptitle1">Enter the total amount for each sub process, separated by comma.</h3>
+                                </DivideProcessPopup></>
+                            : <ImportExcelButton type="submit"
+                                onClick={(e) => handleSave(e)}>Submit</ImportExcelButton>}
+
+                    </div>
                     <div className='start'>
                         <div className='divprocess'>
-                            <CssTextField
+                            <TextField
+                                inputProps={
+                                    { readOnly: true, }
+                                }
                                 className='processfield'
                                 label="Order Detail Id"
                                 variant="outlined"
                                 defaultValue={process.orderDetailId}
                             /></div>
                         <div className='divprocess'>
-                            <CssTextField
+                            <TextField
+                                inputProps={
+                                    { readOnly: true, }
+                                }
                                 className='processfield'
                                 label="Process Id"
                                 variant="outlined"
@@ -149,34 +213,35 @@ function CreateProcess() {
                     </div>
                     <div className='mid2'>
                         <div className='divprocess'>
-                            <CssTextField
+                            <TextField
                                 type='number'
                                 className='processfield'
                                 label="Total Amount"
                                 variant="outlined"
                                 defaultValue={totalAmount}
-                                onChange={(e) => { setTotalAmount(e.target.value) }}
+                                onChange={(e) => setTotalAmount(e.target.value)}
                                 value={totalAmount}
                                 InputProps={{
                                     endAdornment: <InputAdornment position="end">Unit</InputAdornment>,
                                 }}
                             /></div>
                         <div className='divprocess'>
-                            <CssTextField
+                            <TextField
+                                key={'finishedAmount'}
                                 type='number'
                                 className='processfield'
                                 label="Finished Amount"
                                 variant="outlined"
+                                //value={finishedAmount}
                                 defaultValue={finishedAmount}
                                 onChange={(e) => {
                                     setFinishedAmount(e.target.value)
                                 }}
-                                value={finishedAmount}
                                 InputProps={{
                                     endAdornment: <InputAdornment position="end">Unit</InputAdornment>,
                                 }} /></div>
                         <div className='divprocess'>
-                            <CssTextField
+                            <TextField
                                 type='number'
                                 className='processfield'
                                 label="Needed Amount"
@@ -207,7 +272,7 @@ function CreateProcess() {
                                 defaultValue={expectedFinishDate}
                                 value={expectedFinishDate}
                                 onChange={date => setExpectedFinishDate(date)}
-                                renderInput={(params) => <CssTextField color='secondary' className='datefield' helperText="Expected Finish Date"
+                                renderInput={(params) => <CssTextField color='secondary' className='datefield' helperText="Expected Finished Date"
                                     variant="outlined" {...params} />}
                             /></LocalizationProvider>
                             {/* <CssTextField type='date' className='datefield' variant="outlined" helperText="Expected Finish Date" /> */}
@@ -229,18 +294,31 @@ function CreateProcess() {
                                 defaultValue={finishedDate}
                                 value={finishedDate}
                                 onChange={date => setFinishedDate(date)}
-                                renderInput={(params) => <CssTextField type='date' color='secondary' className='datefield' helperText="Finish Date"
+                                renderInput={(params) => <CssTextField type='date' color='secondary' className='datefield' helperText="Finished Date"
                                     variant="outlined" {...params} />}
                             /></LocalizationProvider>
                             {/* <CssTextField type='date' className='datefield' variant="outlined" helperText="Finished Date" /> */}
                         </div>
                     </div>
-                    {console.log(tableData)}
                     <div className='processDetailTable'>
                         <MaterialTable title={"Process Details"}
                             data={tableData}
                             columns={columns}
 
+                            editable={{
+                                onRowUpdate: (newData, oldData) =>
+                                    new Promise((resolve, reject) => {
+                                        setTimeout(() => {
+                                            {
+                                                const data = [...tableData];
+                                                const index = data.indexOf(oldData);
+                                                data[index] = newData;
+                                                setTableData(data)
+                                            }
+                                            resolve();
+                                        }, 500);
+                                    }),
+                            }}
 
                             options={{
                                 addRowPosition: 'first',
@@ -252,20 +330,7 @@ function CreateProcess() {
 
                     {/* <ProcessDetailTable listProcessDetail={tableData}/> */}
 
-                    {localStorage.getItem("orderType") == 'true' ?
-                        <><ImportExcelButton type="button"
-                            onClick={() => {
-                                setDivideProcess(true);
-                            }
-                            }>Divide Process</ImportExcelButton>
-                            <DivideProcessPopup
-                                trigger={divideProcess}
-                                setTrigger={setDivideProcess}
-                            >
-                                <h3 className="popuptitle1">Enter the total amount for each sub process, separated by comma.</h3>
-                            </DivideProcessPopup></>
-                        : <ImportExcelButton type="submit"
-                            onClick={(e) => handleSave(e)}>Submit</ImportExcelButton>}
+
                 </form>
             </div >
         </>

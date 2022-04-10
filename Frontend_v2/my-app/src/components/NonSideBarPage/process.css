@@ -28,6 +28,7 @@
 }
 
 .h3 {
+    display: inline;
     font-family: 'Muli';
     font-size: 22px;
     color: #e30217;
@@ -78,5 +79,16 @@
 }
 
 .processDetailTable {
+    margin: 4%;
+    margin-top: 6%;
+}
+
+.tableRequestDetails {
+    margin: 2%;
+    margin-top: 3%;
+}
+
+.table {
+    /* margin: 1%; */
     margin-top: 5%;
 }

@@ -17,6 +17,7 @@ import DivideProcessTabs from './components/Tabs/DivideProcessTabs';
 import Profile from './components/SideBarPages/Profile';
 import ProcessDetail from './components/SideBarPages/sectiondepartment/SectionCompo/ProcessDetail';
 import Panel from './components/SideBarPages/sectiondepartment/SectionCompo/Panel';
+import RequestDetail from './components/SideBarPages/admin/RequestDetail';
 
 const theme = createTheme({
   App: {
@@ -76,6 +77,7 @@ function App() {
             <Route path='/divideProcessTabs' exact element={<DivideProcessTabs />}></Route>
             <Route path='/section/processDetail' exact element={< ProcessDetail />}></Route>
             <Route path='/section/exportElement' exact element={< Panel />}></Route>
+            <Route path='/requestDetail' exact element={< RequestDetail />}></Route>
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
