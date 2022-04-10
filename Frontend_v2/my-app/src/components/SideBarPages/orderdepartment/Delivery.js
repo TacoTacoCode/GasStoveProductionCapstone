@@ -155,7 +155,7 @@ function Delivery() {
                             <text style={{ fontWeight: "500" }}>Status: </text>
                             &ensp;
                             <text>{(data.status == 'new')
-                              ? <text style={{ color: 'LIGHTBLUE' }}>NEW</text>
+                              ? <text style={{ color: 'DARKBLUE' }}>NEW</text>
                               : ""}</text>
                           </p>
                         </div>
@@ -195,7 +195,7 @@ function Delivery() {
                             <text style={{ fontWeight: "500" }}>Status: </text>
                             &ensp;
                             <text>{(data.status == 'new')
-                              ? <text style={{ color: 'LIGHTBLUE' }}>NEW</text>
+                              ? <text style={{ color: 'DARKBLUE' }}>NEW</text>
                               : ""}</text>
                           </p>
                         </div>
