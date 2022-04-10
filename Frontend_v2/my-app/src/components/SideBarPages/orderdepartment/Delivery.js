@@ -221,7 +221,7 @@ function Delivery() {
             {listOrderNew.map(data => (
               (data.isShorTerm == true)
                 ?
-                <Card style={{ marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "LIGHTGRAY", borderRadius: "20px" }}>
+                <Card style={{ border: '1px solid red', marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "white", borderRadius: "20px" }}>
                   <Stack
                     direction="row"
                     divider={<Divider orientation="vertical" flexItem />}
@@ -279,7 +279,7 @@ function Delivery() {
                   </Stack>
                 </Card>
                 :
-                <Card style={{ marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "LIGHTGRAY", borderRadius: "20px" }}>
+                <Card style={{ border: '1px solid red', marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "white", borderRadius: "20px" }}>
                   <Stack
                     direction="row"
                     divider={<Divider orientation="vertical" flexItem />}
@@ -353,7 +353,7 @@ function Delivery() {
             {listOrderPreparing.map(data => (
               (data.isShorTerm == true)
                 ?
-                <Card style={{ marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "LIGHTGRAY", borderRadius: "20px" }}>
+                <Card style={{ border: '1px solid red', marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "white", borderRadius: "20px" }}>
                   <Stack
                     direction="row"
                     divider={<Divider orientation="vertical" flexItem />}
@@ -411,7 +411,7 @@ function Delivery() {
                   </Stack>
                 </Card>
                 :
-                <Card style={{ marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "LIGHTGRAY", borderRadius: "20px" }}>
+                <Card style={{ border: '1px solid red', marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "white", borderRadius: "20px" }}>
                   <Stack
                     direction="row"
                     divider={<Divider orientation="vertical" flexItem />}
@@ -485,7 +485,7 @@ function Delivery() {
             {listOrderReady.map(data => (
               (data.isShorTerm == true)
                 ?
-                <Card style={{ marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "LIGHTGRAY", borderRadius: "20px" }}>
+                <Card style={{ border: '1px solid red', marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "white", borderRadius: "20px" }}>
                   <Stack
                     direction="row"
                     divider={<Divider orientation="vertical" flexItem />}
@@ -551,7 +551,7 @@ function Delivery() {
                   </Stack>
                 </Card>
                 :
-                <Card style={{ marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "LIGHTGRAY", borderRadius: "20px" }}>
+                <Card style={{ border: '1px solid red', marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "white", borderRadius: "20px" }}>
                   <Stack
                     direction="row"
                     divider={<Divider orientation="vertical" flexItem />}
@@ -633,7 +633,7 @@ function Delivery() {
             {listOrderDelivered.map(data => (
               (data.isShorTerm == true)
                 ?
-                <Card style={{ marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "LIGHTGRAY", borderRadius: "20px" }}>
+                <Card style={{ border: '1px solid red', marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "white", borderRadius: "20px" }}>
                   <Stack
                     direction="row"
                     divider={<Divider orientation="vertical" flexItem />}
@@ -691,7 +691,7 @@ function Delivery() {
                   </Stack>
                 </Card>
                 :
-                <Card style={{ marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "LIGHTGRAY", borderRadius: "20px" }}>
+                <Card style={{ border: '1px solid red', marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "white", borderRadius: "20px" }}>
                   <Stack
                     direction="row"
                     divider={<Divider orientation="vertical" flexItem />}
