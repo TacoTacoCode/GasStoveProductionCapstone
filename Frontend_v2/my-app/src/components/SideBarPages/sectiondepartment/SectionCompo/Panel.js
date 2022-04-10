@@ -96,7 +96,7 @@ const TransportFlow = () => {
         }
     }
     return (
-        <div className="flow" style={{ margin: "50px 400px 50px 400px" }}>
+        <div className="flow" style={{ margin: "50px 30%" }}>
             <h2 style={{ textAlign: 'center', marginBottom: '32px' }}>{secInfo.isAssemble ? 'Components Request Form' : 'Materials Request Form'}</h2>
             {values.map((element, index) => <>
                 <PointPanel

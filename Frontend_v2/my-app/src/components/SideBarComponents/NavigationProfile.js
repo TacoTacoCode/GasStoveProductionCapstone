@@ -5,6 +5,7 @@ import Avatar from '@mui/material/Avatar';
 class NavigationProfile extends React.Component {
     render() {
         let name = this.props.name;
+        let role = this.props.role;
         let image = this.props.image;
         return (
             <div className="navigation_profile">
@@ -14,7 +15,11 @@ class NavigationProfile extends React.Component {
                     </center>
                     <ul>
                         <li><center><button className="button_nav">Create Forms</button></center></li>
-                        <li><center><button className="button_nav">Attendance List</button></center></li>
+                        {
+                            (role == 'Admin')
+                                ? <li><center><button className="button_nav">Attendance List</button></center></li>
+                                : ""
+                        }
                         <li><center><button className="button_nav">Request History</button></center></li>
                         <li><center><button className="button_nav">Daily Report</button></center></li>
                     </ul>

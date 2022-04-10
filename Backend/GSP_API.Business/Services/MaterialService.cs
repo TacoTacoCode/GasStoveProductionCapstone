@@ -79,7 +79,7 @@ namespace GSP_API.Business.Services
             var data = await _materialRepository.GetById(p => p.MaterialId == materialId);
             if (data != null)
             {
-                data.Status = "Inactive";
+                data.Status = "Unactive";
                 return await _materialRepository.Update(data);
             }
             return null;

@@ -1,16 +1,14 @@
-import {React, useState, useEffect} from 'react'
+import { React, useState, useEffect } from 'react'
 import '../../../App.css';
-import { ImportExcelButton } from '../../button/ImportExcelButton';
-import { Table } from '../../tabledata/AccountsTable';
+import { Table } from '../../tabledata/SectionWorkerTable';
 import axios from 'axios'
 
 function WorkerList() {
   const [listAccount, setListAccount] = useState([]);
+  const [curSectionInfo,] = useState(() => JSON.parse(localStorage['currentSectionInfo']));
 
   useEffect(() => {
-    const getAllAccount = 'https://localhost:5001/getActiveAccounts'
-    //Gọi API bằng axios
-    axios.get(getAllAccount).then((res) => {
+    axios.get(`https://localhost:5001/getAccountsBySectionId/${curSectionInfo.sectionId}`).then((res) => {
       setListAccount(res.data);
     }).catch((err) => {
       console.log(err);
@@ -20,9 +18,8 @@ function WorkerList() {
   }, []);
   return (
     <>
-    <ImportExcelButton>Add Worker</ImportExcelButton>
-    <div className='products'>
-    <Table  listAccount={listAccount}/></div></>
+      <div className='products' style={{ padding: '3% 10%' }}>
+        <Table listAccount={listAccount} /></div></>
   )
 }
 

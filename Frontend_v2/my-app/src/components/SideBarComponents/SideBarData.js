@@ -9,8 +9,14 @@ export const SideBarAdminData = [
         cName: 'nav-text'
     },
     {
+        title: "Manage Sections",
+        // icon: <DashboardIcon />,
+        path: "/dashboard/sections",
+        cName: 'nav-text'
+    },
+    {
         title: "Manage Accounts",
-        // icon: <ManageAccountsIcon />,
+        // icon: <DashboardIcon />,
         path: "/dashboard/accounts",
         cName: 'nav-text'
     },
@@ -50,6 +56,11 @@ export const SideBarOrderData = [
 ]
 
 export const SideBarSectionData = [
+    {
+        title: 'Task List',
+        path: "/section/processDetail",
+        cName: "nav-text"
+    },
     {
         title: 'Materials List',
         path: "/section/materials",

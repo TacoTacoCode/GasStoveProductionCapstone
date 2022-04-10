@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "../../../App.css";
+import { FaClipboardList, FaPlus } from 'react-icons/fa';
+import { AiFillFileExcel } from 'react-icons/ai';
 import { ImportExcelButton } from "../../button/ImportExcelButton";
 import { Table } from "../../tabledata/MaterialTable";
 import MaterialPopup from "../../Popups/MaterialPopup";
 import axios from "axios";
+import ImportFilePopup from "../../Popups/ImportFilePopup";
 
 function Materials() {
   useEffect(() => {
@@ -12,6 +15,7 @@ function Materials() {
 
   const [addmaterialBtn, setaddmaterialBtn] = useState(false);
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
+  const [importFile, setImportFile] = useState(false);
   const [listMaterial, setListMaterial] = useState([]);
 
   useEffect(() => {
@@ -33,10 +37,33 @@ function Materials() {
       <ImportExcelButton
         type="button"
         onClick={() => {
+          setImportFile(true);
+        }}
+      >
+        <div>
+          <AiFillFileExcel size={24} style={{ verticalAlign: "middle" }} />
+          &ensp;
+          <text style={{ verticalAlign: "middle" }}>Import Material File</text>
+        </div>
+      </ImportExcelButton>
+      <ImportFilePopup
+        trigger={importFile}
+        setTrigger={setImportFile}
+        dataType="material"
+      >
+        <h3 className="popuptitle">Import Material File</h3>
+      </ImportFilePopup>
+      <ImportExcelButton
+        type="button"
+        onClick={() => {
           setaddmaterialBtn(true);
         }}
       >
-        Add Material
+        <div>
+          <FaPlus size={24} style={{ verticalAlign: "middle" }} />
+          &ensp;
+          <text style={{ verticalAlign: "middle" }}>Add Material</text>
+        </div>
       </ImportExcelButton>
       <MaterialPopup
         trigger={addmaterialBtn}

@@ -11,16 +11,8 @@ namespace GSP_API.Models.Request
         public string ComponentId { get; set; }
         public int? WorkerAmount { get; set; }
         public bool? IsAssemble { get; set; }
-        public string InstructionFilePath { get; set; }
+        public string Status { get; set; }
 
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual Component Component { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual Account SectionLead { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual ICollection<Account> Account { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual ICollection<Process> Process { get; set; }
     }
 }

@@ -39,8 +39,8 @@ const statuses = [
     label: "Active",
   },
   {
-    value: "Inactive",
-    label: "Inactive",
+    value: "Unactive",
+    label: "Unactive",
   },
 ];
 
@@ -147,9 +147,8 @@ function ProductPopup(props) {
           timer: 2000,
         })
         console.log(err)
-        window.location.reload();
       }).finally(() => {
-        window.location.reload();
+        handleDelay();
       });
   };
 
@@ -171,6 +170,18 @@ function ProductPopup(props) {
     props.setTrigger(false);
   };
 
+  var delay = (function () {
+    var timer = 0;
+    return function (callback, ms) {
+      clearTimeout(timer);
+      timer = setTimeout(callback, ms);
+    };
+  })();
+
+  const handleDelay = () => {
+    delay(function () { window.location.reload(); }, 1000);
+  };
+
   return props.trigger ? (
     <div className="popup">
       <div className="popup-inner">
@@ -182,6 +193,8 @@ function ProductPopup(props) {
         {props.children}
         <div className="popup-body">
           <form>
+            <br />
+            <text className="content_choose">Product : </text>
             <div className="imagefield">
               Product's Image
               <input type="file" onChange={handlePreviewAvatar} />
@@ -245,7 +258,7 @@ function ProductPopup(props) {
                   select
                   id="fullWidth"
                   required
-                  value={status === "Active" ? "Active" : "Unactive"}
+                  value={status}
                   onChange={(e) => setStatus(e.target.value)}
                   helperText="Choose product status"
                 >
@@ -264,9 +277,11 @@ function ProductPopup(props) {
                 />
               </div>
             </div>
-
+            <br />
+            <br />
+            <text className="content_choose">Product Detail : </text>
             <div className="idname">
-              <div className="txtfield">
+              <div className="txtfield_Choose">
                 <CssTextField
                   label="Component Active List"
                   select
@@ -288,7 +303,7 @@ function ProductPopup(props) {
                     ))}
                 </CssTextField>
               </div>
-              <div className="numfield">
+              <div className="numfield_choose">
                 <CssTextField
                   label="Amount"
                   id="fullWidth"
@@ -303,31 +318,40 @@ function ProductPopup(props) {
               {componentActive != null &&
                 componentAmount != null &&
                 componentAmount > 0 ? (
-                <div className="button_field">
-                  <Button
-                    style={{
-                      fontFamily: "Muli",
-                      borderRadius: 10,
-                      backgroundColor: "#e30217",
-                      color: "white",
-                    }}
-                    onClick={() => {
-                      setListProductComponent((productComponent) => [
-                        ...productComponent,
-                        createData(
-                          componentActive.componentId,
-                          componentActive.materialName,
-                          componentAmount
-                        ),
-                      ]);
-                      setComponentProductAmount(0);
-                      setComponentChoice(null);
-                    }}
-                  >
-                    ADD
-                  </Button>
-                </div>
-              ) : null}
+                <Button
+                  style={{
+                    fontFamily: "Muli",
+                    borderRadius: 10,
+                    backgroundColor: "#e30217",
+                    color: "white",
+                  }}
+                  onClick={() => {
+                    setListProductComponent((productComponent) => [
+                      ...productComponent,
+                      createData(
+                        componentActive.componentId,
+                        componentActive.materialName,
+                        componentAmount
+                      ),
+                    ]);
+                    setComponentProductAmount(0);
+                    setComponentChoice(null);
+                  }}
+                >
+                  ADD
+                </Button>
+              )
+                : <Button
+                  style={{
+                    fontFamily: "Muli",
+                    borderRadius: 10,
+                    backgroundColor: "#a9a9a9",
+                    color: "white",
+                  }}
+                  disabled
+                >
+                  ADD
+                </Button>}
               <div className="tablefield">
                 <MaterialTable
                   data={productComponent}

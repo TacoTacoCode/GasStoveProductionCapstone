@@ -22,20 +22,40 @@ export const Table = (props) => {
   });
 
   function deleteProduct(id) {
-    axios
-      .put("https://localhost:5001/delProduct/" + id)
-      .then((response) => {
-        swal("Success", "Delete Product successfully", "success", {
-          button: false,
-          timer: 2000,
-        });
-        props.setSubmittedTime();
-      })
-      .catch((err) => {
-        swal("Error", "Delete Product failed", "error", {
-          button: false,
-          time: 2000,
-        });
+    swal({
+      title: "Are you sure to delete this product?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          try {
+            axios
+              .put("https://localhost:5001/delProduct/" + id)
+              .then((response) => {
+                swal("Success", "Delete Product successfully", "success", {
+                  button: false,
+                  timer: 2000,
+                });
+                props.setSubmittedTime();
+              })
+              .catch((err) => {
+                swal("Error", "Delete Product failed", "error", {
+                  button: false,
+                  time: 2000,
+                });
+              });
+          } catch (error) {
+            console.log(error);
+          }
+          delay(function () { window.location.reload(); }, 1000);
+        } else {
+          swal({
+            title: "Your Product is safe!",
+            icon: "info",
+          });
+        }
       });
   }
 
@@ -75,7 +95,7 @@ export const Table = (props) => {
       title: "Status",
       field: "status",
       render:
-        rowData => (rowData.status == 'Inactive')
+        rowData => (rowData.status == 'Unactive')
           ? <IconContext.Provider value={{ color: "red", className: "global-class-name" }}>
             <div>
               <AiFillCloseCircle size={40} />
@@ -113,8 +133,8 @@ export const Table = (props) => {
       label: "Active",
     },
     {
-      value: "Inactive",
-      label: "Inactive",
+      value: "Unactive",
+      label: "Unactive",
     },
   ];
 
@@ -139,6 +159,14 @@ export const Table = (props) => {
     },
   });
 
+  var delay = (function () {
+    var timer = 0;
+    return function (callback, ms) {
+      clearTimeout(timer);
+      timer = setTimeout(callback, ms);
+    };
+  })();
+
   const [editDatas, setEditDatas] = useState(null);
   const [open, setOpen] = useState(false);
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
@@ -152,6 +180,14 @@ export const Table = (props) => {
     )
   }
 
+  var delay = (function () {
+    var timer = 0;
+    return function (callback, ms) {
+      clearTimeout(timer);
+      timer = setTimeout(callback, ms);
+    };
+  })();
+
   return (
     <React.Fragment>
       <MaterialTable
@@ -164,9 +200,8 @@ export const Table = (props) => {
             tooltip: "Delete Product",
             onClick: (event, rowData) => {
               deleteProduct(rowData.productId);
-              window.location.reload();
             },
-            disabled: (rowData.isActive == false)
+            disabled: (rowData.status == 'Unactive')
           }),
           {
             icon: "edit",

@@ -60,7 +60,7 @@ function CustomSideBar() {
         window.location.href = "/login";
     };
 
-    const [currentUserBar, setCurrentUserBar] = useState({});
+    const [currentUserBar, setCurrentUserBar] = useState(null);
     const [roles, setRoles] = useState([]);
 
     useEffect(() => {
@@ -103,7 +103,7 @@ function CustomSideBar() {
             break;
         case 'Section Department':
             role = SideBarSectionData.map(obj => ({ ...obj }));
-            currentLink = "section/materials";
+            currentLink = "section/processDetail";
             break;
         default:
             break;
@@ -122,7 +122,7 @@ function CustomSideBar() {
                     <Typography variant="h5" className={classes.menuItem} onClick={linkClick}>
                         UFA Company Managing System
                     </Typography>
-                    <MenuItem onClick={handleOpenProfile}>
+                    {currentUserBar && <MenuItem onClick={handleOpenProfile}>
                         <Avatar src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + currentUserBar.avatarUrl} sx={{ width: 36, height: 36 }} />
                         &emsp;
                         {currentUserBar.name}&emsp;:&emsp;
@@ -133,7 +133,7 @@ function CustomSideBar() {
                                 }
                             })
                         }
-                    </MenuItem>
+                    </MenuItem>}
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Toolbar>
 

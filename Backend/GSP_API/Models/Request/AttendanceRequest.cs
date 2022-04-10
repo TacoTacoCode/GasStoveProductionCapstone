@@ -9,11 +9,7 @@ namespace GSP_API.Models.Request
     {
         public int AttendanceId { get; set; }
         public DateTime? CheckDate { get; set; }
-        public int? PresentedAmount { get; set; }
+        public int? AccountId { get; set; }
         public string Note { get; set; }
-
-
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual ICollection<AttendanceDetail> AttendanceDetail { get; set; }
     }
 }

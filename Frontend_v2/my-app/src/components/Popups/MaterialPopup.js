@@ -18,8 +18,8 @@ const statuses = [
     label: "Active",
   },
   {
-    value: "Inactive",
-    label: "Inactive",
+    value: "Unactive",
+    label: "Unactive",
   },
 ];
 
@@ -97,9 +97,8 @@ function MaterialPopup(props) {
           timer: 2000,
         })
         console.log(err)
-        window.location.reload();
       }).finally(() => {
-        window.location.reload();
+        handleDelay();
       });
   }
 
@@ -120,6 +119,18 @@ function MaterialPopup(props) {
     props.setTrigger(false);
   };
 
+  var delay = (function () {
+    var timer = 0;
+    return function (callback, ms) {
+      clearTimeout(timer);
+      timer = setTimeout(callback, ms);
+    };
+  })();
+
+  const handleDelay = () => {
+    delay(function () { window.location.reload(); }, 1000);
+  };
+
   return props.trigger ? (
     <div className="componentpopup">
       <div className="popup-inner">
@@ -131,6 +142,8 @@ function MaterialPopup(props) {
         {props.children}
         <div className="popup-body">
           <form>
+            <br />
+            <text className="content_choose">Material : </text>
             <div className="idname">
               <div className="imagefield">
                 Material's Image

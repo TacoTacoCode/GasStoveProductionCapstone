@@ -20,7 +20,7 @@ const statuses = [
   },
   {
     value: false,
-    label: "Inactive",
+    label: "Unactive",
   },
 ];
 
@@ -291,9 +291,11 @@ function ProfileEditPopup(props) {
               </div>
             </div>
             <div className='idname'>
-              <div className='txtfield'>
+              <div className='namefield'>
                 <CssTextField label="Email" type={'email'} value={email} id="fullWidth" required onChange={(e) => setAccountEmail(e.target.value)} />
               </div>
+            </div>
+            <div className='idname'>
               <div className='namefield'>
                 <CssTextField label="Address" id="fullWidth" value={address} required onChange={(e) => setAccountAddress(e.target.value)} />
               </div>

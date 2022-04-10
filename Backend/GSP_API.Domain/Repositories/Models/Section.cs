@@ -18,6 +18,7 @@ namespace GSP_API.Domain.Repositories.Models
         public string ComponentId { get; set; }
         public int? WorkerAmount { get; set; }
         public bool? IsAssemble { get; set; }
+        public string Status { get; set; }
 
         public virtual Component Component { get; set; }
         public virtual Account SectionLead { get; set; }

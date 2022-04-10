@@ -32,5 +32,18 @@ namespace GSP_API.Controllers.ModelControllers
             var mates = _mapper.Map<List<ProductCompoResponse>>(data);
             return Ok(mates);
         }
+
+        [HttpGet]
+        [Route("getProCompo/{productId}")]
+        public async Task<ActionResult<List<ProductCompoResponse>>> GetProCompo(string productId)
+        {
+            var data = await _productCompoService.GetProCompo(productId);
+            if (data == null)
+            {
+                return BadRequest("Not Found");
+            }
+            var mates = _mapper.Map<List<ProductCompoResponse>>(data);
+            return Ok(mates);
+        }
     }
 }

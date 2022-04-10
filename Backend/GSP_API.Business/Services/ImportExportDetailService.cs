@@ -109,7 +109,7 @@ namespace GSP_API.Business.Services
                 }
                 //exportDetail.Amount = oldExportDetail.Amount;
                 await _importExportDetailRepository.Update(exportDetail);
-                
+
                 //update date
                 if (exportDetail.ProcessDetailId != null)
                 {
@@ -138,57 +138,59 @@ namespace GSP_API.Business.Services
             }
         }
 
-        public async Task<string> ImportItem(int exportDetalId, int amount)
+        public async Task<string> ImportItem(ImportExportDetail importDetail, string itemType)
         {
             try
             {
-                var exportDetail = await _importExportDetailRepository.FindFirst(e => e.ImportExportDetailId == exportDetalId);
-
-                if (exportDetail.ProcessDetailId != null)
+                int? amount = 0;
+                if (importDetail.ProcessDetailId != null)
                 {
-                    var processDetail = await _processDetailService.GetProcessDetailById((int)exportDetail.ProcessDetailId);
-                    processDetail.FinishedAmount += amount;
+                    var processDetail = await _processDetailService.GetProcessDetailById((int)importDetail.ProcessDetailId);
+                    processDetail.FinishedAmount = (processDetail.FinishedAmount ?? 0) + importDetail.Amount;
+
+                    if (processDetail.FinishedAmount == processDetail.TotalAmount)
+                    {
+                        processDetail.Status = "Done";
+                        processDetail.FinishedDate = DateTime.Now.Date;
+                    }else if(processDetail.FinishedAmount > processDetail.TotalAmount)
+                    {
+                        processDetail.Status = "Done";
+                        amount = processDetail.FinishedAmount - processDetail.TotalAmount;
+                        processDetail.FinishedAmount = processDetail.TotalAmount;
+                        processDetail.FinishedDate = DateTime.Now.Date;
+                    }
 
                     //cal average = totalAmount/totalDate
-
                     var datePass = DateTime.Now.Subtract((DateTime)processDetail.FirstExportDate).TotalDays;
-                    var average = Convert.ToInt32(processDetail.FinishedAmount / datePass);
+                    var average = Convert.ToInt32(processDetail.FinishedAmount / Convert.ToInt32(datePass));
                     processDetail.AverageAmount = average;
 
                     //from average cal expected date
                     var calDate = Convert.ToInt32(processDetail.TotalAmount / average);
                     processDetail.ExpectedFinishDate = ((DateTime)processDetail.FirstExportDate).AddDays(calDate);
-
-                    //update status
-                    if (processDetail.FinishedAmount == processDetail.TotalAmount)
-                    {
-                        processDetail.Status = "Done";
-                        processDetail.FinishedDate = DateTime.Now.Date;
-                    }
                     await _processDetailService.UpdateProcessDetail(processDetail);
-
-
                 }
                 //import to warehouse
-
-                if (exportDetail.ItemId == "C")
+                if(amount > 0)
                 {
-                    var item = await _componentService.GetComponentById(exportDetail.ItemId);
-                    item.Amount += amount;
-                    await _componentService.UpdateComponent(item, null, null);
-                }
-                else if (exportDetail.ItemId == "P")
-                {
-                    var item = await _productService.GetProductById(exportDetail.ItemId);
-                    item.Amount += amount;
-                    await _productService.UpdateProduct(item, null, null);
-
+                    if (itemType == "C")
+                    {
+                        var item = await _componentService.GetComponentById(importDetail.ItemId);
+                        item.Amount += amount;
+                        await _componentService.UpdateComponent(item, null, null);
+                    }
+                    else if (itemType == "P")
+                    {
+                        var item = await _productService.GetProductById(importDetail.ItemId);
+                        item.Amount += amount;
+                        await _productService.UpdateProduct(item, null, null);
+                    }
                 }
                 return "Imported";
             }
-            catch (System.Exception ex)
+            catch 
             {
-                return ex.Message;
+                return $"Error at import detail id: {importDetail.ImportExportDetailId}";
             }
         }
     }

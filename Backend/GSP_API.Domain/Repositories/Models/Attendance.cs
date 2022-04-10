@@ -14,9 +14,10 @@ namespace GSP_API.Domain.Repositories.Models
 
         public int AttendanceId { get; set; }
         public DateTime? CheckDate { get; set; }
-        public int? PresentedAmount { get; set; }
+        public int? AccountId { get; set; }
         public string Note { get; set; }
 
+        public virtual Account Account { get; set; }
         public virtual ICollection<AttendanceDetail> AttendanceDetails { get; set; }
     }
 }

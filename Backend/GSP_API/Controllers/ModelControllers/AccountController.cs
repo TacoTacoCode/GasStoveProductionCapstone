@@ -67,6 +67,20 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok(account);
         }
 
+        // GET: GetAccount/1
+        [HttpGet]
+        [Route("getAccountsBySectionId/{sectionId}")]
+        public async Task<ActionResult<List<AccountResponse>>> GetAccountsBySectionId(int sectionId)
+        {
+            var data = await _accountService.GetAccountBySectionId(sectionId);
+            if (data == null)
+            {
+                return BadRequest("Not Found");
+            }
+            var account = _mapper.Map<List<AccountResponse>>(data);
+            return Ok(account);
+        }
+
         // GET: GetAccount/xxx@gmail.com
         [HttpGet]
         [Route("getAccountByEmail/{email}")]
@@ -95,7 +109,10 @@ namespace GSP_API.Controllers.ModelControllers
             }
 
             var data = await _accountService.AddAccount(_mapper.Map<Account>(newAccount), fileStream, fileName);
-            fileStream.Dispose();
+            if(file != null)
+            {
+                fileStream.Dispose();
+            }
             if (data.Contains("error"))
             {
                 return StatusCode(500, data);

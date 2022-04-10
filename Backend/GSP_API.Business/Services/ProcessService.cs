@@ -1,5 +1,6 @@
 ﻿using GSP_API.Domain.Interfaces;
 using GSP_API.Domain.Repositories.Models;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -42,7 +43,7 @@ namespace GSP_API.Business.Services
         }
 
         public async Task<string> AddProcess(Process process)
-        {           
+        {
             var data = await _processRepository.Add(process);
             //If Add Process successfully
             switch (data)
@@ -57,7 +58,7 @@ namespace GSP_API.Business.Services
 
         public async Task<Process> CreateProcess(OrderDetail orderDetail)
         {
-            if(orderDetail.OrderDetailId == 0)
+            if (orderDetail.OrderDetailId == 0)
             {
                 orderDetail = new()
                 {
@@ -70,14 +71,15 @@ namespace GSP_API.Business.Services
                 };
             }
             //delete above if not test
-            var process = new Process() {
+            var process = new Process()
+            {
                 CreatedDate = System.DateTime.Now.Date,
                 Status = "New",
                 NeededAmount = orderDetail.Amount,
                 TotalAmount = orderDetail.Amount,
                 FinishedAmount = 0,
                 OrderDetailId = orderDetail.OrderDetailId,
-                
+
             };
             var listProCompo = await _productComponentService.GetProCompoByProId(orderDetail.ProductId);
 
@@ -91,7 +93,7 @@ namespace GSP_API.Business.Services
                     Status = "New",
                     FinishedAmount = 0,
 
-                });               
+                });
             }
             //Add assemble Section
             process.ProcessDetails.Add(new ProcessDetail()
@@ -112,10 +114,10 @@ namespace GSP_API.Business.Services
             //GetProCompo and map each compoID -> sectionID since ProcessDetail contains sectionID
             var listProCompo = await _productComponentService.GetProCompoByProId(orderDetail.ProductId);
             var secDic = listProCompo.ToDictionary(e => _sectionService.GetSectionByComponentId(e.ComponentId).Result.SectionId, e => e.Amount);
-            
+
             var assembleSection = await _sectionService.GetSectionByType(true);
 
-           
+
             foreach (var number in amounts)
             {
                 //create process
@@ -156,7 +158,7 @@ namespace GSP_API.Business.Services
         public async Task<string> AddProcessList(List<Process> processList)
         {
             ////validate
-            var orderDetail = await  _orderDetailService.GetOrderDetailById((int)processList[0].OrderDetailId);
+            var orderDetail = await _orderDetailService.GetOrderDetailById((int)processList[0].OrderDetailId);
             //get all component need to build the product
             var proCompos = await _productComponentService.GetProCompoByProId(orderDetail.ProductId);
             //add amount of component need, convert to sectionId since processDetail contains SectionId 
@@ -172,12 +174,13 @@ namespace GSP_API.Business.Services
                 //validate processDetail
                 foreach (var proDetail in process.ProcessDetails.SkipLast(1))
                 {
-                    if (proDetail.TotalAmount < sectionDic[(int)proDetail.SectionId]*orderDetail.Amount) {
+                    if (proDetail.TotalAmount < sectionDic[(int)proDetail.SectionId] * orderDetail.Amount)
+                    {
                         return "Lack of Component at Process No." + processIndex.ToString();
                     }
 
                 }
-                sumOfProduct += (int) (process.NeededAmount + process.FinishedAmount);
+                sumOfProduct += (int)(process.NeededAmount + process.FinishedAmount);
                 processIndex += 1;
             }
             //validate amount
@@ -208,5 +211,27 @@ namespace GSP_API.Business.Services
             }
             return null;
         }
+
+        public async Task<int> GetNoProcess(int orderDetailId)
+        {
+            var processList = await _processRepository.GetAll(p => p.OrderDetailId == orderDetailId);
+            return processList == null ? 0 : processList.Count;
+        }
+
+        public async Task<List<ProductComponent>> GetListProCompos(int processId)
+        {
+            try
+            {
+                var process = await GetProcessById(processId);
+                var orderDetail = await _orderDetailService.GetOrderDetailById((int)process.OrderDetailId);
+                var proComs = await _productComponentService.GetProCompo(orderDetail.ProductId);
+                return proComs;
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }
+

@@ -153,5 +153,22 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok("Add successfully");
         }
 
+        [HttpGet]
+        [Route("getNoProcess/{orderDetailId}")]
+        public async Task<ActionResult> GetNoProcess(int orderDetailId)
+        {
+            var data = await _processService.GetNoProcess(orderDetailId);
+            return Ok(data);
+        }
+
+        [HttpGet]
+        [Route("getListProCompo/{processId}")]
+        public async Task<ActionResult> GetListProCompo(int processId)
+        {
+            var data = await _processService.GetListProCompos(processId);
+            var result = _mapper.Map<List<ProductCompoResponse>>(data);
+            return Ok(result);
+        }
+
     }
 }

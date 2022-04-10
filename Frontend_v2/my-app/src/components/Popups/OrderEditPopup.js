@@ -178,6 +178,7 @@ function OrderEditPopup(props) {
         })
       }).finally(() => {
         handleCancelClick();
+        delay(function () { window.location.reload(); }, 1000);
       })
   };
 
@@ -191,7 +192,6 @@ function OrderEditPopup(props) {
 
   const handleClose = () => {
     props.setOpen(false);
-    delay(function () { window.location.reload(); }, 1000);
   };
 
   const handleCancelClick = () => {
@@ -217,6 +217,8 @@ function OrderEditPopup(props) {
         {props.children}
         <div className="popup-body">
           <form>
+            <br />
+            <text className="content_choose">Order : </text>
             <div className="idname">
               <div className="datefield">
                 <CssTextField
@@ -264,7 +266,7 @@ function OrderEditPopup(props) {
               </div>
             </div>
             <div className="idname">
-              <div className='namefield'>
+              {/* <div className='namefield'>
                 <CssTextField
                   label="Status"
                   select
@@ -278,9 +280,8 @@ function OrderEditPopup(props) {
                       {option.label}
                     </MenuItem>
                   ))}
-
                 </CssTextField>
-              </div>
+              </div> */}
               <div className='txtfield'>
                 <CssTextField
                   label="Short Term"
@@ -296,9 +297,7 @@ function OrderEditPopup(props) {
                   ))}
                 </CssTextField>
               </div>
-            </div>
-            <div className="idname">
-              <div className="txtfield">
+              <div className="namefield">
                 <CssTextField
                   label="Note"
                   value={note}
@@ -306,6 +305,9 @@ function OrderEditPopup(props) {
                 />
               </div>
             </div>
+            <br />
+            <br />
+            <text className="content_choose">Order Detail : </text>
             <div className="idname">
               {/* <div className="txtfield">
                 <CssTextField
@@ -373,7 +375,6 @@ function OrderEditPopup(props) {
 
               <div className="tablefield">
                 <MaterialTable
-                  title={"Order Details"}
                   data={orderProduct}
                   columns={columns}
                   // editable={{
@@ -399,11 +400,13 @@ function OrderEditPopup(props) {
                   //     }),
                   // }}
                   options={{
+                    toolbar: false,
                     maxBodyHeight: 200,
                     search: false,
                     paging: false,
                     addRowPosition: "first",
                     actionsColumnIndex: -1,
+                    showTitle: false,
                     exportButton: false,
                     headerStyle: { backgroundColor: "#E30217", color: "#fff" },
                   }}

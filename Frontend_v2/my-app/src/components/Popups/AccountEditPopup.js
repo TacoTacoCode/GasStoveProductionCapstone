@@ -20,7 +20,7 @@ const statuses = [
   },
   {
     value: false,
-    label: "Inactive",
+    label: "Unactive",
   },
 ];
 
@@ -181,16 +181,16 @@ function AccountEditPopup(props) {
           button: false,
           timer: 2000,
         });
-        handleCancelClick();
       })
       .catch((err) => {
         swal("Error", "Update account failed", "error", {
           button: false,
           timer: 2000,
         });
-        handleCancelClick();
+
       }).finally(() => {
-        handleClose();
+        handleCancelClick();
+        handleDelay();
       });
   };
 
@@ -202,7 +202,7 @@ function AccountEditPopup(props) {
     };
   })();
 
-  const handleClose = () => {
+  const handleDelay = () => {
     delay(function () { window.location.reload(); }, 1000);
   };
 
@@ -233,6 +233,8 @@ function AccountEditPopup(props) {
         {props.children}
         <div className="popup-body">
           <form>
+            <br />
+            <text className="content_choose">Account : </text>
             <div className="idname">
               <div className="imagefield">
                 Account's Image

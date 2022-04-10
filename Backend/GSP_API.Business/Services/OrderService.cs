@@ -41,6 +41,13 @@ namespace GSP_API.Business.Services
 
         public async Task<string> AddOrder(Order order)
         {
+            order.Status = "Processing";
+            var total = 0.0;
+            foreach (var orderDetail in order.OrderDetails)
+            {
+                total += (double)(orderDetail.Amount * orderDetail.Price);
+            }
+            order.TotalPrice = total;
             var data = await _orderRepository.Add(order);
             return data;
         }

@@ -19,8 +19,8 @@ const statuses = [
     label: "Active",
   },
   {
-    value: "Inactive",
-    label: "Inactive",
+    value: "Unactive",
+    label: "Unactive",
   },
 ];
 
@@ -175,6 +175,7 @@ function ProductEditPopup(props) {
         })
       }).finally(() => {
         handleCancelClick();
+        delay(function () { window.location.reload(); }, 1000);
       })
   };
 
@@ -200,7 +201,7 @@ function ProductEditPopup(props) {
     setStatus(props.data.status);
     setListProductComponent(props.productCompos);
     setDescription(props.data.description);
-    handleClose();
+    props.setOpen(false);
   };
 
   return props.IsOpen ? (
@@ -214,6 +215,8 @@ function ProductEditPopup(props) {
         {props.children}
         <div className="popup-body">
           <form>
+            <br />
+            <text className="content_choose">Product : </text>
             <div className="idname">
               <div className="imagefield">
                 Product's Image
@@ -280,7 +283,7 @@ function ProductEditPopup(props) {
                   select
                   id="fullWidth"
                   required
-                  value={status === "Active" ? "Active" : "Unactive"}
+                  value={status}
                   onChange={(e) => setStatus(e.target.value)}
                   helperText="Choose product status"
                 >
@@ -299,9 +302,11 @@ function ProductEditPopup(props) {
                 />
               </div>
             </div>
-
+            <br />
+            <br />
+            <text className="content_choose">Product Detail : </text>
             <div className="idname">
-              <div className="txtfield">
+              <div className="txtfield_Choose">
                 <CssTextField
                   label="Component Active List"
                   select
@@ -323,7 +328,7 @@ function ProductEditPopup(props) {
                     ))}
                 </CssTextField>
               </div>
-              <div className="numfield">
+              <div className="numfield_choose">
                 <CssTextField
                   label="Amount"
                   id="fullWidth"
@@ -338,31 +343,40 @@ function ProductEditPopup(props) {
               {componentActive != null &&
                 componentAmount != null &&
                 componentAmount > 0 ? (
-                <div className="button_field">
-                  <Button
-                    style={{
-                      fontFamily: "Muli",
-                      borderRadius: 10,
-                      backgroundColor: "#e30217",
-                      color: "white",
-                    }}
-                    onClick={() => {
-                      setListProductComponent((productComponent) => [
-                        ...productComponent,
-                        createData(
-                          componentActive.componentId,
-                          componentActive.materialName,
-                          componentAmount
-                        ),
-                      ]);
-                      setComponentProductAmount(0);
-                      setComponentChoose(null);
-                    }}
-                  >
-                    ADD
-                  </Button>
-                </div>
-              ) : null}
+                <Button
+                  style={{
+                    fontFamily: "Muli",
+                    borderRadius: 10,
+                    backgroundColor: "#e30217",
+                    color: "white",
+                  }}
+                  onClick={() => {
+                    setListProductComponent((productComponent) => [
+                      ...productComponent,
+                      createData(
+                        componentActive.componentId,
+                        componentActive.materialName,
+                        componentAmount
+                      ),
+                    ]);
+                    setComponentProductAmount(0);
+                    setComponentChoose(null);
+                  }}
+                >
+                  ADD
+                </Button>
+              )
+                : <Button
+                  style={{
+                    fontFamily: "Muli",
+                    borderRadius: 10,
+                    backgroundColor: "#a9a9a9",
+                    color: "white",
+                  }}
+                  disabled
+                >
+                  ADD
+                </Button>}
               <div className="tablefield">
                 <MaterialTable
                   data={productComponent}

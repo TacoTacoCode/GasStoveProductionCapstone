@@ -11,30 +11,30 @@ export const Table = (props) => {
         {
             title: "Task Id",
             field: "processDetailId",
-            cellStyle: { fontFamily: "Muli" },
-            render: (e) => `0${e.processDetailId}`
+            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
+            render: (e) => `${e.processDetailId}`
         },
         {
             title: "Finished Amount",
             field: "finishedAmount",
-            cellStyle: { fontFamily: "Muli" },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
         },
         {
             title: "Total Amount",
             field: "totalAmount",
-            cellStyle: { fontFamily: "Muli" },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
         },
         {
             title: "Average amount per day",
             field: "averageAmount",
-            cellStyle: { fontFamily: "Muli" },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
             render:
                 rowData => rowData.averageAmount ? rowData.averageAmount : 0,
         },
         {
             title: "Expiry Date",
             field: "expiryDate",
-            cellStyle: { fontFamily: "Muli" },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
             render:
                 rowData => moment(rowData.expiryDate).format('DD MMM, YYYY'),
         },
@@ -52,7 +52,7 @@ export const Table = (props) => {
                     actionsColumnIndex: -1,
                     exportButton: false,
                     search: false,
-                    headerStyle: { backgroundColor: "#E30217", color: "#fff" },
+                    headerStyle: { backgroundColor: "#E30217", color: "#fff", textAlign: 'center' },
                 }}
             />
         </React.Fragment>

@@ -31,6 +31,10 @@ namespace GSP_API.Business.Services
         {
             return await _accountRepository.GetById(p => p.AccountId == accountId);
         }
+        public async Task<List<Account>> GetAccountBySectionId(int sectionId)
+        {
+            return await _accountRepository.GetAll(p => p.SectionId == sectionId);
+        }
 
         public async Task<Account> GetAccountByEmail(string email)
         {
@@ -58,13 +62,14 @@ namespace GSP_API.Business.Services
                 try
                 {
                     imageUrl = await FireBaseUtil.Upload(fileStream, fileName);
+                    imageUrl = imageUrl.Substring(imageUrl.IndexOf("%2F") + 3);
                 }
                 catch (System.Exception ex)
                 {
                     return ex.Message;
                 }   
             }
-            account.AvatarUrl = imageUrl.Substring(imageUrl.IndexOf("%2F")+3);
+            account.AvatarUrl = imageUrl;
             return await _accountRepository.Add(account);
         }
 

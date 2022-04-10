@@ -83,25 +83,30 @@ const CssTextField = styled(TextField)({
 });
 
 function OrderDetailEditPopup(props) {
-  const [productId, setProductId] = useState({ ...props.data.productId });
-  const [amount, setAmount] = useState({ ...props.data.amount });
-  const [note, setNote] = useState({ ...props.data.note });
+  const [productId, setProductId] = useState({ ...props.dataDetail.productId });
+  const [price, setPrice] = useState({ ...props.dataDetail.price });
+  const [amount, setAmount] = useState({ ...props.dataDetail.amount });
+  const [note, setNote] = useState({ ...props.dataDetail.note });
 
   //combobox
   const [productList, setProductList] = useState([{ ...props.customerActive }]);
   const [dataSet, setDataSet] = useState();
 
   useEffect(() => {
-    setProductId(props.data.productId);
-  }, [props.data.productId])
+    setProductId(props.dataDetail.productId);
+  }, [props.dataDetail.productId])
 
   useEffect(() => {
-    setAmount(props.data.amount);
-  }, [props.data.amount])
+    setPrice(props.dataDetail.price);
+  }, [props.dataDetail.price])
 
   useEffect(() => {
-    setNote(props.data.note);
-  }, [props.data.note])
+    setAmount(props.dataDetail.amount);
+  }, [props.dataDetail.amount])
+
+  useEffect(() => {
+    setNote(props.dataDetail.note);
+  }, [props.dataDetail.note])
 
   useEffect(() => {
     axios.get("https://localhost:5001/getProducts/Active").then((res) => {
@@ -113,11 +118,11 @@ function OrderDetailEditPopup(props) {
   const changeData = (e) => {
     e.preventDefault();
     const jsonObj = {
-      orderDetailId: props.data.orderDetailId,
-      orderId: props.data.orderId,
+      orderDetailId: props.dataDetail.orderDetailId,
+      orderId: props.dataDetail.orderId,
       productId,
       amount,
-      price: props.data.price,
+      price,
       note,
     }
     axios
@@ -148,30 +153,33 @@ function OrderDetailEditPopup(props) {
   })();
 
   const handleClose = () => {
-    props.setOpen(false);
+    props.setOpenDetail(false);
     delay(function () { }, 1000);
   };
 
   const handleCancelClick = () => {
-    setProductId(props.data.productId);
-    setAmount(props.data.amount);
-    setNote(props.data.note);
+    setProductId(props.dataDetail.productId);
+    setAmount(props.dataDetail.amount);
+    setPrice(props.dataDetail.price)
+    setNote(props.dataDetail.note);
     setDataSet(null);
 
     handleClose();
   };
 
-  return props.IsOpen ? (
+  return props.IsOpenDetail ? (
     <div className="orderpopup">
       <div className="popup-inner">
         <div>
-          <button className="close-btn" onClick={() => props.setOpen(false)}>
+          <button className="close-btn" onClick={() => props.setOpenDetail(false)}>
             <CloseIcon style={{ color: "white" }} />
           </button>
         </div>
         {props.children}
         <div className="popup-body">
           <form>
+            <br />
+            <text className="content_choose">Detail : </text>
             <div className="idname">
               <div className="datefield">
                 <CssTextField
@@ -207,13 +215,13 @@ function OrderDetailEditPopup(props) {
                 <CssTextField
                   label="Price"
                   id="fullWidth"
-                  value={props.data.price}
-                  disabled
+                  value={price}
                   required
                   type={"number"}
                   InputProps={{
                     inputProps: { min: 0, pattern: "[0-9]*" },
                   }}
+                  onChange={(e) => setPrice(e.target.value)}
                 />
               </div>
               <div className="txtfield">
