@@ -3,11 +3,15 @@ import '../../../App.css';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
+import {
+  Button,
+} from "@mui/material";
 import { DeliveryButton } from '../../button/DeliveryButton';
 import { useState } from 'react'
 import axios from 'axios'
 import { TextGetAccountByID } from '../../NonSideBarPage/TextGetAccountByID';
 import { TextGetOrderDetailByID } from '../../NonSideBarPage/TextGetOrderDetailByID';
+import swal from "sweetalert";
 
 
 function Delivery() {
@@ -83,6 +87,46 @@ function Delivery() {
       alert("Cannot Load List Order Done");
     })
   }, []);
+
+  // Delay function
+  var delay = (function () {
+    var timer = 0;
+    return function (callback, ms) {
+      clearTimeout(timer);
+      timer = setTimeout(callback, ms);
+    };
+  })();
+
+  // Order Ready Function
+  const orderReady = (e, data) => {
+    e.preventDefault();
+    console.log(data);
+    const jsonObj = {
+      orderId: data.orderId,
+      accountId: data.accountId,
+      totalPrice: data.totalPrice,
+      expiryDate: new Date(data.expiryDate).toISOString(),
+      status: 'delivery',
+      note: data.note,
+      isShorTerm: data.isShorTerm,
+    }
+    axios
+      .put("https://localhost:5001/updateOrder", jsonObj)
+      .then((res) => {
+        swal("Success", "Order is accepted to delivery", "success", {
+          button: false,
+          timer: 2000,
+        });
+      })
+      .catch((err) => {
+        swal("Error", "Something wrong!", "error", {
+          button: false,
+          timer: 2000,
+        })
+      }).finally(() => {
+        delay(function () { window.location.reload(); }, 1000);
+      })
+  }
 
   return (
     <Fragment>
@@ -165,7 +209,25 @@ function Delivery() {
                       {/* Product Details */}
                       <text className="content_delivery">Product : </text>
                       <br /><br />
-                      <TextGetOrderDetailByID orderID={data.orderId} />
+                      <Stack
+                        direction="column"
+                        divider={<Divider orientation="horizontal" flexItem />}
+                        spacing={1}
+                      >
+                        <TextGetOrderDetailByID orderID={data.orderId} />
+                        <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text>{data.totalPrice} VND</text></p>
+                        {
+                          (data.status == 'done' && data.totalPrice > 0)
+                            ? <Button style={{
+                              fontFamily: "Muli",
+                              borderRadius: 10,
+                              backgroundColor: "#e30217",
+                              color: "white",
+                            }}
+                              onClick={(e) => orderReady(e, data)}>Order Ready</Button>
+                            : ""
+                        }
+                      </Stack>
                     </div>
                   </Stack>
                 </Card>
@@ -211,7 +273,25 @@ function Delivery() {
                       {/* Product Details */}
                       <text className="content_delivery">Product : </text>
                       <br /><br />
-                      <TextGetOrderDetailByID orderID={data.orderId} />
+                      <Stack
+                        direction="column"
+                        divider={<Divider orientation="horizontal" flexItem />}
+                        spacing={1}
+                      >
+                        <TextGetOrderDetailByID orderID={data.orderId} />
+                        <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text>{data.totalPrice} VND</text></p>
+                        {
+                          (data.status == 'done' && data.totalPrice > 0)
+                            ? <Button style={{
+                              fontFamily: "Muli",
+                              borderRadius: 10,
+                              backgroundColor: "#e30217",
+                              color: "white",
+                            }}
+                              onClick={(e) => orderReady(e, data)}>Order Ready</Button>
+                            : ""
+                        }
+                      </Stack>
                     </div>
                   </Stack>
                 </Card>
@@ -261,7 +341,25 @@ function Delivery() {
                       {/* Product Details */}
                       <text className="content_delivery">Product : </text>
                       <br /><br />
-                      <TextGetOrderDetailByID orderID={data.orderId} />
+                      <Stack
+                        direction="column"
+                        divider={<Divider orientation="horizontal" flexItem />}
+                        spacing={1}
+                      >
+                        <TextGetOrderDetailByID orderID={data.orderId} />
+                        <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text>{data.totalPrice} VND</text></p>
+                        {
+                          (data.status == 'done' && data.totalPrice > 0)
+                            ? <Button style={{
+                              fontFamily: "Muli",
+                              borderRadius: 10,
+                              backgroundColor: "#e30217",
+                              color: "white",
+                            }}
+                              onClick={(e) => orderReady(e, data)}>Order Ready</Button>
+                            : ""
+                        }
+                      </Stack>
                     </div>
                   </Stack>
                 </Card>
@@ -307,7 +405,25 @@ function Delivery() {
                       {/* Product Details */}
                       <text className="content_delivery">Product : </text>
                       <br /><br />
-                      <TextGetOrderDetailByID orderID={data.orderId} />
+                      <Stack
+                        direction="column"
+                        divider={<Divider orientation="horizontal" flexItem />}
+                        spacing={1}
+                      >
+                        <TextGetOrderDetailByID orderID={data.orderId} />
+                        <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text>{data.totalPrice} VND</text></p>
+                        {
+                          (data.status == 'done' && data.totalPrice > 0)
+                            ? <Button style={{
+                              fontFamily: "Muli",
+                              borderRadius: 10,
+                              backgroundColor: "#e30217",
+                              color: "white",
+                            }}
+                              onClick={(e) => orderReady(e, data)}>Order Ready</Button>
+                            : ""
+                        }
+                      </Stack>
                     </div>
                   </Stack>
                 </Card>
@@ -357,7 +473,33 @@ function Delivery() {
                       {/* Product Details */}
                       <text className="content_delivery">Product : </text>
                       <br /><br />
-                      <TextGetOrderDetailByID orderID={data.orderId} />
+                      <Stack
+                        direction="column"
+                        divider={<Divider orientation="horizontal" flexItem />}
+                        spacing={1}
+                      >
+                        <TextGetOrderDetailByID orderID={data.orderId} />
+                        <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text>{data.totalPrice} VND</text></p>
+                        {
+                          (data.status == 'done' && data.totalPrice > 0)
+                            ? <Button style={{
+                              fontFamily: "Muli",
+                              borderRadius: 10,
+                              backgroundColor: "#e30217",
+                              color: "white",
+                            }}
+                              onClick={(e) => orderReady(e, data)}>Order Ready</Button>
+                            :
+                            <Button
+                              disabled
+                              style={{
+                                fontFamily: "Muli",
+                                borderRadius: 10,
+                                backgroundColor: "gray",
+                                color: "white",
+                              }}>Order Is Not Ready</Button>
+                        }
+                      </Stack>
                     </div>
                   </Stack>
                 </Card>
@@ -403,7 +545,33 @@ function Delivery() {
                       {/* Product Details */}
                       <text className="content_delivery">Product : </text>
                       <br /><br />
-                      <TextGetOrderDetailByID orderID={data.orderId} />
+                      <Stack
+                        direction="column"
+                        divider={<Divider orientation="horizontal" flexItem />}
+                        spacing={1}
+                      >
+                        <TextGetOrderDetailByID orderID={data.orderId} />
+                        <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text>{data.totalPrice} VND</text></p>
+                        {
+                          (data.status == 'done' && data.totalPrice > 0)
+                            ? <Button style={{
+                              fontFamily: "Muli",
+                              borderRadius: 10,
+                              backgroundColor: "#e30217",
+                              color: "white",
+                            }}
+                              onClick={(e) => orderReady(e, data)}>Order Ready</Button>
+                            :
+                            <Button
+                              disabled
+                              style={{
+                                fontFamily: "Muli",
+                                borderRadius: 10,
+                                backgroundColor: "gray",
+                                color: "white",
+                              }}>Order Is Not Ready</Button>
+                        }
+                      </Stack>
                     </div>
                   </Stack>
                 </Card>
@@ -453,7 +621,25 @@ function Delivery() {
                       {/* Product Details */}
                       <text className="content_delivery">Product : </text>
                       <br /><br />
-                      <TextGetOrderDetailByID orderID={data.orderId} />
+                      <Stack
+                        direction="column"
+                        divider={<Divider orientation="horizontal" flexItem />}
+                        spacing={1}
+                      >
+                        <TextGetOrderDetailByID orderID={data.orderId} />
+                        <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text>{data.totalPrice} VND</text></p>
+                        {
+                          (data.status == 'done' && data.totalPrice > 0)
+                            ? <Button style={{
+                              fontFamily: "Muli",
+                              borderRadius: 10,
+                              backgroundColor: "#e30217",
+                              color: "white",
+                            }}
+                              onClick={(e) => orderReady(e, data)}>Order Ready</Button>
+                            : ""
+                        }
+                      </Stack>
                     </div>
                   </Stack>
                 </Card>
@@ -499,7 +685,25 @@ function Delivery() {
                       {/* Product Details */}
                       <text className="content_delivery">Product : </text>
                       <br /><br />
-                      <TextGetOrderDetailByID orderID={data.orderId} />
+                      <Stack
+                        direction="column"
+                        divider={<Divider orientation="horizontal" flexItem />}
+                        spacing={1}
+                      >
+                        <TextGetOrderDetailByID orderID={data.orderId} />
+                        <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text>{data.totalPrice} VND</text></p>
+                        {
+                          (data.status == 'done' && data.totalPrice > 0)
+                            ? <Button style={{
+                              fontFamily: "Muli",
+                              borderRadius: 10,
+                              backgroundColor: "#e30217",
+                              color: "white",
+                            }}
+                              onClick={(e) => orderReady(e, data)}>Order Ready</Button>
+                            : ""
+                        }
+                      </Stack>
                     </div>
                   </Stack>
                 </Card>
