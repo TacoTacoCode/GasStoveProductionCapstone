@@ -157,7 +157,7 @@ function Profile() {
                                         </div>
                                         <div className="inline2_row2">
                                             <span className="span_1">
-                                                <input type="text" placeholder={currentUser.workerID} className="textbox_input" defaultValue={currentUser.workerId} readOnly={true}></input>
+                                                <input type="text" placeholder={currentUser.accountId} className="textbox_input" defaultValue={currentUser.accountId} readOnly={true}></input>
                                             </span>
                                         </div>
                                     </div>

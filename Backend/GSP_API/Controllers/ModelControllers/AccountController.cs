@@ -109,7 +109,10 @@ namespace GSP_API.Controllers.ModelControllers
             }
 
             var data = await _accountService.AddAccount(_mapper.Map<Account>(newAccount), fileStream, fileName);
-            fileStream.Dispose();
+            if(file != null)
+            {
+                fileStream.Dispose();
+            }
             if (data.Contains("error"))
             {
                 return StatusCode(500, data);

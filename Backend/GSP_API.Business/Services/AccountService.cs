@@ -62,13 +62,14 @@ namespace GSP_API.Business.Services
                 try
                 {
                     imageUrl = await FireBaseUtil.Upload(fileStream, fileName);
+                    imageUrl = imageUrl.Substring(imageUrl.IndexOf("%2F") + 3);
                 }
                 catch (System.Exception ex)
                 {
                     return ex.Message;
                 }   
             }
-            account.AvatarUrl = imageUrl.Substring(imageUrl.IndexOf("%2F")+3);
+            account.AvatarUrl = imageUrl;
             return await _accountRepository.Add(account);
         }
 
