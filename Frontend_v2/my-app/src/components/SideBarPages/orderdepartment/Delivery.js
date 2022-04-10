@@ -139,7 +139,20 @@ function Delivery() {
             setVisibleReadyBtn(false)
             setVisibleDeliveredBtn(false)
           }
-          }>New - [{countListOrderPreparing}]</DeliveryButton>
+          }>
+          <Stack
+            direction="row"
+            spacing={3}
+          >
+            <div style={{ verticalAlign: "middle", padding: "5px" }}>New</div>
+            <div className="number_square">
+              {countListOrderPreparing}
+            </div>
+          </Stack>
+          {
+            (visibleNewBtn == true) ? <div style={{ marginTop: "10px", backgroundColor: "white", height: "3px" }}></div> : ""
+          }
+        </DeliveryButton>
         <DeliveryButton type="button"
           onClick={() => {
             setVisibleNewBtn(false)
@@ -147,7 +160,18 @@ function Delivery() {
             setVisibleReadyBtn(false)
             setVisibleDeliveredBtn(false)
           }
-          }>Preparing - [{countListOrderPreparing}]</DeliveryButton>
+          }>          <Stack
+            direction="row"
+            spacing={3}
+          >
+            <div style={{ verticalAlign: "middle", padding: "5px" }}>Preparing</div>
+            <div className="number_square">
+              {countListOrderPreparing}
+            </div>
+          </Stack>
+          {
+            (visiblePreparingBtn == true) ? <div style={{ marginTop: "10px", backgroundColor: "white", height: "3px" }}></div> : ""
+          }</DeliveryButton>
         <DeliveryButton type="button"
           onClick={() => {
             setVisibleNewBtn(false)
@@ -155,7 +179,18 @@ function Delivery() {
             setVisibleReadyBtn(true)
             setVisibleDeliveredBtn(false)
           }
-          }>Ready - [{countListOrderReady}]</DeliveryButton>
+          }>          <Stack
+            direction="row"
+            spacing={3}
+          >
+            <div style={{ verticalAlign: "middle", padding: "5px" }}>Ready</div>
+            <div className="number_square">
+              {countListOrderReady}
+            </div>
+          </Stack>
+          {
+            (visibleReadyBtn == true) ? <div style={{ marginTop: "10px", backgroundColor: "white", height: "3px" }}></div> : ""
+          }</DeliveryButton>
         <DeliveryButton type="button"
           onClick={() => {
             setVisibleNewBtn(false)
@@ -163,10 +198,22 @@ function Delivery() {
             setVisibleReadyBtn(false)
             setVisibleDeliveredBtn(true)
           }
-          }>Delivered - [{countListOrderDelivered}]</DeliveryButton>
+          }>          <Stack
+            direction="row"
+            spacing={3}
+          >
+            <div style={{ verticalAlign: "middle", padding: "5px" }}>Delivery</div>
+            <div className="number_square">
+              {countListOrderDelivered}
+            </div>
+          </Stack>
+          {
+            (visibleDeliveredBtn == true) ? <div style={{ marginTop: "10px", backgroundColor: "white", height: "3px" }}></div> : ""
+          }
+        </DeliveryButton>
       </div>
       <br /><br /><br /><br />
-      <hr />
+      <hr style={{ border: '1px solid red', borderRadius: '5px' }} />
       <br /><br />
       {
         (visibleNewBtn == true && visiblePreparingBtn == false && visibleReadyBtn == false && visibleDeliveredBtn == false)
