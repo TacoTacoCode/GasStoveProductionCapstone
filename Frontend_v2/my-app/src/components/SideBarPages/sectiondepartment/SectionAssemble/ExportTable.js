@@ -47,15 +47,18 @@ export const ExTable = (props) => {
             title: "Product Image",
             field: 'productImage',
             cellStyle: { fontFamily: "Muli", textAlign: 'center' },
-            render: (e) =>
+            render: (e) => listProCom.length > 0 ?
                 <img src={`https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F${listProCom[e.tableData.id].product.imageUrl}`}
                     width="100px" height="100px" />
+                : null
         },
         {
             title: "Product Name",
             field: 'productName',
             cellStyle: { fontFamily: "Muli", textAlign: 'center' },
-            render: (e) => `${listProCom[e.tableData.id].product.productName}`
+            render: (e) => listProCom.length > 0 ?
+                `${listProCom[e.tableData.id].product.productName}`
+                : ''
         },
         {
             title: "Finished Amount",
@@ -85,20 +88,19 @@ export const ExTable = (props) => {
     ];
     return (
         <React.Fragment>
-            {listProCom.length > 0 ?
-                <MaterialTable
-                    title={"List of Task"}
-                    data={listProcessDetail}
-                    columns={columns}
-                    actions={[]}
-                    options={{
-                        addRowPosition: "first",
-                        actionsColumnIndex: -1,
-                        exportButton: false,
-                        search: false,
-                        headerStyle: { backgroundColor: "#E30217", color: "#fff", textAlign: 'center' },
-                    }}
-                /> : null}
+            <MaterialTable
+                title={"List of Task"}
+                data={listProcessDetail}
+                columns={columns}
+                actions={[]}
+                options={{
+                    addRowPosition: "first",
+                    actionsColumnIndex: -1,
+                    exportButton: false,
+                    search: false,
+                    headerStyle: { backgroundColor: "#E30217", color: "#fff", textAlign: 'center' },
+                }}
+            />
         </React.Fragment>
     );
 };

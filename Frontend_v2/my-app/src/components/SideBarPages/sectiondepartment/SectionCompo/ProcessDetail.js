@@ -20,6 +20,7 @@ function ProcessDetail() {
                         setListProcessDetail(response.data);
                         localStorage.setItem('listProcessDetail', JSON.stringify(response.data))
                     }).catch((error) => {
+                        localStorage.setItem('listProcessDetail', JSON.stringify(listProcessDetail))
                         alert("Error at get processDetails")
                     })
             }).catch((err) => {
@@ -28,7 +29,7 @@ function ProcessDetail() {
     }, []);
     return (
         curSectionInfo && <>
-            <div className="importexport">
+            <div className="importexport" style={{ marginRight: "7%" }}>
                 <ImportExcelButton
                     type="button"
                     className='btn-Import'

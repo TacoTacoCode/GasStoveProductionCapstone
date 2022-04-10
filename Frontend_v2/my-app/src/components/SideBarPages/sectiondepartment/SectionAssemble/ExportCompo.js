@@ -18,6 +18,7 @@ export const ExportCompo = (props) => {
             render: (rowData) =>
                 <Select
                     id="demo-simple-select"
+                    disableUnderline
                     value={tableData[rowData.tableData.id].processDetailId}
                     onChange={(e) => handleChangeData(e.target.value, rowData.tableData.id)}
                 >
@@ -46,6 +47,7 @@ export const ExportCompo = (props) => {
             render: (rowData) =>
                 <Select
                     id="demo-simple-select"
+                    disableUnderline
                     value={tableData[rowData.tableData.id].componentName}
                 >
                     {
@@ -75,6 +77,7 @@ export const ExportCompo = (props) => {
                         value={tableData[rowData.tableData.id].amount}
                         type={"number"}
                         InputProps={{
+                            disableUnderline: true,
                             inputProps: { min: 0, max: tableData[rowData.tableData.id].maxAmount },
                         }}
                         onChange={(e) => handleChangeAmount(e.target.value, rowData.tableData.id)}

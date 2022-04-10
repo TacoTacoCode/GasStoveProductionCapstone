@@ -10,17 +10,19 @@ namespace GSP_API.Business.Services
     {
         private readonly IImportExportDetailRepository _importExportDetailRepository;
         private readonly ProcessDetailService _processDetailService;
+        private readonly ProcessService _processService;
         private readonly ComponentService _componentService;
         private readonly MaterialService _materialService;
         private readonly ProductService _productService;
         public ImportExportDetailService(
-            IImportExportDetailRepository importExportDetailRepository, ProcessDetailService processDetailService, ComponentService componentService, MaterialService materialService, ProductService productService)
+            IImportExportDetailRepository importExportDetailRepository, ProcessDetailService processDetailService, ComponentService componentService, MaterialService materialService, ProductService productService, ProcessService processService)
         {
             _importExportDetailRepository = importExportDetailRepository;
             _processDetailService = processDetailService;
             _componentService = componentService;
             _materialService = materialService;
             _productService = productService;
+            _processService = processService;
         }
 
         public async Task<List<ImportExportDetail>> GetImExDetailByImEx(int imExId)
@@ -142,16 +144,18 @@ namespace GSP_API.Business.Services
         {
             try
             {
-                int? amount = 0;
+                ProcessDetail processDetail = null;
+                int? amount = -1;
                 if (importDetail.ProcessDetailId != null)
                 {
-                    var processDetail = await _processDetailService.GetProcessDetailById((int)importDetail.ProcessDetailId);
+                    processDetail = await _processDetailService.GetProcessDetailById((int)importDetail.ProcessDetailId);
                     processDetail.FinishedAmount = (processDetail.FinishedAmount ?? 0) + importDetail.Amount;
 
                     if (processDetail.FinishedAmount == processDetail.TotalAmount)
                     {
                         processDetail.Status = "Done";
                         processDetail.FinishedDate = DateTime.Now.Date;
+                        amount = 0;
                     }else if(processDetail.FinishedAmount > processDetail.TotalAmount)
                     {
                         processDetail.Status = "Done";
@@ -171,7 +175,7 @@ namespace GSP_API.Business.Services
                     await _processDetailService.UpdateProcessDetail(processDetail);
                 }
                 //import to warehouse
-                if(amount > 0)
+                if(!(amount < 0))
                 {
                     if (itemType == "C")
                     {
@@ -183,7 +187,27 @@ namespace GSP_API.Business.Services
                     {
                         var item = await _productService.GetProductById(importDetail.ItemId);
                         item.Amount += amount;
+                        //import product => section assemble => update process info
+                        if(processDetail != null)
+                        {
+                            var process = await _processService.GetProcessById((int)processDetail.ProcessId);
+                            process.Status = "Done";
+                            process.FinishedDate = processDetail.FinishedDate;
+                            process.FinishedAmount = processDetail.FinishedAmount;
+                            await _processService.UpdateProcess(process);
+                        }
                         await _productService.UpdateProduct(item, null, null);
+                    }
+                }
+                else
+                {
+                    //import product => section assemble => update process info
+                    if (processDetail != null && itemType == "P")
+                    {
+                        var process = await _processService.GetProcessById((int)processDetail.ProcessId);
+                        process.FinishedAmount = processDetail.FinishedAmount;
+                        process.ExpectedFinishDate = processDetail.ExpectedFinishDate;
+                        await _processService.UpdateProcess(process);
                     }
                 }
                 return "Imported";

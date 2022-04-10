@@ -21,11 +21,6 @@ function Orders() {
     const getAllOrders = 'https://localhost:5001/getAllOrders'
     //Gọi API bằng axios
     axios.get(getAllOrders).then((res) => {
-      var expiryDate = res.data[0].expiryDate;
-      var input = document.createElement("input");
-      input.type = "date";
-      input.className = "expiryDate";
-      input.defaultValue = expiryDate.substring(0, expiryDate.indexOf('T'))
       setListOrder(res.data);
     }).catch((err) => {
       console.log(err);
