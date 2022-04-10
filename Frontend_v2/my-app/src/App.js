@@ -22,6 +22,7 @@ import Panel from './components/SideBarPages/sectiondepartment/SectionCompo/Pane
 import ImportForm from './components/SideBarPages/sectiondepartment/SectionCompo/ImportForm';
 import { ImportCompo } from './components/SideBarPages/sectiondepartment/SectionAssemble/ImportCompo';
 import { ExportCompo } from './components/SideBarPages/sectiondepartment/SectionAssemble/ExportCompo';
+import Delivery from './components/SideBarPages/orderdepartment/Delivery';
 import RequestDetail from './components/SideBarPages/admin/RequestDetail';
 
 const theme = createTheme({
@@ -64,65 +65,118 @@ function App() {
     return <Signin />
   }
 
-  return (
-    <div className="App">
-      <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <CustomSideBar />
-          <Routes>
-            <Route path='/profile' exact element={<Profile />}></Route>
-            <Route path='/dashboard' exact element={<DashBoard />}></Route>
-            <Route path='/dashboard/accounts' exact element={<Accounts />}></Route>
-            <Route path='/dashboard/materials' exact element={<Materials />}></Route>
-            <Route path='/dashboard/products' exact element={<Products />}></Route>
-            <Route path='/dashboard/components' exact element={<Components />}></Route>
-            <Route path='/orders' exact element={<Orders />}></Route>
-            <Route path='/orders/orderdetails' exact element={<OrderDetails />}></Route>
-            <Route path='/section/materials' exact element={<SectionMaterials />}></Route>
-            <Route path='/section/workers' exact element={<WorkerList />}></Route>
-            <Route path='/createProcess' exact element={<CreateProcess />}></Route>
-            <Route path='/divideProcessTabs' exact element={<DivideProcessTabs />}></Route>
-            <Route path='/section/processDetail' exact element={< ProcessDetail />}></Route>
-            <Route path='/section/exportElement' exact element={< Panel />}></Route>
-          </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
-    </div >
-  );
+  if (role == 'Admin') {
+    return (
+      <div className="App">
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <CustomSideBar />
+            <Routes>
+              <Route path='/profile' exact element={<Profile />}></Route>
+              <Route path='/dashboard' exact element={<DashBoard />}></Route>
+              <Route path='/dashboard/sections' exact element={<Sections />}></Route>
+              <Route path='/dashboard/accounts' exact element={<Accounts />}></Route>
+              <Route path='/dashboard/materials' exact element={<Materials />}></Route>
+              <Route path='/dashboard/products' exact element={<Products />}></Route>
+              <Route path='/dashboard/components' exact element={<Components />}></Route>
+              <Route path='/requestDetail' exact element={< RequestDetail />}></Route>
+            </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
+      </div >
+    );
+  }
+
+  if (role == 'Manufacturer Deparment') {
+    return (
+      <div className="App">
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <CustomSideBar />
+            <Routes>
+              <Route path='/profile' exact element={<Profile />}></Route>
+            </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
+      </div >
+    );
+  }
+
+  if (role == 'Order Department') {
+    return (
+      <div className="App">
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <CustomSideBar />
+            <Routes>
+              <Route path='/profile' exact element={<Profile />}></Route>
+              <Route path='/orders' exact element={<Orders />}></Route>
+              <Route path='/orders/orderdetails' exact element={<OrderDetails />}></Route>
+              <Route path='/delivery' exact element={<Delivery />}></Route>
+            </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
+      </div >
+    );
+  }
+
+  if (role == 'Section Department') {
+    return (
+      <div className="App">
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <CustomSideBar />
+            <Routes>
+              <Route path='/profile' exact element={<Profile />}></Route>
+              <Route path='/section/materials' exact element={<SectionMaterials />}></Route>
+              <Route path='/section/workers' exact element={<WorkerList />}></Route>
+              <Route path='/createProcess' exact element={<CreateProcess />}></Route>
+              <Route path='/divideProcessTabs' exact element={<DivideProcessTabs />}></Route>
+              <Route path='/section/processDetail' exact element={< ProcessDetail />}></Route>
+              <Route path='/section/exportElement' exact element={< Panel />}></Route>
+              <Route path='/section/importElement' exact element={< ImportForm />}></Route>
+              <Route path='/section/importCompo' exact element={< ImportCompo />}></Route>
+              <Route path='/section/exportCompo' exact element={< ExportCompo />}></Route>
+              <Route path='/section/attendance' exact element={<Attendance />}></Route>
+            </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
+      </div >
+    );
+  }
+
+  //full link
+
+  // return (
+  //   <div className="App">
+  //     <ThemeProvider theme={theme}>
+  //       <BrowserRouter>
+  //         <CustomSideBar />
+  //         <Routes>
+  //           <Route path='/profile' exact element={<Profile />}></Route>
+  //           <Route path='/dashboard' exact element={<DashBoard />}></Route>
+  //           <Route path='/dashboard/sections' exact element={<Sections />}></Route>
+  //           <Route path='/dashboard/accounts' exact element={<Accounts />}></Route>
+  //           <Route path='/dashboard/materials' exact element={<Materials />}></Route>
+  //           <Route path='/dashboard/products' exact element={<Products />}></Route>
+  //           <Route path='/dashboard/components' exact element={<Components />}></Route>
+  //           <Route path='/orders' exact element={<Orders />}></Route>
+  //           <Route path='/orders/orderdetails' exact element={<OrderDetails />}></Route>
+  //           <Route path='/section/materials' exact element={<SectionMaterials />}></Route>
+  //           <Route path='/section/workers' exact element={<WorkerList />}></Route>
+  //           <Route path='/createProcess' exact element={<CreateProcess />}></Route>
+  //           <Route path='/divideProcessTabs' exact element={<DivideProcessTabs />}></Route>
+  //           <Route path='/section/processDetail' exact element={< ProcessDetail />}></Route>
+  //           <Route path='/section/exportElement' exact element={< Panel />}></Route>
+  //           <Route path='/section/importElement' exact element={< ImportForm />}></Route>
+  //           <Route path='/section/importCompo' exact element={< ImportCompo />}></Route>
+  //           <Route path='/section/exportCompo' exact element={< ExportCompo />}></Route>
+  //           <Route path='/section/attendance' exact element={< Attendance />}></Route>
+  //         </Routes>
+  //       </BrowserRouter>
+  //     </ThemeProvider>
+  //   </div >
+  // );
 }
-
-//full link
-
-// return (
-//   <div className="App">
-//     <ThemeProvider theme={theme}>
-//       <BrowserRouter>
-//         <CustomSideBar />
-//         <Routes>
-//           <Route path='/profile' exact element={<Profile />}></Route>
-//           <Route path='/dashboard' exact element={<DashBoard />}></Route>
-//           <Route path='/dashboard/sections' exact element={<Sections />}></Route>
-//           <Route path='/dashboard/accounts' exact element={<Accounts />}></Route>
-//           <Route path='/dashboard/materials' exact element={<Materials />}></Route>
-//           <Route path='/dashboard/products' exact element={<Products />}></Route>
-//           <Route path='/dashboard/components' exact element={<Components />}></Route>
-//           <Route path='/orders' exact element={<Orders />}></Route>
-//           <Route path='/orders/orderdetails' exact element={<OrderDetails />}></Route>
-//           <Route path='/section/materials' exact element={<SectionMaterials />}></Route>
-//           <Route path='/section/workers' exact element={<WorkerList />}></Route>
-//           <Route path='/createProcess' exact element={<CreateProcess />}></Route>
-//           <Route path='/divideProcessTabs' exact element={<DivideProcessTabs />}></Route>
-//           <Route path='/section/processDetail' exact element={< ProcessDetail />}></Route>
-//           <Route path='/section/exportElement' exact element={< Panel />}></Route>
-//           <Route path='/section/importElement' exact element={< ImportForm />}></Route>
-//           <Route path='/section/importCompo' exact element={< ImportCompo />}></Route>
-//           <Route path='/section/exportCompo' exact element={< ExportCompo />}></Route>
-//           <Route path='/section/attendance' exact element={< Attendance />}></Route>
-//         </Routes>
-//       </BrowserRouter>
-//     </ThemeProvider>
-//   </div >
-// );
-//}
 
 export default App;

@@ -42,17 +42,17 @@ export const SideBarAdminData = [
 
 export const SideBarOrderData = [
     {
-        title: 'Orders',
+        title: 'Manage Orders',
         // icon: <DashboardIcon />,
         path: "/orders",
         cName: 'nav-text'
     },
-    // {
-    //     title: 'Orders Details',
-    //     // icon: <DashboardIcon />,
-    //     path: "/orders/orderdetails",
-    //     cName: 'nav-text'
-    // }
+    {
+        title: 'Manage Delivery',
+        // icon: <DashboardIcon />,
+        path: "/delivery",
+        cName: 'nav-text'
+    }
 ]
 
 export const SideBarSectionData = [
