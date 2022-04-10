@@ -1,52 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom';
-import {
-    TextField,
-    Button,
-} from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import './process.css'
 import { InputAdornment } from '@mui/material';
 import { styled } from '@material-ui/styles';
 import '../button/button.css'
 import { ImportExcelButton } from '../button/ImportExcelButton';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
-import MaterialPopup from '../Popups/DivideProcessPopup';
 import DivideProcessPopup from '../Popups/DivideProcessPopup';
 import axios from 'axios';
 import MaterialTable from 'material-table';
-import ProcessDetailTable from '../tabledata/ProcessDetailTable';
-
+import moment from 'moment';
+import swal from 'sweetalert';
 function CreateProcess() {
-
-    // const styles = theme => ({
-    //     width: "100%",
-    //     "& label.Mui-focused": {
-    //         color: "black",
-    //     },
-    //     "& .MuiInput-underline:after": {
-    //         borderBottomColor: "#e30217",
-    //     },
-    //     "& .MuiOutlinedInput-root": {
-    //         "& fieldset": {
-    //             borderColor: "black",
-    //         },
-    //         "&:hover fieldset": {
-    //             borderColor: "#ff4747",
-    //         },
-    //         "&.Mui-focused fieldset": {
-    //             borderColor: "#e30217",
-    //         },
-    //     },
-    // });
-
-    const styles = theme => ({
-        multilineColor: {
-            color: 'red'
-        }
-    });
 
     const CssTextField = styled(TextField)({
         width: "100%",
@@ -70,27 +37,29 @@ function CreateProcess() {
     });
 
     var process = JSON.parse(localStorage.getItem('process'))
-    const processDetail = process.processDetails;
-    //console.log(processDetail);
     const [tableData, setTableData] = useState([])
 
 
     useEffect(() => {
+        const processDetail = process.processDetails;
         let datas = []
-        let promises = processDetail.map((e, index) =>
-            axios.get('https://localhost:5001/getCompos/sec/' + e.sectionId)
-        )
-        Promise.all(promises).then((e) => {
-            localStorage.setItem('listComponent', JSON.stringify(e))
-            e.map((ele, index) =>
-                datas.push({
+        let compos = {}
+        let promises = processDetail.map((e) => {
+            datas.push({ ...e })
+            return axios.get('https://localhost:5001/getCompos/sec/' + e.sectionId)
+        })
+        Promise.all(promises).then((e) =>
+            e.map((ele, index) => {
+                datas[index].componentName = ele.data.componentName ?? 'Assemble Section'
+                datas[index].componentImg = ele.data.imageUrl ?? 'no-image.jpg?alt=media&token=c45f5852-28eb-4b4d-87a8-2caefb10df12'
+                compos[processDetail[index].sectionId] = {
                     "componentName": ele.data.componentName ?? 'Assemble Section',
-                    "totalAmount": processDetail[index].totalAmount,
-                    "expiryDate": processDetail[index].expiryDate
-                })
-            )
-        }
+                    "componentImg": ele.data.imageUrl ?? 'no-image.jpg?alt=media&token=c45f5852-28eb-4b4d-87a8-2caefb10df12'
+                }
+            })
         ).then(() => {
+            localStorage.setItem('listComponent', JSON.stringify(compos))
+            console.log(datas)
             setTableData(datas)
         })
     }, [])
@@ -105,13 +74,8 @@ function CreateProcess() {
     const [createdDate, setCreatedDate] = useState(process.createdDate)
     const [expectedFinishDate, setExpectedFinishDate] = useState(process.expectedFinishDate)
     const [expiryDate, setExpiryDate] = useState(process.expiryDate)
-    const [finishedDate, setFinishedDate] = useState(process.finishedDate)
+    const [status,] = useState(process.status)
     const [divideProcess, setDivideProcess] = useState(false);
-    const location = useLocation();
-
-    // const [sectionId, setSectionId] = useState([]);
-
-
 
     const listProcess = [
         {
@@ -123,43 +87,65 @@ function CreateProcess() {
             createdDate,
             expectedFinishDate,
             expiryDate,
-            finishedDate
+            status
         }
     ]
-
-    console.log(listProcess);
-
-    // const [processDetail, setProcessDetail] = useState([]);
-
+    const generateData = () => {
+        let tmp = [...listProcess]
+        tmp[0].processDetails = [...tableData]
+        return tmp
+    }
     const handleSave = (e) => {
         e.preventDefault();
-        console.log(listProcess);
+        let datass = generateData()
         axios({
             url: 'https://localhost:5001/addProcessList',
             method: 'POST',
-            data: listProcess
+            data: datass
+        }).then((response) => {
+            swal("Success", "Submit Data", "success", {
+                buttons: false,
+                timer: 1500,
+            }).then((e) => window.location.href = 'http://localhost:3000/orders/orderdetails')
+        }).catch((err) => {
+            alert('System error, try again later')
         })
-            .then((response) => {
-                console.log(response.data);
-            }).catch((err) => {
-                console.log(err);
-            })
     };
-
-
     const columns = [
         {
-            title: 'Component Name', field: 'componentName', cellStyle: { fontFamily: 'Muli', width: "30%" }, align: 'left'
+            title: 'Component Name', field: 'componentName', editable: 'false',
+            cellStyle: { fontFamily: 'Muli', width: "25%" }, align: 'center'
         },
         {
-            title: 'Total Amount', field: 'totalAmount', cellStyle: { fontFamily: 'Muli', width: "30%" }, align: 'left'
+            title: "Image", field: 'componentImg', align: 'center',
+            cellStyle: { fontFamily: "Muli" }, editable: 'false',
+            render: (rowData) =>
+                <img src={`https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F${rowData.componentImg}`}
+                    width="100px" height="100px" />
         },
         {
-            title: 'Expiry Date', field: 'expiryDate', cellStyle: { fontFamily: 'Muli', width: "30%" }, align: 'left'
+            title: 'Total Amount', field: 'totalAmount', editable: 'false',
+            cellStyle: { fontFamily: 'Muli', width: "25%" }, align: 'center'
+        },
+        {
+            title: 'Expiry Date', field: 'expiryDate', cellStyle: { fontFamily: 'Muli', width: "25%" }, align: 'center',
+            type: 'date', editComponent: props => (
+                < LocalizationProvider dateAdapter={AdapterDateFns} >
+                    <DatePicker
+                        inputFormat="MM/dd/yyyy"
+                        value={props.rowData.expiryDate}
+                        minDate={new Date(createdDate)}
+                        maxDate={expiryDate == null ? null : new Date(expiryDate)}
+                        onChange={(date) => {
+                            let dateFm = moment(date).format('MM-DD-YYYY')
+                            props.onChange(dateFm)
+                        }}
+                        renderInput={(params) =>
+                            <CssTextField color='secondary' className='datefield' {...params} />}
+                    /></LocalizationProvider >
+            )
         },
     ]
-
-    const classes = styles();
 
     return (
         <>
@@ -171,11 +157,11 @@ function CreateProcess() {
                 <form className='formm'>
                     <div style={{ display: 'block', marginBottom: '5%' }}>
                         <h3 className='h3'>Create Process(s) for Order Detail {process.orderDetailId}</h3>
-                        {localStorage.getItem("orderType") == 'true' ?
+                        {localStorage.getItem("orderType") == 'false' ?
                             <><ImportExcelButton type="button"
                                 onClick={() => {
                                     localStorage.setItem('orderDetail', JSON.stringify(listProcess[0]));
-                                    console.log(localStorage.getItem('orderDetail'));
+                                    //console.log(localStorage.getItem('orderDetail'));
                                     setDivideProcess(true);
                                 }
                                 }>Divide Process</ImportExcelButton>
@@ -190,12 +176,10 @@ function CreateProcess() {
                                 onClick={(e) => handleSave(e)}>Submit</ImportExcelButton>}
 
                     </div>
-                    <div className='start'>
+                    {/* <div className='start'>
                         <div className='divprocess'>
                             <TextField
-                                inputProps={
-                                    { readOnly: true, }
-                                }
+                                inputProps={{ readOnly: true, }}
                                 className='processfield'
                                 label="Order Detail Id"
                                 variant="outlined"
@@ -209,8 +193,9 @@ function CreateProcess() {
                                 className='processfield'
                                 label="Process Id"
                                 variant="outlined"
-                                defaultValue={process.processId} /></div>
-                    </div>
+                                defaultValue={process.processId} />
+                        </div>
+                    </div> */}
                     <div className='mid2'>
                         <div className='divprocess'>
                             <TextField
@@ -224,7 +209,23 @@ function CreateProcess() {
                                 InputProps={{
                                     endAdornment: <InputAdornment position="end">Unit</InputAdornment>,
                                 }}
-                            /></div>
+                            />
+                        </div>
+                        <div className='divprocess'>
+                            <TextField
+                                type='number'
+                                className='processfield'
+                                label="Needed Amount"
+                                variant="outlined"
+                                defaultValue={neededAmount}
+                                onChange={(e) => {
+                                    setNeededAmount(e.target.value)
+                                }}
+                                value={neededAmount}
+                                InputProps={{
+                                    endAdornment: <InputAdornment position="end">Unit</InputAdornment>,
+                                }} />
+                        </div>
                         <div className='divprocess'>
                             <TextField
                                 key={'finishedAmount'}
@@ -239,21 +240,9 @@ function CreateProcess() {
                                 }}
                                 InputProps={{
                                     endAdornment: <InputAdornment position="end">Unit</InputAdornment>,
-                                }} /></div>
-                        <div className='divprocess'>
-                            <TextField
-                                type='number'
-                                className='processfield'
-                                label="Needed Amount"
-                                variant="outlined"
-                                defaultValue={neededAmount}
-                                onChange={(e) => {
-                                    setNeededAmount(e.target.value)
-                                }}
-                                value={neededAmount}
-                                InputProps={{
-                                    endAdornment: <InputAdornment position="end">Unit</InputAdornment>,
-                                }} /></div>
+                                }} />
+                        </div>
+
                     </div>
                     <div className='date'>
                         <div className='divprocess'>
@@ -269,26 +258,26 @@ function CreateProcess() {
                         <div className='divprocess'>
                             <LocalizationProvider dateAdapter={AdapterDateFns}><DatePicker
                                 inputFormat="MM/dd/yyyy"
+                                defaultValue={expiryDate}
+                                value={expiryDate}
+                                minDate={new Date(createdDate)}
+                                onChange={date => setExpiryDate(date)}
+                                renderInput={(params) => <CssTextField type='date' color='secondary' className='datefield' helperText="Expiry Date"
+                                    variant="outlined" {...params} />}
+                            /></LocalizationProvider>
+                        </div>
+                        <div className='divprocess'>
+                            <LocalizationProvider dateAdapter={AdapterDateFns}><DatePicker
+                                inputFormat="MM/dd/yyyy"
                                 defaultValue={expectedFinishDate}
                                 value={expectedFinishDate}
                                 onChange={date => setExpectedFinishDate(date)}
                                 renderInput={(params) => <CssTextField color='secondary' className='datefield' helperText="Expected Finished Date"
                                     variant="outlined" {...params} />}
                             /></LocalizationProvider>
-                            {/* <CssTextField type='date' className='datefield' variant="outlined" helperText="Expected Finish Date" /> */}
                         </div>
-                        <div className='divprocess'>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}><DatePicker
-                                inputFormat="MM/dd/yyyy"
-                                defaultValue={expiryDate}
-                                value={expiryDate}
-                                onChange={date => setExpiryDate(date)}
-                                renderInput={(params) => <CssTextField type='date' color='secondary' className='datefield' helperText="Expiry Date"
-                                    variant="outlined" {...params} />}
-                            /></LocalizationProvider>
-                            {/* <CssTextField type='date' className='datefield' variant="outlined" helperText="Expiry Date" /> */}
-                        </div>
-                        <div className='divprocess'>
+
+                        {/* <div className='divprocess'>
                             <LocalizationProvider dateAdapter={AdapterDateFns}><DatePicker
                                 inputFormat="MM/dd/yyyy"
                                 defaultValue={finishedDate}
@@ -297,29 +286,39 @@ function CreateProcess() {
                                 renderInput={(params) => <CssTextField type='date' color='secondary' className='datefield' helperText="Finished Date"
                                     variant="outlined" {...params} />}
                             /></LocalizationProvider>
-                            {/* <CssTextField type='date' className='datefield' variant="outlined" helperText="Finished Date" /> */}
-                        </div>
+                        </div> */}
                     </div>
                     <div className='processDetailTable'>
                         <MaterialTable title={"Process Details"}
                             data={tableData}
                             columns={columns}
-
                             editable={{
+                                onBulkUpdate: changes =>
+                                    new Promise((resolve, reject) => {
+                                        setTimeout(() => {
+                                            {
+                                                let arr = [...tableData]
+                                                Object.keys(changes).map((key) => {
+                                                    arr[parseInt(key)] = changes[key].newData
+                                                })
+                                                setTableData(arr)
+                                            }
+                                            resolve();
+                                        }, 500);
+                                    }),
                                 onRowUpdate: (newData, oldData) =>
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {
                                             {
-                                                const data = [...tableData];
-                                                const index = data.indexOf(oldData);
-                                                data[index] = newData;
-                                                setTableData(data)
+                                                let arr = [...tableData]
+                                                const indexDetail = oldData.tableData.id;
+                                                arr[indexDetail] = newData
+                                                setTableData(arr)
                                             }
                                             resolve();
                                         }, 500);
                                     }),
                             }}
-
                             options={{
                                 addRowPosition: 'first',
                                 actionsColumnIndex: -1,
@@ -327,10 +326,6 @@ function CreateProcess() {
                                 headerStyle: { backgroundColor: '#E30217', color: '#fff' }
                             }} />
                     </div>
-
-                    {/* <ProcessDetailTable listProcessDetail={tableData}/> */}
-
-
                 </form>
             </div >
         </>

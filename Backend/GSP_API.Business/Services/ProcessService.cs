@@ -159,34 +159,36 @@ namespace GSP_API.Business.Services
         {
             ////validate
             var orderDetail = await _orderDetailService.GetOrderDetailById((int)processList[0].OrderDetailId);
-            //get all component need to build the product
-            var proCompos = await _productComponentService.GetProCompoByProId(orderDetail.ProductId);
-            //add amount of component need, convert to sectionId since processDetail contains SectionId 
-            var sectionDic = proCompos.ToDictionary(e => _sectionService.GetSectionByComponentId(e.ComponentId).Result.SectionId, e => e.Amount);
-            //add assemble section
-            var assembleSection = await _sectionService.GetSectionByType(true);
-            sectionDic.Add(assembleSection.SectionId, orderDetail.Amount);
-
             var sumOfProduct = 0;
             var processIndex = 1;
             foreach (var process in processList)
             {
-                //validate processDetail
-                foreach (var proDetail in process.ProcessDetails.SkipLast(1))
+                if(process.TotalAmount < process.NeededAmount)
                 {
-                    if (proDetail.TotalAmount < sectionDic[(int)proDetail.SectionId] * orderDetail.Amount)
-                    {
-                        return "Lack of Component at Process No." + processIndex.ToString();
-                    }
-
+                    return $"Error: Total amount must greater than needder amount in sub process {processIndex}";
                 }
+                if (process.TotalAmount < process.FinishedAmount)
+                {
+                    return $"Error: Total amount must greater than Finished Amount in sub process No{processIndex}";
+                }
+                if (process.ExpiryDate.Value.CompareTo(process.CreatedDate.Value) < 0)
+                {
+                    return $"Error: ExpiryDate must be latter than CreateDate in sub process No{processIndex}";
+                }
+                var tpm = process.ProcessDetails.Where(p => p.ExpiryDate.Value.CompareTo(process.CreatedDate.Value) < 0);
+                if (tpm.Any())
+                {
+                    return $"Error: ExpiryDate of each process detail must be latter than CreateDate in sub process No{processIndex}";
+                }
+
                 sumOfProduct += (int)(process.NeededAmount + process.FinishedAmount);
                 processIndex += 1;
             }
             //validate amount
             if (sumOfProduct != orderDetail.Amount)
-                return "Needed ammount in all processes is different from Order Detail";
-
+            {
+                return "Error: Sum of needed ammount in all processes is different from Order Detail";
+            }
             var data = await _processRepository.AddRange(processList);
             return data;
         }

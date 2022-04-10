@@ -11,6 +11,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import swal from "sweetalert";
 import OrderDetailEditPopup from "../Popups/OrderDetailEditPopup";
 import axios from 'axios';
+import { WarningAmber } from '@mui/icons-material';
 
 export const OrderDetailTable = (props) => {
     useEffect(() => {
@@ -61,10 +62,7 @@ export const OrderDetailTable = (props) => {
     listOrderDetail.forEach(item => {
         array.push(item)
     }, []);
-    // const routeChange = () => {
-    //     let path = 'orderdetails';
-    //     navigate(path);
-    // }
+
     const columns = [
         {
             title: 'ID', field: 'orderDetailId', cellStyle: { fontFamily: 'Muli', width: "10%" }, align: 'left'
@@ -84,79 +82,47 @@ export const OrderDetailTable = (props) => {
         {
             title: 'Note', field: 'note', cellStyle: { fontFamily: 'Muli', width: "20%" }, align: 'left'
         },
-        {
-            title: "No of process",
-            field: "No_Process",
-            cellStyle: { fontFamily: 'Muli', width: "20%" }, align: 'left'
-        },
     ]
-
-    function deleteOrderDetail(id, countProcess) {
+    function deleteOrderDetail(id) {
+        axios.put("https://localhost:5001/delOrderDetail/" + id)
+            .then((response) => {
+                swal("Success", "Delete this Order Detail successfully", "success", {
+                    button: false,
+                    timer: 2000,
+                });
+            }).catch((err) => {
+                swal("Error", "Delete this Order Detail failed", "error", {
+                    button: false,
+                    time: 2000,
+                });
+            })
+        // .finally(function () {
+        //     window.location.reload();
+        // });
+    }
+    function confirmDelete(id) {
+        let countProcess = getNoProcess(id)
         if (countProcess != 0) {
+            let warning = `This order detail has ${countProcess} process(es)!\n` +
+                'Once deleted, current processes will be shut down'
             swal({
                 title: "Are you sure to delete this order?",
-                text: 'This order detail has a/many process(es)!\nOnce deleted, you will not be able to recover this order detail!',
+                text: warning,
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
-            })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        try {
-                            axios
-                                .put("https://localhost:5001/delOrderDetail/" + id)
-                                .then((response) => {
-                                    swal("Success", "Delete this Order Detail successfully", "success", {
-                                        button: false,
-                                        timer: 2000,
-                                    });
-                                })
-                                .catch((err) => {
-                                    swal("Error", "Delete this Order Detail failed", "error", {
-                                        button: false,
-                                        time: 2000,
-                                    });
-                                })
-                                .finally(function () {
-                                    window.location.reload();
-                                });
-                        } catch (error) {
-                            console.log(error);
-                        }
-                    } else {
-                        swal("Your order detail is safe!");
-                    }
-                });
+            }).then((willDelete) => {
+                if (willDelete) {
+                    deleteOrderDetail(id)
+                }
+            });
         } else {
-            try {
-                axios
-                    .put("https://localhost:5001/delOrderDetail/" + id)
-                    .then((response) => {
-                        swal("Success", "Delete this Order Detail successfully", "success", {
-                            button: false,
-                            timer: 2000,
-                        });
-                    })
-                    .catch((err) => {
-                        swal("Error", "Delete this Order Detail failed", "error", {
-                            button: false,
-                            time: 2000,
-                        });
-                    })
-                    .finally(function () {
-                        window.location.reload();
-                    });
-            } catch (error) {
-                console.log(error);
-            }
+            deleteOrderDetail(id)
         }
-
-
     }
 
     const [editDatasDetail, setEditDatasDetail] = useState(null);
     const [openDetail, setOpenDetail] = useState(false);
-    const [newDataSubmitted, setNewDataSubmitted] = useState(1);
 
     const handleEditData = (rowData) => {
         setEditDatasDetail(rowData);
@@ -164,16 +130,8 @@ export const OrderDetailTable = (props) => {
     }
 
     function getNoProcess(orderDetailId) {
-        var noProcess = 0;
-        try {
-            axios.get("https://localhost:5001/getNoProcess/" + orderDetailId)
-                .then((res) => {
-                    noProcess = res.data;
-                });
-        } catch (e) {
-            return 5;
-        }
-        return noProcess;
+        axios.get("https://localhost:5001/getNoProcess/" + orderDetailId)
+            .then((res) => { return res.data })
     }
 
     const newData = array.map((value) => ({ ...value, No_Process: getNoProcess(value.orderDetailId) }));
@@ -192,22 +150,12 @@ export const OrderDetailTable = (props) => {
             <MaterialTable title={"List of Order Details"}
                 data={newData}
                 columns={columns}
-                localization={{
-                    header: {
-                        actions: 'Actions',
-                    }
-                }}
-                // onRowClick={(event, data) => {
-                //     // console.log("rowdata: " + data.totalprice);
-                //     // <OrderDetails data={data} />
-                //     navigate('/orderdetails', {state: data});
-                // }}
                 actions={[
                     rowData => ({
                         icon: "delete",
                         tooltip: "Delete this item",
                         onClick: (event, rowData) => {
-                            deleteOrderDetail(rowData.orderDetailId, rowData.No_Process);
+                            confirmDelete(rowData.orderDetailId);
                         },
                         disabled: (rowData.isActive == false)
                     }),
@@ -236,7 +184,12 @@ export const OrderDetailTable = (props) => {
                     addRowPosition: 'first',
                     actionsColumnIndex: -1,
                     exportButton: false,
-                    headerStyle: { backgroundColor: '#E30217', color: '#fff' }
+                    actionsCellStyle: {
+                        display: 'flex',
+                        justifyContent: 'center',
+                        width: '100%',
+                    },
+                    headerStyle: { backgroundColor: '#E30217', color: '#fff', textAlign: 'left' }
                 }}
             />
 

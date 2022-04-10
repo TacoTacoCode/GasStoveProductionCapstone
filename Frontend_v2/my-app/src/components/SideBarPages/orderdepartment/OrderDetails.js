@@ -18,6 +18,7 @@ function OrderDetails() {
     useEffect(() => {
         const getAllOrderDetail = 'https://localhost:5001/getOrderDetailsOf/ord/' + location.state.orderId
         //Gọi API bằng axios
+        let data = []
         axios.get(getAllOrderDetail).then((res) => {
             setListOrderDetail(res.data);
         }).catch((err) => {

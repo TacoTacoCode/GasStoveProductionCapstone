@@ -113,6 +113,8 @@ function App() {
               <Route path='/orders' exact element={<Orders />}></Route>
               <Route path='/orders/orderdetails' exact element={<OrderDetails />}></Route>
               <Route path='/delivery' exact element={<Delivery />}></Route>
+              <Route path='/createProcess' exact element={<CreateProcess />}></Route>
+              <Route path='/divideProcessTabs' exact element={<DivideProcessTabs />}></Route>
             </Routes>
           </BrowserRouter>
         </ThemeProvider>

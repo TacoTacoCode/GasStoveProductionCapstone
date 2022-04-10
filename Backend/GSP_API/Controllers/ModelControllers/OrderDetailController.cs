@@ -90,7 +90,7 @@ namespace GSP_API.Controllers.ModelControllers
             var data = await _orderDetailService.DelOrderDetail(orderDetailId);
             if (data == null)
             {
-                return BadRequest("Not found");
+                return BadRequest("Error");
             }
             else if (data.Equals("true"))
             {
