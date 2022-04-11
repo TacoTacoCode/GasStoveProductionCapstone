@@ -61,6 +61,21 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok(imEx);
         }
 
+        // GET: getImEx/P
+        [HttpGet]
+        [Route("getExByType/{type}")]
+        public async Task<ActionResult<ImportExportResponse>> GetExByType(string type)
+        {
+            var data = await _importExportService.GetExByType(type);
+            if (data == null)
+            {
+                return BadRequest("Not found");
+            }
+            var imEx = _mapper.Map<List<ImportExportResponse>>(data);
+            return Ok(imEx);
+        }
+
+
         // POST: AddImEx/[imEx]
         [HttpPost]
         [Route("addImEx")]

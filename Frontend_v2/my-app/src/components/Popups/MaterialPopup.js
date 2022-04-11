@@ -128,7 +128,7 @@ function MaterialPopup(props) {
   })();
 
   const handleDelay = () => {
-    delay(function () { window.location.reload(); }, 1000);
+    delay(function () { window.location.href = "http://localhost:3000/dashboard/materials"; }, 1000);
   };
 
   return props.trigger ? (

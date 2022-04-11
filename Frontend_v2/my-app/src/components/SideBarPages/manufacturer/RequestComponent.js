@@ -5,7 +5,7 @@ import { AiFillFileExcel } from 'react-icons/ai';
 import { ImportExcelButton } from '../../button/ImportExcelButton';
 import axios from 'axios';
 
-export default function DashBoard() {
+export default function RequestComponent() {
     useEffect(() => {
         document.title = "UFA - Dashboard"
     }, []);
@@ -13,9 +13,10 @@ export default function DashBoard() {
     const [listRequestComponents, setListRequesComponents] = useState([]);
 
     useEffect(() => {
-        const getRequestComponent = 'https://localhost:5001/getImExs'
+        const getRequestComponent = 'https://localhost:5001/getExByType/C'
         //Gọi API bằng axios
         axios.get(getRequestComponent).then((res) => {
+            console.log(res.data)
             setListRequesComponents(res.data);
         }).catch((err) => {
             console.log(err);

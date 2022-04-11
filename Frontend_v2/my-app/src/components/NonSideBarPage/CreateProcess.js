@@ -106,7 +106,7 @@ function CreateProcess() {
             swal("Success", "Submit Data", "success", {
                 buttons: false,
                 timer: 1500,
-            }).then((e) => window.location.href = 'http://localhost:3000/orders/orderdetails')
+            }).then((e) => window.location.href = 'http://localhost:3000/orders')
         }).catch((err) => {
             alert('System error, try again later')
         })

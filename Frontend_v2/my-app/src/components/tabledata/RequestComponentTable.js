@@ -7,8 +7,6 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { styled } from '@material-ui/styles';
 import { TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { width } from '@mui/system';
-import axios from 'axios';
 
 export const Table = (props) => {
 
@@ -29,23 +27,9 @@ export const Table = (props) => {
     });
 
     function getImExDetail(importExportId, itemType) {
-        //  axios.get('https://localhost:5001/getDetailsOf/ImEx/' + importExportId)
-        //   .then((response) => {
-        //        console.log(response.data);
-        //        var check = response.data
         localStorage.setItem('itemType', itemType)
         localStorage.setItem('importExportId', importExportId)
-        navigate('/requestDetail'
-            //  , { state: check}
-        )
-        // , { state: JSON.stringify(response.data)
-        // console.log(JSON.stringify(response.data));
-        //}
-        // )
-        //     }
-        //     ).catch((err) => {
-        //        console.log(err);
-        //     })
+        navigate('/manufacturer/requestDetail')
 
     };
 
@@ -79,7 +63,7 @@ export const Table = (props) => {
     ]
     return (
         <div>
-            <MaterialTable title={"Material Requesting List"}
+            <MaterialTable title={"Component Requesting List"}
                 data={array}
                 columns={columns}
                 onRowClick={(event, rowData) => {

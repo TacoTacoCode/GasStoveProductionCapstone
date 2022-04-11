@@ -79,6 +79,12 @@ namespace GSP_API.Business.Services
             return data;
         }
 
+        public async Task<List<ImportExport>> GetExByType(string type)
+        {
+            var data = await _importExportRepository.GetAll(p => p.ItemType.Equals(type) && p.IsImport == false);
+            return data;
+        }
+
         /*public async Task<string> UpdateImEx(ImportExport newImEx)
         {
 

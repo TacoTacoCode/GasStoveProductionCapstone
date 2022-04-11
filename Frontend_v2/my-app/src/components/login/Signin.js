@@ -56,8 +56,8 @@ export default function Signin() {
                         case "Admin":
                             window.location.href = "/dashboard";
                             break;
-                        case "Manufacturer Deparment":
-                            window.location.href = "/manufacturer/RequestComponent";
+                        case "Manufacturer Department":
+                            window.location.href = "/manufacturer/requestComponent";
                             break;
                         case "Order Department":
                             window.location.href = "/orders";
