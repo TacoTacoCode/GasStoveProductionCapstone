@@ -1,32 +1,32 @@
 import React, { useState } from 'react';
 import MaterialTable from 'material-table';
 import { useNavigate } from 'react-router-dom';
-import OrderDetails from '../SideBarPages/orderdepartment/OrderDetails';
-import { OrderDetailTable } from './OrderDetailTable';
 import moment from 'moment';
 import { TextField } from '@mui/material';
 import { styled } from '@material-ui/styles';
 import OrderEditPopup from '../Popups/OrderEditPopup';
 import axios from "axios";
-
-export const Table = (props) => {
-    // const [openTable, setOpenTable] = React.useState(false);
-    // const navigate = useNavigate();
-    // const [data1, setData1] = useState('');
-    let navigate = useNavigate();
-    const CssTextField = styled(TextField)({
-        width: "100%",
-        "& .MuiOutlinedInput-root": {
-            "& fieldset": {
-                border: "none",
-            },
+import Bell from "../../img/bell.png";
+import "../../styles/notifcation.css";
+import { Tooltip } from '@material-ui/core';
+const CssTextField = styled(TextField)({
+    width: "100%",
+    "& .MuiOutlinedInput-root": {
+        "& fieldset": {
+            border: "none",
         },
-    });
+    },
+});
+export const Table = (props) => {
+    let navigate = useNavigate();
     const { listOrder } = props;
-    const array = [];
-
+    const processingOrder = [];
+    const waitOrder = [];
     listOrder.forEach(item => {
-        array.push(item)
+        if (item.status == "Waiting")
+            waitOrder.push(item)
+        else
+            processingOrder.push(item)
     }, []);
 
     const columns = [
@@ -52,16 +52,13 @@ export const Table = (props) => {
         {
             title: 'Note', field: 'note', cellStyle: { fontFamily: 'Muli' }
         },
-        // {
-        //     title: 'Order Category', field: 'category', cellStyle: { fontFamily: 'Muli' }
-        // },
     ]
 
     const [editDatas, setEditDatas] = useState(null);
     const [open, setOpen] = useState(false);
     const [orderProduct, setListOrderProduct] = useState([]);
     const [customerList, setCustomerList] = useState([]);
-
+    const [seeWaiting, setSeeWaiting] = useState(false);
     const handleEditData = (rowData) => {
         setEditDatas(rowData);
         setOpen(true);
@@ -83,17 +80,21 @@ export const Table = (props) => {
             });
     }
 
-    return (
+    return (<>
+
+        {waitOrder.length > 0 && <div className="icon">
+            <Tooltip className="icon" title={`You have ${waitOrder.length} new order(s)`}>
+                <img src={Bell} className="iconImg" alt="" onClick={() => setSeeWaiting(prevState => !prevState)} />
+            </Tooltip>
+            <div className="counter">{waitOrder.length}</div>
+        </div>}
         <React.Fragment>
             <MaterialTable title={"List of Orders"}
-                data={array}
+                data={seeWaiting ? waitOrder : processingOrder}
                 columns={columns}
                 onRowClick={(event, data) => {
                     console.log("test short term: " + data.isShorTerm);
                     localStorage.setItem("orderType", data.isShorTerm)
-                    // localStorage.setItem("orderid", data.accountid)
-                    // console.log("OrderId: "+ localStorage.getItem("orderid"));
-                    // handleShowTable();
                     navigate('/orders/orderdetails', { state: data });
                 }}
                 actions={[
@@ -105,7 +106,6 @@ export const Table = (props) => {
                         },
                     },
                 ]}
-                // onRowSelected
                 options={{
                     addRowPosition: 'first',
                     actionsColumnIndex: -1,
@@ -124,6 +124,6 @@ export const Table = (props) => {
                     <h3 className="popuptitle">Edit order : {editDatas.orderId} </h3>
                 </OrderEditPopup>
             }
-        </React.Fragment>
+        </React.Fragment></>
     )
 }

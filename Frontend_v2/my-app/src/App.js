@@ -79,6 +79,7 @@ function App() {
               <Route path='/dashboard/materials' exact element={<Materials />}></Route>
               <Route path='/dashboard/products' exact element={<Products />}></Route>
               <Route path='/dashboard/components' exact element={<Components />}></Route>
+              <Route path='/dashboard/attendance' exact element={<Attendance />}></Route>
               <Route path='/requestDetail' exact element={< RequestDetail />}></Route>
             </Routes>
           </BrowserRouter>
@@ -115,6 +116,7 @@ function App() {
               <Route path='/delivery' exact element={<Delivery />}></Route>
               <Route path='/createProcess' exact element={<CreateProcess />}></Route>
               <Route path='/divideProcessTabs' exact element={<DivideProcessTabs />}></Route>
+              <Route path='/dashboard/attendance' exact element={<Attendance />}></Route>
             </Routes>
           </BrowserRouter>
         </ThemeProvider>
@@ -129,6 +131,7 @@ function App() {
           <BrowserRouter>
             <CustomSideBar />
             <Routes>
+              <Route path='/dashboard/attendance' exact element={<Attendance />}></Route>
               <Route path='/profile' exact element={<Profile />}></Route>
               <Route path='/section/materials' exact element={<SectionMaterials />}></Route>
               <Route path='/section/workers' exact element={<WorkerList />}></Route>

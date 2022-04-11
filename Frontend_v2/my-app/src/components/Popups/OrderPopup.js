@@ -255,6 +255,7 @@ function OrderPopup(props) {
                     label="Expiry Date"
                     inputFormat="dd/MM/yyyy"
                     required
+                    minDate={new Date()}
                     selected={expiryDate}
                     onChange={(e) => setExpiryDate(e)}
                     value={expiryDate}

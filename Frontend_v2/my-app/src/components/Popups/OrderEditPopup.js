@@ -223,18 +223,12 @@ function OrderEditPopup(props) {
               <div className="datefield">
                 <CssTextField
                   label="Customer"
-                  select
                   id="fullWidth"
-                  value={accountId}
-                  required
+                  disabled
                   onChange={(e) => setAccountId(e.target.value)}
                   helperText="Choose customer"
                 >
-                  {accountEditList.map((option) => (
-                    <MenuItem key={option.accountId} value={option.accountId}>
-                      {option.name}
-                    </MenuItem>
-                  ))}
+
                 </CssTextField>
               </div>
               <div className="idfield">
@@ -255,6 +249,7 @@ function OrderEditPopup(props) {
                   <DatePicker
                     label="Expiry Date"
                     inputFormat="dd/MM/yyyy"
+                    minDate={new Date()}
                     required
                     selected={expiryDate}
                     onChange={(e) => setExpiryDate(e)}

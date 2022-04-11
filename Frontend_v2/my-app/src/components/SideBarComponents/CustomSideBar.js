@@ -66,6 +66,7 @@ function CustomSideBar() {
     useEffect(() => {
         axios.get("https://localhost:5001/getAccountById/" + currentUser.id)
             .then((res) => {
+                localStorage.setItem('currUser', JSON.stringify(res.data))
                 setCurrentUserBar(res.data);
             });
     }, []);

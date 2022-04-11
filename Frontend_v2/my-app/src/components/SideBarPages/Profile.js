@@ -58,7 +58,7 @@ function Profile() {
             {/* <HeaderPage /> */}
             <div className="line_panel" />
             <div className="back_button">
-                <Button onClick={() => window.location.href = "http://localhost:3000/dashboard/"}>
+                <Button onClick={() => window.location.href = "http://localhost:3000/login"}>
                     <FaIcons.FaArrowLeft size={40} color="white" />
                 </Button>
             </div>

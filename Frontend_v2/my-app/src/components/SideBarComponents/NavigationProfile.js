@@ -11,17 +11,23 @@ class NavigationProfile extends React.Component {
             <div className="navigation_profile">
                 <nav className="column">
                     <center>
-                        <Avatar src={image} sx={{ width: 250, height: 250 }} />
+                        <Avatar src={image} sx={{ width: '100%', height: '100%' }} />
                     </center>
                     <ul>
-                        <li><center><button className="button_nav">Create Forms</button></center></li>
+                        {/* <li><center><button className="button_nav">Create Forms</button></center></li> */}
                         {
-                            (role == 'Admin')
-                                ? <li><center><button className="button_nav">Attendance List</button></center></li>
+                            (role != 'Admin')
+                                ? <li><center><button
+                                    onClick={() => {
+                                        localStorage.setItem('choiceUser', localStorage.getItem('currUser'))
+                                        window.location.href = '/dashboard/attendance'
+                                    }}
+                                    className="button_nav">Attendance
+                                </button></center></li>
                                 : ""
                         }
-                        <li><center><button className="button_nav">Request History</button></center></li>
-                        <li><center><button className="button_nav">Daily Report</button></center></li>
+                        {/* <li><center><button className="button_nav">Attendance</button></center></li>
+                        <li><center><button className="button_nav">Daily Report</button></center></li> */}
                     </ul>
                 </nav>
             </div>
