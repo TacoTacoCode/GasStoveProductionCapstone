@@ -36,6 +36,10 @@ namespace GSP_API.Business.Services
         {
             return await _processRepository.GetById(p => p.ProcessId == processId);
         }
+        public async Task<List<Process>> GetProcessByOrderDetailId(int orderDetailId)
+        {
+            return await _processRepository.GetAll(p => p.OrderDetailId == orderDetailId);
+        }
 
         public async Task<List<Process>> GetProcessesByStatus(string status)
         {

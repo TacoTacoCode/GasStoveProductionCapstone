@@ -12,6 +12,8 @@ import axios from 'axios'
 import { TextGetAccountByID } from '../../NonSideBarPage/TextGetAccountByID';
 import { TextGetOrderDetailByID } from '../../NonSideBarPage/TextGetOrderDetailByID';
 import swal from "sweetalert";
+import ProcessBar from '../../NonSideBarPage/ProcessBar';
+import { GetProcessByOrderID } from '../../NonSideBarPage/GetProcessByOrderID';
 
 
 function Delivery() {
@@ -19,72 +21,40 @@ function Delivery() {
     document.title = "UFA - Manage Delivery"
   }, []);
 
-  const [visibleNewBtn, setVisibleNewBtn] = useState(true);
-  const [visiblePreparingBtn, setVisiblePreparingBtn] = useState(false);
-  const [visibleReadyBtn, setVisibleReadyBtn] = useState(false);
-  const [visibleDeliveredBtn, setVisibleDeliveredBtn] = useState(false);
+  const [visibleShortTermBtn, setVisibleShortTermBtn] = useState(true);
+  const [visibleLongTermBtn, setVisibleLongTermBtn] = useState(false);
 
   //state list
-  const [listOrderNew, setListOrderNew] = useState([]);
-  const [listOrderPreparing, setListOrderPreparing] = useState([]);
-  const [listOrderReady, setListOrderReady] = useState([]);
-  const [listOrderDelivered, setListOrderDelivered] = useState([]);
+  const [listOrderShortTerm, setListOrderShortTerm] = useState([]);
+  const [listOrderLongTerm, setListOrderLongTerm] = useState([]);
 
   //count list
-  const [countListOrderNew, setCountListOrderNew] = useState(0);
-  const [countListOrderPreparing, setCountListOrderPreparing] = useState(0);
-  const [countListOrderReady, setCountListOrderReady] = useState(0);
-  const [countListOrderDelivered, setCountListOrderDelivered] = useState(0);
+  const [countListOrderShortTerm, setCountListOrderShortTerm] = useState(0);
+  const [countListOrderLongTerm, setCountListOrderLongTerm] = useState(0);
 
   // Get listOrderNew
   useEffect(() => {
-    const getAllOrders = 'https://localhost:5001/getOrders/new'
+    const getAllOrders = 'https://localhost:5001/getOrders/isShorTerm/true'
     //Gọi API bằng axios
     axios.get(getAllOrders).then((res) => {
-      setListOrderNew(res.data);
-      setCountListOrderNew(res.data.length);
+      setListOrderShortTerm(res.data);
+      setCountListOrderShortTerm(res.data.length);
     }).catch((err) => {
       console.log(err);
-      alert("Cannot Load List Order Done");
+      alert("Cannot Load List Order Short Term");
     })
   }, []);
 
   // Get listOrderPreparing
   useEffect(() => {
-    const getAllOrders = 'https://localhost:5001/getOrders/processing'
+    const getAllOrders = 'https://localhost:5001/getOrders/isShorTerm/false'
     //Gọi API bằng axios
     axios.get(getAllOrders).then((res) => {
-      setListOrderPreparing(res.data);
-      setCountListOrderPreparing(res.data.length);
+      setListOrderLongTerm(res.data);
+      setCountListOrderLongTerm(res.data.length);
     }).catch((err) => {
       console.log(err);
-      alert("Cannot Load List Order In Progess");
-    })
-  }, []);
-
-  // Get listOrderReady
-  useEffect(() => {
-    const getAllOrders = 'https://localhost:5001/getOrders/done'
-    //Gọi API bằng axios
-    axios.get(getAllOrders).then((res) => {
-      setListOrderReady(res.data);
-      setCountListOrderReady(res.data.length);
-    }).catch((err) => {
-      console.log(err);
-      alert("Cannot Load List Order Done");
-    })
-  }, []);
-
-  // Get listOrderReady
-  useEffect(() => {
-    const getAllOrders = 'https://localhost:5001/getOrders/delivery'
-    //Gọi API bằng axios
-    axios.get(getAllOrders).then((res) => {
-      setListOrderDelivered(res.data);
-      setCountListOrderDelivered(res.data.length);
-    }).catch((err) => {
-      console.log(err);
-      alert("Cannot Load List Order Done");
+      alert("Cannot Load List Order Long Term");
     })
   }, []);
 
@@ -134,630 +104,204 @@ function Delivery() {
       <div>
         <DeliveryButton type="button"
           onClick={() => {
-            setVisibleNewBtn(true)
-            setVisiblePreparingBtn(false)
-            setVisibleReadyBtn(false)
-            setVisibleDeliveredBtn(false)
+            setVisibleShortTermBtn(true)
+            setVisibleLongTermBtn(false)
           }
           }>
           <Stack
             direction="row"
             spacing={3}
           >
-            <div style={{ verticalAlign: "middle", padding: "5px" }}>New</div>
+            <div style={{ verticalAlign: "middle", padding: "5px" }}>Short Term</div>
             <div className="number_square">
-              {countListOrderPreparing}
+              {countListOrderShortTerm}
             </div>
           </Stack>
           {
-            (visibleNewBtn == true) ? <div style={{ marginTop: "10px", backgroundColor: "white", height: "3px" }}></div> : ""
+            (visibleShortTermBtn == true) ? <div style={{ marginTop: "10px", backgroundColor: "white", height: "3px" }}></div> : ""
           }
         </DeliveryButton>
         <DeliveryButton type="button"
           onClick={() => {
-            setVisibleNewBtn(false)
-            setVisiblePreparingBtn(true)
-            setVisibleReadyBtn(false)
-            setVisibleDeliveredBtn(false)
+            setVisibleShortTermBtn(false)
+            setVisibleLongTermBtn(true)
           }
-          }>          <Stack
+          }>
+          <Stack
             direction="row"
             spacing={3}
           >
-            <div style={{ verticalAlign: "middle", padding: "5px" }}>Preparing</div>
+            <div style={{ verticalAlign: "middle", padding: "5px" }}>Long Term</div>
             <div className="number_square">
-              {countListOrderPreparing}
+              {countListOrderLongTerm}
             </div>
           </Stack>
           {
-            (visiblePreparingBtn == true) ? <div style={{ marginTop: "10px", backgroundColor: "white", height: "3px" }}></div> : ""
+            (visibleLongTermBtn == true) ? <div style={{ marginTop: "10px", backgroundColor: "white", height: "3px" }}></div> : ""
           }</DeliveryButton>
-        <DeliveryButton type="button"
-          onClick={() => {
-            setVisibleNewBtn(false)
-            setVisiblePreparingBtn(false)
-            setVisibleReadyBtn(true)
-            setVisibleDeliveredBtn(false)
-          }
-          }>          <Stack
-            direction="row"
-            spacing={3}
-          >
-            <div style={{ verticalAlign: "middle", padding: "5px" }}>Ready</div>
-            <div className="number_square">
-              {countListOrderReady}
-            </div>
-          </Stack>
-          {
-            (visibleReadyBtn == true) ? <div style={{ marginTop: "10px", backgroundColor: "white", height: "3px" }}></div> : ""
-          }</DeliveryButton>
-        <DeliveryButton type="button"
-          onClick={() => {
-            setVisibleNewBtn(false)
-            setVisiblePreparingBtn(false)
-            setVisibleReadyBtn(false)
-            setVisibleDeliveredBtn(true)
-          }
-          }>          <Stack
-            direction="row"
-            spacing={3}
-          >
-            <div style={{ verticalAlign: "middle", padding: "5px" }}>Delivery</div>
-            <div className="number_square">
-              {countListOrderDelivered}
-            </div>
-          </Stack>
-          {
-            (visibleDeliveredBtn == true) ? <div style={{ marginTop: "10px", backgroundColor: "white", height: "3px" }}></div> : ""
-          }
-        </DeliveryButton>
       </div>
       <br /><br /><br /><br />
       <hr style={{ border: '1px solid red', borderRadius: '5px' }} />
       <br /><br />
       {
-        (visibleNewBtn == true && visiblePreparingBtn == false && visibleReadyBtn == false && visibleDeliveredBtn == false)
+        (visibleShortTermBtn == true && visibleLongTermBtn == false)
           ? <div>
-            {listOrderNew.map(data => (
-              (data.isShorTerm == true)
-                ?
-                <Card style={{ border: '1px solid red', marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "white", borderRadius: "20px" }}>
-                  <Stack
-                    direction="row"
-                    divider={<Divider orientation="vertical" flexItem />}
-                    spacing={1}
-                  >
-                    <div style={{ margin: "1%", width: "95%" }}>
-                      <text className="content_delivery">Customer</text>
-                      <br /><br />
-                      <Stack
-                        direction="column"
-                        divider={<Divider orientation="horizontal" flexItem />}
-                        spacing={1}
-                      >
-                        {/* Customer Details */}
-                        <TextGetAccountByID accountID={data.accountId} />
-                        {/* Order Details */}
-                        <div>
-                          <text className="content_delivery">Order : </text>
-                          <br /><br />
-                          <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>ID: </text>&ensp;<text>{data.orderId}</text></p>
-                          <p className="content_delivery_content">
-                            <text style={{ fontWeight: "500" }}>Status: </text>
-                            &ensp;
-                            <text>{(data.status == 'new')
-                              ? <text style={{ color: 'DARKBLUE' }}>NEW</text>
-                              : ""}</text>
-                          </p>
-                        </div>
-                      </Stack>
-                    </div>
-                    <div style={{ margin: "1%", width: "95%" }}>
-                      {/* Product Details */}
-                      <text className="content_delivery">Product : </text>
-                      <br /><br />
-                      <Stack
-                        direction="column"
-                        divider={<Divider orientation="horizontal" flexItem />}
-                        spacing={1}
-                      >
-                        <TextGetOrderDetailByID orderID={data.orderId} />
-                        <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text>{data.totalPrice} VND</text></p>
-                        {
-                          (data.status == 'done' && data.totalPrice > 0)
-                            ? <Button style={{
-                              fontFamily: "Muli",
-                              borderRadius: 10,
-                              backgroundColor: "#e30217",
-                              color: "white",
-                            }}
-                              onClick={(e) => orderReady(e, data)}>Order Ready</Button>
-                            : ""
-                        }
-                      </Stack>
-                    </div>
-                  </Stack>
-                </Card>
-                :
-                <Card style={{ border: '1px solid red', marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "white", borderRadius: "20px" }}>
-                  <Stack
-                    direction="row"
-                    divider={<Divider orientation="vertical" flexItem />}
-                    spacing={1}
-                  >
-                    <div style={{ margin: "1%", width: "95%" }}>
-                      <text className="content_delivery">Customer</text>
-                      <br /><br />
-                      <Stack
-                        direction="column"
-                        divider={<Divider orientation="horizontal" flexItem />}
-                        spacing={1}
-                      >
-                        {/* Customer Details */}
-                        <TextGetAccountByID accountID={data.accountId} />
-                        {/* Order Details */}
-                        <div>
-                          <text className="content_delivery">Order : </text>
-                          <br /><br />
-                          <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>ID: </text>&ensp;<text>{data.orderId}</text></p>
-                          <p className="content_delivery_content">
-                            <text style={{ fontWeight: "500" }}>Status: </text>
-                            &ensp;
-                            <text>{(data.status == 'new')
-                              ? <text style={{ color: 'DARKBLUE' }}>NEW</text>
-                              : ""}</text>
-                          </p>
-                        </div>
-                      </Stack>
-                    </div>
-                    <div style={{ margin: "1%", width: "95%" }}>
-                      {/* Long Term Details */}
-                      <text className="content_delivery">Long Term Process: </text>
-                      <br /><br />
-                      <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Ăn cơm rùi làm tiếp !</text></p>
-                    </div>
-                    <div style={{ margin: "1%", width: "95%" }}>
-                      {/* Product Details */}
-                      <text className="content_delivery">Product : </text>
-                      <br /><br />
-                      <Stack
-                        direction="column"
-                        divider={<Divider orientation="horizontal" flexItem />}
-                        spacing={1}
-                      >
-                        <TextGetOrderDetailByID orderID={data.orderId} />
-                        <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text>{data.totalPrice} VND</text></p>
-                        {
-                          (data.status == 'done' && data.totalPrice > 0)
-                            ? <Button style={{
-                              fontFamily: "Muli",
-                              borderRadius: 10,
-                              backgroundColor: "#e30217",
-                              color: "white",
-                            }}
-                              onClick={(e) => orderReady(e, data)}>Order Ready</Button>
-                            : ""
-                        }
-                      </Stack>
-                    </div>
-                  </Stack>
-                </Card>
+            {listOrderShortTerm.map(data => (
+              <Card style={{ border: '1px solid red', marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "white", borderRadius: "20px" }}>
+                <Stack
+                  direction="row"
+                  divider={<Divider orientation="vertical" flexItem />}
+                  spacing={1}
+                >
+                  <div style={{ margin: "1%", width: "95%" }}>
+                    <text className="content_delivery">Customer</text>
+                    <br /><br />
+                    <Stack
+                      direction="column"
+                      divider={<Divider orientation="horizontal" flexItem />}
+                      spacing={1}
+                    >
+                      {/* Customer Details */}
+                      <TextGetAccountByID accountID={data.accountId} />
+                      {/* Order Details */}
+                      <div>
+                        <text className="content_delivery">Order </text>
+                        <br /><br />
+                        <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>ID: </text>&ensp;<text>{data.orderId}</text></p>
+                        <p className="content_delivery_content">
+                          <text style={{ fontWeight: "500" }}>Status: </text>
+                          &ensp;
+                          {(() => {
+                            switch (data.status) {
+                              case 'new':
+                                return <text style={{ color: 'RED', fontWeight: "500" }}>NEW</text>
+                              case 'processing':
+                                return <text style={{ color: 'DARKBLUE', fontWeight: "500" }}>PROCESSING</text>
+                              case 'done':
+                                return <text style={{ color: 'BLUE', fontWeight: "500" }}>DONE</text>
+                              case 'delivery':
+                                return <text style={{ color: 'GREEN', fontWeight: "500" }}>DELIVERY</text>
+                            }
+                          })()
+                          }
+                        </p>
+                      </div>
+                    </Stack>
+                  </div>
+                  <div style={{ margin: "1%", width: "95%" }}>
+                    {/* Product Details */}
+                    <text className="content_delivery">Product </text>
+                    <br /><br />
+                    <Stack
+                      direction="column"
+                      divider={<Divider orientation="horizontal" flexItem />}
+                      spacing={1}
+                    >
+                      <TextGetOrderDetailByID orderID={data.orderId} />
+                      <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text>{data.totalPrice} VND</text></p>
+                      {
+                        (data.status == 'done' && data.totalPrice > 0)
+                          ? <Button style={{
+                            fontFamily: "Muli",
+                            borderRadius: 10,
+                            backgroundColor: "#e30217",
+                            color: "white",
+                          }}
+                            onClick={(e) => orderReady(e, data)}>Order Ready</Button>
+                          : ""
+                      }
+                    </Stack>
+                  </div>
+                </Stack>
+              </Card>
             ))}
           </div>
           : null
       }
 
       {
-        (visibleNewBtn == false && visiblePreparingBtn == true && visibleReadyBtn == false && visibleDeliveredBtn == false)
+        (visibleShortTermBtn == false && visibleLongTermBtn == true)
           ? <div>
-            {listOrderPreparing.map(data => (
-              (data.isShorTerm == true)
-                ?
-                <Card style={{ border: '1px solid red', marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "white", borderRadius: "20px" }}>
-                  <Stack
-                    direction="row"
-                    divider={<Divider orientation="vertical" flexItem />}
-                    spacing={1}
-                  >
-                    <div style={{ margin: "1%", width: "95%" }}>
-                      <text className="content_delivery">Customer</text>
-                      <br /><br />
-                      <Stack
-                        direction="column"
-                        divider={<Divider orientation="horizontal" flexItem />}
-                        spacing={1}
-                      >
-                        {/* Customer Details */}
-                        <TextGetAccountByID accountID={data.accountId} />
-                        {/* Order Details */}
-                        <div>
-                          <text className="content_delivery">Order : </text>
-                          <br /><br />
-                          <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>ID: </text>&ensp;<text>{data.orderId}</text></p>
-                          <p className="content_delivery_content">
-                            <text style={{ fontWeight: "500" }}>Status: </text>
-                            &ensp;
-                            <text>{(data.status == 'processing')
-                              ? <text style={{ color: 'DARKBLUE' }}>PROCESSING</text>
-                              : ""}</text>
-                          </p>
-                        </div>
-                      </Stack>
-                    </div>
-                    <div style={{ margin: "1%", width: "95%" }}>
-                      {/* Product Details */}
-                      <text className="content_delivery">Product : </text>
-                      <br /><br />
-                      <Stack
-                        direction="column"
-                        divider={<Divider orientation="horizontal" flexItem />}
-                        spacing={1}
-                      >
-                        <TextGetOrderDetailByID orderID={data.orderId} />
-                        <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text>{data.totalPrice} VND</text></p>
-                        {
-                          (data.status == 'done' && data.totalPrice > 0)
-                            ? <Button style={{
-                              fontFamily: "Muli",
-                              borderRadius: 10,
-                              backgroundColor: "#e30217",
-                              color: "white",
-                            }}
-                              onClick={(e) => orderReady(e, data)}>Order Ready</Button>
-                            : ""
-                        }
-                      </Stack>
-                    </div>
-                  </Stack>
-                </Card>
-                :
-                <Card style={{ border: '1px solid red', marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "white", borderRadius: "20px" }}>
-                  <Stack
-                    direction="row"
-                    divider={<Divider orientation="vertical" flexItem />}
-                    spacing={1}
-                  >
-                    <div style={{ margin: "1%", width: "95%" }}>
-                      <text className="content_delivery">Customer</text>
-                      <br /><br />
-                      <Stack
-                        direction="column"
-                        divider={<Divider orientation="horizontal" flexItem />}
-                        spacing={1}
-                      >
-                        {/* Customer Details */}
-                        <TextGetAccountByID accountID={data.accountId} />
-                        {/* Order Details */}
-                        <div>
-                          <text className="content_delivery">Order : </text>
-                          <br /><br />
-                          <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>ID: </text>&ensp;<text>{data.orderId}</text></p>
-                          <p className="content_delivery_content">
-                            <text style={{ fontWeight: "500" }}>Status: </text>
-                            &ensp;
-                            <text>{(data.status == 'processing')
-                              ? <text style={{ color: 'DARKBLUE' }}>PROCESSING</text>
-                              : ""}</text>
-                          </p>
-                        </div>
-                      </Stack>
-                    </div>
-                    <div style={{ margin: "1%", width: "95%" }}>
-                      {/* Long Term Details */}
-                      <text className="content_delivery">Long Term Process: </text>
-                      <br /><br />
-                      <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Ăn cơm rùi làm tiếp !</text></p>
-                    </div>
-                    <div style={{ margin: "1%", width: "95%" }}>
-                      {/* Product Details */}
-                      <text className="content_delivery">Product : </text>
-                      <br /><br />
-                      <Stack
-                        direction="column"
-                        divider={<Divider orientation="horizontal" flexItem />}
-                        spacing={1}
-                      >
-                        <TextGetOrderDetailByID orderID={data.orderId} />
-                        <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text>{data.totalPrice} VND</text></p>
-                        {
-                          (data.status == 'done' && data.totalPrice > 0)
-                            ? <Button style={{
-                              fontFamily: "Muli",
-                              borderRadius: 10,
-                              backgroundColor: "#e30217",
-                              color: "white",
-                            }}
-                              onClick={(e) => orderReady(e, data)}>Order Ready</Button>
-                            : ""
-                        }
-                      </Stack>
-                    </div>
-                  </Stack>
-                </Card>
+            {listOrderLongTerm.map(data => (
+              <Card style={{ border: '1px solid red', marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "white", borderRadius: "20px" }}>
+                <Stack
+                  direction="row"
+                  divider={<Divider orientation="vertical" flexItem />}
+                  spacing={1}
+                >
+                  <div style={{ margin: "1%", width: "95%" }}>
+                    <text className="content_delivery">Customer</text>
+                    <br /><br />
+                    <Stack
+                      direction="column"
+                      divider={<Divider orientation="horizontal" flexItem />}
+                      spacing={1}
+                    >
+                      {/* Customer Details */}
+                      <TextGetAccountByID accountID={data.accountId} />
+                      {/* Order Details */}
+                      <div>
+                        <text className="content_delivery">Order </text>
+                        <br /><br />
+                        <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>ID: </text>&ensp;<text>{data.orderId}</text></p>
+                        <p className="content_delivery_content">
+                          <text style={{ fontWeight: "500" }}>Status: </text>
+                          &ensp;
+                          {(() => {
+                            switch (data.status) {
+                              case 'new':
+                                return <text style={{ color: 'RED', fontWeight: "500" }}>NEW</text>
+                              case 'processing':
+                                return <text style={{ color: 'DARKBLUE', fontWeight: "500" }}>PROCESSING</text>
+                              case 'done':
+                                return <text style={{ color: 'BLUE', fontWeight: "500" }}>DONE</text>
+                              case 'delivery':
+                                return <text style={{ color: 'GREEN', fontWeight: "500" }}>DELIVERY</text>
+                            }
+                          })()
+                          }
+                        </p>
+                      </div>
+                    </Stack>
+                  </div>
+                  <div style={{ margin: "1%", width: "95%" }}>
+                    {/* Long Term Details */}
+                    <text className="content_delivery">Long Term Process </text>
+                    <br /><br />
+                    <GetProcessByOrderID orderID={data.orderId} />
+                  </div>
+                  <div style={{ margin: "1%", width: "95%" }}>
+                    {/* Product Details */}
+                    <text className="content_delivery">Product </text>
+                    <br /><br />
+                    <Stack
+                      direction="column"
+                      divider={<Divider orientation="horizontal" flexItem />}
+                      spacing={1}
+                    >
+                      <TextGetOrderDetailByID orderID={data.orderId} />
+                      <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text>{data.totalPrice} VND</text></p>
+                      {/* {
+                        (data.status == 'done' && data.totalPrice > 0)
+                          ? <Button style={{
+                            fontFamily: "Muli",
+                            borderRadius: 10,
+                            backgroundColor: "#e30217",
+                            color: "white",
+                          }}
+                            onClick={(e) => orderReady(e, data)}>Order Ready</Button>
+                          : ""
+                      } */}
+                      {/* <ProcessBar bgcolor="#99ff66" progress='50' height={30} /> */}
+                    </Stack>
+                  </div>
+                </Stack>
+              </Card>
             ))}
           </div>
           : null
       }
 
-      {
-        (visibleNewBtn == false && visiblePreparingBtn == false && visibleReadyBtn == true && visibleDeliveredBtn == false)
-          ? <div>
-            {listOrderReady.map(data => (
-              (data.isShorTerm == true)
-                ?
-                <Card style={{ border: '1px solid red', marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "white", borderRadius: "20px" }}>
-                  <Stack
-                    direction="row"
-                    divider={<Divider orientation="vertical" flexItem />}
-                    spacing={1}
-                  >
-                    <div style={{ margin: "1%", width: "95%" }}>
-                      <text className="content_delivery">Customer</text>
-                      <br /><br />
-                      <Stack
-                        direction="column"
-                        divider={<Divider orientation="horizontal" flexItem />}
-                        spacing={1}
-                      >
-                        {/* Customer Details */}
-                        <TextGetAccountByID accountID={data.accountId} />
-                        {/* Order Details */}
-                        <div>
-                          <text className="content_delivery">Order : </text>
-                          <br /><br />
-                          <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>ID: </text>&ensp;<text>{data.orderId}</text></p>
-                          <p className="content_delivery_content">
-                            <text style={{ fontWeight: "500" }}>Status: </text>
-                            &ensp;
-                            <text>{(data.status == 'done')
-                              ? <text style={{ color: 'BLUE' }}>DONE</text>
-                              : ""}</text>
-                          </p>
-                        </div>
-                      </Stack>
-                    </div>
-                    <div style={{ margin: "1%", width: "95%" }}>
-                      {/* Product Details */}
-                      <text className="content_delivery">Product : </text>
-                      <br /><br />
-                      <Stack
-                        direction="column"
-                        divider={<Divider orientation="horizontal" flexItem />}
-                        spacing={1}
-                      >
-                        <TextGetOrderDetailByID orderID={data.orderId} />
-                        <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text>{data.totalPrice} VND</text></p>
-                        {
-                          (data.status == 'done' && data.totalPrice > 0)
-                            ? <Button style={{
-                              fontFamily: "Muli",
-                              borderRadius: 10,
-                              backgroundColor: "#e30217",
-                              color: "white",
-                            }}
-                              onClick={(e) => orderReady(e, data)}>Order Ready</Button>
-                            :
-                            <Button
-                              disabled
-                              style={{
-                                fontFamily: "Muli",
-                                borderRadius: 10,
-                                backgroundColor: "gray",
-                                color: "white",
-                              }}>Order Is Not Ready</Button>
-                        }
-                      </Stack>
-                    </div>
-                  </Stack>
-                </Card>
-                :
-                <Card style={{ border: '1px solid red', marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "white", borderRadius: "20px" }}>
-                  <Stack
-                    direction="row"
-                    divider={<Divider orientation="vertical" flexItem />}
-                    spacing={1}
-                  >
-                    <div style={{ margin: "1%", width: "95%" }}>
-                      <text className="content_delivery">Customer</text>
-                      <br /><br />
-                      <Stack
-                        direction="column"
-                        divider={<Divider orientation="horizontal" flexItem />}
-                        spacing={1}
-                      >
-                        {/* Customer Details */}
-                        <TextGetAccountByID accountID={data.accountId} />
-                        {/* Order Details */}
-                        <div>
-                          <text className="content_delivery">Order : </text>
-                          <br /><br />
-                          <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>ID: </text>&ensp;<text>{data.orderId}</text></p>
-                          <p className="content_delivery_content">
-                            <text style={{ fontWeight: "500" }}>Status: </text>
-                            &ensp;
-                            <text>{(data.status == 'done')
-                              ? <text style={{ color: 'BLUE' }}>DONE</text>
-                              : ""}</text>
-                          </p>
-                        </div>
-                      </Stack>
-                    </div>
-                    <div style={{ margin: "1%", width: "95%" }}>
-                      {/* Long Term Details */}
-                      <text className="content_delivery">Long Term Process: </text>
-                      <br /><br />
-                      <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Ăn cơm rùi làm tiếp !</text></p>
-                    </div>
-                    <div style={{ margin: "1%", width: "95%" }}>
-                      {/* Product Details */}
-                      <text className="content_delivery">Product : </text>
-                      <br /><br />
-                      <Stack
-                        direction="column"
-                        divider={<Divider orientation="horizontal" flexItem />}
-                        spacing={1}
-                      >
-                        <TextGetOrderDetailByID orderID={data.orderId} />
-                        <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text>{data.totalPrice} VND</text></p>
-                        {
-                          (data.status == 'done' && data.totalPrice > 0)
-                            ? <Button style={{
-                              fontFamily: "Muli",
-                              borderRadius: 10,
-                              backgroundColor: "#e30217",
-                              color: "white",
-                            }}
-                              onClick={(e) => orderReady(e, data)}>Order Ready</Button>
-                            :
-                            <Button
-                              disabled
-                              style={{
-                                fontFamily: "Muli",
-                                borderRadius: 10,
-                                backgroundColor: "gray",
-                                color: "white",
-                              }}>Order Is Not Ready</Button>
-                        }
-                      </Stack>
-                    </div>
-                  </Stack>
-                </Card>
-            ))}
-          </div>
-          : null
-      }
-
-      {
-        (visibleNewBtn == false && visiblePreparingBtn == false && visibleReadyBtn == false && visibleDeliveredBtn == true)
-          ? <div>
-            {listOrderDelivered.map(data => (
-              (data.isShorTerm == true)
-                ?
-                <Card style={{ border: '1px solid red', marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "white", borderRadius: "20px" }}>
-                  <Stack
-                    direction="row"
-                    divider={<Divider orientation="vertical" flexItem />}
-                    spacing={1}
-                  >
-                    <div style={{ margin: "1%", width: "95%" }}>
-                      <text className="content_delivery">Customer</text>
-                      <br /><br />
-                      <Stack
-                        direction="column"
-                        divider={<Divider orientation="horizontal" flexItem />}
-                        spacing={1}
-                      >
-                        {/* Customer Details */}
-                        <TextGetAccountByID accountID={data.accountId} />
-                        {/* Order Details */}
-                        <div>
-                          <text className="content_delivery">Order : </text>
-                          <br /><br />
-                          <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>ID: </text>&ensp;<text>{data.orderId}</text></p>
-                          <p className="content_delivery_content">
-                            <text style={{ fontWeight: "500" }}>Status: </text>
-                            &ensp;
-                            <text>{(data.status == 'delivery')
-                              ? <text style={{ color: 'GREEN' }}>DELIVERIED</text>
-                              : ""}</text>
-                          </p>
-                        </div>
-                      </Stack>
-                    </div>
-                    <div style={{ margin: "1%", width: "95%" }}>
-                      {/* Product Details */}
-                      <text className="content_delivery">Product : </text>
-                      <br /><br />
-                      <Stack
-                        direction="column"
-                        divider={<Divider orientation="horizontal" flexItem />}
-                        spacing={1}
-                      >
-                        <TextGetOrderDetailByID orderID={data.orderId} />
-                        <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text>{data.totalPrice} VND</text></p>
-                        {
-                          (data.status == 'done' && data.totalPrice > 0)
-                            ? <Button style={{
-                              fontFamily: "Muli",
-                              borderRadius: 10,
-                              backgroundColor: "#e30217",
-                              color: "white",
-                            }}
-                              onClick={(e) => orderReady(e, data)}>Order Ready</Button>
-                            : ""
-                        }
-                      </Stack>
-                    </div>
-                  </Stack>
-                </Card>
-                :
-                <Card style={{ border: '1px solid red', marginLeft: "3%", marginBottom: "3%", marginRight: "3%", backgroundColor: "white", borderRadius: "20px" }}>
-                  <Stack
-                    direction="row"
-                    divider={<Divider orientation="vertical" flexItem />}
-                    spacing={1}
-                  >
-                    <div style={{ margin: "1%", width: "95%" }}>
-                      <text className="content_delivery">Customer</text>
-                      <br /><br />
-                      <Stack
-                        direction="column"
-                        divider={<Divider orientation="horizontal" flexItem />}
-                        spacing={1}
-                      >
-                        {/* Customer Details */}
-                        <TextGetAccountByID accountID={data.accountId} />
-                        {/* Order Details */}
-                        <div>
-                          <text className="content_delivery">Order : </text>
-                          <br /><br />
-                          <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>ID: </text>&ensp;<text>{data.orderId}</text></p>
-                          <p className="content_delivery_content">
-                            <text style={{ fontWeight: "500" }}>Status: </text>
-                            &ensp;
-                            <text>{(data.status == 'delivery')
-                              ? <text style={{ color: 'GREEN' }}>DELIVERIED</text>
-                              : ""}</text>
-                          </p>
-                        </div>
-                      </Stack>
-                    </div>
-                    <div style={{ margin: "1%", width: "95%" }}>
-                      {/* Long Term Details */}
-                      <text className="content_delivery">Long Term Process: </text>
-                      <br /><br />
-                      <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Ăn cơm rùi làm tiếp !</text></p>
-                    </div>
-                    <div style={{ margin: "1%", width: "95%" }}>
-                      {/* Product Details */}
-                      <text className="content_delivery">Product : </text>
-                      <br /><br />
-                      <Stack
-                        direction="column"
-                        divider={<Divider orientation="horizontal" flexItem />}
-                        spacing={1}
-                      >
-                        <TextGetOrderDetailByID orderID={data.orderId} />
-                        <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text>{data.totalPrice} VND</text></p>
-                        {
-                          (data.status == 'done' && data.totalPrice > 0)
-                            ? <Button style={{
-                              fontFamily: "Muli",
-                              borderRadius: 10,
-                              backgroundColor: "#e30217",
-                              color: "white",
-                            }}
-                              onClick={(e) => orderReady(e, data)}>Order Ready</Button>
-                            : ""
-                        }
-                      </Stack>
-                    </div>
-                  </Stack>
-                </Card>
-            ))}
-          </div>
-          : null
-      }
       <br />
     </Fragment>
   )

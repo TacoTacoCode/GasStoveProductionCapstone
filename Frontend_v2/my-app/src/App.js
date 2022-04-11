@@ -66,34 +66,6 @@ function App() {
     return <Signin />
   }
 
-  return (
-    <div className="App">
-      <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <CustomSideBar />
-          <Routes>
-            <Route path='/profile' exact element={<Profile />}></Route>
-            <Route path='/dashboard' exact element={<DashBoard />}></Route>
-            <Route path='/dashboard/accounts' exact element={<Accounts />}></Route>
-            <Route path='/dashboard/materials' exact element={<Materials />}></Route>
-            <Route path='/dashboard/products' exact element={<Products />}></Route>
-            <Route path='/dashboard/components' exact element={<Components />}></Route>
-            <Route path='/orders' exact element={<Orders />}></Route>
-            <Route path='/orders/orderdetails' exact element={<OrderDetails />}></Route>
-            <Route path='/section/materials' exact element={<SectionMaterials />}></Route>
-            <Route path='/section/workers' exact element={<WorkerList />}></Route>
-            <Route path='/createProcess' exact element={<CreateProcess />}></Route>
-            <Route path='/divideProcessTabs' exact element={<DivideProcessTabs />}></Route>
-            <Route path='/section/processDetail' exact element={< ProcessDetail />}></Route>
-            <Route path='/section/exportElement' exact element={< Panel />}></Route>
-            <Route path='/requestDetail' exact element={< RequestDetail />}></Route>
-            <Route path='/manufacturer/RequestComponent' exact element={< RequestComponent />}></Route>
-          </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
-    </div >
-  );
-}
   if (role == 'Admin') {
     return (
       <div className="App">
@@ -211,6 +183,6 @@ function App() {
   //     </ThemeProvider>
   //   </div >
   // );
-//}
 
+}
 export default App;
