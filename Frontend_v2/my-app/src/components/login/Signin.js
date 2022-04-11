@@ -29,6 +29,7 @@ export default function Signin() {
     //Title
     useEffect(() => {
         document.title = "UFA - Login"
+        document.body.style.margin = "0";
     }, []);
 
     const classes = useStyles();
@@ -54,7 +55,7 @@ export default function Signin() {
                     localStorage.setItem('currentRole', user.role);
                     switch (user.role) {
                         case "Admin":
-                            window.location.href = "/dashboard";
+                            window.location.href = "/";
                             break;
                         case "Manufacturer Department":
                             window.location.href = "/manufacturer/requestComponent";
@@ -66,7 +67,7 @@ export default function Signin() {
                             window.location.href = "/section/processDetail";
                             break;
                         default:
-                            console.log("Not Adminnnnnn");
+                            console.log("Not Admin");
                             break;
                     }
                 });
@@ -77,16 +78,17 @@ export default function Signin() {
     }
 
     return (
-        <>
+        <div style={{ margin: '0' }}>
             <script src='https://kit.fontawesome.com/a076d05399.js' crossOrigin='anonymous'></script>
             <div className="dashboard_login">
                 <div className="title-container">
                     <center><h2>UFA Company Managing System</h2></center>
+                    <br />
                     <div className="login-container">
                         <div><center><img className='img-login' src='http://uyenphat.com.vn/wp-content/themes/ufa/imgs/logo.png' alt='Bếp Gas Uyên Phát'></img></center></div>
-                        <div className="container">
+                        <div className="login-container-inside">
                             <center>
-                                <form noValidate onSubmit={handleSubmit}>
+                                <form className="form_SignIn" noValidate onSubmit={handleSubmit}>
                                     <TextField
                                         variant="outlined"
                                         margin="normal"
@@ -127,6 +129,6 @@ export default function Signin() {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }

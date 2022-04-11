@@ -217,7 +217,7 @@ function AccountPopup(props) {
           <CloseIcon style={{ 'color': "white", }} />
         </button></div>
         {props.children}
-        <div className='popup-body'>
+        <div className="popup-body" style={{ height: '600px', overflow: 'auto', overflowY: 'scroll' }}>
           <form>
             <div className='imagefield'>
               Account's Image

@@ -5,7 +5,7 @@ export const SideBarAdminData = [
     {
         title: 'Dashboard',
         // icon: <DashboardIcon />,
-        path: "/dashboard",
+        path: "/",
         cName: 'nav-text'
     },
     {

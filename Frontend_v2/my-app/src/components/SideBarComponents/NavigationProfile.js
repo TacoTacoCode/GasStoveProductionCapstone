@@ -11,7 +11,7 @@ class NavigationProfile extends React.Component {
             <div className="navigation_profile">
                 <nav className="column">
                     <center>
-                        <Avatar src={image} sx={{ width: '100%', height: '100%' }} />
+                        <Avatar src={image} sx={{ width: '20rem', height: '20rem' }} />
                     </center>
                     <ul>
                         {/* <li><center><button className="button_nav">Create Forms</button></center></li> */}

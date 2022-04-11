@@ -46,7 +46,7 @@ function MaterialPopup(props) {
 
 
     return (props.trigger) ? (
-        console.log("ádasd:" +props.trigger),
+        console.log("ádasd:" + props.trigger),
         <div className='componentpopup'>
             <div className='popup-inner'>
                 <div><button className='close-btn' onClick={() => props.setTrigger(false)}>

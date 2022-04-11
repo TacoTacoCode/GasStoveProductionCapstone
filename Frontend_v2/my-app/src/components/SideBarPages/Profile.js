@@ -14,16 +14,6 @@ function Profile() {
     useEffect(() => {
         document.title = "UFA - My Profile"
     }, []);
-    // state = {
-    //     name: 'Dinh Nhu Hieu',
-    //     phone: '0335365325',
-    //     address: '2695 Pham The Hien, Phuong 7, Quan 8, TPHCM',
-    //     email: 'hieudinhW003@gmail.com',
-    //     gender: 'Male',
-    //     workerID: 'GSP123',
-    //     role: 'Manufacturing Manager',
-    //     image: 'https://1.bp.blogspot.com/-fZFuHlaPUhs/YGLZa02W4xI/AAAAAAAArDQ/CBAWz3Nr7qU65dmF9oleJoHrpClyTOA-ACNcBGAsYHQ/s0/63af987a2cf528462ae90e36c72f6e96.jpeg',
-    // };
 
     const currentRole = localStorage.getItem('currentRole');
     const currentUserID = localStorage.getItem('currentId');
@@ -58,7 +48,7 @@ function Profile() {
             {/* <HeaderPage /> */}
             <div className="line_panel" />
             <div className="back_button">
-                <Button onClick={() => window.location.href = "http://localhost:3000/login"}>
+                <Button onClick={() => window.location.href = "/"}>
                     <FaIcons.FaArrowLeft size={40} color="white" />
                 </Button>
             </div>

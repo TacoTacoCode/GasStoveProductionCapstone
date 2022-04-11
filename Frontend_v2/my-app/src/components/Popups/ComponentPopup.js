@@ -208,7 +208,7 @@ function ComponentPopup(props) {
           </button>
         </div>
         {props.children}
-        <div className="popup-body">
+        <div className="popup-body" style={{ height: '600px', overflow: 'auto', overflowY: 'scroll' }}>
           <form id="Form1">
             <br />
             <text className="content_choose">Component : </text>

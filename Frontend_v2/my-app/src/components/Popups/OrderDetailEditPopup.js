@@ -176,7 +176,7 @@ function OrderDetailEditPopup(props) {
           </button>
         </div>
         {props.children}
-        <div className="popup-body">
+        <div className="popup-body" style={{ height: '600px', overflow: 'auto', overflowY: 'scroll' }}>
           <form>
             <br />
             <text className="content_choose">Detail : </text>
