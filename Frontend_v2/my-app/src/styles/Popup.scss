@@ -307,10 +307,30 @@ padding: 5rem;
     font-size: 18px;
 }
 
+.content_orderdetail_content{
+    color: black;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 18px;
+}
+
+.content_delivery_longterm {
+    padding-left: 2%;
+    color: black;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 18px;
+}
+
 .number_square{
     background-color: white;
     padding: 5px;
     border: 1px solid white;
     border-radius: 5px;
     color: red;
+}
+
+.text_square {
+    vertical-align: middle;
+    width: fit-content;
+    padding: 5px;
+    border-radius: 5px;
 }

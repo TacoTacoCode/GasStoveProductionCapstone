@@ -21,12 +21,11 @@ export const TextGetOrderDetailByID = (props) => {
                             orderDetail.map(data => (
                                 <Stack
                                     direction="row"
-                                    divider={<Divider orientation="vertical" flexItem />}
                                     spacing={1}>
-                                    <p className="content_delivery_content"><text style={{ fontWeight: "500" }}>Product: </text>&ensp;<text>{data.productId}</text></p>
-                                    <p className="content_delivery_content"><text style={{ fontWeight: "500" }}>Amount: </text>&ensp;<text>{data.amount}</text></p>
-                                    <p className="content_delivery_content"><text style={{ fontWeight: "500" }}>Price: </text>&ensp;<text>{data.price}</text></p>
-                                    <p className="content_delivery_content"><text style={{ fontWeight: "500" }}>=</text>&ensp;<text>{data.price * data.amount} VND</text></p>
+                                    <p className="content_orderdetail_content"><text style={{ fontWeight: "500" }}>Product:&nbsp;</text><text>{data.productId}&nbsp;=</text></p>
+                                    <p className="content_orderdetail_content"><text style={{ fontWeight: "500" }}>Amount(</text><text>{data.amount})</text>&nbsp;x</p>
+                                    <p className="content_orderdetail_content"><text style={{ fontWeight: "500" }}>Price(</text><text>{data.price})</text></p>
+                                    <p className="content_orderdetail_content"><text style={{ fontWeight: "500" }}>=</text>&nbsp;<text>{data.price * data.amount} VND</text></p>
                                 </Stack>
                             ))}
 
