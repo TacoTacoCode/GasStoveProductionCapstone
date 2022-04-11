@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { SideBarAdminData, SideBarData, SideBarOrderData, SideBarSectionData } from "./SideBarData";
+import { SideBarAdminData, SideBarData, SideBarManuData, SideBarOrderData, SideBarSectionData } from "./SideBarData";
 import "../SideBarComponents/SideBarCss.css";
 import { Link } from "react-router-dom";
 import * as FaIcons from 'react-icons/fa';
@@ -104,6 +104,10 @@ function CustomSideBar() {
             break;
         case 'Section Department':
             role = SideBarSectionData.map(obj => ({ ...obj }));
+            currentLink = "section/processDetail";
+            break;
+        case 'Manufacturer Deparment':
+            role = SideBarManuData.map(obj => ({ ...obj }));
             currentLink = "section/processDetail";
             break;
         default:

@@ -57,7 +57,7 @@ export default function Signin() {
                             window.location.href = "/dashboard";
                             break;
                         case "Manufacturer Deparment":
-                            window.location.href = "/dashboard/accounts";
+                            window.location.href = "/manufacturer/RequestComponent";
                             break;
                         case "Order Department":
                             window.location.href = "/orders";

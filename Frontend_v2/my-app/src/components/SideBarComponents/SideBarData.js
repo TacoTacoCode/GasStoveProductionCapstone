@@ -72,3 +72,12 @@ export const SideBarSectionData = [
         cName: "nav-text"
     }
 ]
+
+
+export const SideBarManuData = [
+    {
+        title: "RequestComponent",
+        path: "/manufacturer/RequestComponent",
+        cName: "nav-text"
+    }
+]
