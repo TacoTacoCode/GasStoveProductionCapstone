@@ -28,6 +28,10 @@ namespace GSP_API.Business.Services
         {
             return await _orderRepository.GetAll(p => p.Status == status);
         }
+        public async Task<List<Order>> GetOrdersByTerm(bool? isShorTerm)
+        {
+            return await _orderRepository.GetAll(p => p.IsShorTerm == isShorTerm);
+        }
 
         public async Task<List<Order>> GetOrderByAccount(int accountId)
         {

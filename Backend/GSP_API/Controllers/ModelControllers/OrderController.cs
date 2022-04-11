@@ -63,6 +63,20 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok(list);
         }
 
+        // GET: getOrder/[isShorTerm] true/false
+        [HttpGet]
+        [Route("getOrders/isShorTerm/{isShorTerm}")]
+        public async Task<ActionResult<List<OrderResponse>>> GetOrdersByTerm(bool isShorTerm)
+        {
+            var data = await _orderService.GetOrdersByTerm(isShorTerm);
+            if (data == null)
+            {
+                return BadRequest("Not found");
+            }
+            var list = _mapper.Map<List<OrderResponse>>(data);
+            return Ok(list);
+        }
+
         // GET: getOrdersOf/acc/1
         [HttpGet]
         [Route("getOrdersOf/acc/{accountId}")]
