@@ -9,6 +9,8 @@ import axios from "axios";
 import Bell from "../../img/bell.png";
 import "../../styles/notifcation.css";
 import { Tooltip } from '@material-ui/core';
+import { TextGetSectionLeader } from "../NonSideBarPage/TextGetSectionLeader";
+
 const CssTextField = styled(TextField)({
     width: "100%",
     "& .MuiOutlinedInput-root": {
@@ -34,7 +36,11 @@ export const Table = (props) => {
             title: 'ID', field: 'orderId', cellStyle: { fontFamily: 'Arial' }
         },
         {
-            title: 'Account ID', field: 'accountId', cellStyle: { fontFamily: 'Muli' }
+            title: 'Account ID', field: 'accountId', cellStyle: { fontFamily: 'Muli' },
+            render:
+                rowData => (rowData.accountId != null)
+                    ? <TextGetSectionLeader accountID={rowData.accountId} />
+                    : "Unknown User"
         },
         {
             title: 'Expiry Date',

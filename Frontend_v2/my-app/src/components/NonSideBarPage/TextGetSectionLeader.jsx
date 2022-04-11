@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 
-export const TextGetAccountByID = (props) => {
+export const TextGetSectionLeader = (props) => {
     const [account, setAccount] = useState([]);
 
     useEffect(async () => {
@@ -11,8 +11,7 @@ export const TextGetAccountByID = (props) => {
 
     return (
         <div>
-            <p className="content_delivery_content"><text style={{ fontWeight: "500" }}>Name: </text>&ensp;<text>{account.name}</text></p>
-            <p className="content_delivery_content"><text style={{ fontWeight: "500" }}>Address: </text>&ensp;<text>{account.address}</text></p>
+            <text>{account.name}</text>
         </div>
     );
 }

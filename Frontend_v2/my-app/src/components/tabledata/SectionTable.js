@@ -14,6 +14,7 @@ import { IconContext } from "react-icons";
 import Avatar from '@mui/material/Avatar';
 import SectionEditPopup from "../Popups/SectionEditPopup";
 import { fn } from "moment";
+import { TextGetSectionLeader } from "../NonSideBarPage/TextGetSectionLeader";
 
 export const Table = (props) => {
   const { listSection } = props;
@@ -72,6 +73,10 @@ export const Table = (props) => {
       title: "Section Leader",
       field: "sectionLeadId",
       cellStyle: { fontFamily: "Muli" },
+      render:
+        rowData => (rowData.sectionLeadId != null)
+          ? <TextGetSectionLeader accountID={rowData.sectionLeadId} />
+          : "Unknown User"
     },
     {
       title: "Component",
