@@ -12,10 +12,12 @@ namespace GSP_API.Business.Services
     public class ProductService
     {
         private readonly IProductRepository _productRepository;
+        private readonly IProductComponentRepository _productCompoRepository;
 
-        public ProductService(IProductRepository productRepository)
+        public ProductService(IProductRepository productRepository, IProductComponentRepository productCompoRepository)
         {
             _productRepository = productRepository;
+            _productCompoRepository = productCompoRepository;
         }
 
         public async Task<List<Product>> GetAllProducts()
@@ -70,6 +72,8 @@ namespace GSP_API.Business.Services
             var data = await _productRepository.FindFirst(p => p.ProductId == newProduct.ProductId);
             if (data != null)
             {
+                var proCompos = await _productCompoRepository.GetAll(p => p.ProductId == data.ProductId);
+                await _productCompoRepository.RemoveRange(proCompos);
                 return await _productRepository.Update(newProduct);
             }
             return null;

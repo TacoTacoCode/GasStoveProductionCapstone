@@ -77,6 +77,12 @@ namespace GSP_API.Controllers.ModelControllers
         [Route("addProduct")]
         public async Task<ActionResult> AddProduct([FromForm]ProductRequest productRequest, IFormFile file)
         {
+            var json = Request.Form["productComponents"];
+            if (json.Count != 0)
+            {
+                var compoMate = JsonConvert.DeserializeObject<List<ProductComponentRequest>>(Request.Form["productComponents"]);
+                productRequest.ProductComponents = compoMate;
+            }
             Stream fileStream = null;
             var fileName = "no-image.jpg?alt=media&token=c45f5852-28eb-4b4d-87a8-2caefb10df12";
             if (file != null)
@@ -84,7 +90,19 @@ namespace GSP_API.Controllers.ModelControllers
                 fileStream = file.OpenReadStream();
                 fileName = file.FileName;
             }
-            var data = await _productService.AddProduct(_mapper.Map<Product>(productRequest), fileStream, fileName);
+            var product = new Product()
+            {
+                ProductId = productRequest.ProductId,
+                ProductName = productRequest.ProductName,
+                Amount = productRequest.Amount,
+                Description = productRequest.Description,
+                ImageUrl = productRequest.ImageUrl,
+                Price = productRequest.Price,
+                Status = productRequest.Status,
+                ProductComponents = _mapper.Map<ICollection<ProductComponent>>(productRequest.ProductComponents),
+            };
+                
+            var data = await _productService.AddProduct(product, fileStream, fileName);
             if (file != null)
             {
                 fileStream.Dispose();
@@ -101,6 +119,12 @@ namespace GSP_API.Controllers.ModelControllers
         [Route("updateProduct")]
         public async Task<ActionResult> UpdateProduct([FromForm] ProductRequest productRequest, IFormFile file)
         {
+            var json = Request.Form["productComponents"];
+            if (json.Count != 0)
+            {
+                var compoMate = JsonConvert.DeserializeObject<List<ProductComponentRequest>>(Request.Form["productComponents"]);
+                productRequest.ProductComponents = compoMate;
+            }
             Stream fileStream = null;
             var fileName = productRequest.ImageUrl;
             if (file != null)

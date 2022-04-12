@@ -2,13 +2,7 @@ import React, { useState, useEffect, useRef, useReducer, useCallback } from "rea
 import "../../styles/Popup.scss";
 import CloseIcon from "@mui/icons-material/Close";
 import MaterialTable from "material-table";
-import {
-  Button,
-  InputAdornment,
-  makeStyles,
-  MenuItem,
-  TextField,
-} from "@mui/material";
+import { Button, MenuItem, TextField, } from "@mui/material";
 import { alpha, styled } from "@mui/material/styles";
 import axios from "axios";
 import swal from "sweetalert";
@@ -34,6 +28,7 @@ const columns = [
     title: "Name",
     field: "materialName",
     cellStyle: { fontFamily: "Arial" },
+    render: rowdata => rowdata.material.materialName,
   },
   {
     title: "Amount",
@@ -83,7 +78,6 @@ function ComponentEditPopup(props) {
   const [listMaterialActive, setMaterialList] = useState([]);
   const [materialActive, setMaterialChoose] = useState(null);
   const [materialAmount, setMaterialComponentAmount] = useState(null);
-
   const [curImg, setCurImg] = useState('');
 
   useEffect(() => {
@@ -144,26 +138,27 @@ function ComponentEditPopup(props) {
   const [fileName, setFileName] = useState("");
 
   const handlePreviewAvatar = (e) => {
-    console.log(e.target.value);
     const file = e.target.files[0];
     file.preview = URL.createObjectURL(file);
     setCurImg(file.preview);
     setFile(e.target.files[0]);
     setFileName(e.target.files[0].name);
-    console.log(file.preview);
   };
 
+  const createMD = () => {
+    let compMate = []
+    componentMaterial.map((item) =>
+      compMate.push({
+        "componentId": componentID,
+        "materialId": item.materialId,
+        "amount": +item.amount,
+      })
+    )
+    return compMate;
+  }
   const changeData = (e) => {
     e.preventDefault();
-    const jsonObj = {
-      componentMaterial: componentMaterial.map((item) => {
-        return {
-          componentId: componentID,
-          materialId: item.materialId,
-          amount: +item.amount,
-        };
-      }),
-    };
+    const jsonObj = createMD();
     const formData = new FormData();
     formData.append("componentId", componentID);
     formData.append("componentName", componentName);
@@ -174,7 +169,7 @@ function ComponentEditPopup(props) {
     formData.append("color", color);
     formData.append("weight", weight);
     formData.append("description", description);
-    formData.append("componentMaterial", jsonObj.componentMaterial);
+    formData.append("componentMaterial", JSON.stringify(jsonObj));
     formData.append("file", file);
     axios
       .put("https://localhost:5001/updateComponent", formData)
@@ -286,10 +281,6 @@ function ComponentEditPopup(props) {
                   id="fullWidth"
                   required
                   value={size}
-                  type={"number"}
-                  InputProps={{
-                    inputProps: { min: 0, pattern: "[0-9]*" },
-                  }}
                   onChange={(e) => setComponentSize(e.target.value)}
                 />
               </div>

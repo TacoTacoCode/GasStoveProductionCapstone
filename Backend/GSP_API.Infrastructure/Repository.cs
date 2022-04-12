@@ -100,6 +100,21 @@ namespace GSP_API.Infrastructure
                 await _dbFactory.DbContext.DisposeAsync();
                 return e.Message.ToString();
             }
-        }        
+        }
+
+        public async Task<string> RemoveRange(List<T> entites)
+        {
+            try
+            {
+                DbSet.RemoveRange(entites);
+                await _dbFactory.DbContext.SaveChangesAsync();
+                return "true";
+            }
+            catch (Exception e)
+            {
+                await _dbFactory.DbContext.DisposeAsync();
+                return e.Message.ToString();
+            }
+        }
     }
 }

@@ -11,11 +11,13 @@ namespace GSP_API.Business.Services
     public class ComponentService
     {
         private readonly IComponentRepository _componentRepository;
+        private readonly IComponentMaterialRepository _componentMateRepository;
 
         public ComponentService(
-            IComponentRepository componentRepository)
+            IComponentRepository componentRepository, IComponentMaterialRepository componentMateRepository)
         {
             _componentRepository = componentRepository;
+            _componentMateRepository = componentMateRepository;
         }
 
         public async Task<List<Component>> GetAllComponents()
@@ -70,6 +72,8 @@ namespace GSP_API.Business.Services
             var data = await _componentRepository.FindFirst(p => p.ComponentId == newComponent.ComponentId);
             if (data != null)
             {
+                var compoMates = await _componentMateRepository.GetAll(c => c.ComponentId == data.ComponentId);
+                await _componentMateRepository.RemoveRange(compoMates);
                 return await _componentRepository.Update(newComponent);
             }
             return null;

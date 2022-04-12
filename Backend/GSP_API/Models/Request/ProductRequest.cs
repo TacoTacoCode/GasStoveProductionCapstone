@@ -19,6 +19,6 @@ namespace GSP_API.Models.Request
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual ICollection<ProductComponent> ProductComponents { get; set; }
+        public virtual ICollection<ProductComponentRequest> ProductComponents { get; set; }
     }
 }

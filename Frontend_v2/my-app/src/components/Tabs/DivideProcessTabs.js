@@ -143,7 +143,7 @@ function DivideProcessTabs() {
             swal("Success", "Submit Data", "success", {
                 buttons: false,
                 timer: 1500,
-            }).then((e) => window.location.href = 'http://localhost:3000/orders/orderdetails')
+            }).then((e) => window.location.href = 'http://localhost:3000/orders/')
         }).catch((err) => {
             alert('System error, try again later')
         })
@@ -212,7 +212,7 @@ function DivideProcessTabs() {
                             <div className='number'>
                                 <div className='divprocess'>
                                     <CssTextField variant="outlined" className='numberfield' type='number' label={'Total Amount'}
-                                        defaultValue={listProcess[index] === undefined ? 0 : listProcess[index].totalAmount}
+                                        value={listProcess[index] === undefined ? 0 : listProcess[index].totalAmount}
                                         onBlur={(e) =>
                                             updateTotalAmountChanged(e, index)
                                         }
@@ -222,7 +222,7 @@ function DivideProcessTabs() {
                                     /></div>
                                 <div className='divprocess'>
                                     <CssTextField variant="outlined" className='numberfield' type='number' label={'Needed Amount'}
-                                        defaultValue={listProcess[index] === undefined ? 0 : listProcess[index].neededAmount}
+                                        value={listProcess[index] === undefined ? 0 : listProcess[index].neededAmount}
                                         onBlur={(e) =>
                                             updateNeededAmountChanged(e, index)
                                         }
@@ -232,7 +232,7 @@ function DivideProcessTabs() {
                                     /></div>
                                 <div className='divprocess'>
                                     <CssTextField variant="outlined" color='secondary' className='numberfield' type='number' label={'Finished Amount'}
-                                        defaultValue={listProcess[index] === undefined ? 0 : listProcess[index].finishedAmount}
+                                        value={listProcess[index] === undefined ? 0 : listProcess[index].finishedAmount}
                                         onBlur={(e) =>
                                             updateFinishedAmountChanged(e, index)
                                         }

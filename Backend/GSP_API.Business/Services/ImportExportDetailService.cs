@@ -165,6 +165,7 @@ namespace GSP_API.Business.Services
                     }
 
                     //cal average = totalAmount/totalDate
+                    //bat firstExport dum`...
                     var datePass = DateTime.Now.Subtract((DateTime)processDetail.FirstExportDate).TotalDays;
                     var average = Convert.ToInt32(processDetail.FinishedAmount / Convert.ToInt32(datePass));
                     processDetail.AverageAmount = average;

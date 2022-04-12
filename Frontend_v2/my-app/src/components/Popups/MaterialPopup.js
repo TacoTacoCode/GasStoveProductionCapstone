@@ -75,6 +75,7 @@ function MaterialPopup(props) {
   }, [imageUrl]);
 
   const postData = (e) => {
+    e.preventDefault()
     const formData = new FormData();
     formData.append("materialId", materialID);
     formData.append("materialName", materialName);
@@ -87,19 +88,17 @@ function MaterialPopup(props) {
       .then(res => {
         swal("Success", "Add new material successfully", "success", {
           buttons: false,
-          timer: 2000,
+          timer: 1500,
+        }).then(() => {
+          handleCancelClick()
+          window.location.href = "http://localhost:3000/dashboard/materials";
         })
-        //reset data
-        handleCancelClick();
       }).catch(err => {
         swal("Error", "Add new material failed", "error", {
           buttons: false,
           timer: 2000,
         })
-        console.log(err)
-      }).finally(() => {
-        handleDelay();
-      });
+      })
   }
 
   const resetData = () => {
@@ -128,7 +127,7 @@ function MaterialPopup(props) {
   })();
 
   const handleDelay = () => {
-    delay(function () { window.location.href = "http://localhost:3000/dashboard/materials"; }, 1000);
+    delay(function () { window.location.href = "http://localhost:3000/dashboard/materials"; }, 500);
   };
 
   return props.trigger ? (

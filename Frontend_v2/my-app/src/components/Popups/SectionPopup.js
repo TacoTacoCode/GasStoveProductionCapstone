@@ -63,7 +63,9 @@ function SectionPopup(props) {
       setComponentList(res.data);
     });
     axios.get("https://localhost:5001/getActiveAccounts").then((res) => {
-      setAccountList(res.data);
+      let sections = []
+      res.data.map((e) => e.roleId == "SEC" ? sections.push(e) : null)
+      setAccountList(sections);
     });
   }, []);
 
@@ -177,6 +179,7 @@ function SectionPopup(props) {
                 select
                 id="fullWidth"
                 required
+                disabled={isAssemble}
                 value={componentId}
                 onChange={(e) => setComponentId(e.target.value)}
               >

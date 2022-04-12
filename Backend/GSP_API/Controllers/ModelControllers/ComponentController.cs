@@ -62,6 +62,12 @@ namespace GSP_API.Controllers.ModelControllers
         [Route("addComponent")]
         public async Task<ActionResult> AddComponent([FromForm] ComponentRequest component, IFormFile file)
         {
+            var json = Request.Form["componentMaterial"];
+            if (json.Count != 0)
+            {
+                var compoMate = JsonConvert.DeserializeObject<List<CompoMateRequest>>(Request.Form["componentMaterial"]);
+                component.ComponentMaterial = compoMate;
+            }
             Stream fileStream = null;
             var fileName = "no-image.jpg?alt=media&token=c45f5852-28eb-4b4d-87a8-2caefb10df12";
             if (file != null)
@@ -95,25 +101,18 @@ namespace GSP_API.Controllers.ModelControllers
             var component = _mapper.Map<ComponentResponse>(data);
             return Ok(component);
         }
-/*
-        // POST: AddComponent/[component]
-        [HttpPost]
-        [Route("addComponent")]
-        public async Task<ActionResult> AddComponent([FromBody] ComponentRequest componentRequest, List<Material> materials)
-        {
-            //var data = await _componentService.AddComponent(_mapper.Map<Component>(componentRequest), materials);
-            //if (data == null)
-            //{
-            //    return BadRequest("Not Found");
-            //}
-            return Ok("Add successfully");
-        }
-*/
+
         // PUT: UpdateComponent/[component]
         [HttpPut]
         [Route("updateComponent")]
         public async Task<ActionResult<ComponentResponse>> UpdateComponent([FromForm] ComponentRequest componentRequest, IFormFile file)
         {
+            var json = Request.Form["componentMaterial"];
+            if (json.Count != 0)
+            {
+                var compoMate = JsonConvert.DeserializeObject<List<CompoMateRequest>>(Request.Form["componentMaterial"]);
+                componentRequest.ComponentMaterial = compoMate;
+            }
             Stream fileStream = null;
             var fileName = componentRequest.ImageUrl;
             if (file != null)

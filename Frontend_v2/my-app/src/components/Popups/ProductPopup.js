@@ -106,19 +106,21 @@ function ProductPopup(props) {
     };
   }, [imageUrl]);
 
+  const createMD = () => {
+    let compMate = []
+    productComponent.map((item) =>
+      compMate.push({
+        "productId": productID,
+        "componentId": item.componentId,
+        "amount": +item.amount,
+      })
+    )
+    return compMate;
+  }
+
   const postData = (e) => {
     e.preventDefault();
-    const jsonObj = {
-      productComponents: productComponent
-        ? productComponent?.map((item) => {
-          return {
-            productId: productID,
-            componentId: item.componentId,
-            amount: item.amount,
-          };
-        })
-        : [],
-    };
+    const jsonObj = createMD();
     const formData = new FormData();
     formData.append("productId", productID);
     formData.append("productName", productName);
@@ -126,8 +128,8 @@ function ProductPopup(props) {
     formData.append("price", price);
     formData.append("status", status);
     formData.append("description", description);
-    if (jsonObj.productComponents.length != 0) {
-      formData.append("productComponents", jsonObj.productComponents);
+    if (jsonObj.length != 0) {
+      formData.append("productComponents", JSON.stringify(jsonObj));
     }
     if (file != null) {
       formData.append("file", file);

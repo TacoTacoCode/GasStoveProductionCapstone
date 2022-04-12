@@ -138,19 +138,20 @@ function ProductEditPopup(props) {
     console.log(file.preview);
   };
 
+  const createMD = () => {
+    let compMate = []
+    productComponent.map((item) =>
+      compMate.push({
+        "productId": productID,
+        "componentId": item.componentId,
+        "amount": +item.amount,
+      })
+    )
+    return compMate;
+  }
   const changeData = (e) => {
     e.preventDefault();
-    const jsonObj = {
-      productComponents: productComponent
-        ? productComponent?.map((item) => {
-          return {
-            productId: productID,
-            componentId: item.componentId,
-            amount: item.amount,
-          };
-        })
-        : [],
-    };
+    const jsonObj = createMD();
     const formData = new FormData();
     formData.append("productId", productID);
     formData.append("productName", productName);
@@ -158,7 +159,7 @@ function ProductEditPopup(props) {
     formData.append("price", price);
     formData.append("status", status);
     formData.append("description", description);
-    formData.append("productComponents", jsonObj.productComponents);
+    formData.append("productComponents", JSON.stringify(jsonObj));
     formData.append("file", file);
     axios
       .put("https://localhost:5001/updateProduct", formData)

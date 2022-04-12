@@ -20,11 +20,6 @@ namespace GSP_API.Models.Request
 
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual ICollection<ComponentMaterial> ComponentMaterial { get; set; }
-
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual ICollection<ProductComponent> ProductComponent { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public virtual ICollection<Section> Section { get; set; }
+        public virtual ICollection<CompoMateRequest> ComponentMaterial { get; set; }
     }
 }

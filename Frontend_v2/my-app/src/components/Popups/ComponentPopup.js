@@ -2,13 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../styles/Popup.scss";
 import CloseIcon from "@mui/icons-material/Close";
 import MaterialTable from "material-table";
-import {
-  Button,
-  InputAdornment,
-  makeStyles,
-  MenuItem,
-  TextField,
-} from "@mui/material";
+import { Button, MenuItem, TextField } from "@mui/material";
 import { alpha, styled } from "@mui/material/styles";
 import axios from "axios";
 import swal from "sweetalert";
@@ -71,7 +65,7 @@ function ComponentPopup(props) {
   //set a map from combobox then add them to the table
   const [componentMaterial, setListComponentMaterial] = useState([]);
   const [listMaterialActive, setMaterialList] = useState([]);
-  const [materialActive, setMaterialChoose] = useState(null);
+  const [materialActive, setMaterialChoose] = useState('');
 
   useEffect(() => {
     axios.get("https://localhost:5001/getMaterials/Active").then((res) => {
@@ -98,7 +92,6 @@ function ComponentPopup(props) {
   const [fileName, setFileName] = useState("");
 
   const handlePreviewAvatar = (e) => {
-    console.log(e.target.value);
     const file = e.target.files[0];
     file.preview = URL.createObjectURL(file);
     setComponentImage(file);
@@ -119,17 +112,20 @@ function ComponentPopup(props) {
     setFileName(e.target.files[0].name);
   };
 
+  const createMD = () => {
+    let compMate = []
+    componentMaterial.map((item) =>
+      compMate.push({
+        "componentId": componentID,
+        "materialId": item.materialId,
+        "amount": +item.amount,
+      })
+    )
+    return compMate;
+  }
   const postData = (e) => {
     e.preventDefault();
-    const jsonObj = {
-      componentMaterial: componentMaterial.map((item) => {
-        return {
-          componentId: componentID,
-          materialId: item.materialId,
-          amount: +item.amount,
-        };
-      }),
-    };
+    const jsonObj = createMD();
     const formData = new FormData();
     formData.append("componentId", componentID);
     formData.append("componentName", componentName);
@@ -140,8 +136,8 @@ function ComponentPopup(props) {
     formData.append("color", color);
     formData.append("weight", weight);
     formData.append("description", description);
-    if (jsonObj.componentMaterial.length != 0) {
-      formData.append("componentMaterial", jsonObj.componentMaterial);
+    if (jsonObj.length != 0) {
+      formData.append("componentMaterial", JSON.stringify(jsonObj));
     }
     if (file != null) {
       formData.append("file", file);
@@ -151,19 +147,19 @@ function ComponentPopup(props) {
       .then(res => {
         swal("Success", "Add new component successfully", "success", {
           buttons: false,
-          timer: 2000,
+          timer: 1500,
+        }).then(() => {
+          handleCancelClick();
+          window.location.reload();
         })
         //reset data
-        handleCancelClick();
       }).catch(err => {
         swal("Error", "Add new component failed", "error", {
           buttons: false,
-          timer: 2000,
+          timer: 1500,
         })
         console.log(err)
-      }).finally(() => {
-        handleDelay();
-      });
+      })
   };
 
   const handleCancelClick = () => {
@@ -259,11 +255,6 @@ function ComponentPopup(props) {
                   label="Size"
                   id="fullWidth"
                   required
-                  value={size}
-                  type={"number"}
-                  InputProps={{
-                    inputProps: { min: 0, pattern: "[0-9]*" },
-                  }}
                   onChange={(e) => setComponentSize(e.target.value)}
                 />
               </div>
@@ -363,7 +354,7 @@ function ComponentPopup(props) {
                 />
               </div>
 
-              {materialActive != null && materialAmount != null ? (
+              {materialActive != '' && materialAmount != 0 ? (
                 <Button
                   style={{
                     fontFamily: "Muli",
@@ -381,7 +372,7 @@ function ComponentPopup(props) {
                       ),
                     ]);
                     setMaterialComponentAmount(0);
-                    setMaterialChoose(null);
+                    setMaterialChoose('');
                     //console log here won print the new state, you have to wait for new lifecycle
                     //console.log(componentMaterial);
                   }}

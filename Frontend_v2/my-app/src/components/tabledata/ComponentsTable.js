@@ -86,7 +86,7 @@ export const Table = (props) => {
       cellStyle: { fontFamily: "Arial" },
     },
     {
-      title: "Unit",
+      title: "Substance",
       field: "substance",
       cellStyle: { fontFamily: "Arial" },
     },
