@@ -46,6 +46,8 @@ namespace GSP_API.Business.Services
                 cart = new Cart()
                 {
                     AccountId = accountId,
+                    CartInfo = "",
+                    TotalPrice = 0,
                 };
                 await _cartRepository.Add(cart);
             }
