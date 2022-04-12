@@ -84,7 +84,10 @@ namespace GSP_API.Controllers.ModelControllers
             }
 
             var data = await _materialService.AddMaterial(_mapper.Map<Material>(materialRequest), fileStream, fileName);
-            fileStream.Dispose();
+            if (file != null)
+            {
+                fileStream.Dispose();
+            }
             if (data.Contains("error"))
             {
                 return StatusCode(500, data);
@@ -105,6 +108,10 @@ namespace GSP_API.Controllers.ModelControllers
                 fileName = file.FileName;
             }
             var data = await _materialService.UpdateMaterial(_mapper.Map<Material>(materialRequest), fileStream, fileName);
+            if (file != null)
+            {
+                fileStream.Dispose();
+            }
             if (data == null)
             {
                 return BadRequest("Not found");

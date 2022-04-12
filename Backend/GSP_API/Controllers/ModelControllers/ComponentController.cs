@@ -71,7 +71,10 @@ namespace GSP_API.Controllers.ModelControllers
             }
 
             var data = await _componentService.AddComponent(_mapper.Map<Component>(component), fileStream, fileName);
-            fileStream.Dispose();
+            if (file != null)
+            {
+                fileStream.Dispose();
+            }
             if (data.Contains("error"))
             {
                 return StatusCode(500, data);
@@ -119,6 +122,10 @@ namespace GSP_API.Controllers.ModelControllers
                 fileName = file.FileName;
             }
             var data = await _componentService.UpdateComponent(_mapper.Map<Component>(componentRequest), fileStream, fileName);
+            if (file != null)
+            {
+                fileStream.Dispose();
+            }
             if (data == null)
             {
                 return BadRequest("Not found");

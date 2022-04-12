@@ -41,13 +41,14 @@ namespace GSP_API.Business.Services
                 try
                 {
                     imageUrl = await FireBaseUtil.Upload(fileStream, fileName);
+                    imageUrl = imageUrl.Substring(imageUrl.IndexOf("%2F") + 3);
                 }
                 catch (System.Exception ex)
                 {
                     return ex.Message;
                 }
             }
-            material.ImageUrl = imageUrl.Substring(imageUrl.IndexOf("%2F") + 3);
+            material.ImageUrl = imageUrl;
             return await _materialRepository.Add(material);
         }
 

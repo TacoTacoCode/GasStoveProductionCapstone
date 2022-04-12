@@ -85,6 +85,10 @@ namespace GSP_API.Controllers.ModelControllers
                 fileName = file.FileName;
             }
             var data = await _productService.AddProduct(_mapper.Map<Product>(productRequest), fileStream, fileName);
+            if (file != null)
+            {
+                fileStream.Dispose();
+            }
             if (data.Contains("error"))
             {
                 return BadRequest(data);
@@ -105,6 +109,10 @@ namespace GSP_API.Controllers.ModelControllers
                 fileName = file.FileName;
             }
             var data = await _productService.UpdateProduct(_mapper.Map<Product>(productRequest), fileStream, fileName);
+            if (file != null)
+            {
+                fileStream.Dispose();
+            }
             if (data == null)
             {
                 return BadRequest("Not found");

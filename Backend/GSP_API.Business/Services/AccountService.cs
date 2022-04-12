@@ -53,9 +53,11 @@ namespace GSP_API.Business.Services
 
         public async Task<string> AddAccount(Account account, Stream fileStream, string fileName)
         {
-            var hassPw = GSP_API.Business.Extensions.Hash.ComputeSha256Hash(account.Password);
-            account.Password = hassPw;
-
+            if(account.Password != null)
+            {
+                var hassPw = GSP_API.Business.Extensions.Hash.ComputeSha256Hash(account.Password);
+                account.Password = hassPw;
+            }
             var imageUrl = fileName;
             if (fileStream != null)
             {
