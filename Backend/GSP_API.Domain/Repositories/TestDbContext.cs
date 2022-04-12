@@ -24,6 +24,7 @@ namespace GSP_API.Domain.Repositories
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Attendance> Attendances { get; set; }
         public virtual DbSet<AttendanceDetail> AttendanceDetails { get; set; }
+        public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<Component> Components { get; set; }
         public virtual DbSet<ComponentMaterial> ComponentMaterials { get; set; }
         public virtual DbSet<ImportExport> ImportExports { get; set; }
@@ -121,6 +122,16 @@ namespace GSP_API.Domain.Repositories
                     .WithMany(p => p.AttendanceDetails)
                     .HasForeignKey(d => d.AttendanceId)
                     .HasConstraintName("FK_AttendanceDetail_Attendance");
+            });
+
+            modelBuilder.Entity<Cart>(entity =>
+            {
+                entity.ToTable("Cart");
+
+                entity.HasOne(d => d.Account)
+                    .WithMany(p => p.Carts)
+                    .HasForeignKey(d => d.AccountId)
+                    .HasConstraintName("FK_Account_Cart");
             });
 
             modelBuilder.Entity<Component>(entity =>
