@@ -38,6 +38,11 @@ namespace GSP_API.Business.Services
             return await _orderRepository.GetAll(p => p.AccountId == accountId);
         }
 
+        public async Task<List<Order>> GetOrderByAccountAndStatus(int accountId, string status)
+        {
+            return await _orderRepository.GetAll(p => p.AccountId == accountId && p.Status == status);
+        }
+
         public async Task<Order> GetOrderById(int orderId)
         {
             return await _orderRepository.GetById(p => p.OrderId == orderId);

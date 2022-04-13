@@ -91,6 +91,20 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok(list);
         }
 
+        // GET: getOrderOf/acc={accountId}&&status={status}
+        [HttpGet]
+        [Route("getOrderOf/{accountId}/{status}")]
+        public async Task<ActionResult<OrderResponse>> GetOrderByAccountAndStatus(int accountId, string status)
+        {
+            var data = await _orderService.GetOrderByAccountAndStatus(accountId, status);
+            if (data == null)
+            {
+                return BadRequest("Not found");
+            }
+            var order = _mapper.Map<List<OrderResponse>>(data);
+            return Ok(order);
+        }
+
         // GET: getOrder/1
         [HttpGet]
         [Route("getOrder/{orderId}")]
