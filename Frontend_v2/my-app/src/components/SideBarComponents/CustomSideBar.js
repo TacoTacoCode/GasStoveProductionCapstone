@@ -96,7 +96,7 @@ function CustomSideBar() {
     switch (currentUser.role) {
         case 'Admin':
             role = SideBarAdminData.map(obj => ({ ...obj }));
-            currentLink = "dashboard";
+            currentLink = "";
             break;
         case 'Order Department':
             role = SideBarOrderData.map(obj => ({ ...obj }));
