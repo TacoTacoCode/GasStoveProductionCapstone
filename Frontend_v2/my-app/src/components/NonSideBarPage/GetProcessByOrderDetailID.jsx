@@ -65,19 +65,28 @@ export const GetProcessByOrderDetailID = (props) => {
             {
                 (process.length != 0)
                     ?
-                    <div>
+                    <div style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        justifyContent: 'space-between',
+                    }}>
                         {
                             process.map((data, index) => (
                                 <div>
-                                    <Card style={{ border: '1px solid red', marginTop: "3%", marginLeft: "3%", marginBottom: "3%", backgroundColor: "white", borderRadius: "10px" }}>
+                                    <Card style={{
+                                        border: '1px solid red',
+                                        backgroundColor: "white",
+                                        borderRadius: "10px",
+                                        width: '27.5rem',
+                                        marginLeft: "3%", marginBottom: "3%", marginTop: "3%"
+                                    }}>
                                         <Stack
                                             direction="column"
                                             divider={<Divider orientation="horizontal" flexItem style={{ border: '1px solid red' }} />}
                                             spacing={0}
                                         >
-                                            <div style={{ margin: "1%", width: "95%" }}>
-                                                <text className="content_delivery_longterm" style={{ fontWeight: "500", marginTop: "2%", float: 'left' }}>Process: {index + 1}</text>
-
+                                            <div style={{ margin: "1%" }}>
+                                                <text className="content_delivery_longterm" style={{ fontWeight: "500", marginTop: "0.5%", float: 'left' }}>Process: {index + 1}</text>
                                                 {(() => {
                                                     switch (data.status) {
                                                         case 'new':
@@ -99,14 +108,26 @@ export const GetProcessByOrderDetailID = (props) => {
                                                     }
                                                 })()
                                                 }
-
                                             </div>
-                                            <div style={{ margin: "1%", width: "98%" }}>
-                                                <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Process ID: </text>&ensp;<text>{data.processId}</text></p>
-                                                <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Needed Amount: </text>&ensp;<text>{data.neededAmount}</text></p>
-                                                <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Total Amount: </text>&ensp;<text>{data.totalAmount}</text></p>
-                                                <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Finished Amount: </text>&ensp;<text>{data.finishedAmount}</text></p>
-                                                <br />
+                                            <Stack
+                                                direction="row"
+                                                divider={<Divider orientation="vertical" flexItem style={{ border: '1px solid red' }} />}
+                                                spacing={0}
+                                            >
+                                                <div style={{ margin: "1%", width: '50%' }}>
+                                                    <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Process ID: </text>&ensp;<text>{data.processId}</text></p>
+                                                    <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Needed Amount: </text>&ensp;<text>{data.neededAmount}</text></p>
+                                                    <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Total Amount: </text>&ensp;<text>{data.totalAmount}</text></p>
+                                                    <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Finished Amount: </text>&ensp;<text>{data.finishedAmount}</text></p>
+                                                </div>
+                                                <div style={{ margin: "1%", width: '50%' }}>
+                                                    <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Created Date: </text>&ensp;<text>{moment(data.createdDate).format('DD/MM/YYYY')}</text></p>
+                                                    <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Experied Date: </text>&ensp;<text>{moment(data.expiryDate).format('DD/MM/YYYY')}</text></p>
+                                                    <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Finished Date: </text>&ensp;<text>{moment(data.finishedDate).format('DD/MM/YYYY')}</text></p>
+                                                    <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Expected Finished Date: </text>&ensp;<text>{moment(data.expectedFinishDate).format('DD/MM/YYYY')}</text></p>
+                                                </div>
+                                            </Stack>
+                                            <div style={{ margin: "1%" }}>
                                                 <text className="content_delivery_content" style={{ fontWeight: "500" }}> Effort: </text>
                                                 {
                                                     (data.finishedAmount == 0 && data.totalAmount == 0)
@@ -116,23 +137,19 @@ export const GetProcessByOrderDetailID = (props) => {
                                                         <ProcessBar fgcolor="black" bgcolor="#99ff66" progress={(data.finishedAmount / data.totalAmount) * 100} height={30} />
                                                 }
                                                 <br />
-                                                <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Created Date: </text>&ensp;<text>{moment(data.createdDate).format('DD/MM/YYYY')}</text></p>
-                                                <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Experied Date: </text>&ensp;<text>{moment(data.expiryDate).format('DD/MM/YYYY')}</text></p>
-                                                <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Finished Date: </text>&ensp;<text>{moment(data.finishedDate).format('DD/MM/YYYY')}</text></p>
-                                                <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Expected Finished Date: </text>&ensp;<text>{moment(data.expectedFinishDate).format('DD/MM/YYYY')}</text></p>
-                                                <br />
                                                 {
                                                     (data.status == 'done' && ((data.finishedAmount / data.totalAmount) * 100) == 100)
                                                         ? <Button style={{
                                                             fontFamily: "Muli",
-                                                            width: '100%',
                                                             borderRadius: 10,
                                                             backgroundColor: "#e30217",
                                                             color: "white",
+                                                            float: 'right',
                                                         }}
                                                             onClick={(e) => orderReady(e, data)}>Order Ready</Button>
                                                         : ""
                                                 }
+                                                <br />
                                             </div>
                                         </Stack>
                                     </Card>
@@ -142,6 +159,6 @@ export const GetProcessByOrderDetailID = (props) => {
                     </div>
                     : <text className="caution-order-details">*Note: There are currently no process in this order!</text>
             }
-        </div>
+        </div >
     ) : "";
 }

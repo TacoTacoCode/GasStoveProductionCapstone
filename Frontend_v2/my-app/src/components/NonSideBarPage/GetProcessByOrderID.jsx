@@ -7,8 +7,6 @@ import {
     Button,
 } from "@mui/material";
 import { GetProcessByOrderDetailID } from './GetProcessByOrderDetailID';
-import ProcessBar from '../NonSideBarPage/ProcessBar';
-
 
 export const GetProcessByOrderID = (props) => {
     const [orderDetail, setOrderDetail] = useState([]);

@@ -19,14 +19,16 @@ export const TextGetOrderDetailByID = (props) => {
                     <div>
                         {
                             orderDetail.map(data => (
-                                <Stack
-                                    direction="row"
-                                    spacing={1}>
-                                    <p className="content_orderdetail_content"><text style={{ fontWeight: "500" }}>Product:&nbsp;</text><text>{data.productId}&nbsp;=</text></p>
-                                    <p className="content_orderdetail_content"><text style={{ fontWeight: "500" }}>Amount(</text><text>{data.amount})</text>&nbsp;x</p>
-                                    <p className="content_orderdetail_content"><text style={{ fontWeight: "500" }}>Price(</text><text>{data.price})</text></p>
-                                    <p className="content_orderdetail_content"><text style={{ fontWeight: "500" }}>=</text>&nbsp;<text>{data.price * data.amount} VND</text></p>
-                                </Stack>
+                                <div style={{ margin: "1%", width: "95%", marginLeft: "3%" }}>
+                                    <Stack
+                                        direction="row"
+                                        spacing={1}>
+                                        <div className="content_orderdetail_content"><text style={{ fontWeight: "500" }}>Product:&nbsp;</text><text>{data.productId}&nbsp;=</text></div>
+                                        <div className="content_orderdetail_content"><text style={{ fontWeight: "500" }}>Amount(</text><text>{data.amount})</text>&nbsp;x</div>
+                                        <div className="content_orderdetail_content"><text style={{ fontWeight: "500" }}>Price(</text><text>{data.price})</text></div>
+                                        <div className="content_orderdetail_content"><text style={{ fontWeight: "500" }}>=</text>&nbsp;<text>{data.price * data.amount} VND</text></div>
+                                    </Stack>
+                                </div>
                             ))}
 
                     </div>
