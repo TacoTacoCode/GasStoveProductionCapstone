@@ -229,7 +229,7 @@ function Delivery() {
                   divider={<Divider orientation="vertical" flexItem />}
                   spacing={1}
                 >
-                  <div style={{ margin: "1%", width: "95%" }}>
+                  <div style={{ margin: "1%", width: "40%" }}>
                     <text className="content_delivery">Customer</text>
                     <br /><br />
                     <Stack
@@ -262,26 +262,25 @@ function Delivery() {
                           }
                         </p>
                       </div>
+                      {/* Product Details */}
+                      <text className="content_delivery">Product </text>
+                      <Stack
+                        direction="column"
+                        divider={<Divider orientation="horizontal" flexItem />}
+                        spacing={1}
+                      >
+                        <TextGetOrderDetailByID orderID={data.orderId} />
+                        <div style={{ margin: "1%", width: "95%", marginLeft: "3%" }}>
+                          <p className="content_orderdetail_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text style={{ float: 'right' }}>{data.totalPrice} VND</text></p>
+                        </div>
+                      </Stack>
                     </Stack>
                   </div>
-                  <div style={{ margin: "1%", width: "95%" }}>
+                  <div style={{ margin: "1%", width: "60%" }}>
                     {/* Long Term Details */}
                     <text className="content_delivery">Long Term Process </text>
                     <br /><br />
                     <GetProcessByOrderID orderID={data.orderId} />
-                  </div>
-                  <div style={{ margin: "1%", width: "95%" }}>
-                    {/* Product Details */}
-                    <text className="content_delivery">Product </text>
-                    <br /><br />
-                    <Stack
-                      direction="column"
-                      divider={<Divider orientation="horizontal" flexItem />}
-                      spacing={1}
-                    >
-                      <TextGetOrderDetailByID orderID={data.orderId} />
-                      <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text>{data.totalPrice} VND</text></p>
-                    </Stack>
                   </div>
                 </Stack>
               </Card>
