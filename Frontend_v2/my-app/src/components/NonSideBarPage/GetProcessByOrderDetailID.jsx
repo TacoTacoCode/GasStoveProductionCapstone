@@ -88,13 +88,13 @@ export const GetProcessByOrderDetailID = (props) => {
                                                             return <div style={{ fontWeight: "500", marginTop: "0.5%", float: 'right', border: '1px solid DARKBLUE', backgroundColor: 'DARKBLUE' }} className="text_square">
                                                                 <text style={{ color: 'white', fontWeight: "500" }}>PROCESSING</text>
                                                             </div>
-                                                        case 'done':
+                                                        case 'completed':
                                                             return <div style={{ fontWeight: "500", marginTop: "0.5%", float: 'right', border: '1px solid BLUE', backgroundColor: 'BLUE' }} className="text_square">
-                                                                <text style={{ color: 'white', fontWeight: "500" }}>DONE</text>
+                                                                <text style={{ color: 'white', fontWeight: "500" }}>COMPLETED</text>
                                                             </div>
                                                         case 'delivery':
                                                             return <div style={{ fontWeight: "500", marginTop: "0.5%", float: 'right', border: '1px solid #99ff66', backgroundColor: '#99ff66' }} className="text_square">
-                                                                <text style={{ color: 'white', fontWeight: "500" }}>DELIVERY</text>
+                                                                <text style={{ color: 'white', fontWeight: "500" }}>DELIVERIED</text>
                                                             </div>
                                                     }
                                                 })()
@@ -108,34 +108,12 @@ export const GetProcessByOrderDetailID = (props) => {
                                                 <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Finished Amount: </text>&ensp;<text>{data.finishedAmount}</text></p>
                                                 <br />
                                                 <text className="content_delivery_content" style={{ fontWeight: "500" }}> Effort: </text>
-                                                {(() => {
-                                                    switch (data.status) {
-                                                        case 'new':
-                                                            return (data.finishedAmount == 0 && data.totalAmount == 0)
-                                                                ?
-                                                                <ProcessBar fgcolor="black" bgcolor="red" progress={0} height={30} />
-                                                                :
-                                                                <ProcessBar fgcolor="black" bgcolor="red" progress={(data.finishedAmount / data.totalAmount) * 100} height={30} />
-                                                        case 'processing':
-                                                            return (data.finishedAmount == 0 && data.totalAmount == 0)
-                                                                ?
-                                                                <ProcessBar fgcolor="white" bgcolor="darkblue" progress={0} height={30} />
-                                                                :
-                                                                <ProcessBar fgcolor="white" bgcolor="darkblue" progress={(data.finishedAmount / data.totalAmount) * 100} height={30} />
-                                                        case 'done':
-                                                            return (data.finishedAmount == 0 && data.totalAmount == 0)
-                                                                ?
-                                                                <ProcessBar fgcolor="white" bgcolor="blue" progress={0} height={30} />
-                                                                :
-                                                                <ProcessBar fgcolor="white" bgcolor="blue" progress={(data.finishedAmount / data.totalAmount) * 100} height={30} />
-                                                        case 'delivery':
-                                                            return (data.finishedAmount == 0 && data.totalAmount == 0)
-                                                                ?
-                                                                <ProcessBar fgcolor="black" bgcolor="#99ff66" progress={0} height={30} />
-                                                                :
-                                                                <ProcessBar fgcolor="black" bgcolor="#99ff66" progress={(data.finishedAmount / data.totalAmount) * 100} height={30} />
-                                                    }
-                                                })()
+                                                {
+                                                    (data.finishedAmount == 0 && data.totalAmount == 0)
+                                                        ?
+                                                        <ProcessBar fgcolor="black" bgcolor="#99ff66" progress={0} height={30} />
+                                                        :
+                                                        <ProcessBar fgcolor="black" bgcolor="#99ff66" progress={(data.finishedAmount / data.totalAmount) * 100} height={30} />
                                                 }
                                                 <br />
                                                 <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Created Date: </text>&ensp;<text>{moment(data.createdDate).format('DD/MM/YYYY')}</text></p>

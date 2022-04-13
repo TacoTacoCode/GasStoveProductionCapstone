@@ -177,10 +177,10 @@ function Delivery() {
                                 return <text style={{ color: 'RED', fontWeight: "500" }}>NEW</text>
                               case 'processing':
                                 return <text style={{ color: 'DARKBLUE', fontWeight: "500" }}>PROCESSING</text>
-                              case 'done':
-                                return <text style={{ color: 'BLUE', fontWeight: "500" }}>DONE</text>
+                              case 'completed':
+                                return <text style={{ color: 'BLUE', fontWeight: "500" }}>COMPLETED</text>
                               case 'delivery':
-                                return <text style={{ color: 'GREEN', fontWeight: "500" }}>DELIVERY</text>
+                                return <text style={{ color: 'GREEN', fontWeight: "500" }}>DELIVERIED</text>
                             }
                           })()
                           }
@@ -253,10 +253,10 @@ function Delivery() {
                                 return <text style={{ color: 'RED', fontWeight: "500" }}>NEW</text>
                               case 'processing':
                                 return <text style={{ color: 'DARKBLUE', fontWeight: "500" }}>PROCESSING</text>
-                              case 'done':
-                                return <text style={{ color: 'BLUE', fontWeight: "500" }}>DONE</text>
+                              case 'completed':
+                                return <text style={{ color: 'BLUE', fontWeight: "500" }}>COMPLETED</text>
                               case 'delivery':
-                                return <text style={{ color: 'GREEN', fontWeight: "500" }}>DELIVERY</text>
+                                return <text style={{ color: 'GREEN', fontWeight: "500" }}>DELIVERIED</text>
                             }
                           })()
                           }
@@ -281,18 +281,6 @@ function Delivery() {
                     >
                       <TextGetOrderDetailByID orderID={data.orderId} />
                       <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text>{data.totalPrice} VND</text></p>
-                      {/* {
-                        (data.status == 'done' && data.totalPrice > 0)
-                          ? <Button style={{
-                            fontFamily: "Muli",
-                            borderRadius: 10,
-                            backgroundColor: "#e30217",
-                            color: "white",
-                          }}
-                            onClick={(e) => orderReady(e, data)}>Order Ready</Button>
-                          : ""
-                      } */}
-                      {/* <ProcessBar bgcolor="#99ff66" progress='50' height={30} /> */}
                     </Stack>
                   </div>
                 </Stack>

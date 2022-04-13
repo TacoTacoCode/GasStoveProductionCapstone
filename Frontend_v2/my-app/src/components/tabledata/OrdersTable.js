@@ -53,7 +53,28 @@ export const Table = (props) => {
             title: 'Total Price', field: 'totalPrice', cellStyle: { fontFamily: 'Muli' },
         },
         {
-            title: 'Status', field: 'status', cellStyle: { fontFamily: 'Muli' }
+            title: 'Status', field: 'status', cellStyle: { fontFamily: 'Muli' },
+            render:
+                ((rowData) => {
+                    switch (rowData.status) {
+                        case 'new':
+                            return <div style={{ fontWeight: "500", marginTop: "0.5%", float: 'left', border: '1px solid RED', backgroundColor: 'red' }} className="text_square">
+                                <text style={{ color: 'white', fontWeight: "500" }}>NEW</text>
+                            </div>
+                        case 'processing':
+                            return <div style={{ fontWeight: "500", marginTop: "0.5%", float: 'left', border: '1px solid DARKBLUE', backgroundColor: 'DARKBLUE' }} className="text_square">
+                                <text style={{ color: 'white', fontWeight: "500" }}>PROCESSING</text>
+                            </div>
+                        case 'completed':
+                            return <div style={{ fontWeight: "500", marginTop: "0.5%", float: 'left', border: '1px solid BLUE', backgroundColor: 'BLUE' }} className="text_square">
+                                <text style={{ color: 'white', fontWeight: "500" }}>COMPLETED</text>
+                            </div>
+                        case 'delivery':
+                            return <div style={{ fontWeight: "500", marginTop: "0.5%", float: 'left', border: '1px solid #99ff66', backgroundColor: '#99ff66' }} className="text_square">
+                                <text style={{ color: 'white', fontWeight: "500" }}>DELIVERIED</text>
+                            </div>
+                    }
+                })
         },
         {
             title: 'Note', field: 'note', cellStyle: { fontFamily: 'Muli' }
