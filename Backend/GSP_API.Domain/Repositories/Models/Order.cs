@@ -19,6 +19,8 @@ namespace GSP_API.Domain.Repositories.Models
         public string Status { get; set; }
         public string Note { get; set; }
         public bool? IsShorTerm { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerAdderss { get; set; }
 
         public virtual Account Account { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
