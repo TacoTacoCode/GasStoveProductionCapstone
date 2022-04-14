@@ -58,6 +58,7 @@ function AccountPopup(props) {
   const [accountID, setAccountID] = useState(0);
   const [accountName, setAccountName] = useState('');
   const [password, setAccountPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setAccountEmail] = useState('');
   const [gender, setAccountGender] = useState(true);
   const [dateOfBirth, setAccountDateOfBirth] = useState(null);
@@ -212,6 +213,7 @@ function AccountPopup(props) {
     delay(function () { window.location.reload(); }, 1000);
   };
 
+
   return (props.trigger) ? (
     <div className='Accountpopup'>
       <div className='popup-inner'>
@@ -260,6 +262,7 @@ function AccountPopup(props) {
                   onChange={(e) => setAccountPhone(e.target.value)} />
               </div>
             </div>
+
             <div className='idname'>
               <div className='txtfield'>
                 <CssTextField label="Password" type={'password'} value={password} id="fullWidth" required onChange={(e) => setAccountPassword(e.target.value)} />
@@ -292,6 +295,14 @@ function AccountPopup(props) {
                     </MenuItem>
                   ))}
                 </CssTextField>
+              </div>
+            </div>
+            <div className='idname'>
+              <div className='namefield'>
+                <CssTextField label="Confirm Password" type={'password'}
+                  value={confirmPassword} id="fullWidth" required
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  helperText={password != confirmPassword ? 'Password and Confirm password does not match' : ''} />
               </div>
             </div>
             <div className='idname'>
