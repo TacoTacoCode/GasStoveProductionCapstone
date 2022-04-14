@@ -36,11 +36,11 @@ export const Table = (props) => {
             title: 'ID', field: 'orderId', cellStyle: { fontFamily: 'Arial' }
         },
         {
-            title: 'Account ID', field: 'accountId', cellStyle: { fontFamily: 'Muli' },
-            render:
-                rowData => (rowData.accountId != null)
-                    ? <TextGetSectionLeader accountID={rowData.accountId} />
-                    : "Unknown User"
+            title: 'CustomerName', field: 'customerName', cellStyle: { fontFamily: 'Muli' },
+            // render:
+            //     rowData => (rowData.accountId != null)
+            //         ? <TextGetSectionLeader accountID={rowData.accountId} />
+            //         : "Unknown User"
         },
         {
             title: 'Expiry Date',
@@ -57,19 +57,19 @@ export const Table = (props) => {
             render:
                 ((rowData) => {
                     switch (rowData.status) {
-                        case 'new':
+                        case 'New':
                             return <div style={{ fontWeight: "500", marginTop: "0.5%", float: 'left', border: '1px solid RED', backgroundColor: 'red' }} className="text_square">
                                 <text style={{ color: 'white', fontWeight: "500" }}>NEW</text>
                             </div>
-                        case 'processing':
+                        case 'Processing':
                             return <div style={{ fontWeight: "500", marginTop: "0.5%", float: 'left', border: '1px solid DARKBLUE', backgroundColor: 'DARKBLUE' }} className="text_square">
                                 <text style={{ color: 'white', fontWeight: "500" }}>PROCESSING</text>
                             </div>
-                        case 'completed':
+                        case 'Completed':
                             return <div style={{ fontWeight: "500", marginTop: "0.5%", float: 'left', border: '1px solid BLUE', backgroundColor: 'BLUE' }} className="text_square">
                                 <text style={{ color: 'white', fontWeight: "500" }}>COMPLETED</text>
                             </div>
-                        case 'delivery':
+                        case 'Delivery':
                             return <div style={{ fontWeight: "500", marginTop: "0.5%", float: 'left', border: '1px solid #99ff66', backgroundColor: '#99ff66' }} className="text_square">
                                 <text style={{ color: 'white', fontWeight: "500" }}>DELIVERIED</text>
                             </div>
@@ -84,27 +84,28 @@ export const Table = (props) => {
     const [editDatas, setEditDatas] = useState(null);
     const [open, setOpen] = useState(false);
     const [orderProduct, setListOrderProduct] = useState([]);
-    const [customerList, setCustomerList] = useState([]);
+    //const [customerList, setCustomerList] = useState([]);
     const [seeWaiting, setSeeWaiting] = useState(false);
+
     const handleEditData = (rowData) => {
         setEditDatas(rowData);
         setOpen(true);
         axios.get("https://localhost:5001/getOrderDetailsOf/ord/" + rowData.orderId).then(
             (res) => setListOrderProduct(res.data)
         );
-        axios.get("https://localhost:5001/getAllAccounts")
-            .then((res) => {
-                for (let index = 0; index < res.data.length; index++) {
-                    if (res.data[index].roleId == "CUS") {
-                        customerList.push(res.data[index]);
-                    }
-                }
-                console.log(customerList);
-            })
-            .catch((err) => {
-                console.log(err);
-                alert("Xảy ra lỗi");
-            });
+        // axios.get("https://localhost:5001/getAllAccounts")
+        //     .then((res) => {
+        //         for (let index = 0; index < res.data.length; index++) {
+        //             if (res.data[index].roleId == "CUS") {
+        //                 customerList.push(res.data[index]);
+        //             }
+        //         }
+        //         console.log(customerList);
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //         alert("Xảy ra lỗi");
+        //     });
     }
 
     return (<>
@@ -141,7 +142,7 @@ export const Table = (props) => {
                 }} />
             {editDatas &&
                 <OrderEditPopup
-                    customerActive={customerList}
+                    //customerActive={customerList}
                     orderProducts={orderProduct}
                     data={editDatas}
                     setData={setEditDatas}

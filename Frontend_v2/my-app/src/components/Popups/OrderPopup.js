@@ -89,9 +89,11 @@ const CssTextField = styled(TextField)({
 
 function OrderPopup(props) {
   const [accountId, setAccountId] = useState("");
+  const [customerAddress, setAddress] = useState("");
+  const [customerName, setName] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
   const [expiryDate, setExpiryDate] = useState("");
-  const [status, setStatus] = useState("inprogress");
+  const [status, setStatus] = useState("");
   const [note, setNote] = useState("");
   const [isShorTerm, setIsShortTerm] = useState(true);
 
@@ -111,11 +113,9 @@ function OrderPopup(props) {
     });
     axios.get("https://localhost:5001/getAllAccounts")
       .then((res) => {
-        for (let index = 0; index < res.data.length; index++) {
-          if (res.data[index].roleId == "CUS") {
-            accountList.push(res.data[index]);
-          }
-        }
+        let accounts = [];
+        res.data.map(a => a.roleId == 'CUS' ? accounts.push(a) : null)
+        setAccountList(accounts)
       })
       .catch((err) => {
         console.log(err);
@@ -128,6 +128,7 @@ function OrderPopup(props) {
 
 
   const postData = (e) => {
+    e.preventDefault();
     // const formData = new FormData();
     // formData.append("accountId", accountId);
     // formData.append("totalPrice", totalPrice);
@@ -141,6 +142,8 @@ function OrderPopup(props) {
       expiryDate: new Date(expiryDate).toISOString(),
       status,
       note,
+      customerAddress,
+      customerName,
       isShorTerm,
       orderDetail: orderProduct
         ? orderProduct?.map((item) => {
@@ -158,18 +161,17 @@ function OrderPopup(props) {
         swal("Success", "Add new order successfully", "success", {
           buttons: false,
           timer: 2000,
+        }).then(() => {
+          handleCancelClick();
+          window.location.reload();
         })
-        //reset data
-        handleCancelClick();
       }).catch(err => {
         swal("Error", "Add new order failed", "error", {
           buttons: false,
           timer: 2000,
         })
         console.log(err)
-      }).finally(function () {
-        handleDelay();
-      });
+      })
   }
 
   const resetData = () => {
@@ -177,7 +179,7 @@ function OrderPopup(props) {
     setAccountId("");
     setTotalPrice(0);
     setExpiryDate("");
-    setStatus("inprogress");
+    setStatus("");
     setNote("");
     setIsShortTerm(true);
     setOrderProductPrice(0);
@@ -225,7 +227,12 @@ function OrderPopup(props) {
                   id="fullWidth"
                   value={accountId}
                   required
-                  onChange={(e) => setAccountId(e.target.value)}
+                  onChange={(e) => {
+                    let account = accountList.filter(a => a.accountId == e.target.value)
+                    setName(account[0].name)
+                    setAddress(account[0].address)
+                    setAccountId(e.target.value)
+                  }}
                   helperText="Choose customer"
                 >
                   {accountList.map((option) => (
@@ -264,24 +271,20 @@ function OrderPopup(props) {
                   />
                 </LocalizationProvider>
               </div>
+              <br />
+              <br />
+              <br />
+              <div clasName='idname'>
+                <div className="namefield">
+                  <CssTextField
+                    label="Address"
+                    value={customerAddress}
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                </div>
+              </div>
             </div>
             <div className="idname">
-              {/* <div className='namefield'>
-                <CssTextField
-                  label="Status"
-                  select
-                  value={status}
-                  id="fullWidth" required
-                  onChange={(e) => setStatus(e.target.value)}
-                  helperText="Choose Account status"
-                >
-                  {statuses.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </CssTextField>
-              </div> */}
               <div className='txtfield'>
                 <CssTextField
                   label="Short Term"
@@ -325,7 +328,7 @@ function OrderPopup(props) {
                     })
                     .map((product) => (
                       <MenuItem key={product.productId} value={product}>
-                        {product.productId}
+                        {product.productName}
                       </MenuItem>
                     ))}
                 </CssTextField>
@@ -355,10 +358,7 @@ function OrderPopup(props) {
                 />
               </div>
               {productActive != null &&
-                productAmount != null &&
-                productAmount > 0 &&
-                productPrice != null &&
-                productPrice > 0 ? (
+                productAmount > 0 && productPrice > 0 ? (
                 <Button
                   style={{
                     fontFamily: "Muli",
@@ -377,7 +377,8 @@ function OrderPopup(props) {
                         ""
                       ),
                     ]);
-                    setOrderProductAmount(0);
+                    setOrderProductAmount('');
+                    setOrderProductPrice('');
                     setProductChoice(null);
                   }}
                 >

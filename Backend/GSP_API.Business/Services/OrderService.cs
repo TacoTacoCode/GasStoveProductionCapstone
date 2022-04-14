@@ -50,7 +50,7 @@ namespace GSP_API.Business.Services
 
         public async Task<string> AddOrder(Order order)
         {
-            order.Status = "Processing";
+            order.Status = "New";
             var total = 0.0;
             foreach (var orderDetail in order.OrderDetails)
             {
@@ -63,7 +63,6 @@ namespace GSP_API.Business.Services
 
         public async Task<string> UpdateOrder(Order newOrder)
         {
-
             var data = await _orderRepository.FindFirst(p => p.OrderId == newOrder.OrderId);
             if (data != null)
             {

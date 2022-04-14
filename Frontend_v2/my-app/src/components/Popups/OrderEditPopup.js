@@ -87,25 +87,17 @@ const CssTextField = styled(TextField)({
 // }
 
 function OrderEditPopup(props) {
-  const [accountId, setAccountId] = useState({ ...props.data.accountId });
-  const [totalPrice, setTotalPrice] = useState({ ...props.data.totalPrice });
-  const [expiryDate, setExpiryDate] = useState({ ...props.data.expiryDate });
-  const [status, setStatus] = useState({ ...props.data.status });
-  const [note, setNote] = useState({ ...props.data.note });
-  const [isShorTerm, setIsShortTerm] = useState({ ...props.data.isShorTerm });
+  const [customerName, setAccountId] = useState(props.data.customerName);
+  const [totalPrice, setTotalPrice] = useState(props.data.totalPrice);
+  const [expiryDate, setExpiryDate] = useState(props.data.expiryDate);
+  const [status, setStatus] = useState(props.data.status);
+  const [note, setNote] = useState(props.data.note);
+  const [isShorTerm, setIsShortTerm] = useState(props.data.isShorTerm);
 
   //combobox
-  const [accountEditList, setAccountEditList] = useState([{ ...props.customerActive }]);
 
   //select product
   const [orderProduct, setListOrderProduct] = useState({ ...props.orderProducts });
-  const [listProductActive, setProductList] = useState([]);
-  // const [productActive, setProductChoice] = useState(null);
-  // const [productAmount, setOrderProductAmount] = useState(null);
-
-  useEffect(() => {
-    setAccountId(props.data.accountId);
-  }, [props.data.accountId])
 
   useEffect(() => {
     setTotalPrice(props.data.totalPrice);
@@ -131,24 +123,16 @@ function OrderEditPopup(props) {
     setListOrderProduct(props.orderProducts);
   }, [props.orderProducts])
 
-  useEffect(() => {
-    axios.get("https://localhost:5001/getProducts/Active").then((res) => {
-      setProductList(res.data);
-    });
-  }, []);
 
-  useEffect(() => {
-    setAccountEditList(props.customerActive);
-  }, [props.customerActive])
 
 
   const changeData = (e) => {
     e.preventDefault();
     const jsonObj = {
       orderId: props.data.orderId,
-      accountId,
+      customerName,
       totalPrice,
-      expiryDate: new Date(expiryDate).toISOString(),
+      expiryDate: new Date(expiryDate).toDateString(),
       status,
       note,
       isShorTerm,
@@ -195,14 +179,13 @@ function OrderEditPopup(props) {
   };
 
   const handleCancelClick = () => {
-    setAccountId(props.data.accountId);
+    setAccountId(props.data.customerName);
     setTotalPrice(props.data.totalPrice);
     setExpiryDate(props.data.expiryDate);
     setStatus(props.data.status);
     setNote(props.data.note);
     setIsShortTerm(props.isShorTerm);
     setListOrderProduct(props.orderProducts);
-    setAccountEditList(props.customerActive);
     handleClose();
   };
 
@@ -223,10 +206,10 @@ function OrderEditPopup(props) {
               <div className="datefield">
                 <CssTextField
                   label="Customer"
+                  value={props.data.customerName}
                   id="fullWidth"
                   disabled
                   onChange={(e) => setAccountId(e.target.value)}
-                  helperText="Choose customer"
                 >
 
                 </CssTextField>
@@ -236,7 +219,7 @@ function OrderEditPopup(props) {
                   label="Total Price"
                   id="fullWidth"
                   value={totalPrice}
-                  required
+                  disabled
                   type={"number"}
                   InputProps={{
                     inputProps: { min: 0, pattern: "[0-9]*" },
@@ -252,31 +235,20 @@ function OrderEditPopup(props) {
                     minDate={new Date()}
                     required
                     selected={expiryDate}
-                    onChange={(e) => setExpiryDate(e)}
+                    onChange={(e) => {
+                      setExpiryDate(e)
+                    }}
                     value={expiryDate}
-                    onSelect={(e) => setExpiryDate(e)}
+                    // onSelect={(e) => {
+                    //   console.log(new Date(e).toISOString())
+                    //   setExpiryDate(e)
+                    // }}
                     renderInput={(params) => <CssTextField {...params} id="fullWidth" />}
                   />
                 </LocalizationProvider>
               </div>
             </div>
             <div className="idname">
-              {/* <div className='namefield'>
-                <CssTextField
-                  label="Status"
-                  select
-                  value={status}
-                  id="fullWidth" required
-                  onChange={(e) => setStatus(e.target.value)}
-                  helperText="Choose Account status"
-                >
-                  {statuses.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </CssTextField>
-              </div> */}
               <div className='txtfield'>
                 <CssTextField
                   label="Short Term"
@@ -304,96 +276,11 @@ function OrderEditPopup(props) {
             <br />
             <text className="content_choose">Order Detail : </text>
             <div className="idname">
-              {/* <div className="txtfield">
-                <CssTextField
-                  label="Product List"
-                  select
-                  id="fullWidth"
-                  value={productActive}
-                  onChange={(e) => setProductChoice(e.target.value)}
-                  helperText="Choose Product"
-                >
-                  {listProductActive
-                    .filter((item) => {
-                      return !orderProduct.find(
-                        (item2) => item2.productId === item.productId
-                      );
-                    })
-                    .map((product) => (
-                      <MenuItem key={product.productId} value={product}>
-                        {product.productId}
-                      </MenuItem>
-                    ))}
-                </CssTextField>
-              </div>
-              <div className="numfield">
-                <CssTextField
-                  label="Amount"
-                  id="fullWidth"
-                  value={productAmount}
-                  type={"number"}
-                  InputProps={{
-                    inputProps: { min: 0, pattern: "[0-9]*" },
-                  }}
-                  onChange={(e) => setOrderProductAmount(e.target.value)}
-                />
-              </div>
-              {productActive != null &&
-                productAmount != null &&
-                productAmount > 0 ? (
-                <div className="button_field">
-                  <Button
-                    style={{
-                      fontFamily: "Muli",
-                      borderRadius: 10,
-                      backgroundColor: "#e30217",
-                      color: "white",
-                    }}
-                    onClick={() => {
-                      setListOrderProduct((orderProduct) => [
-                        ...orderProduct,
-                        createData(
-                          productActive.productId,
-                          productAmount,
-                          productActive.price,
-                          productActive.description
-                        ),
-                      ]);
-                      setOrderProductAmount(0);
-                      setProductChoice(null);
-                    }}
-                  >
-                    ADD
-                  </Button>
-                </div>
-              ) : null} */}
 
               <div className="tablefield">
                 <MaterialTable
                   data={orderProduct}
                   columns={columns}
-                  // editable={{
-                  //   onRowUpdate: (newData, oldData) =>
-                  //     new Promise((resolve, reject) => {
-                  //       setTimeout(() => {
-                  //         const dataUpdate = [...orderProduct];
-                  //         const index = oldData.tableData.id;
-                  //         dataUpdate[index] = newData;
-                  //         setListOrderProduct([...dataUpdate]);
-                  //         resolve();
-                  //       }, 1)
-                  //     }),
-                  //   onRowDelete: (oldData) =>
-                  //     new Promise((resolve, reject) => {
-                  //       setTimeout(() => {
-                  //         const dataDelete = [...orderProduct];
-                  //         const index = oldData.tableData.id;
-                  //         dataDelete.splice(index, 1);
-                  //         setListOrderProduct([...dataDelete]);
-                  //         resolve();
-                  //       }, 1);
-                  //     }),
-                  // }}
                   options={{
                     toolbar: false,
                     maxBodyHeight: 200,
