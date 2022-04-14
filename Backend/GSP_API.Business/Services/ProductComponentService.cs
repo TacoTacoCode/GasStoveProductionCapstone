@@ -31,10 +31,6 @@ namespace GSP_API.Business.Services
             var data = await _productComponentRepository.GetProCompo(productId);
             return data;
         }
-        public Task GetCompoByProductId(string productId)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<string> AddProCompo(ProductComponent proCompo)
         {

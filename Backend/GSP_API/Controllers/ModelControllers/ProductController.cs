@@ -101,7 +101,7 @@ namespace GSP_API.Controllers.ModelControllers
                 Status = productRequest.Status,
                 ProductComponents = _mapper.Map<ICollection<ProductComponent>>(productRequest.ProductComponents),
             };
-                
+            var product2 = _mapper.Map<Product>(productRequest);
             var data = await _productService.AddProduct(product, fileStream, fileName);
             if (file != null)
             {
@@ -126,7 +126,7 @@ namespace GSP_API.Controllers.ModelControllers
                 productRequest.ProductComponents = compoMate;
             }
             Stream fileStream = null;
-            var fileName = productRequest.ImageUrl;
+            var fileName = "no-image.jpg?alt=media&token=c45f5852-28eb-4b4d-87a8-2caefb10df12";
             if (file != null)
             {
                 fileStream = file.OpenReadStream();
@@ -164,8 +164,6 @@ namespace GSP_API.Controllers.ModelControllers
             }
             return BadRequest(data);
         }
-
-
 
 
     }

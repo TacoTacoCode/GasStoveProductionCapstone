@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GSP_API.Business.Services
 {
-    public class ImportExportDetailService
+    public class ImportExportDetailService  
     {
         private readonly IImportExportDetailRepository _importExportDetailRepository;
         private readonly ProcessDetailService _processDetailService;

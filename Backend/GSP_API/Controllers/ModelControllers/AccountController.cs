@@ -39,6 +39,19 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok(list);
         }
 
+        [HttpGet]
+        [Route("getSecAccountsNoCompo")]
+        public async Task<ActionResult<List<AccountResponse>>> GetSecAccountsNoCompo()
+        {
+            var data = await _accountService.GetSecAccountsWithoutCompo();
+            if (data == null)
+            {
+                return BadRequest("Not found");
+            }
+            var list = _mapper.Map<List<AccountResponse>>(data);
+            return Ok(list);
+        }
+
         // GET: getAllAccounts
         [HttpGet]
         [Route("getAllAccounts")]
@@ -126,7 +139,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> UpdateAccount([FromForm] AccountRequest accountRequest, IFormFile file)
         {
             Stream fileStream = null;
-            var fileName = accountRequest.AvatarUrl;
+            var fileName = "no-face.png?alt=media&token=83eda3a8-5787-4f09-af2b-473462ada9e6";
             if (file != null)
             {
                 fileStream = file.OpenReadStream();

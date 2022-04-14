@@ -78,18 +78,21 @@ namespace GSP_API.Business.Services
 
         public async Task<string> UpdateAccount(Account newAccount, Stream fileStream, string fileName)
         {
-            var imageUrl = "";
             if (fileStream != null)
             {
                 try
                 {
-                    imageUrl = await FireBaseUtil.Upload(fileStream, fileName);
+                    var imageUrl = await FireBaseUtil.Upload(fileStream, fileName);
                     newAccount.AvatarUrl = imageUrl.Substring(imageUrl.IndexOf("%2F") + 3);
                 }
                 catch (System.Exception ex)
                 {
                     return ex.Message;
                 }
+            }
+            else
+            {
+                newAccount.AvatarUrl = fileName;
             }
             var data = await _accountRepository.FindFirst(p => p.AccountId == newAccount.AccountId);
             if (data != null)
@@ -135,5 +138,11 @@ namespace GSP_API.Business.Services
             await _accountRepository.AddRange(addList);
             return returnDic;
         }
+
+        public async Task<List<Account>> GetSecAccountsWithoutCompo()
+        {
+            return await _accountRepository.GetAll(a => a.RoleId == "SEC" && a.SectionId == null) ;
+        }
+
     }
 }

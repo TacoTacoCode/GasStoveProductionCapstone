@@ -30,6 +30,20 @@ namespace GSP_API.Controllers.ModelControllers
             _mapper = mapper;
         }
 
+
+        [HttpGet]
+        [Route("getCompoNoSection")]
+        public async Task<ActionResult<List<ComponentResponse>>> GetCompoNoSection()
+        {
+            var data = await _componentService.GetCompoNoSection();
+            if (data == null)
+            {
+                return NotFound("Not found");
+            }
+            var list = _mapper.Map<List<ComponentResponse>>(data);
+            return Ok(list);
+        }
+
         // GET: getAllComponents
         [HttpGet]
         [Route("getAllComponents")]
@@ -114,7 +128,7 @@ namespace GSP_API.Controllers.ModelControllers
                 componentRequest.ComponentMaterial = compoMate;
             }
             Stream fileStream = null;
-            var fileName = componentRequest.ImageUrl;
+            var fileName = "no-image.jpg?alt=media&token=c45f5852-28eb-4b4d-87a8-2caefb10df12";
             if (file != null)
             {
                 fileStream = file.OpenReadStream();

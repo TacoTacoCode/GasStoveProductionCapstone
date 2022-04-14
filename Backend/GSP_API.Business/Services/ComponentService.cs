@@ -20,6 +20,11 @@ namespace GSP_API.Business.Services
             _componentMateRepository = componentMateRepository;
         }
 
+        public async Task<List<Component>> GetCompoNoSection()
+        {
+            return await _componentRepository.GetComponentsNoSection();
+        }
+
         public async Task<List<Component>> GetAllComponents()
         {
             return await _componentRepository.GetAll(p => p.ComponentId != null);
@@ -56,18 +61,21 @@ namespace GSP_API.Business.Services
 
         public async Task<string> UpdateComponent(Component newComponent, Stream fileStream, string fileName)
         {
-            var imageUrl = "";
             if (fileStream != null)
             {
                 try
                 {
-                    imageUrl = await FireBaseUtil.Upload(fileStream, fileName);
+                    var imageUrl = await FireBaseUtil.Upload(fileStream, fileName);
                     newComponent.ImageUrl = imageUrl.Substring(imageUrl.IndexOf("%2F") + 3);
                 }
                 catch (System.Exception ex)
                 {
                     return ex.Message;
                 }
+            }
+            else
+            {
+                newComponent.ImageUrl = fileName;
             }
             var data = await _componentRepository.FindFirst(p => p.ComponentId == newComponent.ComponentId);
             if (data != null)

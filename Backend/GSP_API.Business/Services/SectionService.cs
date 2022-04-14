@@ -10,12 +10,14 @@ namespace GSP_API.Business.Services
     {
         private readonly ISectionRepository _sectionRepository;        
         private readonly IComponentRepository _compoRepository;
+        private readonly IAccountRepository _accountRepository;
 
         public SectionService(
-            ISectionRepository sectionRepository, IComponentRepository compoRepository)
+            ISectionRepository sectionRepository, IComponentRepository compoRepository, IAccountRepository accountRepository)
         {
             _sectionRepository = sectionRepository;
             _compoRepository = compoRepository;
+            _accountRepository = accountRepository;
         }
 
         public async Task<int> GetWorkerAmountBySectionId(int sectionId)
@@ -88,7 +90,13 @@ namespace GSP_API.Business.Services
 
             var data = await _sectionRepository.FindFirst(p => p.SectionId == newSection.SectionId);
             if (data != null)
-            {                
+            {
+                if (data.SectionLeadId != newSection.SectionLeadId)
+                {
+                    var account = await _accountRepository.FindFirst(a => a.AccountId == newSection.SectionLeadId);
+                    account.SectionId = newSection.SectionId;
+                    await _accountRepository.Update(account);
+                }
                 return await  _sectionRepository.Update(newSection);                
             }
             return null;

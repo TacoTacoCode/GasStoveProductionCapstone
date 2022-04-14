@@ -56,18 +56,21 @@ namespace GSP_API.Business.Services
 
         public async Task<string> UpdateProduct(Product newProduct, Stream fileStream, string fileName)
         {
-            var imageUrl = "";
             if (fileStream != null)
             {
                 try
                 {
-                    imageUrl = await FireBaseUtil.Upload(fileStream, fileName);
+                    var imageUrl = await FireBaseUtil.Upload(fileStream, fileName);
                     newProduct.ImageUrl = imageUrl.Substring(imageUrl.IndexOf("%2F") + 3);
                 }
                 catch (System.Exception ex)
                 {
                     return ex.Message;
                 }
+            }
+            else
+            {
+                newProduct.ImageUrl = fileName;
             }
             var data = await _productRepository.FindFirst(p => p.ProductId == newProduct.ProductId);
             if (data != null)
