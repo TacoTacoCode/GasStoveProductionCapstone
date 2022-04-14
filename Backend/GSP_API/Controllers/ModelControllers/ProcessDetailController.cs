@@ -66,6 +66,18 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok(processDetails);
         }
 
+        [HttpGet]
+        [Route("getTaskName/{processId}")]
+        public async Task<ActionResult<string>> GetTaskName(int processId)
+        {
+            var data = await _processDetailService.GetTaskName(processId);
+            if (data == null)
+            {
+                return BadRequest("Not found");
+            }
+            return Ok(data);
+        }
+
         // POST: AddProcessDetail/[processDetail]
         [HttpPost]
         [Route("addProcessDetail")]

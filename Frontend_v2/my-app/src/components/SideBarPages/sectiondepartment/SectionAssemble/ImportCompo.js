@@ -14,11 +14,11 @@ export const ImportCompo = (props) => {
 
     const columns = [
         {
-            title: "Task Id",
-            field: "processDetailId",
+            title: "Task",
+            field: "taskName",
             cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px' },
             render: (rowData) =>
-                <div style={{ width: '80%', paddingLeft: '20%' }}><Select
+                <div style={{ width: '80%' }}><Select
                     fullWidth
                     variant="outlined"
                     id="demo-simple-select"
@@ -32,7 +32,7 @@ export const ImportCompo = (props) => {
                                 key={e.processDetailId}
                                 alignItems='center'
                             >
-                                {e.processDetailId}
+                                {e.taskName}
                             </MenuItem>))
                     }
                 </Select></div>

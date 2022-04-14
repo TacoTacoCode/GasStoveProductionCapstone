@@ -79,5 +79,11 @@ export const SideBarManuData = [
         title: "RequestComponent",
         path: "/manufacturer/RequestComponent",
         cName: "nav-text"
-    }
+    },
+    {
+        title: "Manage Components",
+        path: "/dashboard/components",
+        cName: 'nav-text'
+    },
+
 ]

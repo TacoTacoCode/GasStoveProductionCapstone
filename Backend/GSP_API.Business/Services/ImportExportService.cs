@@ -67,6 +67,10 @@ namespace GSP_API.Business.Services
 
                 }
             }
+            if(error.Count > 0)
+            {
+                return "Error at import";
+            }
             var data = await _importExportRepository.Add(imEx);
             if (data.Contains("error"))
             {
@@ -74,7 +78,7 @@ namespace GSP_API.Business.Services
             }
             if (error.Count > 0)
             {
-                return error.ToArray().ToString();
+                return "Error at importExport";
             }
             return data;
         }

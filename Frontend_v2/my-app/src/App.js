@@ -96,10 +96,11 @@ function App() {
           <BrowserRouter>
             <CustomSideBar />
             <Routes>
-              <Route path='*' exact element={<DashBoard />}></Route>
+              <Route path='*' exact element={<RequestComponent />}></Route>
               <Route path='/profile' exact element={<Profile />}></Route>
               <Route path='/manufacturer/requestComponent' exact element={< RequestComponent />}></Route>
               <Route path='/manufacturer/requestDetail' exact element={< RequestDetail />}></Route>
+              <Route path='/dashboard/components' exact element={<Components />}></Route>
             </Routes>
           </BrowserRouter>
         </ThemeProvider>
@@ -114,7 +115,7 @@ function App() {
           <BrowserRouter>
             <CustomSideBar />
             <Routes>
-              <Route path='*' exact element={<DashBoard />}></Route>
+              <Route path='*' exact element={<Orders />}></Route>
               <Route path='/profile' exact element={<Profile />}></Route>
               <Route path='/orders' exact element={<Orders />}></Route>
               <Route path='/orders/orderdetails' exact element={<OrderDetails />}></Route>
@@ -136,7 +137,7 @@ function App() {
           <BrowserRouter>
             <CustomSideBar />
             <Routes>
-              <Route path='*' exact element={<DashBoard />}></Route>
+              <Route path='*' exact element={<ProcessDetail />}></Route>
               <Route path='/dashboard/attendance' exact element={<Attendance />}></Route>
               <Route path='/profile' exact element={<Profile />}></Route>
               <Route path='/section/materials' exact element={<SectionMaterials />}></Route>

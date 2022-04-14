@@ -44,6 +44,9 @@ namespace GSP_API.Business.Services
 
         public async Task<string> AddOrderDetail(OrderDetail orderDetail)
         {
+            var order = await _orderRepository.FindFirst(o => o.OrderId == orderDetail.OrderId);
+            order.TotalPrice += (orderDetail.Price * orderDetail.Amount);
+            await _orderRepository.Update(order);
             return await _orderDetailRepository.Add(orderDetail);
         }
 
@@ -69,6 +72,9 @@ namespace GSP_API.Business.Services
                 var data = await _orderDetailRepository.GetById(p => p.OrderDetailId == orderDetailId);
                 if (data != null)
                 {
+                    var order = await _orderRepository.FindFirst(o => o.OrderId == data.OrderId);
+                    order.TotalPrice -= (data.Price * data.Amount);
+                    await _orderRepository.Update(order);
                     var processes = await _processRepository.FindProcessWithDetails(p => p.OrderDetailId == orderDetailId);
                     //set Process and processDetail status, amount go to ware house
                     if (processes != null)

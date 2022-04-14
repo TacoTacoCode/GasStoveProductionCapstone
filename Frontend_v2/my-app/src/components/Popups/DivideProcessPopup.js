@@ -10,6 +10,7 @@ import { alpha, styled } from "@mui/material/styles";
 import axios from "axios";
 import { ImportExcelButton } from "../button/ImportExcelButton";
 import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 
 const CssTextField = styled(TextField)({
     "& label.Mui-focused": {
@@ -31,9 +32,31 @@ const CssTextField = styled(TextField)({
     },
 });
 
+
 function DivideProcessPopup(props) {
     const [numberOfProcess, setNumberOfProcess] = useState('');
     const navigate = useNavigate();
+
+    const handleClick = () => {
+        var orderDetail = JSON.parse(localStorage['orderDetail'])
+        let count = 0
+        var splitArray = numberOfProcess.split(',')
+            .map((e) => {
+                let tmp = parseInt(e.trim());
+                count += tmp;
+                return tmp;
+            })
+        if (count == orderDetail.neededAmount) {
+            navigate('/divideProcessTabs', { state: splitArray })
+        } else {
+            swal("Warning", `Sum of numbers must be ${orderDetail.neededAmount}`, "info", {
+                button: false,
+                timer: 2000,
+            });
+        }
+    }
+
+
     return props.trigger ? (
         <div className="componentpopup">
             <div className="popup-inner1">
@@ -48,12 +71,8 @@ function DivideProcessPopup(props) {
                         <form className="form1">
                             <CssTextField className="divideField" label="Number of sub-process(s)"
                                 onChange={(e) => setNumberOfProcess(e.target.value)} />
-                            <ImportExcelButton type="button" className="btnDivide" onClick={() => {
-                                var splitArray = numberOfProcess.split(',').map((e) =>
-                                    parseInt(e.trim()))
-                                navigate('/divideProcessTabs', { state: splitArray})
-                            }
-                            }>Submit</ImportExcelButton>
+                            <ImportExcelButton type="button" className="btnDivide"
+                                onClick={handleClick}>Submit</ImportExcelButton>
                         </form>
                     </div>
 

@@ -10,6 +10,7 @@ function ProcessDetail() {
     const [curSectionInfo, setCurSectionInfo] = useState(null)
     const sectionLeadId = localStorage.getItem('currentId');
     useEffect(() => {
+        let promises = []
         document.title = "Section Dashboard";
         axios.get(`https://localhost:5001/getSectionBySectionLeadId/${sectionLeadId}`)
             .then((res) => {
@@ -17,20 +18,36 @@ function ProcessDetail() {
                 setCurSectionInfo(res.data);
                 axios.get(`https://localhost:5001/getListProcessDetail/${res.data.sectionId}`)
                     .then((response) => {
-                        setListProcessDetail(response.data);
                         localStorage.setItem('listProcessDetail', JSON.stringify(response.data))
+                        response.data.map((ele) => {
+                            promises.push(axios.get(`https://localhost:5001/getTaskName/${ele.processId}`))
+                        })
                     }).catch((error) => {
                         localStorage.setItem('listProcessDetail', JSON.stringify(listProcessDetail))
                         alert("Error at get processDetails")
+                    }).then(() => {
+                        let respList = JSON.parse(localStorage['listProcessDetail'])
+                        Promise.all(promises).then(re => re.map((item, index) => {
+                            let tmp = respList[index];
+                            respList[index] = {
+                                ...tmp,
+                                'taskName': item.data
+                            }
+                        }
+                        )).then(() => {
+                            setListProcessDetail(respList);
+                            localStorage.setItem('listProcessDetail', JSON.stringify(respList))
+                        })
                     })
             }).catch((err) => {
                 alert("Error at get section info");
             })
+
     }, []);
     return (
         curSectionInfo && <>
             <ImportExcelButton
-            style={{marginTop: '1%', marginRight: '2%'}}
+                style={{ marginTop: '1%', marginRight: '2%' }}
                 type="button"
                 className='btn-Import'
                 buttonStyle={"btn--primary--solid"}

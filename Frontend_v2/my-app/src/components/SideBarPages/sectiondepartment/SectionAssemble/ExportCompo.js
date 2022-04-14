@@ -13,11 +13,11 @@ export const ExportCompo = (props) => {
 
     const columns = [
         {
-            title: "Task Id",
-            field: "processDetailId",
+            title: "Task",
+            field: "taskName",
             cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px' },
             render: (rowData) =>
-                <div style={{ width: '80%', paddingLeft: '20%' }}><Select
+                <div style={{ width: '100%' }}><Select
                     id="demo-simple-select"
                     variant="outlined"
                     fullWidth
@@ -31,7 +31,7 @@ export const ExportCompo = (props) => {
                                 key={e.processDetailId}
                                 alignItems='center'
                             >
-                                {e.processDetailId}
+                                {e.taskName}
                             </MenuItem>))
                     }
                 </Select></div>
@@ -76,7 +76,7 @@ export const ExportCompo = (props) => {
             render: (rowData) =>
                 <Tooltip title={`Maximum is ${tableData[rowData.tableData.id].maxAmount}`}>
                     <TextField
-                    variant="outlined"
+                        variant="outlined"
                         value={tableData[rowData.tableData.id].amount}
                         type={"number"}
                         InputProps={{

@@ -108,7 +108,7 @@ function OrderDetailPopup(props) {
         })
         console.log(err)
       }).finally(() => {
-        window.location.reload();
+        window.location.reload(true);
       });
   }
 

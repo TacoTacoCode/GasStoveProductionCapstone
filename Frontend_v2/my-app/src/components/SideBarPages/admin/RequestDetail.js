@@ -1,5 +1,5 @@
 import { styled } from '@material-ui/styles';
-import { TextField, Typography } from '@mui/material';
+import { TextField, Tooltip, Typography } from '@mui/material';
 import axios from 'axios';
 import MaterialTable from 'material-table';
 import React, { useEffect, useState } from 'react'
@@ -28,7 +28,7 @@ function RequestDetail() {
             },
         },
     });
-    
+
 
     const [requestDetail, setRequestDetail] = useState([])
     var itemType = localStorage.getItem('itemType')
@@ -36,15 +36,18 @@ function RequestDetail() {
     const [tableData, setTableData] = useState([])
     const [supplying, setSupplying] = useState([])
 
-    const updateSupplyingAmountChanged = (e, index) => {
-        var newArr = [...supplying];
-        newArr[index] = parseInt(e.target.value);
+    const updateSupplyingAmountChanged = (e, index, max) => {
+        let aValue = parseInt(e.target.value)
+        aValue = aValue < 0 ? 0 : aValue
+        aValue = aValue > max ? max : aValue
+        let newArr = [...supplying];
+        newArr[index] = aValue
         setSupplying(newArr);
     }
 
     useEffect(() => {
         console.log(importExportId);
-            axios.get('https://localhost:5001/getDetailsOf/ImEx/' + importExportId)
+        axios.get('https://localhost:5001/getDetailsOf/ImEx/' + importExportId)
             .then((response) => {
                 console.log(response.data);
                 setRequestDetail(response.data)
@@ -86,22 +89,29 @@ function RequestDetail() {
 
     const columns = [
         {
-            title: 'Process Detail ID', field: 'processDetailId', cellStyle: { fontFamily: 'Muli', fontSize: '18px', paddingRight: '4%'}, align: "center"
+            title: 'Process Detail ID', field: 'processDetailId', cellStyle: { fontFamily: 'Muli', fontSize: '18px', paddingRight: '4%' }, align: "center"
         },
         {
             title: itemType === 'M' ? 'Material Name' : 'Component Name', field: itemType === 'M' ? 'materialName' : 'componentName', cellStyle: { fontFamily: 'Muli', fontSize: '18px', paddingRight: '3%' }, align: "center"
         },
         {
-            title: 'Amount', field: 'amount', cellStyle: { fontFamily: 'Muli', fontSize: '18px', paddingRight: '4%'}, align: "center"
+            title: 'Amount', field: 'amount', cellStyle: { fontFamily: 'Muli', fontSize: '18px', paddingRight: '4%' }, align: "center"
         },
         {
-            title: 'Exported Amount', field: 'exportedAmount', cellStyle: { fontFamily: 'Muli', fontSize: '18px', paddingRight: '4%'}, align: "center"
+            title: 'Exported Amount', field: 'exportedAmount', cellStyle: { fontFamily: 'Muli', fontSize: '18px', paddingRight: '4%' }, align: "center"
         },
         {
-            title: 'Supplying Amount', field: 'supplyField', render: rowData => <CssTextField defaultValue={supplying[rowData.tableData.id] == 0 ? 0 : supplying[rowData.tableData.id]}
-                onBlur={(e) => updateSupplyingAmountChanged(e, rowData.tableData.id)}
-                type='number' label="Supplying Amount" />,
-            cellStyle: { fontFamily: 'Muli'}, align: "center"
+            title: 'Supplying Amount', field: 'supplyField',
+            render: rowData => <Tooltip title={`Maximum is ${rowData.exportedAmount == undefined ? rowData.amount : rowData.amount - rowData.exportedAmount}`}>
+                <CssTextField defaultValue={supplying[rowData.tableData.id] == 0 ? 0 : supplying[rowData.tableData.id]}
+                    onBlur={(e) => updateSupplyingAmountChanged(e, rowData.tableData.id, rowData.exportedAmount == undefined ? rowData.amount : rowData.amount - rowData.exportedAmount)}
+                    InputProps={{
+                        inputProps: { min: 0, max: rowData.exportedAmount == undefined ? rowData.amount : rowData.amount - rowData.exportedAmount },
+                    }}
+                    disabled={rowData.amount == rowData.exportedAmount}
+                    type='number' label="Supplying Amount" />
+            </Tooltip>,
+            cellStyle: { fontFamily: 'Muli' }, align: "center"
         },
     ]
 
@@ -152,13 +162,14 @@ function RequestDetail() {
                     }}
 
                     actions={[
-                        {
+                        rowData => ({
                             icon: () => <BsFileEarmarkCheck />,
                             tooltip: 'Accept this request',
+                            disabled: rowData.amount == rowData.exportedAmount,
                             onClick: (event, rowData) => {
                                 handleAccept(rowData)
                             }
-                        }
+                        })
                     ]}
                     options={{
                         searchFieldVariant: 'outlined',
@@ -171,7 +182,7 @@ function RequestDetail() {
                         addRowPosition: 'first',
                         actionsColumnIndex: -1,
                         exportButton: false,
-                        headerStyle: { backgroundColor: '#bd162c', color: '#fff', fontSize: '18px'},
+                        headerStyle: { backgroundColor: '#bd162c', color: '#fff', fontSize: '18px' },
                     }} />
             </div>
         </>

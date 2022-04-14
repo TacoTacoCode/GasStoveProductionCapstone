@@ -9,16 +9,22 @@ namespace GSP_API.Business.Services
     public class ProcessDetailService
     {
         private readonly IProcessDetailRepository _processDetailRepository;
+        private readonly IProcessRepository _processRepository;
+        private readonly IOrderDetailRepository _orderDetailRepository;
+        private readonly IOrderRepository _orderRepository;
 
         public ProcessDetailService(
-            IProcessDetailRepository processDetailRepository)
+            IProcessDetailRepository processDetailRepository, IOrderDetailRepository orderDetailRepository, IOrderRepository orderRepository, IProcessRepository processRepository)
         {
             _processDetailRepository = processDetailRepository;
+            _orderDetailRepository = orderDetailRepository;
+            _orderRepository = orderRepository;
+            _processRepository = processRepository;
         }
 
         public async Task<List<ProcessDetail>> GetAllProcessDetailes()
         {
-            return await _processDetailRepository.GetAll(p => p.Status != "Deactive");
+            return await _processDetailRepository.GetAll(p => p.Status != "Delete");
         }
 
         public async Task<ProcessDetail> GetProcessDetailById(int processDetailId)
@@ -28,7 +34,17 @@ namespace GSP_API.Business.Services
 
         public async Task<List<ProcessDetail>> GetProcessDetailBySectionId(int sectionId)
         {
-            return await _processDetailRepository.GetAll(p => p.SectionId == sectionId && p.Status.Equals("New"));
+            var datas = await _processDetailRepository.GetAll(p => p.SectionId == sectionId && (p.Status.Equals("New") || p.Status.Equals("Processing")));
+            return datas;
+        }
+
+        public async Task<string> GetTaskName(int processId)
+        {
+            var process = await _processRepository.FindFirst(p => p.ProcessId == processId);
+            var orderDetail = await _orderDetailRepository.FindFirst(od => od.OrderDetailId == process.OrderDetailId);
+            var order = await _orderRepository.FindFirst(o => o.OrderId == orderDetail.OrderId);
+            var taskName = $"{order.CustomerName}_0{order.OrderId}_0{processId}";
+            return taskName;
         }
 
         public async Task<string> AddProcessDetail(ProcessDetail processDetail)

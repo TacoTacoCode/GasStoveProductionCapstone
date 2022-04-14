@@ -16,7 +16,7 @@ function OrderDetails() {
     const [newDataSubmitted, setNewDataSubmitted] = useState(1);
 
     useEffect(() => {
-        const getAllOrderDetail = 'https://localhost:5001/getOrderDetailsOf/ord/' + location.state.orderId
+        const getAllOrderDetail = 'https://localhost:5001/getOrderDetailsOf/ord/' + localStorage['orderId']
         //Gọi API bằng axios
         let data = []
         axios.get(getAllOrderDetail).then((res) => {
@@ -37,7 +37,7 @@ function OrderDetails() {
                 }
                 }>Add Order Detail</ImportExcelButton>
             <OrderDetailPopup
-                orderId={location.state.orderId}
+                orderId={localStorage['orderId']}
                 trigger={addOrderDetailsBtn}
                 setTrigger={setAddOrderDetailsBtn}
                 setSubmittedTime={() => {

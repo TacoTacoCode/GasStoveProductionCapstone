@@ -35,46 +35,41 @@ function Components() {
 
   return (
     <>
-      <ImportExcelButton
-        style={{ marginTop: '3%'}}
-        type="button"
-        onClick={() => {
-          setImportFile(true);
-        }}
-      >
-        {/* <div>
-          <AiFillFileExcel size={24} style={{ verticalAlign: "middle" }} />
-          &ensp;
-          <text style={{ verticalAlign: "middle" }}>Import Component File</text>
-        </div> */}
-        Import Component File
-      </ImportExcelButton>
-      <ImportFilePopup
-        trigger={importFile}
-        setTrigger={setImportFile}
-        dataType="component"
-      >
-        <h3 className="popuptitle">Import Component File</h3>
-      </ImportFilePopup>
-      <ImportExcelButton
-        style={{ marginTop: '3%', marginRight: '1%' }}
-        type="button"
-        onClick={() => {
-          setAddcomponentBtn(true);
-        }}
-      >
-        {/* <div>
-          <FaPlus size={24} style={{ verticalAlign: "middle" }} />
-          &ensp;
-          <text style={{ verticalAlign: "middle" }}>Add Component</text>
-        </div> */}
-        Add Component
-      </ImportExcelButton>
-      <ComponentPopup trigger={addcomponentBtn} setTrigger={setAddcomponentBtn} setSubmittedTime={() => {
-        setNewDataSubmitted((prev) => prev + 1);
-      }}>
-        <h3 className="popuptitle">Add a component</h3>
-      </ComponentPopup>
+      {localStorage['currentRole'] == 'Manufacturer Department' ? null :
+        <div>
+          <ImportExcelButton
+            style={{ marginTop: '3%' }}
+            type="button"
+            onClick={() => {
+              setImportFile(true);
+            }}
+          >
+            Import Component File
+          </ImportExcelButton>
+          <ImportFilePopup
+            trigger={importFile}
+            setTrigger={setImportFile}
+            dataType="component"
+          >
+            <h3 className="popuptitle">Import Component File</h3>
+          </ImportFilePopup>
+          <ImportExcelButton
+            style={{ marginTop: '3%', marginRight: '1%' }}
+            type="button"
+            onClick={() => {
+              setAddcomponentBtn(true);
+            }}
+          >
+            Add Component
+          </ImportExcelButton>
+          <ComponentPopup
+            trigger={addcomponentBtn}
+            setTrigger={setAddcomponentBtn} setSubmittedTime={() => {
+              setNewDataSubmitted((prev) => prev + 1);
+            }}>
+            <h3 className="popuptitle">Add a component</h3>
+          </ComponentPopup>
+        </div>}
       <div className="components">
         <Table listComponent={listComponent} setSubmittedTime={() => {
           setNewDataSubmitted((prevState) => prevState + 1);

@@ -82,5 +82,9 @@ namespace GSP_API.Business.Services
             return null;
         }
 
+        internal Task GetOrderById(int? orderId)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

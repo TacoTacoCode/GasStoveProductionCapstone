@@ -149,23 +149,25 @@ export const Table = (props) => {
         title={<MyNewTitle variant="h6" text="Components List" />}
         data={array}
         columns={columns}
-        actions={[
-          rowData => ({
-            icon: "delete",
-            tooltip: "Delete this component",
-            onClick: (event, rowData) => {
-              deleteComponent(rowData.componentId);
-            },
-            disabled: (rowData.status == 'Unactive')
-          }),
-          {
-            icon: "edit",
-            tooltip: "Edit this component",
-            onClick: (event, rowData) => {
-              handleEditData(rowData);
-            },
-          },
-        ]}
+        actions={
+          localStorage['currentRole'] == 'Manufacturer Department' ? []
+            : [
+              rowData => ({
+                icon: "delete",
+                tooltip: "Delete this component",
+                onClick: (event, rowData) => {
+                  deleteComponent(rowData.componentId);
+                },
+                disabled: (rowData.status == 'Unactive')
+              }),
+              {
+                icon: "edit",
+                tooltip: "Edit this component",
+                onClick: (event, rowData) => {
+                  handleEditData(rowData);
+                },
+              },
+            ]}
         options={{
           searchFieldVariant: 'outlined',
           searchFieldStyle: {
@@ -177,7 +179,7 @@ export const Table = (props) => {
           addRowPosition: "first",
           actionsColumnIndex: -1,
           exportButton: false,
-          headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px'},
+          headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px' },
         }}
       />
       {editDatas &&

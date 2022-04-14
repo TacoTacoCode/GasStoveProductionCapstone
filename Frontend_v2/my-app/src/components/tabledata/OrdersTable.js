@@ -10,6 +10,7 @@ import Bell from "../../img/bell.png";
 import "../../styles/notifcation.css";
 import { Tooltip } from '@material-ui/core';
 import { TextGetSectionLeader } from "../NonSideBarPage/TextGetSectionLeader";
+import { BsFileEarmarkCheck } from 'react-icons/bs';
 
 const CssTextField = styled(TextField)({
     width: "100%",
@@ -36,7 +37,7 @@ export const Table = (props) => {
             title: 'ID', field: 'orderId', cellStyle: { fontFamily: 'Arial', fontSize: '18px' },
         },
         {
-            title: 'CustomerName', field: 'customerName', cellStyle: { fontFamily: 'Muli', fontSize: '18px' }, 
+            title: 'CustomerName', field: 'customerName', cellStyle: { fontFamily: 'Muli', fontSize: '18px' },
             // render:
             //     rowData => (rowData.accountId != null)
             //         ? <TextGetSectionLeader accountID={rowData.accountId} />
@@ -45,7 +46,7 @@ export const Table = (props) => {
         {
             title: 'Expiry Date',
             field: 'expiryDate',
-            cellStyle: { fontFamily: 'Muli', fontSize: '18px' }, 
+            cellStyle: { fontFamily: 'Muli', fontSize: '18px' },
             render:
                 rowData => moment(rowData.expiryDate).format('DD/MM/YYYY'),
         },
@@ -57,6 +58,10 @@ export const Table = (props) => {
             render:
                 ((rowData) => {
                     switch (rowData.status) {
+                        case 'Waiting':
+                            return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #FF1818', backgroundColor: '#FF1818' }} className="text_square">
+                                <text style={{ color: 'white', fontWeight: "500" }}>Waiting</text>
+                            </div>
                         case 'New':
                             return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #FF1818', backgroundColor: '#FF1818' }} className="text_square">
                                 <text style={{ color: 'white', fontWeight: "500" }}>New</text>
@@ -93,19 +98,6 @@ export const Table = (props) => {
         axios.get("https://localhost:5001/getOrderDetailsOf/ord/" + rowData.orderId).then(
             (res) => setListOrderProduct(res.data)
         );
-        // axios.get("https://localhost:5001/getAllAccounts")
-        //     .then((res) => {
-        //         for (let index = 0; index < res.data.length; index++) {
-        //             if (res.data[index].roleId == "CUS") {
-        //                 customerList.push(res.data[index]);
-        //             }
-        //         }
-        //         console.log(customerList);
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //         alert("Xảy ra lỗi");
-        //     });
     }
 
     return (<>
@@ -123,6 +115,7 @@ export const Table = (props) => {
                 onRowClick={(event, data) => {
                     console.log("test short term: " + data.isShorTerm);
                     localStorage.setItem("orderType", data.isShorTerm)
+                    localStorage.setItem("orderId", data.orderId)
                     navigate('/orders/orderdetails', { state: data });
                 }}
                 actions={[
@@ -145,7 +138,7 @@ export const Table = (props) => {
                     addRowPosition: 'first',
                     actionsColumnIndex: -1,
                     exportButton: false,
-                    headerStyle: { backgroundColor: '#bd162c', color: '#fff', fontSize: '18px'}
+                    headerStyle: { backgroundColor: '#bd162c', color: '#fff', fontSize: '18px' }
                 }} />
             {editDatas &&
                 <OrderEditPopup

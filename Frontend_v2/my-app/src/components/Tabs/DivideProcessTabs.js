@@ -49,8 +49,16 @@ function DivideProcessTabs() {
     const toggleTab = (index) => setToggleState(index)
 
     const updateTotalAmountChanged = (e, index) => {
+        let aValue = parseInt(e.target.value);
         var newArr = [...listProcess];
-        newArr[index].totalAmount = parseInt(e.target.value);
+
+        let tables = [...tableData]
+        tables[index].map(pd => {
+            let mul = pd.totalAmount / newArr[index].totalAmount
+            pd.totalAmount = mul * aValue
+        })
+        setTableData(tables)
+        newArr[index].totalAmount = aValue
         setListProcess(newArr);
     }
 
@@ -98,7 +106,6 @@ function DivideProcessTabs() {
     const [tableData, setTableData] = useState([])
 
     useEffect(() => {
-        console.log('abc')
         axios.post('https://localhost:5001/distribute', {
             "process": process,
             "ProcessAmmounts": arr,
@@ -283,18 +290,6 @@ function DivideProcessTabs() {
                                     /></LocalizationProvider>
                                 </div>
                             </div>
-                            {/* <div className='date2'>
-                                <div className='divdate'>
-                                    <LocalizationProvider dateAdapter={AdapterDateFns}><DatePicker
-                                        inputFormat="MM/dd/yyyy"
-                                        value={listProcess[index] === undefined ? null : listProcess[index].finishedDate}
-                                        onChange={(date) => updateFinishedDateChanged(index)}
-                                        renderInput={(params) => <CssTextField color='secondary' className='datefield' helperText="Finished Date"
-                                            variant="outlined" {...params} />}
-                                    /></LocalizationProvider>
-                                </div>
-
-                            </div> */}
                             <div className='processDetailTable'>
                                 {listProcess[index] &&
                                     <MaterialTable title={<MyNewTitle variant="h6" text="Process Details List" /> }

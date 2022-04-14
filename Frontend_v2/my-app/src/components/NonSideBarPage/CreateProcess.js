@@ -59,7 +59,6 @@ function CreateProcess() {
             })
         ).then(() => {
             localStorage.setItem('listComponent', JSON.stringify(compos))
-            console.log(datas)
             setTableData(datas)
         })
     }, [])
@@ -184,26 +183,6 @@ function CreateProcess() {
                                 onClick={(e) => handleSave(e)}>Submit</ImportExcelButton>}
 
                     </div>
-                    {/* <div className='start'>
-                        <div className='divprocess'>
-                            <TextField
-                                inputProps={{ readOnly: true, }}
-                                className='processfield'
-                                label="Order Detail Id"
-                                variant="outlined"
-                                defaultValue={process.orderDetailId}
-                            /></div>
-                        <div className='divprocess'>
-                            <TextField
-                                inputProps={
-                                    { readOnly: true, }
-                                }
-                                className='processfield'
-                                label="Process Id"
-                                variant="outlined"
-                                defaultValue={process.processId} />
-                        </div>
-                    </div> */}
                     <div className='mid2'>
                         <div className='divprocess'>
                             <TextField
@@ -213,7 +192,15 @@ function CreateProcess() {
                                 label="Total Amount"
                                 variant="outlined"
                                 defaultValue={totalAmount}
-                                onChange={(e) => setTotalAmount(e.target.value)}
+                                onChange={(e) => {
+                                    let tmp = [...tableData]
+                                    tmp.map((el) => {
+                                        let x = el.totalAmount / totalAmount
+                                        el.totalAmount = x * e.target.value
+                                    })
+                                    setTableData(tmp)
+                                    setTotalAmount(e.target.value)
+                                }}
                                 value={totalAmount}
                                 InputProps={{
                                     endAdornment: <InputAdornment position="end">Unit</InputAdornment>,

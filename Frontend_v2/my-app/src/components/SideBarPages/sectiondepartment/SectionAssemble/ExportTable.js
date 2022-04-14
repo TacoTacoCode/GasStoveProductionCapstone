@@ -27,6 +27,7 @@ export const ExTable = (props) => {
                         }
                     })
                     obj['processDetailId'] = listProcessDetail[index].processDetailId
+                    obj['taskName'] = listProcessDetail[index].taskName
                     obj['amount'] = listProcessDetail[index].totalAmount
                     datas.push(obj)
                 }))
@@ -39,10 +40,13 @@ export const ExTable = (props) => {
 
     const columns = [
         {
-            title: "Task Id",
-            field: "processDetailId",
-            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px'},
-            render: (e) => `0${e.processDetailId}`
+            title: "Task",
+            field: "taskName",
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px' },
+            render: (e) => {
+                console.log(e)
+                return `${e.taskName}`
+            }
         },
         {
             title: "Product Image",

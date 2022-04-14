@@ -90,36 +90,39 @@ export const OrderDetailTable = (props) => {
                 swal("Success", "Delete this Order Detail successfully", "success", {
                     button: false,
                     timer: 2000,
-                });
+                }).then(window.location.reload());
             }).catch((err) => {
                 swal("Error", "Delete this Order Detail failed", "error", {
                     button: false,
                     time: 2000,
-                });
+                }).then(window.location.reload());
             })
-        // .finally(function () {
-        //     window.location.reload();
-        // });
+
     }
     function confirmDelete(id) {
-        let countProcess = getNoProcess(id)
-        if (countProcess != 0) {
-            let warning = `This order detail has ${countProcess} process(es)!\n` +
-                'Once deleted, current processes will be shut down'
-            swal({
-                title: "Are you sure to delete this order?",
-                text: warning,
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            }).then((willDelete) => {
-                if (willDelete) {
+        let countProcess = 0;
+        axios.get("https://localhost:5001/getNoProcess/" + id)
+            .then((res) => {
+                countProcess = res.data
+                if (countProcess != 0) {
+                    let warning = `This order detail has ${countProcess} process(es)!\n` +
+                        'Once deleted, current processes will be shut down'
+                    swal({
+                        title: "Are you sure to delete this order?",
+                        text: warning,
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete) => {
+                        if (willDelete) {
+                            deleteOrderDetail(id)
+                        }
+                    });
+                } else {
                     deleteOrderDetail(id)
                 }
-            });
-        } else {
-            deleteOrderDetail(id)
-        }
+            })
+
     }
 
     const [editDatasDetail, setEditDatasDetail] = useState(null);
@@ -131,8 +134,12 @@ export const OrderDetailTable = (props) => {
     }
 
     function getNoProcess(orderDetailId) {
+        let no = 0;
         axios.get("https://localhost:5001/getNoProcess/" + orderDetailId)
-            .then((res) => { return res.data })
+            .then((res) => {
+                no = res.data
+                return no
+            })
     }
 
     const newData = array.map((value) => ({ ...value, No_Process: getNoProcess(value.orderDetailId) }));

@@ -14,17 +14,19 @@ namespace GSP_API.Business.Services
         private readonly ProductComponentService _productComponentService;
         private readonly SectionService _sectionService;
         private readonly OrderDetailService _orderDetailService;
+        private readonly OrderService _orderService;
 
         public ProcessService(
-            IProcessRepository processRepository,
-            ProcessDetailService processDetailService,
-            ProductComponentService productComponentService, SectionService sectionService, OrderDetailService orderDetailService)
+            IProcessRepository processRepository,ProcessDetailService processDetailService,
+            ProductComponentService productComponentService, SectionService sectionService,
+            OrderDetailService orderDetailService, OrderService orderService)
         {
             _processRepository = processRepository;
             _processDetailService = processDetailService;
             _productComponentService = productComponentService;
             _sectionService = sectionService;
             _orderDetailService = orderDetailService;
+            _orderService = orderService;
         }
 
         public async Task<List<Process>> GetAllProcesses()
@@ -193,6 +195,9 @@ namespace GSP_API.Business.Services
             {
                 return "Error: Sum of needed ammount in all processes is different from Order Detail";
             }
+            var order = await _orderService.GetOrderById((int)orderDetail.OrderId);
+            order.Status = "Processing";
+            await _orderService.UpdateOrder(order);
             var data = await _processRepository.AddRange(processList);
             return data;
         }

@@ -90,7 +90,7 @@ function ImportFilePopup(props) {
         })
       }).finally(() => {
         handleCancelClick();
-        //delay(function () { window.location.reload(); }, 2000);
+        delay(function () { window.location.reload(); }, 2000);
       })
   };
 
@@ -130,8 +130,8 @@ function ImportFilePopup(props) {
         </div> */}
         {props.children}
         <div className="popup-body">
-          <form style={{paddingTop: '3%' }}>
-            <text style={{fontFamily: 'Muli', fontSize: '18px', paddingLeft: '2%'}} className="content_choose">Choose a/an {typeData} file : </text>
+          <form style={{ paddingTop: '3%' }}>
+            <text style={{ fontFamily: 'Muli', fontSize: '18px', paddingLeft: '2%' }} className="content_choose">Choose a/an {typeData} file : </text>
             <div className='imagefield'>
               <input ref={ref} type="file" onChange={handleFileOpen} />
             </div>

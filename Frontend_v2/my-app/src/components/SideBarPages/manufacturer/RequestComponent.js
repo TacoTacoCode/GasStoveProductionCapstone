@@ -26,19 +26,8 @@ export default function RequestComponent() {
     }, []);
 
     return (
-        <>
-            <ImportExcelButton
-                style={{ marginTop: '2%', marginRight: '2%' }}>
-                {/* <div>
-                    <AiFillFileExcel size={24} style={{ verticalAlign: "middle" }} />
-                    &ensp;
-                    <text style={{ verticalAlign: "middle" }}>Import from Excel</text>
-                </div> */}
-                Import from Excel
-            </ImportExcelButton>
-            <div className='sections'>
-                <Table listRequestComponents={listRequestComponents} />
-            </div>
-        </>
+        <div className='sections'>
+            <Table listRequestComponents={listRequestComponents} />
+        </div>
     );
 }

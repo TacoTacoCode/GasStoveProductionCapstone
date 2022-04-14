@@ -107,9 +107,9 @@ function CustomSideBar() {
             role = SideBarSectionData.map(obj => ({ ...obj }));
             currentLink = "section/processDetail";
             break;
-        case 'Manufacturer Deparment':
+        case 'Manufacturer Department':
             role = SideBarManuData.map(obj => ({ ...obj }));
-            currentLink = "section/processDetail";
+            currentLink = "manufacturer/requestComponent";
             break;
         default:
             break;
@@ -141,7 +141,7 @@ function CustomSideBar() {
                         }
                     </MenuItem>}
                     <div style={{
-                        fontSize: '26px', 
+                        fontSize: '26px',
                         textAlign: "left",
                         fontFamily: "Muli",
                         cursor: "pointer",
