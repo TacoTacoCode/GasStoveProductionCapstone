@@ -135,7 +135,7 @@ function ComponentPopup(props) {
     formData.append("size", size);
     formData.append("color", color);
     formData.append("weight", weight);
-    formData.append("description", description);
+    formData.append("description", description == undefined ? '' : description);
     if (jsonObj.length != 0) {
       formData.append("componentMaterial", JSON.stringify(jsonObj));
     }

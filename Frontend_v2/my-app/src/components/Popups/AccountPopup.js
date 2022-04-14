@@ -94,7 +94,9 @@ function AccountPopup(props) {
 
   useEffect(() => {
     axios.get("https://localhost:5001/getRoles").then(res => {
-      setRoleList(res.data)
+      let allRole = []
+      res.data.map(e => e.roleId != 'ADM' ? allRole.push(e) : null)
+      setRoleList(allRole)
     });
     axios.get("https://localhost:5001/getAllSections").then(res => {
       setSectionList(res.data)

@@ -82,7 +82,7 @@ function MaterialPopup(props) {
     formData.append("amount", amount);
     formData.append("unit", unit);
     formData.append("status", status);
-    formData.append("description", description);
+    formData.append("description", description == undefined ? '' : description);
     formData.append("file", file);
     axios.post("https://localhost:5001/addMaterial", formData)
       .then(res => {

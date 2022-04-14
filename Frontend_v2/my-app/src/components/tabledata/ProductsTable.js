@@ -175,7 +175,7 @@ export const Table = (props) => {
   const handleEditData = (rowData) => {
     setEditDatas(rowData);
     setOpen(true);
-    axios.get("https://localhost:5001/getCompoByProductId/" + rowData.productId).then(
+    axios.get("https://localhost:5001/getProCompo/" + rowData.productId).then(
       (res) => setListProductComponent(res.data)
     )
   }

@@ -3,13 +3,7 @@ import "../../styles/Popup.scss";
 import "../../styles/Profile.scss";
 import CloseIcon from "@mui/icons-material/Close";
 import MaterialTable from "material-table";
-import {
-  Button,
-  InputAdornment,
-  makeStyles,
-  MenuItem,
-  TextField,
-} from "@mui/material";
+import { Button, InputAdornment, makeStyles, MenuItem, TextField, } from "@mui/material";
 import { alpha, styled } from "@mui/material/styles";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -44,14 +38,14 @@ function ImportFilePopup(props) {
 
   const [file, setFile] = useState();
   const [fileName, setFileName] = useState("");
-  const [typeData, setTypeData] = useState(props.dataType);
+  const [typeData, setTypeData] = useState(...props.dataType);
   const stringUrl = "https://localhost:5001/uploadFile/" + typeData;
-  console.log(stringUrl)
 
+  useEffect(() => {
+    setTypeData(props.dataType)
+  }, [props.dataType])
   const handleFileOpen = (e) => {
-    console.log(e.target.value)
     const file = e.target.files[0];
-    console.log(file);
     setFile(file);
     setFileName(file.name);
   };
@@ -64,12 +58,12 @@ function ImportFilePopup(props) {
       file,
       file.name
     );
-
-
     axios
       .post(stringUrl, formData)
       .then((res) => {
-        if (res.data.includes('error')) {
+        console.log({ res })
+        if (res.data.toString().includes('error')) {
+          console.log('if')
           swal("Error", "Import " + typeData + " File Failed", "error", {
             button: false,
             timer: 2000,
@@ -83,20 +77,22 @@ function ImportFilePopup(props) {
             saveAs(resp.data, 'error.xlsx')
           })
         } else {
+          console.log('eleesee')
           swal("Success", "Import " + typeData + " File Successfully", "success", {
             button: false,
             timer: 2000,
           });
         }
       })
-      .catch((err) => {
-        swal("Error", "Something wrong in process!", "error", {
-          button: false,
-          timer: 2000,
-        })
-      }).finally(() => {
+      // .catch((err) => {
+      //   swal("Error", "Something wrong in process!", "error", {
+      //     button: false,
+      //     timer: 2000,
+      //   })
+      // })
+      .finally(() => {
         handleCancelClick();
-        delay(function () { window.location.reload(); }, 2000);
+        //delay(function () { window.location.reload(); }, 2000);
       })
   };
 
@@ -121,7 +117,6 @@ function ImportFilePopup(props) {
 
   const handleClearFile = (e) => {
     ref.current.value = null;
-    console.log(e.target.value);
     e.target.value = null;
     setFile();
     setFileName("");

@@ -59,25 +59,25 @@ const CssTextField = styled(TextField)({
 });
 
 function createData(materialId, materialName, amount) {
-  return { materialId, materialName, amount };
+  return { materialId, 'material': { materialName }, amount };
 }
 
 function ComponentEditPopup(props) {
-  const [imageUrl, setComponentImage] = useState({ ...props.data.imageUrl });
-  const [componentID, setComponentID] = useState({ ...props.data.componentId });
-  const [componentName, setComponentName] = useState({ ...props.data.componentName });
-  const [size, setComponentSize] = useState({ ...props.data.size });
-  const [amount, setComponentAmount] = useState({ ...props.data.amount });
-  const [substance, setComponentSubstance] = useState({ ...props.data.substance });
-  const [weight, setComponentWeight] = useState({ ...props.data.weight });
-  const [color, setComponentColor] = useState({ ...props.data.color });
-  const [status, setStatus] = useState({ ...props.data.status });
-  const [description, setDescription] = useState({ ...props.data.description });
+  const [imageUrl, setComponentImage] = useState(props.data.imageUrl);
+  const [componentID, setComponentID] = useState(props.data.componentId);
+  const [componentName, setComponentName] = useState(props.data.componentName);
+  const [size, setComponentSize] = useState(props.data.size);
+  const [amount, setComponentAmount] = useState(props.data.amount);
+  const [substance, setComponentSubstance] = useState(props.data.substance);
+  const [weight, setComponentWeight] = useState(props.data.weight);
+  const [color, setComponentColor] = useState(props.data.color);
+  const [status, setStatus] = useState(props.data.status);
+  const [description, setDescription] = useState(props.data.description);
 
   const [componentMaterial, setListComponentMaterial] = useState({ ...props.compoMates });
   const [listMaterialActive, setMaterialList] = useState([]);
-  const [materialActive, setMaterialChoose] = useState(null);
-  const [materialAmount, setMaterialComponentAmount] = useState(null);
+  const [materialActive, setMaterialChoose] = useState('');
+  const [materialAmount, setMaterialComponentAmount] = useState(0);
   const [curImg, setCurImg] = useState('');
 
   useEffect(() => {
@@ -168,7 +168,7 @@ function ComponentEditPopup(props) {
     formData.append("size", size);
     formData.append("color", color);
     formData.append("weight", weight);
-    formData.append("description", description);
+    formData.append("description", description == undefined ? '' : description);
     formData.append("componentMaterial", JSON.stringify(jsonObj));
     formData.append("file", file);
     axios
@@ -186,6 +186,7 @@ function ComponentEditPopup(props) {
         })
       }).finally(() => {
         handleCancelClick();
+        handleClose();
       })
   };
 
@@ -198,7 +199,6 @@ function ComponentEditPopup(props) {
   })();
 
   const handleClose = () => {
-    props.setOpen(false);
     delay(function () { window.location.reload(); }, 1000);
   };
 
@@ -214,7 +214,8 @@ function ComponentEditPopup(props) {
     setStatus(props.data.status);
     setListComponentMaterial(props.compoMates);
     setDescription(props.data.description);
-    handleClose();
+    props.setOpen(false);
+    //handleClose();
   };
 
   return props.IsOpen ? (
@@ -236,9 +237,6 @@ function ComponentEditPopup(props) {
             </div>
             <div>
               <img src={curImg} alt="avatar" width="100px" />
-              {/* {imageUrl ? (
-                <img src={imageUrl.preview} alt="avatar" width="100px" />
-              ) : null} */}
             </div>
             <div className="idname">
               <div className="idfield">
@@ -334,7 +332,7 @@ function ComponentEditPopup(props) {
               <div className="txtfield">
                 <CssTextField
                   label="Description"
-                  value={description}
+                  value={description == undefined ? '' : description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
@@ -378,7 +376,7 @@ function ComponentEditPopup(props) {
                 />
               </div>
 
-              {materialActive != null && materialAmount != null ? (
+              {materialActive != '' && materialAmount != 0 ? (
                 <Button
                   style={{
                     fontFamily: "Muli",
@@ -396,7 +394,7 @@ function ComponentEditPopup(props) {
                       ),
                     ]);
                     setMaterialComponentAmount(0);
-                    setMaterialChoose(null);
+                    setMaterialChoose('');
                     //console log here won print the new state, you have to wait for new lifecycle
                     //console.log(componentMaterial);
                   }}

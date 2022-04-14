@@ -57,10 +57,10 @@ const CssTextField = styled(TextField)({
 });
 
 function SectionEditPopup(props) {
-  const [sectionLeaderId, setSectionLeaderId] = useState({ ...props.data.sectionLeadId });
-  const [componentId, setComponentId] = useState({ ...props.data.componentId });
-  const [isAssemble, setIsAssemble] = useState({ ...props.data.isAssemble });
-  const [status, setStatus] = useState({ ...props.data.status });
+  const [sectionLeaderId, setSectionLeaderId] = useState(props.data.sectionLeadId);
+  const [componentId, setComponentId] = useState(props.data.componentId);
+  const [isAssemble, setIsAssemble] = useState(props.data.isAssemble);
+  const [status, setStatus] = useState(props.data.status);
 
   const [listComponentActive, setComponentList] = useState([]);
   const [listAccountActive, setAccountList] = useState([]);
@@ -82,10 +82,10 @@ function SectionEditPopup(props) {
   }, [props.data.status])
 
   useEffect(() => {
-    axios.get("https://localhost:5001/getComponents/Active").then((res) => {
+    axios.get("https://localhost:5001/getCompoNoSection").then((res) => {
       setComponentList(res.data);
     });
-    axios.get("https://localhost:5001/getActiveAccounts").then((res) => {
+    axios.get("https://localhost:5001/getSecAccountsNoCompo").then((res) => {
       setAccountList(res.data);
     });
   }, []);
@@ -169,9 +169,7 @@ function SectionEditPopup(props) {
                   </MenuItem>
                 ))}
               </CssTextField>
-              {/* </div> */}
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              {/* <div className="idfield"> */}
               <CssTextField
                 label="State"
                 select
@@ -186,15 +184,14 @@ function SectionEditPopup(props) {
                   </MenuItem>
                 ))}
               </CssTextField>
-              {/* </div> */}
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              {/* <div className="txtfield"> */}
               <CssTextField
                 label="Component"
                 select
                 id="fullWidth"
-                required
-                value={componentId}
+                disabled={isAssemble}
+                required={!isAssemble}
+                value={isAssemble ? '' : componentId}
                 onChange={(e) => setComponentId(e.target.value)}
               >
                 {listComponentActive.map((component) => (
@@ -203,9 +200,7 @@ function SectionEditPopup(props) {
                   </MenuItem>
                 ))}
               </CssTextField>
-              {/* </div> */}
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              {/* <div className="idfield"> */}
               <CssTextField
                 label="Status"
                 select

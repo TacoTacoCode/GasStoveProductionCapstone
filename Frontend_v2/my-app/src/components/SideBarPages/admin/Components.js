@@ -26,7 +26,6 @@ function Components() {
       .get(getAllComponents)
       .then((res) => {
         setListComponent(res.data);
-        console.log(res.data)
       })
       .catch((err) => {
         console.log(err);

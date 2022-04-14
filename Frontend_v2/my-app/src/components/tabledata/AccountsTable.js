@@ -140,7 +140,7 @@ export const Table = (props) => {
             onClick: (event, rowData) => {
               deleteAccount(rowData.accountId);
             },
-            disabled: (rowData.isActive == false)
+            disabled: (rowData.isActive == false || rowData.roleId == 'ADM')
           }),
           {
             icon: "edit",

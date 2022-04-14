@@ -15,6 +15,7 @@ function Accounts() {
 
   const [addAccountBtn, setaddAccountBtn] = useState(false);
   const [importFile, setImportFile] = useState(false);
+  const [type, setType] = useState('');
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
   //biến này giúp tải lại dữ liệu mà không cần load lại trang (khi update data)
   const [listAccount, setListAccount] = useState([]);
@@ -35,14 +36,24 @@ function Accounts() {
   }, [newDataSubmitted]);
   return (
     <>
-      <ImportExcelButton><div>
-        <FaClipboardList size={24} style={{ verticalAlign: "middle" }} />
-        &ensp;
-        <text style={{ verticalAlign: "middle" }}>Attendance List</text>
-      </div></ImportExcelButton>
       <ImportExcelButton
         type="button"
         onClick={() => {
+          setType('attendance')
+          setImportFile(true);
+        }}
+      >
+        <div>
+
+          <FaClipboardList size={24} style={{ verticalAlign: "middle" }} />
+          &ensp;
+          <text style={{ verticalAlign: "middle" }}>Attendance List</text>
+        </div></ImportExcelButton>
+
+      <ImportExcelButton
+        type="button"
+        onClick={() => {
+          setType('account')
           setImportFile(true);
         }}
       >
@@ -52,13 +63,15 @@ function Accounts() {
           <text style={{ verticalAlign: "middle" }}>Import Account File</text>
         </div>
       </ImportExcelButton>
+
       <ImportFilePopup
         trigger={importFile}
         setTrigger={setImportFile}
-        dataType="account"
+        dataType={type}
       >
-        <h3 className="popuptitle">Import Account File</h3>
+        <h3 className="popuptitle">Import {`${type}`} file</h3>
       </ImportFilePopup>
+
       <ImportExcelButton
         type="button"
         onClick={() => {
@@ -71,6 +84,7 @@ function Accounts() {
           <text style={{ verticalAlign: "middle" }}>Add Account</text>
         </div>
       </ImportExcelButton>
+
       <AccountPopup
         trigger={addAccountBtn}
         setTrigger={setaddAccountBtn}

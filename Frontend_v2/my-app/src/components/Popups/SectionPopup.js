@@ -59,13 +59,11 @@ function SectionPopup(props) {
   const [listAccountActive, setAccountList] = useState([]);
 
   useEffect(() => {
-    axios.get("https://localhost:5001/getComponents/Active").then((res) => {
+    axios.get("https://localhost:5001/getCompoNoSection").then((res) => {
       setComponentList(res.data);
     });
-    axios.get("https://localhost:5001/getActiveAccounts").then((res) => {
-      let sections = []
-      res.data.map((e) => e.roleId == "SEC" ? sections.push(e) : null)
-      setAccountList(sections);
+    axios.get("https://localhost:5001/getSecAccountsNoCompo").then((res) => {
+      setAccountList(res.data);
     });
   }, []);
 
@@ -178,8 +176,8 @@ function SectionPopup(props) {
                 label="Component"
                 select
                 id="fullWidth"
-                required
                 disabled={isAssemble}
+                required={!isAssemble}
                 value={componentId}
                 onChange={(e) => setComponentId(e.target.value)}
               >

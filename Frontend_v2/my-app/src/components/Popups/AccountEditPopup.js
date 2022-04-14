@@ -57,18 +57,18 @@ const CssTextField = styled(TextField)({
 });
 
 function AccountEditPopup(props) {
-  const [avatarUrl, setAvatarUrl] = useState({ ...props.data.avatarUrl });
-  const [accountID, setAccountID] = useState({ ...props.data.accountId });
-  const [accountName, setAccountName] = useState({ ...props.data.name });
-  //const [password, setAccountPassword] = useState({ ...props.data.password });
-  const [email, setAccountEmail] = useState({ ...props.data.email });
-  const [gender, setAccountGender] = useState({ ...props.data.gender });
-  const [dateOfBirth, setAccountDateOfBirth] = useState({ ...props.data.dateOfBirth });
-  const [address, setAccountAddress] = useState({ ...props.data.address });
-  const [phone, setAccountPhone] = useState({ ...props.data.phone });
-  const [roleID, setAccountRole] = useState({ ...props.data.roleId });
-  const [sectionID, setAccountSection] = useState({ ...props.data.sectionId });
-  const [isActive, setStatus] = useState({ ...props.data.isActive });
+  const [avatarUrl, setAvatarUrl] = useState(props.data.avatarUrl);
+  const [accountID, setAccountID] = useState(props.data.accountId);
+  const [accountName, setAccountName] = useState(props.data.name);
+  //const [password, setAccountPassword] = useState(props.data.password );
+  const [email, setAccountEmail] = useState(props.data.email);
+  const [gender, setAccountGender] = useState(props.data.gender);
+  const [dateOfBirth, setAccountDateOfBirth] = useState(props.data.dateOfBirth);
+  const [address, setAccountAddress] = useState(props.data.address);
+  const [phone, setAccountPhone] = useState(props.data.phone);
+  const [roleID, setAccountRole] = useState(props.data.roleId);
+  const [sectionID, setAccountSection] = useState(props.data.sectionId);
+  const [isActive, setStatus] = useState(props.data.isActive);
 
   const [roles, setRoleList] = useState([]);
   const [sections, setSectionList] = useState([]);
@@ -346,6 +346,7 @@ function AccountEditPopup(props) {
                   select
                   value={sectionID}
                   id="fullWidth"
+                  disabled={!(roleID == 'SEC' || roleID == 'WOR')}
                   onChange={(e) => setAccountSection(e.target.value)}
                   helperText="Choose Section"
                 >

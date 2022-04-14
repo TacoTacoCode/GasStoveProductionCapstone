@@ -43,13 +43,13 @@ const CssTextField = styled(TextField)({
 });
 
 function MaterialEditPopup(props) {
-  const [imageUrl, setMaterialImage] = useState({ ...props.data.imageUrl });
-  const [materialID, setMaterialID] = useState({ ...props.data.materialId });
-  const [materialName, setMaterialName] = useState({ ...props.data.materialName });
-  const [unit, setMaterialUnit] = useState({ ...props.data.unit });
-  const [amount, setMaterialAmount] = useState({ ...props.data.amount });
-  const [status, setMaterialStatus] = useState({ ...props.data.status });
-  const [description, setDescription] = useState({ ...props.data.description });
+  const [imageUrl, setMaterialImage] = useState(props.data.imageUrl);
+  const [materialID, setMaterialID] = useState(props.data.materialId);
+  const [materialName, setMaterialName] = useState(props.data.materialName);
+  const [unit, setMaterialUnit] = useState(props.data.unit);
+  const [amount, setMaterialAmount] = useState(props.data.amount);
+  const [status, setMaterialStatus] = useState(props.data.status);
+  const [description, setDescription] = useState(props.data.description);
 
   const [curImg, setCurImg] = useState('');
 
@@ -106,7 +106,7 @@ function MaterialEditPopup(props) {
     formData.append("amount", amount);
     formData.append("unit", unit);
     formData.append("status", status);
-    formData.append("description", description);
+    formData.append("description", description == undefined ? '' : description);
     formData.append("file", file);
     axios.put("https://localhost:5001/updateMaterial", formData)
       .then((res) => {
@@ -241,7 +241,7 @@ function MaterialEditPopup(props) {
               <div className="txtfield">
                 <CssTextField
                   label="Description"
-                  value={description}
+                  value={description == undefined ? '' : description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>

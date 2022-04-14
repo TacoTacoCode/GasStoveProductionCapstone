@@ -2,13 +2,7 @@ import React, { useState, useEffect, useRef, useReducer, useCallback } from "rea
 import "../../styles/Popup.scss";
 import CloseIcon from "@mui/icons-material/Close";
 import MaterialTable from "material-table";
-import {
-  Button,
-  InputAdornment,
-  makeStyles,
-  MenuItem,
-  TextField,
-} from "@mui/material";
+import { Button, InputAdornment, makeStyles, MenuItem, TextField, } from "@mui/material";
 import { alpha, styled } from "@mui/material/styles";
 import axios from "axios";
 import swal from "sweetalert";
@@ -34,6 +28,7 @@ const columns = [
     title: "Name",
     field: "componentName",
     cellStyle: { fontFamily: "Arial" },
+    render: rowdata => rowdata.component.componentName,
   },
   {
     title: "Amount",
@@ -64,22 +59,21 @@ const CssTextField = styled(TextField)({
 });
 
 function createData(componentId, componentName, amount) {
-  return { componentId, componentName, amount };
+  return { componentId, 'component': { componentName }, amount };
 }
 
 function ProductEditPopup(props) {
-  const [imageUrl, setProductImage] = useState({ ...props.data.imageUrl });
-  const [productID, setProductID] = useState({ ...props.data.productId });
-  const [productName, setProductName] = useState({ ...props.data.productName });
-  const [price, setProductPrice] = useState({ ...props.data.price });
-  const [amount, setProductAmount] = useState({ ...props.data.amount });
-  const [status, setStatus] = useState({ ...props.data.status });
-  const [description, setDescription] = useState({ ...props.data.description });
-
+  const [imageUrl, setProductImage] = useState(props.data.imageUrl);
+  const [productID, setProductID] = useState(props.data.productId);
+  const [productName, setProductName] = useState(props.data.productName);
+  const [price, setProductPrice] = useState(props.data.price);
+  const [amount, setProductAmount] = useState(props.data.amount);
+  const [status, setStatus] = useState(props.data.status);
+  const [description, setDescription] = useState(props.data.description);
   const [productComponent, setListProductComponent] = useState({ ...props.productCompos });
   const [listComponentActive, setComponentList] = useState([]);
-  const [componentActive, setComponentChoose] = useState(null);
-  const [componentAmount, setComponentProductAmount] = useState(null);
+  const [componentActive, setComponentChoose] = useState('');
+  const [componentAmount, setComponentProductAmount] = useState(0);
 
   const [curImg, setCurImg] = useState('');
 
@@ -158,7 +152,7 @@ function ProductEditPopup(props) {
     formData.append("amount", amount);
     formData.append("price", price);
     formData.append("status", status);
-    formData.append("description", description);
+    formData.append("description", description == undefined ? '' : description);
     formData.append("productComponents", JSON.stringify(jsonObj));
     formData.append("file", file);
     axios
@@ -226,9 +220,6 @@ function ProductEditPopup(props) {
             </div>
             <div>
               <img src={curImg} alt="avatar" width="100px" />
-              {/* {imageUrl ? (
-                <img src={imageUrl.preview} alt="avatar" width="100px" />
-              ) : null} */}
             </div>
             <div className="idname">
               <div className="idfield">
@@ -298,7 +289,7 @@ function ProductEditPopup(props) {
               <div className="txtfield">
                 <CssTextField
                   label="Description"
-                  value={description}
+                  value={description == undefined ? '' : description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
@@ -341,9 +332,7 @@ function ProductEditPopup(props) {
                   onChange={(e) => setComponentProductAmount(e.target.value)}
                 />
               </div>
-              {componentActive != null &&
-                componentAmount != null &&
-                componentAmount > 0 ? (
+              {componentActive != '' && componentAmount > 0 ? (
                 <Button
                   style={{
                     fontFamily: "Muli",
@@ -356,12 +345,12 @@ function ProductEditPopup(props) {
                       ...productComponent,
                       createData(
                         componentActive.componentId,
-                        componentActive.materialName,
+                        componentActive.componentName,
                         componentAmount
                       ),
                     ]);
                     setComponentProductAmount(0);
-                    setComponentChoose(null);
+                    setComponentChoose('');
                   }}
                 >
                   ADD
