@@ -260,7 +260,7 @@ namespace GSP_API.Domain.Repositories
             {
                 entity.ToTable("Order");
 
-                entity.Property(e => e.CustomerAdderss).HasMaxLength(100);
+                entity.Property(e => e.CustomerAddress).HasMaxLength(100);
 
                 entity.Property(e => e.CustomerName).HasMaxLength(100);
 

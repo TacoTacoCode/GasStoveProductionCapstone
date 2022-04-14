@@ -15,7 +15,7 @@ namespace GSP_API.Models.Response
         public string Note { get; set; }
         public bool? IsShorTerm { get; set; }
         public string CustomerName { get; set; }
-        public string CustomerAdderss { get; set; }
+        public string CustomerAddress { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual Account Account { get; set; }
