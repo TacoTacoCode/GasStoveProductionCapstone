@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "../../../App.css";
-import { FaClipboardList, FaPlus } from 'react-icons/fa';
-import { AiFillFileExcel } from 'react-icons/ai';
 import { ImportExcelButton } from "../../button/ImportExcelButton";
 import { Table } from "../../tabledata/AccountsTable";
 import AccountPopup from "../../Popups/AccountPopup";
@@ -17,13 +15,10 @@ function Accounts() {
   const [importFile, setImportFile] = useState(false);
   const [type, setType] = useState('');
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
-  //biến này giúp tải lại dữ liệu mà không cần load lại trang (khi update data)
   const [listAccount, setListAccount] = useState([]);
 
   useEffect(() => {
     const getAllAccount = "https://localhost:5001/getAllAccounts";
-    //có thể liên hệ BE tạo API gọi theo số lượng và trang, không cần phải tải toàn bộ dữ liệu
-    //Gọi API bằng axios
     axios
       .get(getAllAccount)
       .then((res) => {
@@ -37,31 +32,35 @@ function Accounts() {
   return (
     <>
       <ImportExcelButton
+        style={{ marginTop: '3%'}}
         type="button"
         onClick={() => {
           setType('attendance')
           setImportFile(true);
         }}
       >
-        <div>
+        {/* <div>
 
           <FaClipboardList size={24} style={{ verticalAlign: "middle" }} />
           &ensp;
           <text style={{ verticalAlign: "middle" }}>Attendance List</text>
-        </div></ImportExcelButton>
+        </div> */}
+        Attendance List</ImportExcelButton>
 
       <ImportExcelButton
+        style={{ marginTop: '3%', marginRight: '1%' }}
         type="button"
         onClick={() => {
           setType('account')
           setImportFile(true);
         }}
       >
-        <div>
+        {/* <div>
           <AiFillFileExcel size={24} style={{ verticalAlign: "middle" }} />
           &ensp;
           <text style={{ verticalAlign: "middle" }}>Import Account File</text>
-        </div>
+        </div> */}
+        Import Account File
       </ImportExcelButton>
 
       <ImportFilePopup
@@ -73,16 +72,18 @@ function Accounts() {
       </ImportFilePopup>
 
       <ImportExcelButton
+        style={{ marginTop: '3%', marginRight: '1%' }}
         type="button"
         onClick={() => {
           setaddAccountBtn(true);
         }}
       >
-        <div>
+        {/* <div>
           <FaPlus size={24} style={{ verticalAlign: "middle" }} />
           &ensp;
           <text style={{ verticalAlign: "middle" }}>Add Account</text>
-        </div>
+        </div> */}
+        Add Account
       </ImportExcelButton>
 
       <AccountPopup

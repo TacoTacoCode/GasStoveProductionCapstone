@@ -28,7 +28,7 @@ import RequestComponent from './components/SideBarPages/manufacturer/RequestComp
 
 const theme = createTheme({
   App: {
-    backgroundColor: "#FAFAFA"
+    backgroundColor: "#fff8fa"
   },
   palette: {
     primary: {
@@ -158,3 +158,4 @@ function App() {
 }
 export default App;
 //}
+

@@ -18,7 +18,9 @@ export const ImportExcelButton = ({
     type,
     onClick,
     buttonStyle,
-    buttonSize
+    buttonSize,
+    style,
+    disable
 }) => {
 
     const checkButtonStyle = STYLE.includes(buttonStyle) ? buttonStyle : STYLE[0];
@@ -26,7 +28,7 @@ export const ImportExcelButton = ({
     const checkButtonSize = SIZE.includes(buttonSize) ? buttonSize : SIZE[0];
 
     return (
-        <button className={`btn ${checkButtonStyle} ${checkButtonSize}`} onClick={onClick} type={type}>
+        <button className={`btn ${checkButtonStyle} ${checkButtonSize}`} onClick={onClick} type={type} style={style} disabled={disable}>
             {children}
         </button>
     )

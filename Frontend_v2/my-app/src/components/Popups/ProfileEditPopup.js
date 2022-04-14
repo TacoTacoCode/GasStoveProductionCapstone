@@ -41,17 +41,17 @@ const CssTextField = styled(TextField)({
     color: "black",
   },
   "& .MuiInput-underline:after": {
-    borderBottomColor: "#e30217",
+    borderBottomColor: "#bd162c",
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
       borderColor: "black",
     },
     "&:hover fieldset": {
-      borderColor: "#e30217",
+      borderColor: "#bd162c",
     },
     "&.Mui-focused fieldset": {
-      borderColor: "#e30217",
+      borderColor: "#bd162c",
     },
   },
 });
@@ -307,7 +307,7 @@ function ProfileEditPopup(props) {
                 style={{
                   fontFamily: "Muli",
                   borderRadius: 10,
-                  backgroundColor: "#e30217",
+                  backgroundColor: "#bd162c",
                   marginRight: "0.5rem",
                 }}
                 size="large"
@@ -320,7 +320,7 @@ function ProfileEditPopup(props) {
                 style={{
                   fontFamily: "Muli",
                   borderRadius: 10,
-                  backgroundColor: "#e30217",
+                  backgroundColor: "#bd162c",
                 }}
                 size="large"
                 onClick={handleCancelClick}

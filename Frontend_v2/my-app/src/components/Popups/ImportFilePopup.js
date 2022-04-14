@@ -18,17 +18,17 @@ const CssTextField = styled(TextField)({
     color: "black",
   },
   "& .MuiInput-underline:after": {
-    borderBottomColor: "#e30217",
+    borderBottomColor: "#bd162c",
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
       borderColor: "black",
     },
     "&:hover fieldset": {
-      borderColor: "#e30217",
+      borderColor: "#bd162c",
     },
     "&.Mui-focused fieldset": {
-      borderColor: "#e30217",
+      borderColor: "#bd162c",
     },
   },
 });
@@ -77,20 +77,18 @@ function ImportFilePopup(props) {
             saveAs(resp.data, 'error.xlsx')
           })
         } else {
-          console.log('eleesee')
-          swal("Success", "Import " + typeData + " File Successfully", "success", {
+          swal("Success", "File " + typeData + " mported Successfully", "success", {
             button: false,
             timer: 2000,
           });
         }
       })
-      // .catch((err) => {
-      //   swal("Error", "Something wrong in process!", "error", {
-      //     button: false,
-      //     timer: 2000,
-      //   })
-      // })
-      .finally(() => {
+      .catch((err) => {
+        swal("Error", "Something wrong in process!", "error", {
+          button: false,
+          timer: 2000,
+        })
+      }).finally(() => {
         handleCancelClick();
         //delay(function () { window.location.reload(); }, 2000);
       })
@@ -125,16 +123,15 @@ function ImportFilePopup(props) {
   return props.trigger ? (
     <div className="orderpopup">
       <div className="popup-inner">
-        <div>
+        {/* <div>
           <button className="close-btn" onClick={() => props.setTrigger(false)}>
             <CloseIcon style={{ color: "white" }} />
           </button>
-        </div>
+        </div> */}
         {props.children}
         <div className="popup-body">
-          <form>
-            <br />
-            <text className="content_choose">Choose a/an {typeData} file : </text>
+          <form style={{paddingTop: '3%' }}>
+            <text style={{fontFamily: 'Muli', fontSize: '18px', paddingLeft: '2%'}} className="content_choose">Choose a/an {typeData} file : </text>
             <div className='imagefield'>
               <input ref={ref} type="file" onChange={handleFileOpen} />
             </div>
@@ -157,7 +154,7 @@ function ImportFilePopup(props) {
                     style={{
                       fontFamily: "Muli",
                       borderRadius: 10,
-                      backgroundColor: "#e30217",
+                      backgroundColor: "#bd162c",
                       marginLeft: "5%",
                     }}
                     size="medium"
@@ -181,7 +178,7 @@ function ImportFilePopup(props) {
                     style={{
                       fontFamily: "Muli",
                       borderRadius: 10,
-                      backgroundColor: "#e30217",
+                      backgroundColor: "#bd162c",
                       marginRight: "0.5rem",
                     }}
                     size="large"
@@ -210,7 +207,7 @@ function ImportFilePopup(props) {
                 style={{
                   fontFamily: "Muli",
                   borderRadius: 10,
-                  backgroundColor: "#e30217",
+                  backgroundColor: "#bd162c",
                 }}
                 size="large"
                 onClick={handleCancelClick}

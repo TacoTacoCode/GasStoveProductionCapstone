@@ -204,7 +204,7 @@ function Delivery() {
                           ? <Button style={{
                             fontFamily: "Muli",
                             borderRadius: 10,
-                            backgroundColor: "#e30217",
+                            backgroundColor: "#bd162c",
                             color: "white",
                           }}
                             onClick={(e) => orderReady(e, data)}>Order Ready</Button>

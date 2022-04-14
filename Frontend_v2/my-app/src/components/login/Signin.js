@@ -1,18 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
 import swal from 'sweetalert';
 import './Signin.scss';
 import jwt from 'jwt-decode'
-
-const useStyles = makeStyles((theme) => ({
-    paper: {
-        margin: theme.spacing(8, 4),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-}));
 
 async function loginUser(credentials) {
     return fetch('https://localhost:5001/account/login', {
@@ -26,13 +16,11 @@ async function loginUser(credentials) {
 }
 
 export default function Signin() {
-    //Title
     useEffect(() => {
         document.title = "UFA - Login"
         document.body.style.margin = "0";
     }, []);
 
-    const classes = useStyles();
     const [phone, setPhone] = useState();
     const [password, setPassword] = useState();
 
@@ -82,50 +70,45 @@ export default function Signin() {
             <script src='https://kit.fontawesome.com/a076d05399.js' crossOrigin='anonymous'></script>
             <div className="dashboard_login">
                 <div className="title-container">
-                    <center><h2>UFA Company Managing System</h2></center>
-                    <br />
                     <div className="login-container">
-                        <div><center><img className='img-login' src='http://uyenphat.com.vn/wp-content/themes/ufa/imgs/logo.png' alt='Bếp Gas Uyên Phát'></img></center></div>
-                        <div className="login-container-inside">
-                            <center>
-                                <form className="form_SignIn" noValidate onSubmit={handleSubmit}>
-                                    <TextField
-                                        variant="outlined"
-                                        margin="normal"
-                                        required
-                                        fullWidth
-
-                                        id="phone"
-                                        name="phone"
-                                        label="Phone No"
-                                        onChange={e => {
-                                            setPhone(e.target.value);
-                                        }}
-                                    />
-                                    <TextField
-                                        variant="outlined"
-                                        margin="normal"
-                                        required
-                                        fullWidth
-
-                                        id="password"
-                                        name="password"
-                                        label="Password"
-                                        type="password"
-                                        onChange={e => {
-                                            setPassword(e.target.value);
-                                        }}
-                                    />
-                                    <div><a href={'_'}>Forgot Password</a></div>
-                                    <br />
-                                    <div className="button_login">
-                                        <center>
-                                            <button className='btn_login' type='submit'>Login</button>
-                                        </center>
-                                    </div>
-                                </form>
-                            </center>
-                        </div>
+                        <span className='login-form-title'>UFA Management of Gas Stove Production</span>
+                        <form className="login-form" noValidate onSubmit={handleSubmit}>
+                            <div className='logo-container'><img className='logo' src='http://uyenphat.com.vn/wp-content/themes/ufa/imgs/logo.png' alt='Bếp Gas Uyên Phát'></img></div>
+                            <div className='wrap-input'>
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="phone"
+                                    name="phone"
+                                    label="Phone Number"
+                                    onChange={e => {
+                                        setPhone(e.target.value);
+                                    }}
+                                />
+                            </div>
+                            <div className='wrap-password'>
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    
+                                    id="password"
+                                    name="password"
+                                    label="Password"
+                                    type="password"
+                                    onChange={e => {
+                                        setPassword(e.target.value);
+                                    }}
+                                />
+                            </div>
+                            <div className="container-login-form-btn">
+                                <button className='login-form-btn' type='submit'>Login</button>
+                            </div>
+                            <div className='forgot-password'><button className='btn-forgot-pasword' type='button'>Forgotten password?</button></div>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -33,10 +33,10 @@ export const Table = (props) => {
 
     const columns = [
         {
-            title: 'ID', field: 'orderId', cellStyle: { fontFamily: 'Arial' }
+            title: 'ID', field: 'orderId', cellStyle: { fontFamily: 'Arial', fontSize: '18px' },
         },
         {
-            title: 'CustomerName', field: 'customerName', cellStyle: { fontFamily: 'Muli' },
+            title: 'CustomerName', field: 'customerName', cellStyle: { fontFamily: 'Muli', fontSize: '18px' }, 
             // render:
             //     rowData => (rowData.accountId != null)
             //         ? <TextGetSectionLeader accountID={rowData.accountId} />
@@ -45,39 +45,39 @@ export const Table = (props) => {
         {
             title: 'Expiry Date',
             field: 'expiryDate',
-            cellStyle: { fontFamily: 'Muli' },
+            cellStyle: { fontFamily: 'Muli', fontSize: '18px' }, 
             render:
-                rowData => moment(rowData.expiryDate).format('DD MMM, YYYY'),
+                rowData => moment(rowData.expiryDate).format('DD/MM/YYYY'),
         },
         {
-            title: 'Total Price', field: 'totalPrice', cellStyle: { fontFamily: 'Muli' },
+            title: 'Total Price', field: 'totalPrice', cellStyle: { fontFamily: 'Muli', fontSize: '18px' },
         },
         {
-            title: 'Status', field: 'status', cellStyle: { fontFamily: 'Muli' },
+            title: 'Status', field: 'status', cellStyle: { fontFamily: 'Muli', fontSize: '18px' },
             render:
                 ((rowData) => {
                     switch (rowData.status) {
                         case 'New':
-                            return <div style={{ fontWeight: "500", marginTop: "0.5%", float: 'left', border: '1px solid RED', backgroundColor: 'red' }} className="text_square">
-                                <text style={{ color: 'white', fontWeight: "500" }}>NEW</text>
+                            return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #FF1818', backgroundColor: '#FF1818' }} className="text_square">
+                                <text style={{ color: 'white', fontWeight: "500" }}>New</text>
                             </div>
                         case 'Processing':
-                            return <div style={{ fontWeight: "500", marginTop: "0.5%", float: 'left', border: '1px solid DARKBLUE', backgroundColor: 'DARKBLUE' }} className="text_square">
-                                <text style={{ color: 'white', fontWeight: "500" }}>PROCESSING</text>
+                            return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #F48B29', backgroundColor: '#F48B29' }} className="text_square">
+                                <text style={{ color: 'white', fontWeight: "500" }}>Processing</text>
                             </div>
                         case 'Completed':
-                            return <div style={{ fontWeight: "500", marginTop: "0.5%", float: 'left', border: '1px solid BLUE', backgroundColor: 'BLUE' }} className="text_square">
-                                <text style={{ color: 'white', fontWeight: "500" }}>COMPLETED</text>
+                            return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #333c83', backgroundColor: '#333c83' }} className="text_square">
+                                <text style={{ color: 'white', fontWeight: "500" }}>Completed</text>
                             </div>
                         case 'Delivery':
-                            return <div style={{ fontWeight: "500", marginTop: "0.5%", float: 'left', border: '1px solid #99ff66', backgroundColor: '#99ff66' }} className="text_square">
-                                <text style={{ color: 'white', fontWeight: "500" }}>DELIVERIED</text>
+                            return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #97DBAE', backgroundColor: '#97DBAE' }} className="text_square">
+                                <text style={{ color: 'white', fontWeight: "500" }}>Delivered</text>
                             </div>
                     }
                 })
         },
         {
-            title: 'Note', field: 'note', cellStyle: { fontFamily: 'Muli' }
+            title: 'Note', field: 'note', cellStyle: { fontFamily: 'Muli', fontSize: '18px' }
         },
     ]
 
@@ -135,10 +135,17 @@ export const Table = (props) => {
                     },
                 ]}
                 options={{
+                    searchFieldVariant: 'outlined',
+                    searchFieldStyle: {
+                        fontFamily: 'Muli',
+                        color: '#0E185F',
+                        marginTop: '2%',
+                        marginBottom: '2%',
+                    },
                     addRowPosition: 'first',
                     actionsColumnIndex: -1,
                     exportButton: false,
-                    headerStyle: { backgroundColor: '#E30217', color: '#fff', }
+                    headerStyle: { backgroundColor: '#bd162c', color: '#fff', fontSize: '18px'}
                 }} />
             {editDatas &&
                 <OrderEditPopup

@@ -7,6 +7,9 @@ import ComponentEditPopup from "../Popups/ComponentEditPopup";
 import { AiFillCheckCircle, AiFillCloseCircle } from 'react-icons/ai';
 import { IconContext } from "react-icons";
 import { Avatar } from "@mui/material";
+import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
+import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
+import { Typography } from "@mui/material";
 
 export const Table = (props) => {
   const { listComponent } = props;
@@ -60,49 +63,55 @@ export const Table = (props) => {
 
   const columns = [
     {
-      title: "Component ID",
+      title: "ID",
       field: "componentId",
-      cellStyle: { fontFamily: "Arial" },
+      cellStyle: { width: '10%', fontFamily: "Muli", paddingRight: '4%', fontSize: '18px' },
+      align: "center",
     },
     {
-      title: "Component Image",
+      title: "Component Picture",
       field: "imageUrl",
       render: (rowData) => (
         (rowData.imageUrl != null)
           ? <img style={{ height: "80px", width: "80px" }} src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.imageUrl} />
           : <Avatar sx={{ width: 80, height: 80 }} variant="square" />
       ),
-      cellStyle: { fontFamily: "Arial" },
-      align: "left",
+      cellStyle: { width: '17%', paddingRight: '4%', fontSize: '18px' },
+      align: "center",
     },
     {
       title: "Component Name",
       field: "componentName",
-      cellStyle: { fontFamily: "Arial" },
+      cellStyle: { fontFamily: "Muli", paddingRight: '4%', fontSize: '18px' },
+      align: "center",
     },
     {
       title: "Amount",
       field: "amount",
-      cellStyle: { fontFamily: "Arial" },
+      cellStyle: { fontFamily: "Muli", paddingRight: '4%', fontSize: '18px' },
+      align: "center",
     },
     {
       title: "Substance",
       field: "substance",
-      cellStyle: { fontFamily: "Arial" },
+      cellStyle: { fontFamily: "Muli", paddingRight: '4%', fontSize: '18px' },
+      align: "center",
     },
     {
       title: "Status",
       field: "status",
+      align: "center",
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%', fontSize: '18px' },
       render:
         rowData => (rowData.status == 'Unactive')
           ? <IconContext.Provider value={{ color: "red", className: "global-class-name" }}>
-            <div>
-              <AiFillCloseCircle size={40} />
+            <div className="cancel">
+              <HighlightOffRoundedIcon fontSize="large" />
             </div>
           </IconContext.Provider>
           : <IconContext.Provider value={{ color: "green", className: "global-class-name" }}>
-            <div>
-              <AiFillCheckCircle size={40} />
+            <div className="check">
+              <CheckCircleOutlineRoundedIcon fontSize="large" />
             </div>
           </IconContext.Provider >
     },
@@ -124,10 +133,20 @@ export const Table = (props) => {
     };
   })();
 
+  const MyNewTitle = ({ text = "Table Title", variant = "h6" }) => (
+    <Typography
+      variant={variant}
+      style={{ color: '#333C83', fontFamily: 'Muli' }}
+    >
+      {text}
+    </Typography>
+  );
+
+
   return (
     <React.Fragment>
       <MaterialTable
-        title={"List of Components"}
+        title={<MyNewTitle variant="h6" text="Components List" />}
         data={array}
         columns={columns}
         actions={[
@@ -148,10 +167,17 @@ export const Table = (props) => {
           },
         ]}
         options={{
+          searchFieldVariant: 'outlined',
+          searchFieldStyle: {
+            fontFamily: 'Muli',
+            color: '#0E185F',
+            marginTop: '2%',
+            marginBottom: '2%',
+          },
           addRowPosition: "first",
           actionsColumnIndex: -1,
           exportButton: false,
-          headerStyle: { backgroundColor: "#E30217", color: "#fff" },
+          headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px'},
         }}
       />
       {editDatas &&

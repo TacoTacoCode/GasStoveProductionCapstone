@@ -22,17 +22,17 @@ const CssTextField = styled(TextField)({
         color: 'black',
     },
     '& .MuiInput-underline:after': {
-        borderBottomColor: '#e30217',
+        borderBottomColor: '#bd162c',
     },
     '& .MuiOutlinedInput-root': {
         '& fieldset': {
             borderColor: 'black',
         },
         '&:hover fieldset': {
-            borderColor: '#e30217',
+            borderColor: '#bd162c',
         },
         '&.Mui-focused fieldset': {
-            borderColor: '#e30217',
+            borderColor: '#bd162c',
         },
     },
 });
@@ -99,12 +99,12 @@ function MaterialPopup(props) {
                         <div className='btngr'>
                             <Button
                                 variant="contained"
-                                style={{ fontFamily: 'Muli', borderRadius: 10, backgroundColor: "#e30217", marginRight: '0.5rem' }}
+                                style={{ fontFamily: 'Muli', borderRadius: 10, backgroundColor: "#bd162c", marginRight: '0.5rem' }}
                                 size="large"
                             >Send Form</Button>
                             <Button
                                 variant="contained"
-                                style={{ fontFamily: 'Muli', borderRadius: 10, backgroundColor: "#e30217" }}
+                                style={{ fontFamily: 'Muli', borderRadius: 10, backgroundColor: "#bd162c" }}
                                 size="large"
                             >Cancel</Button>
                         </div>

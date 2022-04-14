@@ -67,17 +67,17 @@ const CssTextField = styled(TextField)({
     color: "black",
   },
   "& .MuiInput-underline:after": {
-    borderBottomColor: "#e30217",
+    borderBottomColor: "#bd162c",
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
       borderColor: "black",
     },
     "&:hover fieldset": {
-      borderColor: "#e30217",
+      borderColor: "#bd162c",
     },
     "&.Mui-focused fieldset": {
-      borderColor: "#e30217",
+      borderColor: "#bd162c",
     },
   },
 });
@@ -290,7 +290,7 @@ function OrderEditPopup(props) {
                     actionsColumnIndex: -1,
                     showTitle: false,
                     exportButton: false,
-                    headerStyle: { backgroundColor: "#E30217", color: "#fff" },
+                    headerStyle: { backgroundColor: "#bd162c", color: "#fff" },
                   }}
                 />
               </div>
@@ -303,7 +303,7 @@ function OrderEditPopup(props) {
                 style={{
                   fontFamily: "Muli",
                   borderRadius: 10,
-                  backgroundColor: "#e30217",
+                  backgroundColor: "#bd162c",
                   marginRight: "0.5rem",
                 }}
                 size="large"
@@ -316,7 +316,7 @@ function OrderEditPopup(props) {
                 style={{
                   fontFamily: "Muli",
                   borderRadius: 10,
-                  backgroundColor: "#e30217",
+                  backgroundColor: "#bd162c",
                 }}
                 size="large"
                 onClick={handleCancelClick}

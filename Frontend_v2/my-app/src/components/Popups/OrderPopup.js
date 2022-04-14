@@ -16,6 +16,7 @@ import DatePicker from '@mui/lab/DatePicker';
 import axios from "axios";
 import swal from "sweetalert";
 import { Checkbox } from "@material-ui/core";
+import { ImportExcelButton } from "../button/ImportExcelButton";
 
 function createData(productId, productName, amount, price, description) {
   return { productId, productName, amount, price, description };
@@ -72,17 +73,17 @@ const CssTextField = styled(TextField)({
     color: "black",
   },
   "& .MuiInput-underline:after": {
-    borderBottomColor: "#e30217",
+    borderBottomColor: "black",
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
       borderColor: "black",
     },
     "&:hover fieldset": {
-      borderColor: "#e30217",
+      borderColor: "#bd162c",
     },
     "&.Mui-focused fieldset": {
-      borderColor: "#e30217",
+      borderColor: "#bd162c",
     },
   },
 });
@@ -207,196 +208,187 @@ function OrderPopup(props) {
   };
 
   return (props.trigger) ? (
-    <div className="orderpopup">
+    <div className="popup">
       <div className="popup-inner">
-        <div>
+        {/* <div>
           <button className="close-btn" onClick={() => props.setTrigger(false)}>
             <CloseIcon style={{ color: "white" }} />
           </button>
-        </div>
+        </div> */}
         {props.children}
-        <div className="popup-body" style={{ height: '600px', overflow: 'auto', overflowY: 'scroll' }}>
+        <div className="popup-body" style={{ height: '85vh', overflow: 'auto', overflowY: 'scroll', overflowX: 'hidden' }}>
           <form>
-            <br />
-            <text className="content_choose">Order : </text>
-            <div className="idname">
-              <div className="datefield">
-                <CssTextField
-                  label="Customer"
-                  select
-                  id="fullWidth"
-                  value={accountId}
-                  required
-                  onChange={(e) => {
-                    let account = accountList.filter(a => a.accountId == e.target.value)
-                    setName(account[0].name)
-                    setAddress(account[0].address)
-                    setAccountId(e.target.value)
-                  }}
-                  helperText="Choose customer"
-                >
-                  {accountList.map((option) => (
-                    <MenuItem key={option.accountId} value={option.accountId}>
-                      {option.name}
-                    </MenuItem>
-                  ))}
-                </CssTextField>
-              </div>
-              <div className="idfield">
-                <CssTextField
-                  label="Total Price"
-                  id="fullWidth"
-                  value={totalPrice}
-                  required
-                  disabled
-                  type={"number"}
-                  InputProps={{
-                    inputProps: { min: 0, pattern: "[0-9]*" },
-                  }}
-                  onChange={(e) => setTotalPrice(e.target.value)}
-                />
-              </div>
-              <div className='datefield'>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    label="Expiry Date"
-                    inputFormat="dd/MM/yyyy"
+            <div className="account-popup">
+              <div className="idname">
+                <div className="datefield">
+                  <CssTextField
+                    label="Customer"
+                    select
+                    id="fullWidth"
+                    value={accountId}
                     required
-                    minDate={new Date()}
-                    selected={expiryDate}
-                    onChange={(e) => setExpiryDate(e)}
-                    value={expiryDate}
-                    onSelect={(e) => setExpiryDate(e)}
-                    renderInput={(params) => <CssTextField {...params} id="fullWidth" />}
+                    onChange={(e) => {
+                      let account = accountList.filter(a => a.accountId == e.target.value)
+                      setName(account[0].name)
+                      setAddress(account[0].address)
+                      setAccountId(e.target.value)
+                    }}
+                    helperText="Choose customer"
+                  >
+                    {accountList.map((option) => (
+                      <MenuItem key={option.accountId} value={option.accountId}>
+                        {option.name}
+                      </MenuItem>
+                    ))}
+                  </CssTextField>
+                </div>
+                <div className="idfield">
+                  <CssTextField
+                    label="Total Price"
+                    id="fullWidth"
+                    value={totalPrice}
+                    required
+                    disabled
+                    type={"number"}
+                    InputProps={{
+                      inputProps: { min: 0, pattern: "[0-9]*" },
+                    }}
+                    onChange={(e) => setTotalPrice(e.target.value)}
                   />
-                </LocalizationProvider>
+                </div>
+                <div className='datefield'>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                      label="Expiry Date"
+                      inputFormat="dd/MM/yyyy"
+                      required
+                      minDate={new Date()}
+                      selected={expiryDate}
+                      onChange={(e) => setExpiryDate(e)}
+                      value={expiryDate}
+                      onSelect={(e) => setExpiryDate(e)}
+                      renderInput={(params) => <CssTextField {...params} id="fullWidth" />}
+                    />
+                  </LocalizationProvider>
+                </div>
+                <br />
+                <br />
+                <br />
+                <div clasName='idname'>
+                  <div className="namefield">
+                    <CssTextField
+                      label="Address"
+                      value={customerAddress}
+                      onChange={(e) => setAddress(e.target.value)}
+                    />
+                  </div>
+                </div>
               </div>
-              <br />
-              <br />
-              <br />
-              <div clasName='idname'>
+              <div className="idname">
+                <div className='txtfield'>
+                  <CssTextField
+                    label="Short Term"
+                    select
+                    value={isShorTerm}
+                    id="fullWidth" required
+                    onChange={(e) => setIsShortTerm(e.target.value)}
+                  >
+                    {isShortTerms.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </CssTextField>
+                </div>
                 <div className="namefield">
                   <CssTextField
-                    label="Address"
-                    value={customerAddress}
-                    onChange={(e) => setAddress(e.target.value)}
+                    label="Note"
+                    value={note}
+                    onChange={(e) => setNote(e.target.value)}
                   />
                 </div>
               </div>
-            </div>
-            <div className="idname">
-              <div className='txtfield'>
-                <CssTextField
-                  label="Short Term"
-                  select
-                  value={isShorTerm}
-                  id="fullWidth" required
-                  onChange={(e) => setIsShortTerm(e.target.value)}
-                >
-                  {isShortTerms.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </CssTextField>
+              <br />
+              <br />
+              <hr style={{ borderTop: "1px solid #EEE2DC", marginLeft: '3%', marginRight: '5%', marginTop: '2%' }} />
+              <text style={{ fontFamily: 'Muli', fontSize: '18px', width: '100%', display: 'inline-block', paddingTop: '2%' }} className="content_choose">Order Detail</text>
+              <div className="product-detail-choose">
+                <div className="txtfield_Choose">
+                  <CssTextField
+                    label="Product List"
+                    select
+                    id="fullWidth"
+                    value={productActive}
+                    onChange={(e) => setProductChoice(e.target.value)}
+                  >
+                    {listProductActive
+                      .filter((item) => {
+                        return !orderProduct.find(
+                          (item2) => item2.productId === item.productId
+                        );
+                      })
+                      .map((product) => (
+                        <MenuItem key={product.productId} value={product}>
+                          {product.productName}
+                        </MenuItem>
+                      ))}
+                  </CssTextField>
+                </div>
+                <div className="numfield_choose">
+                  <CssTextField
+                    label="Amount"
+                    id="fullWidth"
+                    value={productAmount}
+                    type={"number"}
+                    InputProps={{
+                      inputProps: { min: 0, pattern: "[0-9]*" },
+                    }}
+                    onChange={(e) => setOrderProductAmount(e.target.value)}
+                  />
+                </div>
+                <div className="numfield_choose">
+                  <CssTextField
+                    label="Price"
+                    id="fullWidth"
+                    value={productPrice}
+                    type={"number"}
+                    InputProps={{
+                      inputProps: { min: 0, pattern: "[0-9]*" },
+                    }}
+                    onChange={(e) => setOrderProductPrice(e.target.value)}
+                  />
+                </div>
+                {productActive != null &&
+                  productAmount > 0 && productPrice > 0 ? (
+                  <ImportExcelButton
+                    onClick={() => {
+                      setListOrderProduct((orderProduct) => [
+                        ...orderProduct,
+                        createData(
+                          productActive.productId,
+                          productActive.productName,
+                          productAmount,
+                          productPrice,
+                          ""
+                        ),
+                      ]);
+                      setOrderProductAmount('');
+                      setOrderProductPrice('');
+                      setProductChoice(null);
+                    }}
+                  >
+                    Add
+                  </ImportExcelButton>
+                )
+                  : <ImportExcelButton
+                    style={{ backgroundColor: '#909090' }}
+                    disable={true}
+                  >
+                    Add
+                  </ImportExcelButton>}
+
               </div>
-              <div className="namefield">
-                <CssTextField
-                  label="Note"
-                  value={note}
-                  onChange={(e) => setNote(e.target.value)}
-                />
-              </div>
-            </div>
-            <br />
-            <br />
-            <text className="content_choose">Order Detail : </text>
-            <div>
-              <div className="txtfield_Choose">
-                <CssTextField
-                  label="Product List"
-                  select
-                  id="fullWidth"
-                  value={productActive}
-                  onChange={(e) => setProductChoice(e.target.value)}
-                >
-                  {listProductActive
-                    .filter((item) => {
-                      return !orderProduct.find(
-                        (item2) => item2.productId === item.productId
-                      );
-                    })
-                    .map((product) => (
-                      <MenuItem key={product.productId} value={product}>
-                        {product.productName}
-                      </MenuItem>
-                    ))}
-                </CssTextField>
-              </div>
-              <div className="numfield_choose">
-                <CssTextField
-                  label="Amount"
-                  id="fullWidth"
-                  value={productAmount}
-                  type={"number"}
-                  InputProps={{
-                    inputProps: { min: 0, pattern: "[0-9]*" },
-                  }}
-                  onChange={(e) => setOrderProductAmount(e.target.value)}
-                />
-              </div>
-              <div className="numfield_choose">
-                <CssTextField
-                  label="Price"
-                  id="fullWidth"
-                  value={productPrice}
-                  type={"number"}
-                  InputProps={{
-                    inputProps: { min: 0, pattern: "[0-9]*" },
-                  }}
-                  onChange={(e) => setOrderProductPrice(e.target.value)}
-                />
-              </div>
-              {productActive != null &&
-                productAmount > 0 && productPrice > 0 ? (
-                <Button
-                  style={{
-                    fontFamily: "Muli",
-                    borderRadius: 10,
-                    backgroundColor: "#e30217",
-                    color: "white",
-                  }}
-                  onClick={() => {
-                    setListOrderProduct((orderProduct) => [
-                      ...orderProduct,
-                      createData(
-                        productActive.productId,
-                        productActive.productName,
-                        productAmount,
-                        productPrice,
-                        ""
-                      ),
-                    ]);
-                    setOrderProductAmount('');
-                    setOrderProductPrice('');
-                    setProductChoice(null);
-                  }}
-                >
-                  ADD
-                </Button>
-              )
-                : <Button
-                  style={{
-                    fontFamily: "Muli",
-                    borderRadius: 10,
-                    backgroundColor: "#a9a9a9",
-                    color: "white",
-                  }}
-                  disabled
-                >
-                  ADD
-                </Button>}
-              <div className="tablefield">
+              <div className="order-detail-table">
                 <MaterialTable
                   data={orderProduct}
                   columns={columns}
@@ -421,39 +413,38 @@ function OrderPopup(props) {
                     addRowPosition: "first",
                     actionsColumnIndex: -1,
                     exportButton: false,
-                    headerStyle: { backgroundColor: "#E30217", color: "#fff" },
+                    headerStyle: { backgroundColor: "#bd162c", color: "#fff" },
                   }}
                 />
               </div>
-            </div>
-
-            <div className="btngr">
-              <Button
-                type="submit"
-                variant="contained"
-                style={{
-                  fontFamily: "Muli",
-                  borderRadius: 10,
-                  backgroundColor: "#e30217",
-                  marginRight: "0.5rem",
-                }}
-                size="large"
-                onClick={postData}
-              >
-                Add Order
-              </Button>
-              <Button
-                variant="contained"
-                style={{
-                  fontFamily: "Muli",
-                  borderRadius: 10,
-                  backgroundColor: "#e30217",
-                }}
-                size="large"
-                onClick={handleCancelClick}
-              >
-                Cancel
-              </Button>
+              <div className="btngr">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  style={{
+                    fontFamily: "Muli",
+                    borderRadius: 10,
+                    backgroundColor: "#bd162c",
+                    marginRight: "0.5rem",
+                  }}
+                  size="large"
+                  onClick={postData}
+                >
+                  Add Order
+                </Button>
+                <Button
+                  variant="contained"
+                  style={{
+                    fontFamily: "Muli",
+                    borderRadius: 10,
+                    backgroundColor: "#bd162c",
+                  }}
+                  size="large"
+                  onClick={handleCancelClick}
+                >
+                  Cancel
+                </Button>
+              </div>
             </div>
           </form>
         </div>

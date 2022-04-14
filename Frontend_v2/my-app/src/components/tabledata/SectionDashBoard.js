@@ -52,7 +52,7 @@ export const Table = (props) => {
                     actionsColumnIndex: -1,
                     exportButton: false,
                     search: false,
-                    headerStyle: { backgroundColor: "#E30217", color: "#fff", textAlign: 'center' },
+                    headerStyle: { backgroundColor: "#AD1115", color: "#fff", textAlign: 'center' },
                 }}
             />
         </React.Fragment>

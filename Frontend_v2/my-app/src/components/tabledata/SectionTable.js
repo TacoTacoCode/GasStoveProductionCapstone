@@ -4,12 +4,13 @@ import { alpha, styled } from "@mui/material/styles";
 import "../../App.css";
 import "../../styles/Popup.scss";
 import {
-  TextField,
+  TextField, Typography,
 } from "@mui/material";
 import axios from "axios";
 import swal from "sweetalert";
 import ProductEditPopup from "../Popups/ProductEditPopup";
-import { AiFillCheckCircle, AiFillCloseCircle } from 'react-icons/ai';
+import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
+import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 import { IconContext } from "react-icons";
 import Avatar from '@mui/material/Avatar';
 import SectionEditPopup from "../Popups/SectionEditPopup";
@@ -26,7 +27,7 @@ export const Table = (props) => {
 
   function deleteSection(id) {
     swal({
-      title: "Are you sure to delete this Section?",
+      title: "Are you sure to delete this section?",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -37,14 +38,14 @@ export const Table = (props) => {
             axios
               .put("https://localhost:5001/delSection/" + id)
               .then((response) => {
-                swal("Success", "Delete Section successfully", "success", {
+                swal("Success", "Section deleted successfully", "success", {
                   button: false,
                   timer: 2000,
                 });
                 props.setSubmittedTime();
               })
               .catch((err) => {
-                swal("Error", "Delete Section failed", "error", {
+                swal("Error", "Section deleting failed", "error", {
                   button: false,
                   time: 2000,
                 });
@@ -55,7 +56,7 @@ export const Table = (props) => {
           delay(function () { window.location.reload(); }, 1000);
         } else {
           swal({
-            title: "Your Section is safe!",
+            title: "Deleting this section cancelled",
             icon: "info",
           });
         }
@@ -66,13 +67,18 @@ export const Table = (props) => {
     {
       title: "Section ID",
       field: "sectionId",
-      cellStyle: { fontFamily: "Muli" },
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%'},
+      align: 'center',
+      fontSize: '18px',
+      paddingRight: '5%' 
     },
     // muốn lấy tên
     {
       title: "Section Leader",
       field: "sectionLeadId",
-      cellStyle: { fontFamily: "Muli" },
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%' },
+      align: 'center',
+      fontSize: '18px',
       render:
         rowData => (rowData.sectionLeadId != null)
           ? <TextGetSectionLeader accountID={rowData.sectionLeadId} />
@@ -81,78 +87,56 @@ export const Table = (props) => {
     {
       title: "Component",
       field: "componentId",
-      cellStyle: { fontFamily: "Muli" },
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%'},
+      align: 'center',
+      fontSize: '18px',
     },
     {
       title: "Worker Amount",
       field: "workerAmount",
-      cellStyle: { fontFamily: "Muli" },
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%'},
+      align: 'center',
+      fontSize: '18px',
     },
     {
       title: "State of Assemble",
       field: "isAssemble",
+      align: 'center',
+      fontSize: '18px',
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%' },
       render:
         rowData => (rowData.isAssemble == false)
           ? <IconContext.Provider value={{ color: "red", className: "global-class-name" }}>
-            <div>
-              <AiFillCloseCircle size={40} />
+            <div className="cancel">
+              <HighlightOffRoundedIcon fontSize="large" />
             </div>
           </IconContext.Provider>
           : <IconContext.Provider value={{ color: "green", className: "global-class-name" }}>
-            <div>
-              <AiFillCheckCircle size={40} />
+            <div className="check">
+              <CheckCircleOutlineRoundedIcon fontSize="large" />
             </div>
           </IconContext.Provider >
     },
     {
       title: "Status",
       field: "status",
+      align: 'center',
+      fontSize: '18px',
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%' },
       render:
         rowData => (rowData.status == 'Unactive')
           ? <IconContext.Provider value={{ color: "red", className: "global-class-name" }}>
-            <div>
-              <AiFillCloseCircle size={40} />
+            <div className="cancel">
+              <HighlightOffRoundedIcon fontSize="large" />
             </div>
           </IconContext.Provider>
           : <IconContext.Provider value={{ color: "green", className: "global-class-name" }}>
-            <div>
-              <AiFillCheckCircle size={40} />
+            <div className="check">
+              <CheckCircleOutlineRoundedIcon fontSize="large" />
             </div>
           </IconContext.Provider >
     },
   ];
-
-  const statuses = [
-    {
-      value: true,
-      label: "Assembled",
-    },
-    {
-      value: false,
-      label: "Not assembled yet",
-    },
-  ];
-
-  const CssTextField = styled(TextField)({
-    width: "100%",
-    "& label.Mui-focused": {
-      color: "black",
-    },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "#e30217",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "black",
-      },
-      "&:hover fieldset": {
-        borderColor: "#e30217",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#e30217",
-      },
-    },
-  });
 
   const [editDatas, setEditDatas] = useState(null);
   const [open, setOpen] = useState(false);
@@ -171,10 +155,19 @@ export const Table = (props) => {
     };
   })();
 
+  const MyNewTitle = ({ text = "Table Title", variant = "h6" }) => (
+    <Typography
+      variant={variant}
+      style={{ color: '#333C83', fontFamily: 'Muli' }}
+    >
+      {text}
+    </Typography>
+  );
+
   return (
     <React.Fragment>
       <MaterialTable
-        title={"List of Sections"}
+        title={<MyNewTitle variant="h6" text="Sections List" />}
         data={array}
         columns={columns}
         actions={[
@@ -195,10 +188,17 @@ export const Table = (props) => {
           },
         ]}
         options={{
+          searchFieldVariant: 'outlined',
+          searchFieldStyle: {
+            fontFamily: 'Muli',
+            color: '#0E185F',
+            marginTop: '2%',
+            marginBottom: '2%',
+          },
           addRowPosition: "first",
           actionsColumnIndex: -1,
           exportButton: false,
-          headerStyle: { backgroundColor: "#E30217", color: "#fff" },
+          headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px'},
         }}
       />
       {editDatas &&

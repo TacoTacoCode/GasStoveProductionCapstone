@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { TextField } from "@material-ui/core";
 import './process.css'
-import { InputAdornment } from '@mui/material';
+import { InputAdornment, Typography } from '@mui/material';
 import { styled } from '@material-ui/styles';
 import '../button/button.css'
 import { ImportExcelButton } from '../button/ImportExcelButton';
@@ -21,7 +21,7 @@ function CreateProcess() {
             color: "black",
         },
         "& .MuiInput-underline:after": {
-            borderBottomColor: "#e30217",
+            borderBottomColor: "#bd162c",
         },
         "& .MuiOutlinedInput-root": {
             "& fieldset": {
@@ -31,7 +31,7 @@ function CreateProcess() {
                 borderColor: "#ff4747",
             },
             "&.Mui-focused fieldset": {
-                borderColor: "#e30217",
+                borderColor: "#bd162c",
             },
         },
     });
@@ -114,21 +114,21 @@ function CreateProcess() {
     const columns = [
         {
             title: 'Component Name', field: 'componentName', editable: 'false',
-            cellStyle: { fontFamily: 'Muli', width: "25%" }, align: 'center'
+            cellStyle: { fontFamily: 'Muli', width: "25%", fontSize: '18px' }, align: 'center'
         },
         {
             title: "Image", field: 'componentImg', align: 'center',
-            cellStyle: { fontFamily: "Muli" }, editable: 'false',
+            cellStyle: { fontFamily: "Muli", fontSize: '18px' }, editable: 'false',
             render: (rowData) =>
                 <img src={`https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F${rowData.componentImg}`}
                     width="100px" height="100px" />
         },
         {
             title: 'Total Amount', field: 'totalAmount', editable: 'false',
-            cellStyle: { fontFamily: 'Muli', width: "25%" }, align: 'center'
+            cellStyle: { fontFamily: 'Muli', width: "25%", fontSize: '18px', paddingRight: '3%' }, align: 'center'
         },
         {
-            title: 'Expiry Date', field: 'expiryDate', cellStyle: { fontFamily: 'Muli', width: "25%" }, align: 'center',
+            title: 'Expiry Date', field: 'expiryDate', cellStyle: { fontFamily: 'Muli', width: "25%", fontSize: '18px' }, align: 'center',
             type: 'date', editComponent: props => (
                 < LocalizationProvider dateAdapter={AdapterDateFns} >
                     <DatePicker
@@ -147,6 +147,15 @@ function CreateProcess() {
         },
     ]
 
+    const MyNewTitle = ({ text = "Table Title", variant = "h6" }) => (
+        <Typography
+            variant={variant}
+            style={{ color: '#333C83', fontFamily: 'Muli' }}
+        >
+            {text}
+        </Typography>
+    );
+
     return (
         <>
             <div className='boxprocess'
@@ -161,7 +170,6 @@ function CreateProcess() {
                             <><ImportExcelButton type="button"
                                 onClick={() => {
                                     localStorage.setItem('orderDetail', JSON.stringify(listProcess[0]));
-                                    //console.log(localStorage.getItem('orderDetail'));
                                     setDivideProcess(true);
                                 }
                                 }>Divide Process</ImportExcelButton>
@@ -199,6 +207,7 @@ function CreateProcess() {
                     <div className='mid2'>
                         <div className='divprocess'>
                             <TextField
+                                fullWidth
                                 type='number'
                                 className='processfield'
                                 label="Total Amount"
@@ -213,6 +222,7 @@ function CreateProcess() {
                         </div>
                         <div className='divprocess'>
                             <TextField
+                                fullWidth
                                 type='number'
                                 className='processfield'
                                 label="Needed Amount"
@@ -228,6 +238,8 @@ function CreateProcess() {
                         </div>
                         <div className='divprocess'>
                             <TextField
+
+                                fullWidth
                                 key={'finishedAmount'}
                                 type='number'
                                 className='processfield'
@@ -289,7 +301,7 @@ function CreateProcess() {
                         </div> */}
                     </div>
                     <div className='processDetailTable'>
-                        <MaterialTable title={"Process Details"}
+                        <MaterialTable title={<MyNewTitle variant="h6" text="Process Details List" />}
                             data={tableData}
                             columns={columns}
                             editable={{
@@ -320,10 +332,17 @@ function CreateProcess() {
                                     }),
                             }}
                             options={{
+                                searchFieldVariant: 'outlined',
+                                searchFieldStyle: {
+                                    fontFamily: 'Muli',
+                                    color: '#0E185F',
+                                    marginTop: '2%',
+                                    marginBottom: '2%',
+                                },
                                 addRowPosition: 'first',
                                 actionsColumnIndex: -1,
                                 exportButton: false,
-                                headerStyle: { backgroundColor: '#E30217', color: '#fff' }
+                                headerStyle: { backgroundColor: '#bd162c', color: '#fff', fontSize: '18px' }
                             }} />
                     </div>
                 </form>

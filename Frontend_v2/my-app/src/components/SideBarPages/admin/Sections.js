@@ -19,14 +19,12 @@ function Sections() {
 
   useEffect(() => {
     const getAllSections = "https://localhost:5001/getAllSections";
-
     axios
       .get(getAllSections)
       .then((res) => {
         setListSection(res.data);
       })
       .catch((err) => {
-        //Trường hợp xảy ra lỗi
         console.log(err);
         alert("Xảy ra lỗi");
       });
@@ -35,16 +33,18 @@ function Sections() {
   return (
     <>
       <ImportExcelButton
+      style={{marginTop: '2%', marginRight: '2%'}}
         type="button"
         onClick={() => {
           setaddSectionBtn(true);
         }}
       >
-        <div>
+        {/* <div>
           <FaPlus size={24} style={{ verticalAlign: "middle" }} />
           &ensp;
           <text style={{ verticalAlign: "middle" }}>Add Section</text>
-        </div>
+        </div> */}
+        Add Section
       </ImportExcelButton>
       <SectionPopup
         trigger={addSectionBtn}
@@ -55,7 +55,7 @@ function Sections() {
       >
         <h3 className="popuptitle">Add a section</h3>
       </SectionPopup>
-      <div className="components">
+      <div className="sections">
         <Table
           listSection={listSection}
           setSubmittedTime={() => {

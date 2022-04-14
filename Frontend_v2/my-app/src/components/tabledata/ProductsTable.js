@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import MaterialTable from "material-table";
-import { alpha, styled } from "@mui/material/styles";
 import "../../App.css";
 import "../../styles/Popup.scss";
-import {
-  TextField,
-} from "@mui/material";
+import { Typography } from "@mui/material";
 import axios from "axios";
 import swal from "sweetalert";
 import ProductEditPopup from "../Popups/ProductEditPopup";
-import { AiFillCheckCircle, AiFillCloseCircle } from 'react-icons/ai';
 import { IconContext } from "react-icons";
 import Avatar from '@mui/material/Avatar';
+import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
+import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 
 export const Table = (props) => {
   const { listProduct } = props;
@@ -63,7 +61,8 @@ export const Table = (props) => {
     {
       title: "Product ID",
       field: "productId",
-      cellStyle: { fontFamily: "Muli" },
+      cellStyle: { fontFamily: "Muli", paddingRight: '4%', fontSize: '18px' },
+      align: "center",
     },
     {
       title: "Product Image",
@@ -73,91 +72,45 @@ export const Table = (props) => {
           ? <img style={{ height: "80px", width: "80px" }} src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.imageUrl} />
           : <Avatar sx={{ width: 80, height: 80 }} variant="square" />
       ),
-      cellStyle: { fontFamily: "Arial" },
-      align: "left",
+      cellStyle: { paddingRight: '4%' },
+      align: "center",
     },
     {
       title: "Product Name",
       field: "productName",
-      cellStyle: { fontFamily: "Muli" },
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%', fontSize: '18px' },
+      align: "center",
     },
     {
       title: "Amount",
       field: "amount",
-      cellStyle: { fontFamily: "Muli" },
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%', fontSize: '18px' },
+      align: "center",
     },
     {
       title: "Price",
       field: "price",
-      cellStyle: { fontFamily: "Muli" },
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%', fontSize: '18px' },
+      align: "center",
     },
     {
       title: "Status",
       field: "status",
+      align: "center",
       render:
         rowData => (rowData.status == 'Unactive')
           ? <IconContext.Provider value={{ color: "red", className: "global-class-name" }}>
-            <div>
-              <AiFillCloseCircle size={40} />
+            <div className="cancel">
+              <HighlightOffRoundedIcon fontSize="large" />
             </div>
           </IconContext.Provider>
           : <IconContext.Provider value={{ color: "green", className: "global-class-name" }}>
-            <div>
-              <AiFillCheckCircle size={40} />
+            <div className="check">
+              <CheckCircleOutlineRoundedIcon fontSize="large" />
             </div>
           </IconContext.Provider >
     },
   ];
-
-  const componentColumns = [
-    {
-      title: "ID",
-      field: "componentId",
-      cellStyle: { fontFamily: "Arial" },
-    },
-    {
-      title: "Name",
-      field: "componentName",
-      cellStyle: { fontFamily: "Arial" },
-    },
-    {
-      title: "Amount",
-      field: "amount",
-      cellStyle: { fontFamily: "Arial" },
-    },
-  ];
-
-  const statuses = [
-    {
-      value: "Active",
-      label: "Active",
-    },
-    {
-      value: "Unactive",
-      label: "Unactive",
-    },
-  ];
-
-  const CssTextField = styled(TextField)({
-    width: "100%",
-    "& label.Mui-focused": {
-      color: "black",
-    },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "#e30217",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "black",
-      },
-      "&:hover fieldset": {
-        borderColor: "#e30217",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#e30217",
-      },
-    },
-  });
 
   var delay = (function () {
     var timer = 0;
@@ -188,10 +141,19 @@ export const Table = (props) => {
     };
   })();
 
+  const MyNewTitle = ({ text = "Table Title", variant = "h6" }) => (
+    <Typography
+      variant={variant}
+      style={{ color: '#333C83', fontFamily: 'Muli' }}
+    >
+      {text}
+    </Typography>
+  );
+
   return (
     <React.Fragment>
       <MaterialTable
-        title={"List of Products"}
+        title={<MyNewTitle variant="h6" text="Products List" />}
         data={array}
         columns={columns}
         actions={[
@@ -212,10 +174,17 @@ export const Table = (props) => {
           },
         ]}
         options={{
+          searchFieldVariant: 'outlined',
+          searchFieldStyle: {
+            fontFamily: 'Muli',
+            color: '#0E185F',
+            marginTop: '2%',
+            marginBottom: '2%',
+          },
           addRowPosition: "first",
           actionsColumnIndex: -1,
           exportButton: false,
-          headerStyle: { backgroundColor: "#E30217", color: "#fff" },
+          headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px' },
         }}
       />
       {editDatas &&

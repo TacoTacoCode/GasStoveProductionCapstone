@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import '../NonSideBarPage/process.css'
 import { TextField } from '@material-ui/core';
-import { InputAdornment } from '@mui/material';
+import { InputAdornment, Typography } from '@mui/material';
 import { ImportExcelButton } from '../button/ImportExcelButton';
 import axios from 'axios';
 import { styled } from '@material-ui/styles';
@@ -20,7 +20,7 @@ const CssTextField = styled(TextField)({
         color: "black",
     },
     "& .MuiInput-underline:after": {
-        borderBottomColor: "#e30217",
+        borderBottomColor: "#bd162c",
     },
     "& .MuiOutlinedInput-root": {
         "& fieldset": {
@@ -30,7 +30,7 @@ const CssTextField = styled(TextField)({
             borderColor: "#ff4747",
         },
         "&.Mui-focused fieldset": {
-            borderColor: "#e30217",
+            borderColor: "#bd162c",
         },
     },
 });
@@ -154,21 +154,21 @@ function DivideProcessTabs() {
     const columns = [
         {
             title: 'Component Name', field: 'componentName', editable: 'false',
-            cellStyle: { fontFamily: 'Muli', width: "25%" }, align: 'center'
+            cellStyle: { fontFamily: 'Muli', width: "20%", fontSize: '18px' }, align: 'left'
         },
         {
             title: "Image", field: 'componentImg', align: 'center',
-            cellStyle: { fontFamily: "Muli" }, editable: 'false',
+            cellStyle: { fontFamily: "Muli", fontSize: '18px' }, editable: 'false', align: 'left',
             render: (rowData) =>
                 <img src={`https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F${rowData.componentImg}`}
                     width="100px" height="100px" />
         },
         {
             title: 'Total Amount', field: 'totalAmount', editable: 'false',
-            cellStyle: { fontFamily: 'Muli', width: "25%" }, align: 'center'
+            cellStyle: { fontFamily: 'Muli', width: "20%", fontSize: '18px' }, align: 'left'
         },
         {
-            title: 'Expiry Date', field: 'expiryDate', cellStyle: { fontFamily: 'Muli', width: "25%" },
+            title: 'Expiry Date', field: 'expiryDate', cellStyle: { fontFamily: 'Muli', width: "20%" },
             align: 'center', type: 'date', editComponent: props => (
                 < LocalizationProvider dateAdapter={AdapterDateFns} >
                     <DatePicker
@@ -187,9 +187,18 @@ function DivideProcessTabs() {
         },
     ]
 
+    const MyNewTitle = ({ text = "Table Title", variant = "h6" }) => (
+        <Typography
+            variant={variant}
+            style={{ color: '#333C83', fontFamily: 'Muli' }}
+        >
+            {text}
+        </Typography>
+    );
+
     return (
         <>
-            <div style={{ marginBottom: '3%' }}><ImportExcelButton type='submit' onClick={(e) => handleSave(e)}>Submit</ImportExcelButton></div>
+            <div style={{ marginBottom: '1%', marginTop: '1%' }}><ImportExcelButton type='submit' onClick={(e) => handleSave(e)}>Submit</ImportExcelButton></div>
             <div className="container">
                 <div className="bloc-tabs">
                     {arr.map((e, index) => (
@@ -213,7 +222,7 @@ function DivideProcessTabs() {
                                 <div className='divprocess'>
                                     <CssTextField variant="outlined" className='numberfield' type='number' label={'Total Amount'}
                                         value={listProcess[index] === undefined ? 0 : listProcess[index].totalAmount}
-                                        onBlur={(e) =>
+                                        onChange={(e) =>
                                             updateTotalAmountChanged(e, index)
                                         }
                                         InputProps={{
@@ -223,7 +232,7 @@ function DivideProcessTabs() {
                                 <div className='divprocess'>
                                     <CssTextField variant="outlined" className='numberfield' type='number' label={'Needed Amount'}
                                         value={listProcess[index] === undefined ? 0 : listProcess[index].neededAmount}
-                                        onBlur={(e) =>
+                                        onChange={(e) =>
                                             updateNeededAmountChanged(e, index)
                                         }
                                         InputProps={{
@@ -233,7 +242,7 @@ function DivideProcessTabs() {
                                 <div className='divprocess'>
                                     <CssTextField variant="outlined" color='secondary' className='numberfield' type='number' label={'Finished Amount'}
                                         value={listProcess[index] === undefined ? 0 : listProcess[index].finishedAmount}
-                                        onBlur={(e) =>
+                                        onChange={(e) =>
                                             updateFinishedAmountChanged(e, index)
                                         }
                                         InputProps={{
@@ -288,7 +297,7 @@ function DivideProcessTabs() {
                             </div> */}
                             <div className='processDetailTable'>
                                 {listProcess[index] &&
-                                    <MaterialTable title={"Process Details"}
+                                    <MaterialTable title={<MyNewTitle variant="h6" text="Process Details List" /> }
                                         data={tableData[index]}
                                         columns={columns}
                                         editable={{
@@ -320,10 +329,17 @@ function DivideProcessTabs() {
                                         }}
 
                                         options={{
+                                            searchFieldVariant: 'outlined',
+                                            searchFieldStyle: {
+                                                fontFamily: 'Muli',
+                                                color: '#0E185F',
+                                                marginTop: '2%',
+                                                marginBottom: '2%',
+                                            },
                                             addRowPosition: 'first',
                                             actionsColumnIndex: -1,
                                             exportButton: false,
-                                            headerStyle: { backgroundColor: '#E30217', color: '#fff' }
+                                            headerStyle: { backgroundColor: '#bd162c', color: '#fff', fontSize: '18px' }
                                         }}
                                     />}
                             </div>

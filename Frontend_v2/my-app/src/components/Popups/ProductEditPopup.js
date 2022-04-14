@@ -6,6 +6,7 @@ import { Button, InputAdornment, makeStyles, MenuItem, TextField, } from "@mui/m
 import { alpha, styled } from "@mui/material/styles";
 import axios from "axios";
 import swal from "sweetalert";
+import { ImportExcelButton } from "../button/ImportExcelButton";
 
 const statuses = [
   {
@@ -22,7 +23,7 @@ const columns = [
   {
     title: "ID",
     field: "componentId",
-    cellStyle: { fontFamily: "Arial" },
+    cellStyle: { fontFamily: "Muli" },
   },
   {
     title: "Name",
@@ -33,7 +34,7 @@ const columns = [
   {
     title: "Amount",
     field: "amount",
-    cellStyle: { fontFamily: "Arial" },
+    cellStyle: { fontFamily: "Muli" },
   },
 ];
 
@@ -43,17 +44,17 @@ const CssTextField = styled(TextField)({
     color: "black",
   },
   "& .MuiInput-underline:after": {
-    borderBottomColor: "#e30217",
+    borderBottomColor: "#bd162c",
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
       borderColor: "black",
     },
     "&:hover fieldset": {
-      borderColor: "#e30217",
+      borderColor: "#bd162c",
     },
     "&.Mui-focused fieldset": {
-      borderColor: "#e30217",
+      borderColor: "#bd162c",
     },
   },
 });
@@ -200,174 +201,159 @@ function ProductEditPopup(props) {
   };
 
   return props.IsOpen ? (
-    <div className="componentpopup">
+    <div className="popup">
       <div className="popup-inner">
-        <div>
-          <button className="close-btn" onClick={() => props.setOpen(false)}>
-            <CloseIcon style={{ color: "white" }} />
-          </button>
-        </div>
         {props.children}
-        <div className="popup-body" style={{ height: '600px', overflow: 'auto', overflowY: 'scroll' }}>
+        <div className="popup-body" style={{ height: '85vh', overflow: 'auto', overflowY: 'scroll', overflowX: 'hidden' }}>
           <form>
-            <br />
-            <text className="content_choose">Product : </text>
-            <div className="idname">
-              <div className="imagefield">
-                Product's Image
-                <input type="file" onChange={handlePreviewAvatar} />
+            <div className="account-popup">
+              <div style={{ fontFamily: 'Muli', fontSize: '18px' }} className='account-imagefield'>
+                <div style={{ display: 'inline' }}>
+                  <div style={{ display: 'inline-block' }}>
+                    <p style={{ marginBottom: '5%' }}>Product Picture</p>
+                    <input style={{ fontFamily: 'Muli', fontSize: '18px', width: '100%', display: 'inline-block' }} type="file" onChange={handlePreviewAvatar} />
+                  </div>
+                  <div style={{ display: 'inline-block', paddingLeft: '2%' }}><img src={curImg} alt='avatar' width="120px" /></div>
+                </div>
               </div>
-            </div>
-            <div>
-              <img src={curImg} alt="avatar" width="100px" />
-            </div>
-            <div className="idname">
-              <div className="idfield">
-                <CssTextField
-                  label="Product ID"
-                  id="fullWidth"
-                  value={productID}
-                  required
-                  onChange={(e) => setProductID(e.target.value)}
-                />
+              <div className="idname">
+                <div className="idfield">
+                  <CssTextField
+                    label="Product ID"
+                    
+                    value={productID}
+                    required
+                    onChange={(e) => setProductID(e.target.value)}
+                  />
+                </div>
+                <div className="namefield">
+                  <CssTextField
+                    label="Product Name"
+                    
+                    value={productName}
+                    required
+                    onChange={(e) => setProductName(e.target.value)}
+                  />
+                </div>
+                <div className="idfield">
+                  <CssTextField
+                    label="Amount"
+                    
+                    required
+                    value={amount}
+                    type={"number"}
+                    InputProps={{
+                      inputProps: { min: 0, pattern: "[0-9]*" },
+                    }}
+                    onChange={(e) => setProductAmount(e.target.value)}
+                  />
+                </div>
               </div>
-              <div className="namefield">
-                <CssTextField
-                  label="Product Name"
-                  id="fullWidth"
-                  value={productName}
-                  required
-                  onChange={(e) => setProductName(e.target.value)}
-                />
-              </div>
-              <div className="idfield">
-                <CssTextField
-                  label="Amount"
-                  id="fullWidth"
-                  required
-                  value={amount}
-                  type={"number"}
-                  InputProps={{
-                    inputProps: { min: 0, pattern: "[0-9]*" },
-                  }}
-                  onChange={(e) => setProductAmount(e.target.value)}
-                />
-              </div>
-            </div>
 
-            <div className="idname">
-              <div className="txtfield">
-                <CssTextField
-                  label="Price"
-                  id="fullWidth"
-                  required
-                  value={price}
-                  type={"number"}
-                  InputProps={{
-                    inputProps: { min: 0, pattern: "[0-9]*" },
-                  }}
-                  onChange={(e) => setProductPrice(e.target.value)}
-                />
-              </div>
-              <div className="txtfield">
-                <CssTextField
-                  label="Status"
-                  select
-                  id="fullWidth"
-                  required
-                  value={status}
-                  onChange={(e) => setStatus(e.target.value)}
-                  helperText="Choose product status"
-                >
-                  {statuses.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </CssTextField>
-              </div>
-              <div className="txtfield">
-                <CssTextField
-                  label="Description"
-                  value={description == undefined ? '' : description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </div>
-            </div>
-            <br />
-            <br />
-            <text className="content_choose">Product Detail : </text>
-            <div className="idname">
-              <div className="txtfield_Choose">
-                <CssTextField
-                  label="Component Active List"
-                  select
-                  id="fullWidth"
-                  value={componentActive}
-                  onChange={(e) => setComponentChoose(e.target.value)}
-                  helperText="Choose Active Component"
-                >
-                  {listComponentActive
-                    .filter((item) => {
-                      return !productComponent.find(
-                        (item2) => item2.componentId === item.componentId
-                      );
-                    })
-                    .map((component) => (
-                      <MenuItem key={component.componentId} value={component}>
-                        {component.componentName}
+              <div className="idname">
+                <div className="txtfield">
+                  <CssTextField
+                    label="Price"
+                    
+                    required
+                    value={price}
+                    type={"number"}
+                    InputProps={{
+                      inputProps: { min: 0, pattern: "[0-9]*" },
+                    }}
+                    onChange={(e) => setProductPrice(e.target.value)}
+                  />
+                </div>
+                <div className="txtfield">
+                  <CssTextField
+                    label="Status"
+                    select
+                    
+                    required
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    helperText="Choose product status"
+                  >
+                    {statuses.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
                       </MenuItem>
                     ))}
-                </CssTextField>
+                  </CssTextField>
+                </div>
+                <div className="product-description">
+                  <CssTextField
+                    label="Description"
+                    value={description == undefined ? '' : description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                </div>
               </div>
-              <div className="numfield_choose">
-                <CssTextField
-                  label="Amount"
-                  id="fullWidth"
-                  value={componentAmount}
-                  type={"number"}
-                  InputProps={{
-                    inputProps: { min: 0, pattern: "[0-9]*" },
-                  }}
-                  onChange={(e) => setComponentProductAmount(e.target.value)}
-                />
+              <hr style={{ borderTop: "1px solid #EEE2DC", marginLeft: '3%', marginRight: '5%', marginTop: '5%' }} />
+              <text style={{ fontFamily: 'Muli', fontSize: '18px', width: '100%', display: 'inline-block', paddingTop: '2%' }} className="content_choose">Product Detail</text>
+              <div className="product-detail-choose">
+                <div className="txtfield_Choose">
+                  <CssTextField
+                    label="Component"
+                    select
+                    
+                    value={componentActive}
+                    onChange={(e) => setComponentChoose(e.target.value)}
+                    helperText="Choose Active Component"
+                  >
+                    {listComponentActive
+                      .filter((item) => {
+                        return !productComponent.find(
+                          (item2) => item2.componentId === item.componentId
+                        );
+                      })
+                      .map((component) => (
+                        <MenuItem key={component.componentId} value={component}>
+                          {component.componentName}
+                        </MenuItem>
+                      ))}
+                  </CssTextField>
+                </div>
+                <div className="numfield_choose">
+                  <CssTextField
+                    label="Amount"
+                    
+                    value={componentAmount}
+                    type={"number"}
+                    InputProps={{
+                      inputProps: { min: 0, pattern: "[0-9]*" },
+                    }}
+                    onChange={(e) => setComponentProductAmount(e.target.value)}
+                  />
+                </div>
+                {componentActive != null &&
+                  componentAmount != null &&
+                  componentAmount > 0 ? (
+                  <ImportExcelButton
+                    onClick={() => {
+                      setListProductComponent((productComponent) => [
+                        ...productComponent,
+                        createData(
+                          componentActive.componentId,
+                          componentActive.materialName,
+                          componentAmount
+                        ),
+                      ]);
+                      setComponentProductAmount(0);
+                      setComponentChoose('');
+                    }}
+                  >
+                    Add
+                  </ImportExcelButton>
+                )
+                  : <ImportExcelButton
+                    style={{ backgroundColor: '#909090'}}
+                    disable={true}
+                  >
+                    Add
+                  </ImportExcelButton>}
               </div>
-              {componentActive != '' && componentAmount > 0 ? (
-                <Button
-                  style={{
-                    fontFamily: "Muli",
-                    borderRadius: 10,
-                    backgroundColor: "#e30217",
-                    color: "white",
-                  }}
-                  onClick={() => {
-                    setListProductComponent((productComponent) => [
-                      ...productComponent,
-                      createData(
-                        componentActive.componentId,
-                        componentActive.componentName,
-                        componentAmount
-                      ),
-                    ]);
-                    setComponentProductAmount(0);
-                    setComponentChoose('');
-                  }}
-                >
-                  ADD
-                </Button>
-              )
-                : <Button
-                  style={{
-                    fontFamily: "Muli",
-                    borderRadius: 10,
-                    backgroundColor: "#a9a9a9",
-                    color: "white",
-                  }}
-                  disabled
-                >
-                  ADD
-                </Button>}
-              <div className="tablefield">
+              <div className="product-detail-table">
                 <MaterialTable
                   data={productComponent}
                   columns={columns}
@@ -402,40 +388,39 @@ function ProductEditPopup(props) {
                     addRowPosition: "first",
                     actionsColumnIndex: -1,
                     exportButton: false,
-                    headerStyle: { backgroundColor: "#E30217", color: "#fff" },
+                    headerStyle: { backgroundColor: "#bd162c", color: "#fff" },
                   }}
                 />
               </div>
-            </div>
 
-
-            <div className="btngr">
-              <Button
-                type="submit"
-                variant="contained"
-                style={{
-                  fontFamily: "Muli",
-                  borderRadius: 10,
-                  backgroundColor: "#e30217",
-                  marginRight: "0.5rem",
-                }}
-                size="large"
-                onClick={changeData}
-              >
-                Edit Product
-              </Button>
-              <Button
-                variant="contained"
-                style={{
-                  fontFamily: "Muli",
-                  borderRadius: 10,
-                  backgroundColor: "#e30217",
-                }}
-                size="large"
-                onClick={handleCancelClick}
-              >
-                Cancel
-              </Button>
+              <div className="btngr">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  style={{
+                    fontFamily: "Muli",
+                    borderRadius: 10,
+                    backgroundColor: "#bd162c",
+                    marginRight: "0.5rem",
+                  }}
+                  size="large"
+                  onClick={changeData}
+                >
+                  Edit Product
+                </Button>
+                <Button
+                  variant="contained"
+                  style={{
+                    fontFamily: "Muli",
+                    borderRadius: 10,
+                    backgroundColor: "#bd162c",
+                  }}
+                  size="large"
+                  onClick={handleCancelClick}
+                >
+                  Cancel
+                </Button>
+              </div>
             </div>
           </form>
         </div>

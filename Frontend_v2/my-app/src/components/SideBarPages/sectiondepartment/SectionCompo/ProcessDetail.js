@@ -29,34 +29,35 @@ function ProcessDetail() {
     }, []);
     return (
         curSectionInfo && <>
-            <div className="importexport" style={{ marginRight: "7%" }}>
-                <ImportExcelButton
-                    type="button"
-                    className='btn-Import'
-                    buttonStyle={"btn--primary--solid"}
-                    onClick={() => {
-                        return curSectionInfo.isAssemble ?
-                            window.location.href = "/section/importCompo" :
-                            window.location.href = "/section/importElement";
-                    }}
-                >
-                    Import {curSectionInfo.isAssemble ? `Product` : 'Component'}
-                </ImportExcelButton>
-                <ImportExcelButton
-                    type="button"
-                    className='btn-Export'
-                    buttonStyle={"btn--primary--solid"}
-                    onClick={() => {
-                        return curSectionInfo.isAssemble ?
-                            window.location.href = "/section/exportCompo" :
-                            window.location.href = "/section/exportElement";
+            <ImportExcelButton
+            style={{marginTop: '1%', marginRight: '2%'}}
+                type="button"
+                className='btn-Import'
+                buttonStyle={"btn--primary--solid"}
+                onClick={() => {
+                    return curSectionInfo.isAssemble ?
+                        window.location.href = "/section/importCompo" :
+                        window.location.href = "/section/importElement";
+                }}
+            >
+                Import {curSectionInfo.isAssemble ? `Product` : 'Component'}
+            </ImportExcelButton>
+            <ImportExcelButton
+                style={{ marginTop: '1%', marginRight: '1%' }}
+                type="button"
+                className='btn-Export'
+                buttonStyle={"btn--primary--solid"}
+                onClick={() => {
+                    return curSectionInfo.isAssemble ?
+                        window.location.href = "/section/exportCompo" :
+                        window.location.href = "/section/exportElement";
 
-                    }}
-                >
-                    Request {curSectionInfo.isAssemble ? `Component` : 'Material'}
-                </ImportExcelButton></div>
+                }}
+            >
+                Request {curSectionInfo.isAssemble ? `Component` : 'Material'}
+            </ImportExcelButton>
             {curSectionInfo !== null ?
-                <div className="process-details" style={{ margin: "5% 10%" }}>
+                <div className="processdetail">
                     {
                         curSectionInfo.isAssemble ?
                             <ExTable listProcessDetail={listProcessDetail} />

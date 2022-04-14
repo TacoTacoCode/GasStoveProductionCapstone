@@ -37,17 +37,17 @@ const CssTextField = styled(TextField)({
     color: 'black',
   },
   '& .MuiInput-underline:after': {
-    borderBottomColor: '#e30217',
+    borderBottomColor: '#bd162c',
   },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
       borderColor: 'black',
     },
     '&:hover fieldset': {
-      borderColor: '#e30217',
+      borderColor: '#bd162c',
     },
     '&.Mui-focused fieldset': {
-      borderColor: '#e30217',
+      borderColor: '#bd162c',
     },
   },
 });
@@ -76,9 +76,7 @@ function AccountPopup(props) {
   const [fileName, setFileName] = useState("");
 
   const handlePreviewAvatar = (e) => {
-    console.log(e.target.value)
     const file = e.target.files[0];
-    console.log(file);
     file.preview = URL.createObjectURL(file);
     setAvatarUrl(file);
     setFile(e.target.files[0]);
@@ -124,7 +122,6 @@ function AccountPopup(props) {
     }
 
     //lúc trước khi gửi dữ liệu thì nên có hàm check những trường dữ liệu bắt buộc nha (bên table nữa)
-    console.log(JSON.stringify(jsonObj))
     axios.post("https://localhost:5001/addAccount", jsonObj).then(res => {
       swal("Success", "Add new account successfully", "success", {
         buttons: false,
@@ -215,31 +212,34 @@ function AccountPopup(props) {
 
 
   return (props.trigger) ? (
-    <div className='Accountpopup'>
-      <div className='popup-inner'>
-        <div><button className='close-btn' onClick={() => props.setTrigger(false)}>
-          <CloseIcon style={{ 'color': "white", }} />
-        </button></div>
-        {props.children}
-        <div className="popup-body" style={{ height: '600px', overflow: 'auto', overflowY: 'scroll' }}>
-          <form>
-            <div className='imagefield'>
-              Account's Image
-              <input type="file" onChange={handlePreviewAvatar} />
-            </div>
-            <div>
-              {avatarUrl ? <img src={avatarUrl.preview} alt='avatar' width="100px" /> : null}
-            </div>
-            <div className='idname'>
-              <div className='namefield'>
-                <CssTextField label="Account Name" value={accountName} id="fullWidth" required onChange={(e) => setAccountName(e.target.value)} />
+    // <div className='Accountpopup'>
+    <div className='popup-inner'>
+      {/* <div><button className='close-btn' onClick={() => props.setTrigger(false)}>
+          <CloseIcon style={{ 'color': "white", }} /> 
+        </button></div> */}
+      {props.children}
+      <div className="popup-body">
+        <form>
+          <div className='account-popup'>
+            <div style={{ fontFamily: 'Muli', fontSize: '18px' }} className='account-imagefield'>
+              <div style={{ display: 'inline' }}>
+                <div style={{ display: 'inline-block' }}>
+                  <p style={{ marginBottom: '5%' }}>Profile Picture</p>
+                  <input style={{ fontFamily: 'Muli', fontSize: '18px', width: '100%', display: 'inline-block' }} type="file" onChange={handlePreviewAvatar} />
+                </div>
+                <div style={{ display: 'inline-block', paddingLeft: '2%' }}>{avatarUrl ? <img src={avatarUrl.preview} alt='avatar' width="100px" /> : null}</div>
               </div>
-              <div className='txtfield'>
+            </div>
+            <div className='account-row-1'>
+              <div className='account-name'>
+                <CssTextField label="Account Name" value={accountName} required onChange={(e) => setAccountName(e.target.value)} />
+              </div>
+              <div className='account-gender'>
                 <CssTextField
                   label="Gender"
                   select
                   value={gender}
-                  id="fullWidth" required
+                  required
                   onChange={(e) => setAccountGender(e.target.value)}
                   helperText="Choose gender"
                 >
@@ -250,10 +250,38 @@ function AccountPopup(props) {
                   ))}
                 </CssTextField>
               </div>
-              <div className='txtfield'>
+              <div className='account-gender'>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                    label="Date of Birth"
+                    inputFormat="dd/MM/yyyy"
+                    selected={dateOfBirth}
+                    onChange={(e) => setAccountDateOfBirth(e)}
+                    value={dateOfBirth}
+                    onSelect={(e) => setAccountDateOfBirth(e)}
+                    renderInput={(params) => <CssTextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </div>
+
+            </div>
+            <div className='account-row-2'>
+              <div className='account-name'>
+                <CssTextField label="Password" type={'password'} value={password} required onChange={(e) => setAccountPassword(e.target.value)} />
+              </div>
+              <div className='account-name'>
+                <CssTextField
+                 label="Confirm Password" type={'password'}
+                  value={confirmPassword} id="fullWidth" required
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  helperText={password != confirmPassword ? 'Password and Confirm password does not match' : ''} />
+              </div>
+            </div>
+            <div className='account-row-2'>
+              <div className='account-phone'>
                 <CssTextField
                   label="Phone"
-                  id="fullWidth"
+
                   value={phone}
                   required type={'tel'}
                   InputProps={{
@@ -261,31 +289,12 @@ function AccountPopup(props) {
                   }}
                   onChange={(e) => setAccountPhone(e.target.value)} />
               </div>
-            </div>
-
-            <div className='idname'>
-              <div className='txtfield'>
-                <CssTextField label="Password" type={'password'} value={password} id="fullWidth" required onChange={(e) => setAccountPassword(e.target.value)} />
-              </div>
-              <div className='txtfield'>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    label="Day of Birth"
-                    inputFormat="dd/MM/yyyy"
-                    selected={dateOfBirth}
-                    onChange={(e) => setAccountDateOfBirth(e)}
-                    value={dateOfBirth}
-                    onSelect={(e) => setAccountDateOfBirth(e)}
-                    renderInput={(params) => <CssTextField {...params} id="fullWidth" />}
-                  />
-                </LocalizationProvider>
-              </div>
-              <div className='txtfield'>
+              <div className='account-status'>
                 <CssTextField
                   label="Status"
                   select
                   value={isActive}
-                  id="fullWidth" required
+                  required
                   onChange={(e) => setStatus(e.target.value)}
                   helperText="Choose Account status"
                 >
@@ -297,30 +306,19 @@ function AccountPopup(props) {
                 </CssTextField>
               </div>
             </div>
-            <div className='idname'>
-              <div className='namefield'>
-                <CssTextField label="Confirm Password" type={'password'}
-                  value={confirmPassword} id="fullWidth" required
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  helperText={password != confirmPassword ? 'Password and Confirm password does not match' : ''} />
-              </div>
+            <div className='account-address'>
+              <CssTextField label="Address" value={address} required onChange={(e) => setAccountAddress(e.target.value)} />
             </div>
-            <div className='idname'>
-              <div className='txtfield'>
-                <CssTextField label="Email" type={'email'} value={email} id="fullWidth" required onChange={(e) => setAccountEmail(e.target.value)} />
+            <div className='account-row-3'>
+              <div className='account-phone'>
+                <CssTextField label="Email" type={'email'} value={email} required onChange={(e) => setAccountEmail(e.target.value)} />
               </div>
-              <div className='namefield'>
-                <CssTextField label="Address" id="fullWidth" value={address} required onChange={(e) => setAccountAddress(e.target.value)} />
-              </div>
-
-            </div>
-            <div className='idname'>
-              <div className='txtfield'>
+              <div className='account-gender'>
                 <CssTextField
                   label="Role"
                   select
                   value={roleID}
-                  id="fullWidth" required
+                  required
                   onChange={(e) => setAccountRole(e.target.value)}
                   helperText="Choose Role"
                 >
@@ -332,12 +330,12 @@ function AccountPopup(props) {
                 </CssTextField>
               </div>
 
-              <div className='txtfield'>
+              <div className='account-gender'>
                 <CssTextField
                   label="Section"
                   select
                   value={sectionID}
-                  id="fullWidth" required
+                  required
                   onChange={(e) => setAccountSection(e.target.value)}
                   helperText="Choose Section"
                 >
@@ -353,18 +351,19 @@ function AccountPopup(props) {
             <div className='btngr'>
               <Button
                 variant="contained"
-                style={{ fontFamily: 'Muli', borderRadius: 10, backgroundColor: "#e30217", marginRight: '0.5rem' }}
+                style={{ fontFamily: 'Muli', borderRadius: 10, backgroundColor: "#bd162c", marginRight: '0.5rem' }}
                 size="large" onClick={postData2}>Add Account</Button>
               <Button
                 variant="contained"
-                style={{ fontFamily: 'Muli', borderRadius: 10, backgroundColor: "#e30217" }}
+                style={{ fontFamily: 'Muli', borderRadius: 10, backgroundColor: "#bd162c" }}
                 size="large" onClick={handleCancelClick}
               >Cancel</Button>
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
+    // </div>
   ) : "";
 }
 

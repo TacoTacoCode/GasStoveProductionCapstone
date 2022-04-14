@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import MaterialTable from "material-table";
 import moment from 'moment';
 import axios from "axios";
+import { Typography } from "@mui/material";
 
 export const ExTable = (props) => {
     const { listProcessDetail } = props;
@@ -40,13 +41,13 @@ export const ExTable = (props) => {
         {
             title: "Task Id",
             field: "processDetailId",
-            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px'},
             render: (e) => `0${e.processDetailId}`
         },
         {
             title: "Product Image",
             field: 'productImage',
-            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px' },
             render: (e) => listProCom.length > 0 ?
                 <img src={`https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F${listProCom[e.tableData.id].product.imageUrl}`}
                     width="100px" height="100px" />
@@ -55,7 +56,7 @@ export const ExTable = (props) => {
         {
             title: "Product Name",
             field: 'productName',
-            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px' },
             render: (e) => listProCom.length > 0 ?
                 `${listProCom[e.tableData.id].product.productName}`
                 : ''
@@ -63,42 +64,57 @@ export const ExTable = (props) => {
         {
             title: "Finished Amount",
             field: "finishedAmount",
-            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', width: '15%', paddingRight: '3%', fontSize: '18px' },
         },
         {
             title: "Total Amount",
             field: "totalAmount",
-            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px' },
         },
         {
             title: "Average amount per day",
             field: "averageAmount",
-            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', width: '20%', paddingRight: '3%', fontSize: '18px' },
             render:
                 rowData => rowData.averageAmount ? rowData.averageAmount : 0,
         },
         {
             title: "Expiry Date",
             field: "expiryDate",
-            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px' },
             render:
-                rowData => moment(rowData.expiryDate).format('DD MMM, YYYY'),
+                rowData => moment(rowData.expiryDate).format('DD/MM/YYYY'),
         },
 
     ];
+    const MyNewTitle = ({ text = "Table Title", variant = "h6" }) => (
+        <Typography
+            variant={variant}
+            style={{ color: '#333C83', fontFamily: 'Muli' }}
+        >
+            {text}
+        </Typography>
+    );
     return (
         <React.Fragment>
             <MaterialTable
-                title={"List of Task"}
+                title={<MyNewTitle variant="h6" text="Tasks List" />}
                 data={listProcessDetail}
                 columns={columns}
                 actions={[]}
                 options={{
+                    searchFieldVariant: 'outlined',
+                    searchFieldStyle: {
+                        fontFamily: 'Muli',
+                        color: '#0E185F',
+                        marginTop: '2%',
+                        marginBottom: '2%',
+                    },
                     addRowPosition: "first",
                     actionsColumnIndex: -1,
                     exportButton: false,
                     search: false,
-                    headerStyle: { backgroundColor: "#E30217", color: "#fff", textAlign: 'center' },
+                    headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px', textAlign: 'center' },
                 }}
             />
         </React.Fragment>

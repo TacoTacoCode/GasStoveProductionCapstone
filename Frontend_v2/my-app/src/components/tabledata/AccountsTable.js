@@ -7,7 +7,9 @@ import AccountEditPopup from "../Popups/AccountEditPopup";
 import { AiFillCheckCircle, AiFillCloseCircle } from 'react-icons/ai';
 import { IconContext } from "react-icons";
 import moment from 'moment';
-import { Avatar } from "@mui/material";
+import { Avatar, Typography } from "@mui/material";
+import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
+import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 
 export const Table = (props) => {
   const { listAccount } = props;
@@ -30,7 +32,7 @@ export const Table = (props) => {
             axios
               .put("https://localhost:5001/delAccount/" + id)
               .then((response) => {
-                swal("Success", "Delete account successfully", "success", {
+                swal("Success", "Account deleted successfully", "success", {
                   buttons: false,
                   timer: 2000,
                 });
@@ -47,7 +49,7 @@ export const Table = (props) => {
           delay(function () { window.location.reload(); }, 1000);
         } else {
           swal({
-            title: "Your account is safe!",
+            title: "This account is safe!",
             icon: "info",
           });
         }
@@ -59,28 +61,31 @@ export const Table = (props) => {
     {
       title: "ID",
       field: "accountId",
-      cellStyle: { fontFamily: "Arial" },
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%', fontSize: '18px' },
+      align: "center"
     },
     {
-      title: "Worker Name",
+      title: "Employee Name",
       field: "name",
-      cellStyle: { fontFamily: "Arial" },
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%', fontSize: '18px' },
+      align: "center"
     },
     {
-      title: "Avatar",
+      title: "Profile Picture",
       field: "avatarUrl",
       render: (rowData) => (
         (rowData.avatarUrl != null)
           ? <Avatar sx={{ width: 80, height: 80 }} src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.avatarUrl} />
           : <Avatar sx={{ width: 80, height: 80 }} />
       ),
-      cellStyle: { fontFamily: "Muli" },
-      align: "left",
+      cellStyle: { paddingLeft: '4%' },
+      align: "center",
     },
     {
       title: "Gender",
       field: "gender",
-      cellStyle: { fontFamily: "Arial" },
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%', fontSize: '18px' },
+      align: "center",
       render:
         rowData => (rowData.gender == true)
           ? "Male" : "Female"
@@ -88,23 +93,28 @@ export const Table = (props) => {
     {
       title: "Date of Birth",
       field: "dateOfBirth",
-      cellStyle: { fontFamily: "Arial" },
+      cellStyle: {
+        fontFamily: "Muli", paddingRight: '3%', fontSize: '18px'
+      },
+      align: "center",
       render:
-        rowData => moment(rowData.dateOfBirth).format('DD MMM, YYYY'),
+        rowData => moment(rowData.dateOfBirth).format('DD/MM/YYYY'),
     },
     {
       title: "Status",
       field: "status",
+      align: "center",
+      cellStyle: { paddingRight: '3%', fontSize: '18px' },
       render:
         rowData => (rowData.isActive == false)
           ? <IconContext.Provider value={{ color: "red", className: "global-class-name" }}>
-            <div>
-              <AiFillCloseCircle size={40} />
+            <div className="cancel">
+              <HighlightOffRoundedIcon fontSize="large" />
             </div>
           </IconContext.Provider>
           : <IconContext.Provider value={{ color: "green", className: "global-class-name" }}>
-            <div>
-              <AiFillCheckCircle size={40} />
+            <div className="check">
+              <CheckCircleOutlineRoundedIcon fontSize="large" />
             </div>
           </IconContext.Provider >
     },
@@ -127,10 +137,20 @@ export const Table = (props) => {
     };
   })();
 
+  const MyNewTitle = ({ text = "Table Title", variant = "h6" }) => (
+    <Typography
+      variant={variant}
+      style={{ color: '#333C83', fontFamily: 'Muli' }}
+    >
+      {text}
+    </Typography>
+  );
+
+
   return (
     <React.Fragment>
       <MaterialTable
-        title={"List of Accounts"}
+        title={<MyNewTitle variant="h6" text="Accounts List" />}
         data={array}
         columns={columns}
         actions={[
@@ -151,10 +171,17 @@ export const Table = (props) => {
           },
         ]}
         options={{
+          searchFieldVariant: 'outlined',
+          searchFieldStyle: {
+            fontFamily: 'Muli',
+            color: '#0E185F',
+            marginTop: '2%',
+            marginBottom: '2%',
+          },
           addRowPosition: "first",
           actionsColumnIndex: -1,
           exportButton: false,
-          headerStyle: { backgroundColor: "#E30217", color: "#fff" },
+          headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px' },
         }}
       />
       {editDatas &&

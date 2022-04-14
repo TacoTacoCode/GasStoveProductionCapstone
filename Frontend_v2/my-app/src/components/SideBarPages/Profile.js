@@ -43,15 +43,14 @@ function Profile() {
     }
 
     return (
-        <>
+        <div className="profile-background">
             {/* Header */}
             {/* <HeaderPage /> */}
-            <div className="line_panel" />
-            <div className="back_button">
+            {/* <div className="back_button">
                 <Button onClick={() => window.location.href = "/"}>
                     <FaIcons.FaArrowLeft size={40} color="white" />
                 </Button>
-            </div>
+            </div> */}
             {/* Content */}
             <section className="mid_panel">
                 {/* Left */}
@@ -85,7 +84,6 @@ function Profile() {
                             </div>
                         </div>
                     </div>
-                    <div className="line_panel" />
                     {/* Right 2 */}
                     <div className="row2">
                         {/* Tab */}
@@ -174,8 +172,7 @@ function Profile() {
                         </Tabs>
                     </div>
                 </div>
-            </section>
-            <div className="line_panel" />
+            </section>  
             {editDatas &&
                 <ProfileEditPopup
                     data={editDatas}
@@ -186,7 +183,7 @@ function Profile() {
                     <h3 className="popuptitle">Edit Profile : {editDatas.name} </h3>
                 </ProfileEditPopup>
             }
-        </>
+        </div>
     )
 }
 

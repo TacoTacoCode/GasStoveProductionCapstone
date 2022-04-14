@@ -5,7 +5,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { styled } from '@material-ui/styles';
-import { TextField } from '@mui/material';
+import { TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 export const Table = (props) => {
@@ -35,10 +35,10 @@ export const Table = (props) => {
 
     const columns = [
         {
-            title: 'Request ID', field: 'importExportId', cellStyle: { fontFamily: 'Arial' }, align: "left"
+            title: 'Request ID', field: 'importExportId', cellStyle: { fontFamily: 'Muli', paddingRight: '3%', fontSize: '18px' }, align: "center"
         },
         {
-            title: 'Section Id', field: 'sectionId', cellStyle: { fontFamily: 'Muli' }, align: "left"
+            title: 'Section Id', field: 'sectionId', cellStyle: { fontFamily: 'Muli', paddingRight: '3%', fontSize: '18px' }, align: "center"
         },
         {
             title: 'Created Date', field: 'createdDate', render:
@@ -48,7 +48,7 @@ export const Table = (props) => {
                     value={array[0].expiryDate}
                     renderInput={(params) => <CssTextField inputProps={{ readOnly: true }} style={{ width: "50%" }} disabled {...params} />}
                 /></LocalizationProvider>,
-            cellStyle: { fontFamily: 'Muli' }, align: "left"
+            cellStyle: { fontFamily: 'Muli', paddingLeft: '3%', fontSize: '18px' }, align: "center"
         },
         {
             title: 'First Export Date', field: 'firstExportDate',
@@ -58,12 +58,22 @@ export const Table = (props) => {
                     inputFormat="MM/dd/yyyy"
                     value={array[0].expiryDate}
                     renderInput={(params) => <CssTextField inputProps={{ readOnly: true }} style={{ width: "50%" }} disabled {...params} />}
-                /></LocalizationProvider>, cellStyle: { fontFamily: 'Muli' }, align: "left"
+                /></LocalizationProvider>, cellStyle: { fontFamily: 'Muli', paddingLeft: '3%', fontSize: '18px' }, align: "center"
         },
     ]
+
+    const MyNewTitle = ({ text = "Table Title", variant = "h6" }) => (
+        <Typography
+            variant={variant}
+            style={{ color: '#333C83', fontFamily: 'Muli' }}
+        >
+            {text}
+        </Typography>
+    );
+
     return (
         <div>
-            <MaterialTable title={"Component Requesting List"}
+            <MaterialTable title={<MyNewTitle variant="h6" text="Component Requestings List" />}
                 data={array}
                 columns={columns}
                 onRowClick={(event, rowData) => {
@@ -84,10 +94,17 @@ export const Table = (props) => {
 
                 // ]}
                 options={{
+                    searchFieldVariant: 'outlined',
+                    searchFieldStyle: {
+                        fontFamily: 'Muli',
+                        color: '#0E185F',
+                        marginTop: '2%',
+                        marginBottom: '2%',
+                    },
                     addRowPosition: 'first',
                     actionsColumnIndex: -1,
                     exportButton: false,
-                    headerStyle: { backgroundColor: '#E30217', color: '#fff', }
+                    headerStyle: { backgroundColor: '#bd162c', color: '#fff', fontSize: '18px' }
                 }} />
         </div>
     )

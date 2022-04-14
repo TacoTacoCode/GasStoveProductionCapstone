@@ -1,7 +1,7 @@
 .side {
     padding-top     : 7%;
     height          : calc(100vh - 80px);
-    width           : 95%;
+    width           : 100%;
     background-color: #fff;
 
     @media (max-width:780px) {
@@ -15,12 +15,12 @@
 .sidebarList {
     height : 100%;
     padding: 0;
-    width  : 85%;
+    width  : 100%;
 }
 
 .sidebarList #active2 {
     width           : 100%;
-    background-color: #e30217;
+    background-color: #bd162c;
     border-radius   : 10px;
 }
 
@@ -29,10 +29,10 @@
 }
 
 .nav-text {
-    margin-bottom  : 3rem;
-    margin-top     : 2rem;
+    margin-bottom  : 1rem;
+    margin-top     : 1.7rem;
     width          : 90%;
-    height         : 9%;
+    height         : 12%;
     list-style-type: none;
     font-family    : Muli;
     font-size      : 18px;
@@ -45,7 +45,7 @@
 
 .nav-text:hover {
     width           : 100%;
-    background-color: #F3F1F5;
+    background-color: #fff8fa;
     border-radius   : 10px;
 }
 
@@ -53,6 +53,10 @@
 .link {
     text-decoration: none;
     color          : black;
+}
+
+.link:hover {
+    text-decoration: none;
 }
 
 .link-img {

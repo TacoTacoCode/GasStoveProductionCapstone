@@ -16,17 +16,17 @@ const CssTextField = styled(TextField)({
         color: "black",
     },
     "& .MuiInput-underline:after": {
-        borderBottomColor: "#e30217",
+        borderBottomColor: "#bd162c",
     },
     "& .MuiOutlinedInput-root": {
         "& fieldset": {
             borderColor: "black",
         },
         "&:hover fieldset": {
-            borderColor: "#e30217",
+            borderColor: "#bd162c",
         },
         "&.Mui-focused fieldset": {
-            borderColor: "#e30217",
+            borderColor: "#bd162c",
         },
     },
 });

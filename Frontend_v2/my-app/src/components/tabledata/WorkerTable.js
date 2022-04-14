@@ -51,7 +51,7 @@ export const Table = () => {
                     addRowPosition: 'first',
                     actionsColumnIndex: -1,
                     exportButton: false,
-                    headerStyle: { backgroundColor: '#E30217', color: '#fff', }
+                    headerStyle: { backgroundColor: '#AD1115', color: '#fff', }
                 }} />
         </div>
     )

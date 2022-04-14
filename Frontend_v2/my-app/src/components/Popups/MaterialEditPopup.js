@@ -27,17 +27,17 @@ const CssTextField = styled(TextField)({
     color: "black",
   },
   "& .MuiInput-underline:after": {
-    borderBottomColor: "#e30217",
+    borderBottomColor: "#bd162c",
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
       borderColor: "black",
     },
     "&:hover fieldset": {
-      borderColor: "#e30217",
+      borderColor: "#bd162c",
     },
     "&.Mui-focused fieldset": {
-      borderColor: "#e30217",
+      borderColor: "#bd162c",
     },
   },
 });
@@ -156,124 +156,117 @@ function MaterialEditPopup(props) {
   return props.IsOpen ? (
     <div className="componentpopup">
       <div className="popup-inner">
-        <div>
-          <button className="close-btn" onClick={() => props.setOpen(false)}>
-            <CloseIcon style={{ color: "white" }} />
-          </button>
-        </div>
         {props.children}
-        <div className="popup-body">
+        <div className="popup-body" style={{ height: '73vh', overflow: 'auto', overflowY: 'hidden', overflowX: 'hidden' }}>
           <form>
-            <br />
-            <text className="content_choose">Material : </text>
-            <div className="idname">
-              <div className="imagefield">
-                Material's Image
-                <input type="file" onChange={handlePreviewAvatar} />
+            <div className="account-popup">
+              <div style={{ fontFamily: 'Muli', fontSize: '18px' }} className='account-imagefield'>
+                <div style={{ display: 'inline' }}>
+                  <div style={{ display: 'inline-block' }}>
+                    <p style={{ marginBottom: '5%' }}>Material Picture</p>
+                    <input style={{ fontFamily: 'Muli', fontSize: '18px', width: '100%', display: 'inline-block' }} type="file" onChange={handlePreviewAvatar} />
+                  </div>
+                  <div style={{ display: 'inline-block', paddingLeft: '2%' }}><img src={curImg} alt='avatar' width="120px" /></div>
+                </div>
               </div>
-            </div>
-            <div>
-              <img src={curImg} alt="avatar" width="100px" />
-              {/* {imageUrl ? (
-                <img src={imageUrl.preview} alt="image" width="100px" />
-              ) : null} */}
-            </div>
-            <div className="idname">
-              <div className="idfield">
-                <CssTextField
-                  label="Material ID"
-                  id="fullWidth"
-                  value={materialID}
-                  required
-                  disabled
-                />
+              <div>
               </div>
-              <div className="namefield">
-                <CssTextField
-                  label="Material Name"
-                  id="fullWidth"
-                  value={materialName}
-                  required
-                  onChange={(e) => setMaterialName(e.target.value)}
-                />
+              <div className="material-row-1">
+                <div className="material-id">
+                  <CssTextField
+                    label="Material ID"
+                    id="fullWidth"
+                    value={materialID}
+                    required
+                    disabled
+                  />
+                </div>
+                <div className="material-name">
+                  <CssTextField
+                    label="Material Name"
+                    id="fullWidth"
+                    value={materialName}
+                    required
+                    onChange={(e) => setMaterialName(e.target.value)}
+                  />
+                </div>
               </div>
-              <div className="idfield">
-                <CssTextField
-                  label="Unit"
-                  id="fullWidth"
-                  value={unit}
-                  required
-                  onChange={(e) => setMaterialUnit(e.target.value)}
-                />
+              <div className="material-row-2">
+                <div className="material-2nd">
+                  <CssTextField
+                    label="Unit"
+                    id="fullWidth"
+                    value={unit}
+                    required
+                    onChange={(e) => setMaterialUnit(e.target.value)}
+                  />
+                </div>
+                <div className="material-2nd">
+                  <CssTextField
+                    label="Amount"
+                    id="fullWidth"
+                    value={amount}
+                    required
+                    type={"number"}
+                    InputProps={{
+                      inputProps: { min: 0, pattern: "[0-9]*" },
+                    }}
+                    onChange={(e) => setMaterialAmount(e.target.value)}
+                  />
+                </div>
+                <div className="material-2nd">
+                  <CssTextField
+                    label="Status"
+                    select
+                    id="fullWidth"
+                    value={status}
+                    required
+                    onChange={(e) => setMaterialStatus(e.target.value)}
+                    helperText="Choose material status"
+                  >
+                    {statuses.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </CssTextField>
+                </div>
               </div>
-            </div>
-            <div className="idname">
-              <div className="txtfield">
-                <CssTextField
-                  label="Amount"
-                  id="fullWidth"
-                  value={amount}
-                  required
-                  type={"number"}
-                  InputProps={{
-                    inputProps: { min: 0, pattern: "[0-9]*" },
-                  }}
-                  onChange={(e) => setMaterialAmount(e.target.value)}
-                />
-              </div>
-              <div className="txtfield">
-                <CssTextField
-                  label="Status"
-                  select
-                  id="fullWidth"
-                  value={status}
-                  required
-                  onChange={(e) => setMaterialStatus(e.target.value)}
-                  helperText="Choose material status"
-                >
-                  {statuses.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </CssTextField>
-              </div>
-              <div className="txtfield">
+              <div className="material-description">
                 <CssTextField
                   label="Description"
                   value={description == undefined ? '' : description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
-            </div>
-
-            <div className="btngr">
-              <Button
-                type="submit"
-                variant="contained"
-                style={{
-                  fontFamily: "Muli",
-                  borderRadius: 10,
-                  backgroundColor: "#e30217",
-                  marginRight: "0.5rem",
-                }}
-                size="large"
-                onClick={changeData}
-              >
-                Edit Material
-              </Button>
-              <Button
-                variant="contained"
-                style={{
-                  fontFamily: "Muli",
-                  borderRadius: 10,
-                  backgroundColor: "#e30217",
-                }}
-                size="large"
-                onClick={handleCancelClick}
-              >
-                Cancel
-              </Button>
+              <div className="btngr">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  style={{
+                    fontFamily: "Muli",
+                    borderRadius: 10,
+                    backgroundColor: "#bd162c",
+                    marginRight: "0.5rem",
+                  }}
+                  size="large"
+                  onClick={changeData}
+                >
+                  Edit Material
+                </Button>
+                <Button
+                  variant="contained"
+                  style={{
+                    fontFamily: "Muli",
+                    borderRadius: 10,
+                    backgroundColor: "#bd162c",
+                  }}
+                  size="large"
+                  onClick={handleCancelClick}
+                >
+                  Cancel
+                </Button>
+              </div>
             </div>
           </form>
         </div>

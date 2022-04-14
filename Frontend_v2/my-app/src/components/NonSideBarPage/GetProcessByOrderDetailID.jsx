@@ -142,7 +142,7 @@ export const GetProcessByOrderDetailID = (props) => {
                                                         ? <Button style={{
                                                             fontFamily: "Muli",
                                                             borderRadius: 10,
-                                                            backgroundColor: "#e30217",
+                                                            backgroundColor: "#bd162c",
                                                             color: "white",
                                                             float: 'right',
                                                         }}

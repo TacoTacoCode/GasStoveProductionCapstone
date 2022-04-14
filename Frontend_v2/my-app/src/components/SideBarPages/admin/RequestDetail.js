@@ -1,15 +1,12 @@
 import { styled } from '@material-ui/styles';
-import { InputAdornment, TextField } from '@mui/material';
+import { TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import MaterialTable from 'material-table';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { ImportExcelButton } from '../../button/ImportExcelButton';
 import '../../NonSideBarPage/process.css'
-import CheckIcon from '@mui/icons-material/Check';
 import { BsFileEarmarkCheck } from 'react-icons/bs';
 function RequestDetail() {
-    const location = useLocation();
 
     const CssTextField = styled(TextField)({
         width: "100%",
@@ -17,7 +14,7 @@ function RequestDetail() {
             color: "black",
         },
         "& .MuiInput-underline:after": {
-            borderBottomColor: "#e30217",
+            borderBottomColor: "#bd162c",
         },
         "& .MuiOutlinedInput-root": {
             "& fieldset": {
@@ -27,16 +24,13 @@ function RequestDetail() {
                 borderColor: "#ff4747",
             },
             "&.Mui-focused fieldset": {
-                borderColor: "#e30217",
+                borderColor: "#bd162c",
             },
         },
     });
     
 
     const [requestDetail, setRequestDetail] = useState([])
-    let check = []
-    //location.state
-   // console.log(location.state);
     var itemType = localStorage.getItem('itemType')
     var importExportId = parseInt(localStorage.getItem('importExportId'))
     const [tableData, setTableData] = useState([])
@@ -49,29 +43,16 @@ function RequestDetail() {
     }
 
     useEffect(() => {
-        // if(requestDetail == 0)
-      //  {
         console.log(importExportId);
             axios.get('https://localhost:5001/getDetailsOf/ImEx/' + importExportId)
             .then((response) => {
                 console.log(response.data);
                 setRequestDetail(response.data)
                 console.log(requestDetail);
-                // localStorage.setItem('itemType', itemType)
-                // localStorage.setItem('importExportId', importExportId)
-                // navigate('/requestDetail'
-                //     //  , { state: check}
-                // )
-                // , { state: JSON.stringify(response.data)
-                // console.log(JSON.stringify(response.data));
-                //}
-                // )
             }
             ).catch((err) => {
                 console.log(err);
             })
-        //}
-
     }, [])
 
     useEffect(() => {
@@ -105,44 +86,29 @@ function RequestDetail() {
 
     const columns = [
         {
-            title: 'Process Detail ID', field: 'processDetailId', cellStyle: { fontFamily: 'Arial', width: '15%' }, align: "left", editable: false
+            title: 'Process Detail ID', field: 'processDetailId', cellStyle: { fontFamily: 'Muli', fontSize: '18px', paddingRight: '4%'}, align: "center"
         },
         {
-            title: itemType === 'M' ? 'Material Name' : 'Component Name', field: itemType === 'M' ? 'materialName' : 'componentName', cellStyle: { fontFamily: 'Arial', width: '20%' }, align: "left", editable: false
+            title: itemType === 'M' ? 'Material Name' : 'Component Name', field: itemType === 'M' ? 'materialName' : 'componentName', cellStyle: { fontFamily: 'Muli', fontSize: '18px', paddingRight: '3%' }, align: "center"
         },
         {
-            title: 'Amount', field: 'amount', cellStyle: { fontFamily: 'Arial', width: '20%' }, align: "left", editable: false
+            title: 'Amount', field: 'amount', cellStyle: { fontFamily: 'Muli', fontSize: '18px', paddingRight: '4%'}, align: "center"
         },
         {
-            title: 'Exported Amount', field: 'exportedAmount', cellStyle: { fontFamily: 'Arial', width: '15%' }, align: "left"
+            title: 'Exported Amount', field: 'exportedAmount', cellStyle: { fontFamily: 'Muli', fontSize: '18px', paddingRight: '4%'}, align: "center"
         },
         {
             title: 'Supplying Amount', field: 'supplyField', render: rowData => <CssTextField defaultValue={supplying[rowData.tableData.id] == 0 ? 0 : supplying[rowData.tableData.id]}
                 onBlur={(e) => updateSupplyingAmountChanged(e, rowData.tableData.id)}
                 type='number' label="Supplying Amount" />,
-            cellStyle: { fontFamily: 'Arial', width: '20%', padding: "1%" }, align: "left"
-        }
+            cellStyle: { fontFamily: 'Muli'}, align: "center"
+        },
     ]
 
-    // const [exportDetailId, setExportDetailId] = useState(location.state.map(a => a.importExportDetailId))
-    // const [exportId, setExportId] = useState(location.state.map(a => a.importExportId))
-    // const [processDetailId, setProcessDetailId] = useState(location.state.map(a => a.processDetailId))
-    // const [itemId, setItemId] = useState(location.state.map(a => a.itemId))
-    // const [amount, setAmount] = useState(location.state.map(a => a.amount))
-    // const [exportedAmount, setExportedAmount] = useState(location.state.map(a => a.exportedAmount))
 
 
 
     function handleAccept(data) {
-        // const listAccept = {
-        //     importExportId,
-        //     data.itemId,
-        //     data.importExportDetailId,
-        //     data.processDetailId,
-        //     data.amount,
-        //     itemType,
-        //     data.exportedAmount
-        // }
         console.log("uiqfbiaf " + supplying);
         axios.post('https://localhost:5001/provideItem', {
             "importExportId": importExportId,
@@ -162,19 +128,23 @@ function RequestDetail() {
             })
     };
 
-    // console.log(JSON.parse(location.state));
-
-    // var importExport = JSON.parse(localStorage.getItem('importExport'))
-    // console.log(location.state.importExportId);
+    const MyNewTitle = ({ text = "Table Title", variant = "h6" }) => (
+        <Typography
+            variant={variant}
+            style={{ color: '#333C83', fontFamily: 'Muli' }}
+        >
+            {text}
+        </Typography>
+    );
     return (
         <>
             <div className='tableRequestDetails'>
-                <MaterialTable title="Request Details"
+                <MaterialTable title={<MyNewTitle variant="h6" text="Requests Details List" />}
                     data={tableData}
                     columns={columns}
                     localization={{
                         header: {
-                            actions: 'Accept Request'
+                            actions: 'Accept'
                         },
                         body: {
                             editTooltip: "Edit Exported Amount"
@@ -187,25 +157,21 @@ function RequestDetail() {
                             tooltip: 'Accept this request',
                             onClick: (event, rowData) => {
                                 handleAccept(rowData)
-                                //console.log(rowData);
-                                // createProcess(rowData);
-                                // conszole.log("data: " + createProcess(rowData));
-                                //navigate('/createProcess')
-                                // setAddcomponentBtn(true);
-                                // deleteComponent(rowData.componentId);
-                                // window.location.reload();
                             }
                         }
                     ]}
                     options={{
-
+                        searchFieldVariant: 'outlined',
+                        searchFieldStyle: {
+                            fontFamily: 'Muli',
+                            color: '#0E185F',
+                            marginTop: '2%',
+                            marginBottom: '2%',
+                        },
                         addRowPosition: 'first',
                         actionsColumnIndex: -1,
                         exportButton: false,
-                        headerStyle: { backgroundColor: '#E30217', color: '#fff' },
-                        paging: true,
-                        pageSizeOptions: [7, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-                        pageSize: 7
+                        headerStyle: { backgroundColor: '#bd162c', color: '#fff', fontSize: '18px'},
                     }} />
             </div>
         </>

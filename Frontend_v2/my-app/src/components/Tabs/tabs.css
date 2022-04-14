@@ -6,15 +6,15 @@
   padding: 0;
 }
 
-body {
+/* body {
   margin: 0.5% 1% 0 1%;
   border-radius: 10px;
   background: #fff;
-}
+} */
 
 .container {
   margin-bottom: 0.5%;
-  margin-top: 2%;
+  margin-top: 6%;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -32,6 +32,7 @@ body {
 
 .tabs {
   font-family: 'Muli';
+  font-size: 18px;
   padding: 15px;
   text-align: center;
   width: 50%;
@@ -50,8 +51,9 @@ body {
 .active-tabs {
   background: white;
   border-bottom: 1px solid transparent;
-  color: #e30217;
+  color: #bd162c;
   font-family: 'Muli';
+  transition: linear;
 }
 
 .active-tabs::before {
@@ -63,7 +65,7 @@ body {
   transform: translateX(-50%);
   width: calc(100% + 2px);
   height: 5px;
-  background: #e30217;
+  background: #bd162c;
 }
 
 
@@ -83,19 +85,19 @@ button {
   width: 100%;
   height: 100%;
   display: none;
-    padding-left: 3%;
+  padding-left: 3%;
 }
 
 .content h2 {
   padding: 0px 0 5px 0px;
   font-family: 'Muli';
-  color: #e30217;
+  color: #bd162c;
 }
 
 .content hr {
   width: 100px;
   height: 1px;
-  background: #e30217;
+  background: #bd162c;
   margin-bottom: 5px;
   border: none;
 }
@@ -107,6 +109,9 @@ button {
 .number {
   margin-top: 5%;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .divnum {
@@ -132,8 +137,8 @@ button {
 }
 
 .divdate {
-    width: 35%;
-    display: inline-block;
-    padding-right: 3%;
-    padding-bottom: 2%;
+  width: 35%;
+  display: inline-block;
+  padding-right: 3%;
+  padding-bottom: 2%;
 }

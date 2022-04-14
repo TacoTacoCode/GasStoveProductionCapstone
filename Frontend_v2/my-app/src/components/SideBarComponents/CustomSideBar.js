@@ -28,8 +28,9 @@ const styles = makeStyles({
         fontFamily: "Muli",
         cursor: "pointer",
         flexGrow: 1,
+        color: '#333C83',
         // "&:hover": {
-        //     color: "#e30217"
+        //     color: "#bd162c"
         // },
         ['@media (max-width:780px)']: {
             paddingBottom: "2rem"
@@ -116,7 +117,7 @@ function CustomSideBar() {
 
     return (
         <>
-            <IconContext.Provider value={{ color: '#e30217' }}>
+            <IconContext.Provider value={{ color: '#bd162c' }}>
                 <Toolbar position="sticky" color="rgba(0, 0, 0, 0.87)" className={classes.bar}>
                     <div className="navbar">
                         <Link to='#' className='menu-bars'>
@@ -125,12 +126,12 @@ function CustomSideBar() {
                     </div>
                     <img src={logo} className={classes.logo} onClick={linkClick} />
                     <Typography variant="h5" className={classes.menuItem} onClick={linkClick}>
-                        UFA Company Managing System
+                        UFA Management of Gas Stove Production
                     </Typography>
                     {currentUserBar && <MenuItem onClick={handleOpenProfile}>
                         <Avatar src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + currentUserBar.avatarUrl} sx={{ width: 36, height: 36 }} />
                         &emsp;
-                        {currentUserBar.name}&emsp;:&emsp;
+                        {currentUserBar.name}&emsp;<div style={{ fontSize: '26px' }}>|</div>&emsp;
                         {
                             roles.map((item) => {
                                 if (item.roleId == currentUserBar.roleId) {
@@ -139,6 +140,12 @@ function CustomSideBar() {
                             })
                         }
                     </MenuItem>}
+                    <div style={{
+                        fontSize: '26px', 
+                        textAlign: "left",
+                        fontFamily: "Muli",
+                        cursor: "pointer",
+                    }}>|</div>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Toolbar>
 

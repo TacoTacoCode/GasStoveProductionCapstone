@@ -41,17 +41,17 @@ const CssTextField = styled(TextField)({
     color: "black",
   },
   "& .MuiInput-underline:after": {
-    borderBottomColor: "#e30217",
+    borderBottomColor: "#bd162c",
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
       borderColor: "black",
     },
     "&:hover fieldset": {
-      borderColor: "#e30217",
+      borderColor: "#bd162c",
     },
     "&.Mui-focused fieldset": {
-      borderColor: "#e30217",
+      borderColor: "#bd162c",
     },
   },
 });
@@ -223,174 +223,165 @@ function AccountEditPopup(props) {
   };
 
   return props.IsOpen ? (
-    <div className="componentpopup">
-      <div className="popup-inner">
-        <div>
+    //<div className="componentpopup">
+    <div className="popup-inner">
+      {/* <div>
           <button className="close-btn" onClick={() => props.setOpen(false)}>
             <CloseIcon style={{ color: "white" }} />
           </button>
-        </div>
-        {props.children}
-        <div className="popup-body" style={{ height: '600px', overflow: 'auto', overflowY: 'scroll' }}>
-          <form>
-            <br />
-            <text className="content_choose">Account : </text>
-            <div className="idname">
-              <div className="imagefield">
-                Account's Image
-                <input type="file" onChange={handlePreviewAvatar} />
-              </div>
+        </div> */}
+      {props.children}
+      <div className="popup-body">
+        <form>
+          <div className="account-popup">
+            <div style={{ fontFamily: 'Muli', fontSize: '18px' }} className="account-imagefield">
+              <div style={{ display: 'inline' }}>
+                <div style={{ display: 'inline-block'}}>
+                  <p style={{ marginBottom: '5%' }}>Profile Image</p>
+                  <input style={{ fontFamily: 'Muli', fontSize: '18px', width: '100%', display: 'inline-block' }} type="file" onChange={handlePreviewAvatar} />
+                </div>
+                <div style={{ display: 'inline-block', paddingLeft: '2%' }}><img src={curImg} alt="avatar" height='100px' width="100px" /></div>
+              </div></div>
+          </div>
+          <div>
+          </div>
+          <div className='account-row-1'>
+            <div className='account-name'>
+              <CssTextField label="Account Name" value={accountName} required onChange={(e) => setAccountName(e.target.value)} />
             </div>
-            <div>
-              <img src={curImg} alt="avatar" width="100px" />
-              {/* {avatarUrl ? (
-                <img src={avatarUrl.preview} alt="avatar" width="100px" />
-              ) : null} */}
+            <div className='account-gender'>
+              <CssTextField
+                label="Gender"
+                select
+                value={gender}
+                required
+                onChange={(e) => setAccountGender(e.target.value)}
+                helperText="Choose gender"
+              >
+                {genders.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </CssTextField>
             </div>
-            <div className='idname'>
-              <div className='namefield'>
-                <CssTextField label="Account Name" value={accountName} id="fullWidth" required onChange={(e) => setAccountName(e.target.value)} />
-              </div>
-              <div className='txtfield'>
-                <CssTextField
-                  label="Gender"
-                  select
-                  value={gender}
-                  id="fullWidth" required
-                  onChange={(e) => setAccountGender(e.target.value)}
-                  helperText="Choose gender"
-                >
-                  {genders.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </CssTextField>
-              </div>
-              <div className='txtfield'>
-                <CssTextField
-                  label="Phone"
-                  id="fullWidth"
-                  value={phone}
-                  required type={'tel'}
-                  InputProps={{
-                    inputProps: { min: 0, max: 11, pattern: '[0-9]*' }
-                  }}
-                  onChange={(e) => setAccountPhone(e.target.value)} />
-              </div>
+            <div className='account-gender'>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  label="Date of Birth"
+                  inputFormat="dd/MM/yyyy"
+                  selected={dateOfBirth}
+                  onChange={(e) => setAccountDateOfBirth(e)}
+                  value={dateOfBirth}
+                  onSelect={(e) => setAccountDateOfBirth(e)}
+                  renderInput={(params) => <CssTextField {...params} />}
+                />
+              </LocalizationProvider>
             </div>
-            <div className='idname'>
-              {/* <div className='txtfield'>
-                <CssTextField label="Password" type={'password'} value={password} id="fullWidth" required onChange={(e) => setAccountPassword(e.target.value)} />
+          </div>
+          <div className='account-row-2'>
+            {/* <div className='txtfield'>
+                <CssTextField label="Password" type={'password'} value={password}  required onChange={(e) => setAccountPassword(e.target.value)} />
               </div> */}
-              <div className='datefield'>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    label="Day of Birth"
-                    inputFormat="dd/MM/yyyy"
-                    selected={dateOfBirth}
-                    onChange={(e) => setAccountDateOfBirth(e)}
-                    value={dateOfBirth}
-                    onSelect={(e) => setAccountDateOfBirth(e)}
-                    renderInput={(params) => <CssTextField {...params} id="fullWidth" />}
-                  />
-                </LocalizationProvider>
-              </div>
-              <div className='txtfield'>
-                <CssTextField
-                  label="Status"
-                  select
-                  value={isActive}
-                  id="fullWidth" required
-                  onChange={(e) => setStatus(e.target.value)}
-                  helperText="Choose Account status"
-                >
-                  {statuses.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </CssTextField>
-              </div>
-            </div>
-            <div className='idname'>
-              <div className='txtfield'>
-                <CssTextField label="Email" type={'email'} value={email} id="fullWidth" required onChange={(e) => setAccountEmail(e.target.value)} />
-              </div>
-              <div className='namefield'>
-                <CssTextField label="Address" id="fullWidth" value={address} required onChange={(e) => setAccountAddress(e.target.value)} />
-              </div>
-
-            </div>
-            <div className='idname'>
-              <div className='txtfield'>
-                <CssTextField
-                  label="Role"
-                  select
-                  value={roleID}
-                  id="fullWidth" required
-                  onChange={(e) => setAccountRole(e.target.value)}
-                  helperText="Choose Role"
-                >
-                  {roles.map((option) => (
-                    <MenuItem key={option.roleId} value={option.roleId}>
-                      {option.name}
-                    </MenuItem>
-                  ))}
-                </CssTextField>
-              </div>
-
-              <div className='txtfield'>
-                <CssTextField
-                  label="Section"
-                  select
-                  value={sectionID}
-                  id="fullWidth"
-                  disabled={!(roleID == 'SEC' || roleID == 'WOR')}
-                  onChange={(e) => setAccountSection(e.target.value)}
-                  helperText="Choose Section"
-                >
-                  {sections.map((option) => (
-                    <MenuItem key={option.sectionId} value={option.sectionId}>
-                      {option.sectionId}
-                    </MenuItem>
-                  ))}
-                </CssTextField>
-              </div>
-            </div>
-
-            <div className="btngr">
-              <Button
-                type="submit"
-                variant="contained"
-                style={{
-                  fontFamily: "Muli",
-                  borderRadius: 10,
-                  backgroundColor: "#e30217",
-                  marginRight: "0.5rem",
+            <div className='account-phone'>
+              <CssTextField
+                label="Phone"
+                value={phone}
+                required type={'tel'}
+                InputProps={{
+                  inputProps: { min: 0, max: 11, pattern: '[0-9]*' }
                 }}
-                size="large"
-                onClick={changeData}
-              >
-                Edit Account
-              </Button>
-              <Button
-                variant="contained"
-                style={{
-                  fontFamily: "Muli",
-                  borderRadius: 10,
-                  backgroundColor: "#e30217",
-                }}
-                size="large"
-                onClick={handleCancelClick}
-              >
-                Cancel
-              </Button>
+                onChange={(e) => setAccountPhone(e.target.value)} />
             </div>
-          </form>
-        </div>
-      </div >
+            <div className='account-status'>
+              <CssTextField
+                label="Status"
+                select
+                value={isActive}
+                required
+                onChange={(e) => setStatus(e.target.value)}
+                helperText="Choose Account status"
+              >
+                {statuses.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </CssTextField>
+            </div>
+          </div>
+          <div className='account-address'>
+            <CssTextField label="Address" value={address} required onChange={(e) => setAccountAddress(e.target.value)} />
+          </div>
+          <div className='account-row-3'>
+            <div className='account-phone'>
+              <CssTextField label="Email" type={'email'} value={email} required onChange={(e) => setAccountEmail(e.target.value)} />
+            </div>
+            <div className='account-gender'>
+              <CssTextField
+                label="Role"
+                select
+                value={roleID}
+                required
+                onChange={(e) => setAccountRole(e.target.value)}
+                helperText="Choose Role"
+              >
+                {roles.map((option) => (
+                  <MenuItem key={option.roleId} value={option.roleId}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </CssTextField>
+            </div>
+            <div className='account-gender'>
+              <CssTextField
+                label="Section"
+                select
+                value={sectionID}
+                disabled={!(roleID == 'SEC' || roleID == 'WOR')}
+                onChange={(e) => setAccountSection(e.target.value)}
+                helperText="Choose Section"
+              >
+                {sections.map((option) => (
+                  <MenuItem key={option.sectionId} value={option.sectionId}>
+                    {option.sectionId}
+                  </MenuItem>
+                ))}
+              </CssTextField>
+            </div>
+          </div>
+          <div className="btngr">
+            <Button
+              type="submit"
+              variant="contained"
+              style={{
+                fontFamily: "Muli",
+                borderRadius: 10,
+                backgroundColor: "#bd162c",
+                marginRight: "0.5rem",
+              }}
+              size="large"
+              onClick={changeData}
+            >
+              Edit Account
+            </Button>
+            <Button
+              variant="contained"
+              style={{
+                fontFamily: "Muli",
+                borderRadius: 10,
+                backgroundColor: "#bd162c",
+              }}
+              size="large"
+              onClick={handleCancelClick}
+            >
+              Cancel
+            </Button>
+          </div>
+        </form>
+      </div>
     </div >
+    //</div >
   ) : (
     ""
   );

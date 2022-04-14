@@ -36,16 +36,18 @@ function Components() {
   return (
     <>
       <ImportExcelButton
+        style={{ marginTop: '3%'}}
         type="button"
         onClick={() => {
           setImportFile(true);
         }}
       >
-        <div>
+        {/* <div>
           <AiFillFileExcel size={24} style={{ verticalAlign: "middle" }} />
           &ensp;
           <text style={{ verticalAlign: "middle" }}>Import Component File</text>
-        </div>
+        </div> */}
+        Import Component File
       </ImportExcelButton>
       <ImportFilePopup
         trigger={importFile}
@@ -55,16 +57,18 @@ function Components() {
         <h3 className="popuptitle">Import Component File</h3>
       </ImportFilePopup>
       <ImportExcelButton
+        style={{ marginTop: '3%', marginRight: '1%' }}
         type="button"
         onClick={() => {
           setAddcomponentBtn(true);
         }}
       >
-        <div>
+        {/* <div>
           <FaPlus size={24} style={{ verticalAlign: "middle" }} />
           &ensp;
           <text style={{ verticalAlign: "middle" }}>Add Component</text>
-        </div>
+        </div> */}
+        Add Component
       </ImportExcelButton>
       <ComponentPopup trigger={addcomponentBtn} setTrigger={setAddcomponentBtn} setSubmittedTime={() => {
         setNewDataSubmitted((prev) => prev + 1);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/Popup.scss";
-import CloseIcon from "@mui/icons-material/Close";
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import MaterialTable from "material-table";
 import {
   Button,
@@ -14,11 +14,11 @@ import swal from "sweetalert";
 const states = [
   {
     value: true,
-    label: "Assembled",
+    label: "Assembling",
   },
   {
     value: false,
-    label: "Not Assembled Yet",
+    label: "Non Assembling",
   },
 ];
 
@@ -39,17 +39,17 @@ const CssTextField = styled(TextField)({
     color: "black",
   },
   "& .MuiInput-underline:after": {
-    borderBottomColor: "#e30217",
+    borderBottomColor: "#bd162c",
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
       borderColor: "black",
     },
     "&:hover fieldset": {
-      borderColor: "#e30217",
+      borderColor: "#bd162c",
     },
     "&.Mui-focused fieldset": {
-      borderColor: "#e30217",
+      borderColor: "#bd162c",
     },
   },
 });
@@ -70,7 +70,7 @@ function SectionPopup(props) {
   const [sectionLeaderId, setSectionLeaderId] = useState("");
   const [componentId, setComponentId] = useState("");
   const [isAssemble, setIsAssemble] = useState(true);
-  const [status, setStatus] = useState(true);
+  const [status, setStatus] = useState("Active");
 
 
   const postData = (e) => {
@@ -85,14 +85,14 @@ function SectionPopup(props) {
     axios
       .post("https://localhost:5001/addSection", jsonObj)
       .then(res => {
-        swal("Success", "Add new section successfully", "success", {
+        swal("Success", "New section added successfully", "success", {
           buttons: false,
           timer: 2000,
         })
         //reset data
         handleCancelClick();
       }).catch(err => {
-        swal("Error", "Add new section failed", "error", {
+        swal("Error", "New section adding failed", "error", {
           buttons: false,
           timer: 2000,
         })
@@ -122,22 +122,17 @@ function SectionPopup(props) {
   };
 
   return props.trigger ? (
-    <div className="sectionpopup">
-      <div className="popup-inner">
-        <div>
-          <button className="close-btn" onClick={() => props.setTrigger(false)}>
-            <CloseIcon style={{ color: "white" }} />
+    <div className="popup-inner">
+      {/* <div className="container-close-btn">
+          <button style={{background: 'none', border: 'none', outline: 'none'}} onClick={() => props.setTrigger(false)}>
+            <CloseRoundedIcon style={{ color: "white", background: 'none' }} />
           </button>
-        </div>
-        {props.children}
-        <div className="popup-body" style={{ maxHeight: '600px', overflow: 'auto', overflowY: 'scroll' }}>
-          <br />
-          <text className="content_choose">Section : </text>
-          <br />
-          <br />
-          <form>
-            <div className="idname_section">
-              {/* <div className="datefield"> */}
+        </div> */}
+      {props.children}
+      <div className="popup-body">
+        <form>
+          <div className="idname_section">
+            <div className="textfield">
               <CssTextField
                 label="Section Leader"
                 select
@@ -152,9 +147,8 @@ function SectionPopup(props) {
                   </MenuItem>
                 ))}
               </CssTextField>
-              {/* </div> */}
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              {/* <div className="idfield"> */}
+            </div>
+            <div className="textfield">
               <CssTextField
                 label="State"
                 select
@@ -169,9 +163,8 @@ function SectionPopup(props) {
                   </MenuItem>
                 ))}
               </CssTextField>
-              {/* </div> */}
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              {/* <div className="txtfield"> */}
+            </div>
+            <div className="textfield">
               <CssTextField
                 label="Component"
                 select
@@ -187,9 +180,8 @@ function SectionPopup(props) {
                   </MenuItem>
                 ))}
               </CssTextField>
-              {/* </div> */}
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              {/* <div className="idfield"> */}
+            </div>
+            <div className="textfield">
               <CssTextField
                 label="Status"
                 select
@@ -204,41 +196,40 @@ function SectionPopup(props) {
                   </MenuItem>
                 ))}
               </CssTextField>
-              {/* </div> */}
             </div>
+          </div>
 
-            <div className="idname">
-              <div className="btngr">
-                <Button
-                  type="submit"
-                  variant="contained"
-                  style={{
-                    fontFamily: "Muli",
-                    borderRadius: 10,
-                    backgroundColor: "#e30217",
-                    marginRight: "0.5rem",
-                  }}
-                  size="large"
-                  onClick={postData}
-                >
-                  Add Section
-                </Button>
-                <Button
-                  variant="contained"
-                  style={{
-                    fontFamily: "Muli",
-                    borderRadius: 10,
-                    backgroundColor: "#e30217",
-                  }}
-                  size="large"
-                  onClick={() => props.setTrigger(false)}
-                >
-                  Cancel
-                </Button>
-              </div>
+          <div className="idname">
+            <div className="btngr">
+              <Button
+                type="submit"
+                variant="contained"
+                style={{
+                  fontFamily: "Muli",
+                  borderRadius: 10,
+                  backgroundColor: "#bd162c",
+                  marginRight: "0.5rem",
+                }}
+                size="large"
+                onClick={postData}
+              >
+                Add Section
+              </Button>
+              <Button
+                variant="contained"
+                style={{
+                  fontFamily: "Muli",
+                  borderRadius: 10,
+                  backgroundColor: "#bd162c",
+                }}
+                size="large"
+                onClick={() => props.setTrigger(false)}
+              >
+                Cancel
+              </Button>
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
   ) : (

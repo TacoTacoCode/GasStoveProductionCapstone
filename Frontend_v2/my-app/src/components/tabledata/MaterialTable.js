@@ -7,7 +7,9 @@ import swal from "sweetalert";
 import MaterialEditPopup from "../Popups/MaterialEditPopup";
 import { AiFillCheckCircle, AiFillCloseCircle } from 'react-icons/ai';
 import { IconContext } from "react-icons";
-import { Avatar } from "@mui/material";
+import { Avatar, Typography } from "@mui/material";
+import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
+import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 
 export const Table = (props) => {
   const { listMaterial } = props;
@@ -58,11 +60,14 @@ export const Table = (props) => {
     {
       title: "Material ID",
       field: "materialId",
-      cellStyle: { fontFamily: "Arial", fontSize: "20px" },
+      cellStyle: { fontFamily: "Muli", fontSize: "18px", paddingRight: '4%' },
+      align: 'center',
     },
     {
       title: "Image",
       field: "imageUrl",
+      align: 'center',
+      cellStyle: { fontFamily: "Muli", fontSize: "18px", paddingRight: '2%' },
       render: (rowData) => (
         (rowData.imageUrl != null)
           ? <img style={{ height: "80px", width: "80px" }} src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.imageUrl} />
@@ -72,31 +77,38 @@ export const Table = (props) => {
     {
       title: "Material Name",
       field: "materialName",
-      cellStyle: { fontFamily: "Arial", fontSize: "20px" },
+      cellStyle: {
+        fontFamily: "Muli", fontSize: "18px", paddingRight: '2%'
+},
+      align: 'center',
     },
     {
       title: "Unit",
       field: "unit",
-      cellStyle: { fontFamily: "Arial", fontSize: "20px", fontWeight: "500" },
+      cellStyle: { fontFamily: "Muli", fontSize: "18px", paddingRight: '2%' },
+      align: 'center',
     },
     {
       title: "Amount",
       field: "amount",
-      cellStyle: { fontFamily: "Arial", fontSize: "20px" },
+      cellStyle: { fontFamily: "Muli", fontSize: "18px", paddingRight: '2%' },
+      align: 'center',
     },
     {
       title: "Status",
       field: "status",
+      align: 'center',
+      cellStyle: { fontFamily: "Muli", fontSize: "18px", paddingRight: '2%' },
       render:
         rowData => (rowData.status == 'Unactive')
           ? <IconContext.Provider value={{ color: "red", className: "global-class-name" }}>
-            <div>
-              <AiFillCloseCircle size={40} />
+            <div className="cancel">
+              <HighlightOffRoundedIcon fontSize="large" />
             </div>
           </IconContext.Provider>
           : <IconContext.Provider value={{ color: "green", className: "global-class-name" }}>
-            <div>
-              <AiFillCheckCircle size={40} />
+            <div className="check">
+              <CheckCircleOutlineRoundedIcon fontSize="large" />
             </div>
           </IconContext.Provider >
     },
@@ -119,10 +131,19 @@ export const Table = (props) => {
     };
   })();
 
+  const MyNewTitle = ({ text = "Table Title", variant = "h6" }) => (
+    <Typography
+      variant={variant}
+      style={{ color: '#333C83', fontFamily: 'Muli' }}
+    >
+      {text}
+    </Typography>
+  );
+
   return (
     <React.Fragment>
       <MaterialTable
-        title={"List of Materials"}
+        title={<MyNewTitle variant="h6" text="Materials List" />}
         data={array}
         columns={columns}
         actions={[
@@ -143,10 +164,17 @@ export const Table = (props) => {
           },
         ]}
         options={{
+          searchFieldVariant: 'outlined',
+          searchFieldStyle: {
+            fontFamily: 'Muli',
+            color: '#0E185F',
+            marginTop: '2%',
+            marginBottom: '2%',
+          },
           addRowPosition: "first",
           actionsColumnIndex: -1,
           exportButton: false,
-          headerStyle: { backgroundColor: "#E30217", color: "#fff" },
+          headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px' },
         }}
       />
       {editDatas &&

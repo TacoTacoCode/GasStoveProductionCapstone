@@ -31,6 +31,7 @@ function OrderDetails() {
     return (
         <>
             <ImportExcelButton type="button"
+            style={{marginTop: '3%', marginRight: '2%'}}
                 onClick={() => {
                     setAddOrderDetailsBtn(true)
                 }
@@ -44,7 +45,7 @@ function OrderDetails() {
                 }}>
                 <h3 className="popuptitle">Add a Order Detail</h3>
             </OrderDetailPopup>
-            <div className='components'>
+            <div className='order-details'>
                 <OrderDetailTable listOrderDetail={listOrderDetail} listOrder={listOrder} />
             </div></>
     )

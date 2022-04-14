@@ -21,17 +21,17 @@ const CssTextField = styled(TextField)({
     color: "black",
   },
   "& .MuiInput-underline:after": {
-    borderBottomColor: "#e30217",
+    borderBottomColor: "#bd162c",
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
       borderColor: "black",
     },
     "&:hover fieldset": {
-      borderColor: "#e30217",
+      borderColor: "#bd162c",
     },
     "&.Mui-focused fieldset": {
-      borderColor: "#e30217",
+      borderColor: "#bd162c",
     },
   },
 });
@@ -129,22 +129,19 @@ function OrderDetailPopup(props) {
   return (props.trigger) ? (
     <div className="orderpopup">
       <div className="popup-inner">
-        <div>
+        {/* <div>
           <button className="close-btn" onClick={() => props.setTrigger(false)}>
             <CloseIcon style={{ color: "white" }} />
           </button>
-        </div>
+        </div> */}
         {props.children}
-        <div className="popup-body" style={{ height: '600px', overflow: 'auto', overflowY: 'scroll' }}>
+        <div className="popup-body" style={{ height: '30vh', overflow: 'auto', overflowY: 'hidden' }}>
           <form>
-            <br />
-            <text className="content_choose">Detail : </text>
             <div className="idname">
               <div className="datefield">
                 <CssTextField
                   label="Product ID"
                   select
-                  id="fullWidth"
                   value={productId}
                   required
                   onChange={(e) => {
@@ -175,7 +172,6 @@ function OrderDetailPopup(props) {
               <div className='idfield'>
                 <CssTextField
                   label="Amount"
-                  id="fullWidth"
                   value={amount}
                   required
                   type={"number"}
@@ -206,7 +202,7 @@ function OrderDetailPopup(props) {
                 />
               </div>
             </div>
-
+            <br />
             <div className="btngr">
               <Button
                 type="submit"
@@ -214,7 +210,7 @@ function OrderDetailPopup(props) {
                 style={{
                   fontFamily: "Muli",
                   borderRadius: 10,
-                  backgroundColor: "#e30217",
+                  backgroundColor: "#bd162c",
                   marginRight: "0.5rem",
                 }}
                 size="large"
@@ -227,7 +223,7 @@ function OrderDetailPopup(props) {
                 style={{
                   fontFamily: "Muli",
                   borderRadius: 10,
-                  backgroundColor: "#e30217",
+                  backgroundColor: "#bd162c",
                 }}
                 size="large"
                 onClick={handleCancelClick}

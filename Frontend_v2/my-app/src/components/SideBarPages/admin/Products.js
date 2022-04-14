@@ -37,16 +37,18 @@ function Products() {
   return (
     <>
       <ImportExcelButton
+        style={{ marginTop: '3%'}}
         type="button"
         onClick={() => {
           setImportFile(true);
         }}
       >
-        <div>
+        {/* <div>
           <AiFillFileExcel size={24} style={{ verticalAlign: "middle" }} />
           &ensp;
           <text style={{ verticalAlign: "middle" }}>Import Product File</text>
-        </div>
+        </div> */}
+        Import Product File
       </ImportExcelButton>
       <ImportFilePopup
         trigger={importFile}
@@ -56,16 +58,18 @@ function Products() {
         <h3 className="popuptitle">Import Product File</h3>
       </ImportFilePopup>
       <ImportExcelButton
+        style={{ marginTop: '3%', marginRight: '1%'  }}
         type="button"
         onClick={() => {
           setaddProductBtn(true);
         }}
       >
-        <div>
+        {/* <div>
           <FaPlus size={24} style={{ verticalAlign: "middle" }} />
           &ensp;
           <text style={{ verticalAlign: "middle" }}>Add Product</text>
-        </div>
+        </div> */}
+        Add Product
       </ImportExcelButton>
       <ProductPopup
         trigger={addProductBtn}

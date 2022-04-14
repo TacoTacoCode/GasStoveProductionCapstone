@@ -4,6 +4,7 @@ import { MenuItem, Select, TextField, Tooltip } from "@material-ui/core";
 import DoneOutlineTwoToneIcon from '@mui/icons-material/DoneOutlineTwoTone';
 import swal from "sweetalert";
 import axios from "axios";
+import { Typography } from "@mui/material";
 
 export const ExportCompo = (props) => {
     const datas = JSON.parse(localStorage.getItem('datas'))
@@ -14,11 +15,12 @@ export const ExportCompo = (props) => {
         {
             title: "Task Id",
             field: "processDetailId",
-            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px' },
             render: (rowData) =>
-                <Select
+                <div style={{ width: '80%', paddingLeft: '20%' }}><Select
                     id="demo-simple-select"
-                    disableUnderline
+                    variant="outlined"
+                    fullWidth
                     value={tableData[rowData.tableData.id].processDetailId}
                     onChange={(e) => handleChangeData(e.target.value, rowData.tableData.id)}
                 >
@@ -32,22 +34,23 @@ export const ExportCompo = (props) => {
                                 {e.processDetailId}
                             </MenuItem>))
                     }
-                </Select>
+                </Select></div>
         },
         {
             title: "Product Name",
             field: "productName",
-            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px' },
             render: (e) => tableData[e.tableData.id].productName
         },
         {
             title: "Component",
             field: "component",
-            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px' },
             render: (rowData) =>
-                <Select
+                <div style={{ width: '100%', paddingLeft: '10%' }}><Select
                     id="demo-simple-select"
-                    disableUnderline
+                    variant="outlined"
+                    fullWidth
                     value={tableData[rowData.tableData.id].componentName}
                 >
                     {
@@ -64,16 +67,16 @@ export const ExportCompo = (props) => {
                             : null
 
                     }
-                </Select>
+                </Select></div>
         },
         {
             title: "Amount",
             field: "amount",
-            cellStyle: { fontFamily: "Muli", textAlign: 'center' },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px' },
             render: (rowData) =>
                 <Tooltip title={`Maximum is ${tableData[rowData.tableData.id].maxAmount}`}>
                     <TextField
-                        tooltip="abcd"
+                    variant="outlined"
                         value={tableData[rowData.tableData.id].amount}
                         type={"number"}
                         InputProps={{
@@ -212,39 +215,56 @@ export const ExportCompo = (props) => {
         setTableData(arr)
     }
 
+    const MyNewTitle = ({ text = "Table Title", variant = "h6" }) => (
+        <Typography
+            variant={variant}
+            style={{ color: '#333C83', fontFamily: 'Muli' }}
+        >
+            {text}
+        </Typography>
+    );
 
-    return <div className="export" style={{ margin: "50px 20%" }}>
-        {datas.length > 0 ?
-            <MaterialTable
-                title={"Make a request for Component"}
-                data={tableData}
-                columns={columns}
-                actions={[
-                    {
-                        icon: 'add',
-                        tooltip: 'Add a request',
-                        isFreeAction: true,
-                        onClick: () => handleAddRow()
-                    },
-                    {
-                        icon: DoneOutlineTwoToneIcon,
-                        tooltip: 'Submit this request',
-                        isFreeAction: true,
-                        onClick: () => handleSubmit()
-                    },
-                    rowData => ({
-                        icon: 'delete',
-                        tooltip: 'Delete this item',
-                        onClick: () => handleDelete(rowData.tableData.id),
-                    })
-                ]}
-                options={{
-                    addRowPosition: "first",
-                    actionsColumnIndex: -1,
-                    exportButton: false,
-                    search: false,
-                    headerStyle: { backgroundColor: "#E30217", color: "#fff", textAlign: 'center' },
-                }}
-            /> : null}
-    </div>
+    return (
+        <div className="processdetail">
+            {datas.length > 0 ?
+                <MaterialTable
+                    title={<MyNewTitle variant="h6" text="Make a request for component" />}
+                    data={tableData}
+                    columns={columns}
+                    actions={[
+                        {
+                            icon: 'add',
+                            tooltip: 'Add a request',
+                            isFreeAction: true,
+                            onClick: () => handleAddRow()
+                        },
+                        {
+                            icon: 'check',
+                            tooltip: 'Submit this request',
+                            isFreeAction: true,
+                            onClick: () => handleSubmit()
+                        },
+                        rowData => ({
+                            icon: 'delete',
+                            tooltip: 'Delete this item',
+                            onClick: () => handleDelete(rowData.tableData.id),
+                        })
+                    ]}
+                    options={{
+                        searchFieldVariant: 'outlined',
+                        searchFieldStyle: {
+                            fontFamily: 'Muli',
+                            color: '#0E185F',
+                            marginTop: '2%',
+                            marginBottom: '2%',
+                        },
+                        addRowPosition: "first",
+                        actionsColumnIndex: -1,
+                        exportButton: false,
+                        search: false,
+                        headerStyle: { backgroundColor: "#bd162c", color: "#fff", textAlign: 'center', fontSize: '18px' },
+                    }}
+                /> : null}
+        </div>
+    );
 }

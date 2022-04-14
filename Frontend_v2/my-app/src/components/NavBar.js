@@ -20,7 +20,7 @@ const styles = makeStyles({
         cursor: "pointer",
         flexGrow: 1,
         "&:hover": {
-            color: "#e30217"
+            color: "#bd162c"
         },
         ['@media (max-width:780px)']: {
             paddingBottom: "2rem"

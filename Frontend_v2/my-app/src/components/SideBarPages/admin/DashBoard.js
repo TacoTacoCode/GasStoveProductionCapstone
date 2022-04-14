@@ -12,7 +12,6 @@ export default function DashBoard() {
 
   useEffect(() => {
     const getRequestMaterials = 'https://localhost:5001/getImExs'
-    //Gọi API bằng axios
     axios.get(getRequestMaterials).then((res) => {
       setListRequestMaterials(res.data);
     }).catch((err) => {

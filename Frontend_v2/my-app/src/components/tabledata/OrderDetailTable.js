@@ -6,6 +6,7 @@ import * as FaIcons from 'react-icons/fa';
 import {
     Button,
     TextField,
+    Typography,
 } from "@mui/material";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import swal from "sweetalert";
@@ -65,22 +66,22 @@ export const OrderDetailTable = (props) => {
 
     const columns = [
         {
-            title: 'ID', field: 'orderDetailId', cellStyle: { fontFamily: 'Muli', width: "10%" }, align: 'left'
+            title: 'ID', field: 'orderDetailId', cellStyle: { fontFamily: 'Muli', fontSize: '18px' }, align: 'left'
         },
         {
-            title: 'Order ID', field: 'orderId', cellStyle: { fontFamily: 'Muli', width: "10%" }, align: 'left'
+            title: 'Order ID', field: 'orderId', cellStyle: { fontFamily: 'Muli', fontSize: '18px' }, align: 'left'
         },
         {
-            title: 'Product ID', field: 'productId', cellStyle: { fontFamily: 'Muli', width: "15%" }, align: 'left'
+            title: 'Product ID', field: 'productId', cellStyle: { fontFamily: 'Muli', fontSize: '18px' }, align: 'left'
         },
         {
-            title: 'Amount', field: 'amount', cellStyle: { fontFamily: 'Muli', width: "15%" }, align: 'left'
+            title: 'Amount', field: 'amount', cellStyle: { fontFamily: 'Muli', fontSize: '18px' }, align: 'left'
         },
         {
-            title: 'Price', field: 'price', cellStyle: { fontFamily: 'Muli', width: "15%" }, align: 'left'
+            title: 'Price', field: 'price', cellStyle: { fontFamily: 'Muli', fontSize: '18px' }, align: 'left'
         },
         {
-            title: 'Note', field: 'note', cellStyle: { fontFamily: 'Muli', width: "20%" }, align: 'left'
+            title: 'Note', field: 'note', cellStyle: { fontFamily: 'Muli', fontSize: '18px' }, align: 'left'
         },
     ]
     function deleteOrderDetail(id) {
@@ -136,18 +137,27 @@ export const OrderDetailTable = (props) => {
 
     const newData = array.map((value) => ({ ...value, No_Process: getNoProcess(value.orderDetailId) }));
 
+    const MyNewTitle = ({ text = "Table Title", variant = "h6" }) => (
+        <Typography
+            variant={variant}
+            style={{ color: '#333C83', fontFamily: 'Muli' }}
+        >
+            {text}
+        </Typography>
+    );
+
     return (
         <React.Fragment>
             <div className='caution-message'>
                 <text>*Note: When you want to edit the item of order details, you have to delete this item and add the new one!</text>
             </div>
             <br />
-            <div className="back_button">
+            {/* <div className="back_button">
                 <Button onClick={() => window.location.href = "http://localhost:3000/orders/"}>
                     <FaIcons.FaArrowLeft size={40} color="white" />
                 </Button>
-            </div>
-            <MaterialTable title={"List of Order Details"}
+            </div> */}
+            <MaterialTable title={<MyNewTitle variant="h6" text="Order Details List" />}
                 data={newData}
                 columns={columns}
                 actions={[
@@ -181,6 +191,13 @@ export const OrderDetailTable = (props) => {
                     }
                 ]}
                 options={{
+                    searchFieldVariant: 'outlined',
+                    searchFieldStyle: {
+                        fontFamily: 'Muli',
+                        color: '#0E185F',
+                        marginTop: '2%',
+                        marginBottom: '2%',
+                    },
                     addRowPosition: 'first',
                     actionsColumnIndex: -1,
                     exportButton: false,
@@ -189,7 +206,7 @@ export const OrderDetailTable = (props) => {
                         justifyContent: 'center',
                         width: '100%',
                     },
-                    headerStyle: { backgroundColor: '#E30217', color: '#fff', textAlign: 'left' }
+                    headerStyle: { backgroundColor: '#bd162c', color: '#fff', fontSize: '18px' }
                 }}
             />
 

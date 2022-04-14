@@ -32,6 +32,7 @@ function Orders() {
   return (
     <>
       <ImportExcelButton type="button"
+      style={{marginTop: '2%', marginRight: '2%'}}
         onClick={() => {
           setAddOrderBtn(true)
         }
@@ -44,7 +45,7 @@ function Orders() {
         }}>
         <h3 className="popuptitle">Add an order</h3>
       </OrderPopup>
-      <div className='components'>
+      <div className='orders'>
         <Table listOrder={listOrder}
           setSubmittedTime={() =>
             setNewDataSubmitted((prevState) => prevState + 1)

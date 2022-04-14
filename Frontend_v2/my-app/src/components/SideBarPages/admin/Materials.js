@@ -35,16 +35,18 @@ function Materials() {
   return (
     <>
       <ImportExcelButton
+        style={{ marginTop: '3%' }}
         type="button"
         onClick={() => {
           setImportFile(true);
         }}
       >
-        <div>
+        {/* <div>
           <AiFillFileExcel size={24} style={{ verticalAlign: "middle" }} />
           &ensp;
           <text style={{ verticalAlign: "middle" }}>Import Material File</text>
-        </div>
+        </div> */}
+        Import Material File
       </ImportExcelButton>
       <ImportFilePopup
         trigger={importFile}
@@ -54,16 +56,18 @@ function Materials() {
         <h3 className="popuptitle">Import Material File</h3>
       </ImportFilePopup>
       <ImportExcelButton
+        style={{ marginTop: '3%', marginRight: '1%' }}
         type="button"
         onClick={() => {
           setaddmaterialBtn(true);
         }}
       >
-        <div>
+        {/* <div>
           <FaPlus size={24} style={{ verticalAlign: "middle" }} />
           &ensp;
           <text style={{ verticalAlign: "middle" }}>Add Material</text>
-        </div>
+        </div> */}
+        Add Material
       </ImportExcelButton>
       <MaterialPopup
         trigger={addmaterialBtn}

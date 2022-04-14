@@ -1,5 +1,5 @@
 :root {
-    --primary: #e30217;
+    --primary: #bd162c;
 }
 
 .btn {
@@ -11,7 +11,7 @@
     border-radius: 10px;
     cursor: pointer;
     transition: transform 0.3s ease;
-    background-color: #e30217;
+    background-color: #bd162c;
 }
 
 .btn:hover {
