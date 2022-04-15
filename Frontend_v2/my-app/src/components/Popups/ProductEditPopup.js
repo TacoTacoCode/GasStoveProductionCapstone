@@ -220,7 +220,7 @@ function ProductEditPopup(props) {
                 <div className="idfield">
                   <CssTextField
                     label="Product ID"
-                    
+
                     value={productID}
                     required
                     onChange={(e) => setProductID(e.target.value)}
@@ -229,7 +229,7 @@ function ProductEditPopup(props) {
                 <div className="namefield">
                   <CssTextField
                     label="Product Name"
-                    
+
                     value={productName}
                     required
                     onChange={(e) => setProductName(e.target.value)}
@@ -238,7 +238,7 @@ function ProductEditPopup(props) {
                 <div className="idfield">
                   <CssTextField
                     label="Amount"
-                    
+
                     required
                     value={amount}
                     type={"number"}
@@ -254,7 +254,7 @@ function ProductEditPopup(props) {
                 <div className="txtfield">
                   <CssTextField
                     label="Price"
-                    
+
                     required
                     value={price}
                     type={"number"}
@@ -268,7 +268,7 @@ function ProductEditPopup(props) {
                   <CssTextField
                     label="Status"
                     select
-                    
+
                     required
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
@@ -296,7 +296,7 @@ function ProductEditPopup(props) {
                   <CssTextField
                     label="Component"
                     select
-                    
+
                     value={componentActive}
                     onChange={(e) => setComponentChoose(e.target.value)}
                     helperText="Choose Active Component"
@@ -317,7 +317,7 @@ function ProductEditPopup(props) {
                 <div className="numfield_choose">
                   <CssTextField
                     label="Amount"
-                    
+
                     value={componentAmount}
                     type={"number"}
                     InputProps={{
@@ -335,7 +335,7 @@ function ProductEditPopup(props) {
                         ...productComponent,
                         createData(
                           componentActive.componentId,
-                          componentActive.materialName,
+                          componentActive.componentName,
                           componentAmount
                         ),
                       ]);
@@ -347,7 +347,7 @@ function ProductEditPopup(props) {
                   </ImportExcelButton>
                 )
                   : <ImportExcelButton
-                    style={{ backgroundColor: '#909090'}}
+                    style={{ backgroundColor: '#909090' }}
                     disable={true}
                   >
                     Add
