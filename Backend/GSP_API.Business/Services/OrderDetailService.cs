@@ -42,6 +42,19 @@ namespace GSP_API.Business.Services
             return await _orderDetailRepository.GetById(p => p.OrderDetailId == orderDetailId);
         }
 
+        public async Task<List<OrderDetail>> GetOrderDetailAndProductByOrder(int orderId)
+        {
+            var data = await _orderDetailRepository.GetAll(p => p.OrderId == orderId);
+            foreach(OrderDetail orderDetail in data)
+            {
+                var product =  await _productRepository.GetById(p => p.ProductId == orderDetail.ProductId);
+                product.ProductComponents = null;
+                product.OrderDetails = null;
+                orderDetail.Product = product;
+            }
+            return data;
+        }
+
         public async Task<string> AddOrderDetail(OrderDetail orderDetail)
         {
             var order = await _orderRepository.FindFirst(o => o.OrderId == orderDetail.OrderId);

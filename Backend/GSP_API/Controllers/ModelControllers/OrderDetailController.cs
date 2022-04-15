@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GSP_API.Models.CustomResponse;
 
 namespace GSP_API.Controllers.ModelControllers
 {
@@ -50,6 +51,20 @@ namespace GSP_API.Controllers.ModelControllers
             }
             var orderDetail = _mapper.Map<OrderDetailResponse>(data);
             return Ok(orderDetail);
+        }
+
+        // GET: getOrderDetailAndProductOf/ord/1
+        [HttpGet]
+        [Route("getOrderDetailAndProductOf/ord/{orderId}")]
+        public async Task<ActionResult<List<OrderDetailResponse>>> GetOrderDetailAndProductByOrder(int orderId)
+        {
+            var data = await _orderDetailService.GetOrderDetailAndProductByOrder(orderId);
+            if (data == null)
+            {
+                return BadRequest("Not found");
+            }
+            var list = _mapper.Map<List<OrderDetailResponse>>(data);
+            return Ok(list);
         }
 
         // POST: AddOrderDetail/[orderDetail]
