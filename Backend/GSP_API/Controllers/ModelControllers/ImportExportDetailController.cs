@@ -65,11 +65,11 @@ namespace GSP_API.Controllers.ModelControllers
             }
             if (data.Contains("Not enough"))
             {
-                return BadRequest(data);
+                return Ok(data);
             }
             if (data.Contains("exceed"))
             {
-                return BadRequest(data);
+                return Ok(data);
             }
             return Ok(data);
         }
@@ -120,5 +120,7 @@ namespace GSP_API.Controllers.ModelControllers
             }
             return BadRequest(data);
         }
+
+
     }
 }

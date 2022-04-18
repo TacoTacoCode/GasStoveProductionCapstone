@@ -9,13 +9,19 @@ namespace GSP_API.Business.Services
     public class ImportExportDetailService  
     {
         private readonly IImportExportDetailRepository _importExportDetailRepository;
+        private readonly IImportExportRepository _importExportRepository;
+        //private readonly ImportExportService _importExportService;
         private readonly ProcessDetailService _processDetailService;
         private readonly ProcessService _processService;
         private readonly ComponentService _componentService;
         private readonly MaterialService _materialService;
         private readonly ProductService _productService;
+
         public ImportExportDetailService(
-            IImportExportDetailRepository importExportDetailRepository, ProcessDetailService processDetailService, ComponentService componentService, MaterialService materialService, ProductService productService, ProcessService processService)
+            IImportExportDetailRepository importExportDetailRepository,
+            ProcessDetailService processDetailService, ComponentService componentService,
+            MaterialService materialService, ProductService productService,
+            ProcessService processService, IImportExportRepository importExportRepository)
         {
             _importExportDetailRepository = importExportDetailRepository;
             _processDetailService = processDetailService;
@@ -23,6 +29,7 @@ namespace GSP_API.Business.Services
             _materialService = materialService;
             _productService = productService;
             _processService = processService;
+            _importExportRepository = importExportRepository;
         }
 
         public async Task<List<ImportExportDetail>> GetImExDetailByImEx(int imExId)
@@ -83,7 +90,7 @@ namespace GSP_API.Business.Services
                         {
                             return "Exported amount is exceed request amount";
                         }
-                        await _componentService.UpdateComponent(item, null, null);
+                        await _componentService.UpdateComponent(item, null, item.ImageUrl);
 
                     }
                     else
@@ -102,7 +109,7 @@ namespace GSP_API.Business.Services
                         {
                             return "Exported amount is exceed request amount";
                         }
-                        await _materialService.UpdateMaterial(item, null, null);
+                        await _materialService.UpdateMaterial(item, null, item.ImageUrl);
                     }
                     else
                     {
@@ -132,6 +139,7 @@ namespace GSP_API.Business.Services
                     if (flag)
                         await _processDetailService.UpdateProcessDetail(processDetail);
                 }
+                await UpdateStatus((int)exportDetail.ImportExportId);
                 return "Provided";
             }
             catch (System.Exception ex)
@@ -212,12 +220,32 @@ namespace GSP_API.Business.Services
                         await _processService.UpdateProcess(process);
                     }
                 }
+
+                //update imex
+                //await UpdateStatus((int)importDetail.ImportExportId);
                 return "Imported";
             }
             catch 
             {
                 return $"Error at import detail id: {importDetail.ImportExportDetailId}";
             }
+        }
+
+        private async Task<string> UpdateStatus(int imExId)
+        {
+            var allImExDetails = await _importExportDetailRepository.GetAll(
+                i => i.ImportExportId == imExId);
+            var tmp = allImExDetails.FindAll(e => e.Amount != e.ExportedAmount);
+            if (tmp.Count == 0)
+            {
+                var imEx = await _importExportRepository.FindFirst(ie => ie.ImportExportId == imExId);
+                if (imEx != null)
+                {
+                    imEx.Status = "Done";
+                    await _importExportRepository.Update(imEx);
+                }
+            }
+            return "";
         }
     }
 }

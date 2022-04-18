@@ -76,7 +76,7 @@ function Delivery() {
       accountId: data.accountId,
       totalPrice: data.totalPrice,
       expiryDate: new Date(data.expiryDate).toISOString(),
-      status: 'delivery',
+      status: 'Delivery',
       note: data.note,
       isShorTerm: data.isShorTerm,
     }
@@ -173,13 +173,13 @@ function Delivery() {
                           &ensp;
                           {(() => {
                             switch (data.status) {
-                              case 'new':
+                              case 'New':
                                 return <text style={{ color: 'RED', fontWeight: "500" }}>NEW</text>
-                              case 'processing':
+                              case 'Processing':
                                 return <text style={{ color: 'DARKBLUE', fontWeight: "500" }}>PROCESSING</text>
-                              case 'completed':
+                              case 'Completed':
                                 return <text style={{ color: 'BLUE', fontWeight: "500" }}>COMPLETED</text>
-                              case 'delivery':
+                              case 'Delivery':
                                 return <text style={{ color: 'GREEN', fontWeight: "500" }}>DELIVERIED</text>
                             }
                           })()
@@ -200,8 +200,11 @@ function Delivery() {
                       <TextGetOrderDetailByID orderID={data.orderId} />
                       <p className="content_delivery_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text>{data.totalPrice} VND</text></p>
                       {
-                        (data.status == 'done' && data.totalPrice > 0)
+                        (data.status == 'Completed' && data.totalPrice > 0)
                           ? <Button style={{
+                            marginTop: '5%',
+                            width: 'fit-content',
+                            alignSelf: 'end',
                             fontFamily: "Muli",
                             borderRadius: 10,
                             backgroundColor: "#bd162c",
@@ -249,13 +252,13 @@ function Delivery() {
                           &ensp;
                           {(() => {
                             switch (data.status) {
-                              case 'new':
+                              case 'New':
                                 return <text style={{ color: 'RED', fontWeight: "500" }}>NEW</text>
-                              case 'processing':
+                              case 'Processing':
                                 return <text style={{ color: 'DARKBLUE', fontWeight: "500" }}>PROCESSING</text>
-                              case 'completed':
+                              case 'Completed':
                                 return <text style={{ color: 'BLUE', fontWeight: "500" }}>COMPLETED</text>
-                              case 'delivery':
+                              case 'Delivery':
                                 return <text style={{ color: 'GREEN', fontWeight: "500" }}>DELIVERIED</text>
                             }
                           })()

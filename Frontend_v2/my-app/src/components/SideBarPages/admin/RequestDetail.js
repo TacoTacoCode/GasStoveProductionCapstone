@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import '../../NonSideBarPage/process.css'
 import { BsFileEarmarkCheck } from 'react-icons/bs';
+import swal from 'sweetalert';
 function RequestDetail() {
 
     const CssTextField = styled(TextField)({
@@ -37,7 +38,9 @@ function RequestDetail() {
     const [supplying, setSupplying] = useState([])
 
     const updateSupplyingAmountChanged = (e, index, max) => {
-        let aValue = parseInt(e.target.value)
+        let aValue = 0
+        if (e.target.value != '')
+            aValue = parseInt(e.target.value)
         aValue = aValue < 0 ? 0 : aValue
         aValue = aValue > max ? max : aValue
         let newArr = [...supplying];
@@ -49,9 +52,7 @@ function RequestDetail() {
         console.log(importExportId);
         axios.get('https://localhost:5001/getDetailsOf/ImEx/' + importExportId)
             .then((response) => {
-                console.log(response.data);
                 setRequestDetail(response.data)
-                console.log(requestDetail);
             }
             ).catch((err) => {
                 console.log(err);
@@ -65,25 +66,27 @@ function RequestDetail() {
                 ('https://localhost:5001/getMaterial/' + e.itemId) :
                 ('https://localhost:5001/getComponent/' + e.itemId))
         )
-        Promise.all(promises).then((e) => e.map((ele, index) =>
-            itemType === 'M' ? (datas.push({
-                "materialName": ele.data.materialName,
-                "amount": requestDetail[index].amount,
-                "exportedAmount": requestDetail[index].exportedAmount,
-                "processDetailId": requestDetail[index].processDetailId,
-                "importExportDetailId": requestDetail[index].importExportDetailId,
-                "itemId": requestDetail[index].itemId
-            })) : (datas.push({
-                "componentName": ele.data.componentName ?? 'Assemble Section',
-                "amount": requestDetail[index].amount,
-                "exportedAmount": requestDetail[index].exportedAmount,
-                "processDetailId": requestDetail[index].processDetailId,
-                "importExportDetailId": requestDetail[index].importExportDetailId,
-                "itemId": requestDetail[index].itemId
-            }))
-        )).then(() => {
-            setTableData(datas)
-        })
+        if (promises != null) {
+            Promise.all(promises).then((e) => e.map((ele, index) =>
+                itemType === 'M' ? (datas.push({
+                    "materialName": ele.data.materialName,
+                    "amount": requestDetail[index].amount,
+                    "exportedAmount": requestDetail[index].exportedAmount,
+                    "processDetailId": requestDetail[index].processDetailId,
+                    "importExportDetailId": requestDetail[index].importExportDetailId,
+                    "itemId": requestDetail[index].itemId
+                })) : (datas.push({
+                    "componentName": ele.data.componentName ?? 'Assemble Section',
+                    "amount": requestDetail[index].amount,
+                    "exportedAmount": requestDetail[index].exportedAmount,
+                    "processDetailId": requestDetail[index].processDetailId,
+                    "importExportDetailId": requestDetail[index].importExportDetailId,
+                    "itemId": requestDetail[index].itemId
+                }))
+            )).then(() => {
+                setTableData(datas)
+            })
+        }
     }, [requestDetail])
 
 
@@ -119,7 +122,8 @@ function RequestDetail() {
 
 
     function handleAccept(data) {
-        console.log("uiqfbiaf " + supplying);
+        if (supplying[data.tableData.id] == 0)
+            return
         axios.post('https://localhost:5001/provideItem', {
             "importExportId": importExportId,
             "itemId": data.itemId,
@@ -128,14 +132,19 @@ function RequestDetail() {
             "amount": data.amount,
             "itemType": itemType,
             "exportedAmount": supplying[data.tableData.id]
-        })
-            .then((response) => {
-                console.log(response.data);
+        }).then((response) => {
+            if (response.data.includes('enough')) {
+                swal("Warning", response.data, "warning");
+            } else if (response.data.includes('exceed')) {
+                swal("Warning", response.data, "warning");
+            } else {
                 window.location.reload();
             }
-            ).catch((err) => {
-                console.log(err);
-            })
+
+        }).catch((err) => {
+            console.log(err)
+
+        })
     };
 
     const MyNewTitle = ({ text = "Table Title", variant = "h6" }) => (
