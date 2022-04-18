@@ -103,6 +103,7 @@ function MaterialEditPopup(props) {
     const formData = new FormData();
     formData.append("materialId", materialID);
     formData.append("materialName", materialName);
+    formData.append("imageUrl", imageUrl);
     formData.append("amount", amount);
     formData.append("unit", unit);
     formData.append("status", status);

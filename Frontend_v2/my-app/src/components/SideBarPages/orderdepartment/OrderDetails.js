@@ -12,26 +12,25 @@ function OrderDetails() {
     const [addOrderDetailsBtn, setAddOrderDetailsBtn] = useState(false);
     const location = useLocation();
     const [listOrderDetail, setListOrderDetail] = useState([])
-    const [listOrder, setListOrder] = useState([]);
+    const [status, setStatus] = useState('')
     const [newDataSubmitted, setNewDataSubmitted] = useState(1);
 
     useEffect(() => {
         const getAllOrderDetail = 'https://localhost:5001/getOrderDetailsOf/ord/' + localStorage['orderId']
         //Gọi API bằng axios
-        let data = []
         axios.get(getAllOrderDetail).then((res) => {
             setListOrderDetail(res.data);
         }).catch((err) => {
             console.log(err);
             alert("Xảy ra lỗi");
         })
-
+        setStatus(location.state.status)
     }, []);
 
     return (
         <>
             <ImportExcelButton type="button"
-            style={{marginTop: '3%', marginRight: '2%'}}
+                style={{ marginTop: '3%', marginRight: '2%' }}
                 onClick={() => {
                     setAddOrderDetailsBtn(true)
                 }
@@ -46,7 +45,7 @@ function OrderDetails() {
                 <h3 className="popuptitle">Add a Order Detail</h3>
             </OrderDetailPopup>
             <div className='order-details'>
-                <OrderDetailTable listOrderDetail={listOrderDetail} listOrder={listOrder} />
+                <OrderDetailTable listOrderDetail={listOrderDetail} status={status} />
             </div></>
     )
 }

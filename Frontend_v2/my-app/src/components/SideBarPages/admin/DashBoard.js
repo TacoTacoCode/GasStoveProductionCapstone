@@ -11,7 +11,7 @@ export default function DashBoard() {
   const [listRequestMaterials, setListRequestMaterials] = useState([]);
 
   useEffect(() => {
-    const getRequestMaterials = 'https://localhost:5001/getImExs'
+    const getRequestMaterials = 'https://localhost:5001/getExByType/M'
     axios.get(getRequestMaterials).then((res) => {
       setListRequestMaterials(res.data);
     }).catch((err) => {

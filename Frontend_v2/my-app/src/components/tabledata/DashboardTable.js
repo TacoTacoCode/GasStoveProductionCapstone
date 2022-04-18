@@ -69,6 +69,21 @@ export const Table = (props) => {
                     renderInput={(params) => <CssTextField InputProps={{ style: { fontFamily: 'Muli' } }} inputProps={{ readOnly: true }} style={{ width: "fit-content", textAlign: "center" }} disabled {...params} />}
                 /></LocalizationProvider>, align: "center"
         },
+        {
+            title: 'Status', field: 'status', cellStyle: { fontFamily: 'Muli', fontSize: '18px' },
+            render:
+                ((rowData) => {
+                    let color = '#FF1818'
+                    if (rowData.status == 'Done') {
+                        color = '#333c83'
+                    }
+                    return <div style={{ fontWeight: "500", marginTop: "0.5%", border: `1px solid ${color}`, backgroundColor: `${color}` }} className="text_square">
+                        <text style={{ color: 'white', fontWeight: "500" }}>{rowData.status}</text>
+                    </div>
+                }),
+            defaultSort: 'desc',
+
+        },
     ]
 
     const MyNewTitle = ({ text = "Table Title", variant = "h6" }) => (

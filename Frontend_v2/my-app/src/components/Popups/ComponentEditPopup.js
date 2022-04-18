@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/Popup.scss";
 import MaterialTable from "material-table";
 import { Button, MenuItem, TextField, } from "@mui/material";
@@ -161,6 +161,7 @@ function ComponentEditPopup(props) {
     const jsonObj = createMD();
     const formData = new FormData();
     formData.append("componentId", componentID);
+    formData.append("imageUrl", imageUrl);
     formData.append("componentName", componentName);
     formData.append("amount", amount);
     formData.append("status", status);

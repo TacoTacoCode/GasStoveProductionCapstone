@@ -60,6 +60,22 @@ export const Table = (props) => {
                     renderInput={(params) => <CssTextField inputProps={{ readOnly: true }} style={{ width: "50%" }} disabled {...params} />}
                 /></LocalizationProvider>, cellStyle: { fontFamily: 'Muli', paddingLeft: '3%', fontSize: '18px' }, align: "center"
         },
+        {
+            title: 'Status', field: 'status', cellStyle: { fontFamily: 'Muli', fontSize: '18px' },
+            render:
+                ((rowData) => {
+                    let color = '#FF1818'
+                    if (rowData.status == 'Done') {
+                        color = '#333c83'
+                    }
+                    return <div style={{ fontWeight: "500", marginTop: "0.5%", border: `1px solid ${color}`, backgroundColor: `${color}` }} className="text_square">
+                        <text style={{ color: 'white', fontWeight: "500" }}>{rowData.status}</text>
+                    </div>
+                }),
+            //customSort: (a, b) => a.name.length - b.name.length,
+            defaultSort: 'desc',
+
+        },
     ]
 
     const MyNewTitle = ({ text = "Table Title", variant = "h6" }) => (
@@ -94,6 +110,7 @@ export const Table = (props) => {
 
                 // ]}
                 options={{
+                    sorting: true,
                     searchFieldVariant: 'outlined',
                     searchFieldStyle: {
                         fontFamily: 'Muli',

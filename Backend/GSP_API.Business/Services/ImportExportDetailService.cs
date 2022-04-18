@@ -191,7 +191,7 @@ namespace GSP_API.Business.Services
                     {
                         var item = await _componentService.GetComponentById(importDetail.ItemId);
                         item.Amount += amount;
-                        await _componentService.UpdateComponent(item, null, null);
+                        await _componentService.UpdateComponent(item, null, item.ImageUrl);
                     }
                     else if (itemType == "P")
                     {
@@ -206,7 +206,7 @@ namespace GSP_API.Business.Services
                             process.FinishedAmount = processDetail.FinishedAmount;
                             await _processService.UpdateProcess(process);
                         }
-                        await _productService.UpdateProduct(item, null, null);
+                        await _productService.UpdateProduct(item, null, item.ImageUrl);
                     }
                 }
                 else
@@ -217,12 +217,11 @@ namespace GSP_API.Business.Services
                         var process = await _processService.GetProcessById((int)processDetail.ProcessId);
                         process.FinishedAmount = processDetail.FinishedAmount;
                         process.ExpectedFinishDate = processDetail.ExpectedFinishDate;
+                        process.Status = "Processing";  
                         await _processService.UpdateProcess(process);
                     }
                 }
 
-                //update imex
-                //await UpdateStatus((int)importDetail.ImportExportId);
                 return "Imported";
             }
             catch 

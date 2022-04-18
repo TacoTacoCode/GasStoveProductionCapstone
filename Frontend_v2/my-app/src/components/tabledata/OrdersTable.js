@@ -55,31 +55,30 @@ export const Table = (props) => {
         },
         {
             title: 'Status', field: 'status', cellStyle: { fontFamily: 'Muli', fontSize: '18px' },
-            render:
-                ((rowData) => {
-                    switch (rowData.status) {
-                        case 'Waiting':
-                            return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #FF1818', backgroundColor: '#FF1818' }} className="text_square">
-                                <text style={{ color: 'white', fontWeight: "500" }}>Waiting</text>
-                            </div>
-                        case 'New':
-                            return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #FF1818', backgroundColor: '#FF1818' }} className="text_square">
-                                <text style={{ color: 'white', fontWeight: "500" }}>New</text>
-                            </div>
-                        case 'Processing':
-                            return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #F48B29', backgroundColor: '#F48B29' }} className="text_square">
-                                <text style={{ color: 'white', fontWeight: "500" }}>Processing</text>
-                            </div>
-                        case 'Completed':
-                            return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #333c83', backgroundColor: '#333c83' }} className="text_square">
-                                <text style={{ color: 'white', fontWeight: "500" }}>Completed</text>
-                            </div>
-                        case 'Delivery':
-                            return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #97DBAE', backgroundColor: '#97DBAE' }} className="text_square">
-                                <text style={{ color: 'white', fontWeight: "500" }}>Delivered</text>
-                            </div>
-                    }
-                })
+            render: ((rowData) => {
+                switch (rowData.status) {
+                    case 'Waiting':
+                        return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #FF1818', backgroundColor: '#FF1818' }} className="text_square">
+                            <text style={{ color: 'white', fontWeight: "500" }}>Waiting</text>
+                        </div>
+                    case 'New':
+                        return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #FF1818', backgroundColor: '#FF1818' }} className="text_square">
+                            <text style={{ color: 'white', fontWeight: "500" }}>New</text>
+                        </div>
+                    case 'Processing':
+                        return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #F48B29', backgroundColor: '#F48B29' }} className="text_square">
+                            <text style={{ color: 'white', fontWeight: "500" }}>Processing</text>
+                        </div>
+                    case 'Completed':
+                        return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #333c83', backgroundColor: '#333c83' }} className="text_square">
+                            <text style={{ color: 'white', fontWeight: "500" }}>Completed</text>
+                        </div>
+                    case 'Delivery':
+                        return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #97DBAE', backgroundColor: '#97DBAE' }} className="text_square">
+                            <text style={{ color: 'white', fontWeight: "500" }}>Delivered</text>
+                        </div>
+                }
+            })
         },
         {
             title: 'Note', field: 'note', cellStyle: { fontFamily: 'Muli', fontSize: '18px' }
@@ -113,7 +112,6 @@ export const Table = (props) => {
                 data={seeWaiting ? waitOrder : processingOrder}
                 columns={columns}
                 onRowClick={(event, data) => {
-                    console.log("test short term: " + data.isShorTerm);
                     localStorage.setItem("orderType", data.isShorTerm)
                     localStorage.setItem("orderId", data.orderId)
                     navigate('/orders/orderdetails', { state: data });

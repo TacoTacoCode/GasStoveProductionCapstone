@@ -236,7 +236,7 @@ function AccountEditPopup(props) {
           <div className="account-popup">
             <div style={{ fontFamily: 'Muli', fontSize: '18px' }} className="account-imagefield">
               <div style={{ display: 'inline' }}>
-                <div style={{ display: 'inline-block'}}>
+                <div style={{ display: 'inline-block' }}>
                   <p style={{ marginBottom: '5%' }}>Profile Image</p>
                   <input style={{ fontFamily: 'Muli', fontSize: '18px', width: '100%', display: 'inline-block' }} type="file" onChange={handlePreviewAvatar} />
                 </div>

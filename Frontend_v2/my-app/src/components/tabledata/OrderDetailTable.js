@@ -1,40 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import MaterialTable from 'material-table';
 import { useNavigate } from 'react-router-dom';
-import { IconButton } from '@material-ui/core';
-import * as FaIcons from 'react-icons/fa';
-import {
-    Button,
-    TextField,
-    Typography,
-} from "@mui/material";
+import { Typography, } from "@mui/material";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import swal from "sweetalert";
 import OrderDetailEditPopup from "../Popups/OrderDetailEditPopup";
 import axios from 'axios';
-import { WarningAmber } from '@mui/icons-material';
+
 
 export const OrderDetailTable = (props) => {
     useEffect(() => {
         document.title = "UFA - Order Details"
     }, []);
 
-    const [orderDetailId, setOrderDetailId] = useState();
-    const [orderId, setOrderId] = useState();
-    const [productId, setProductId] = useState();
-    const [amount, setAmount] = useState();
-    const [price, setPrice] = useState();
-    const [note, setNote] = useState();
-    // const [addcomponentBtn, setAddcomponentBtn] = useState(false);
-
     function createProcess(orderDetail) {
-        // console.log({ orderDetail })
-        // setOrderDetailId(orderDetail.orderDetailId);
-        // setOrderId(orderDetail.orderId);
-        // setProductId(orderDetail.productId);
-        // setAmount(orderDetail.amount);
-        // setPrice(orderDetail.price);
-        // setNote(orderDetail.note);
         axios.post('https://localhost:5001/createProcess', {
             "orderDetailId": orderDetail.orderDetailId,
             "orderId": orderDetail.orderId,
@@ -44,7 +23,6 @@ export const OrderDetailTable = (props) => {
             "note": orderDetail.note
         })
             .then((response) => {
-                //console.log(response.data);
                 localStorage.setItem('process', JSON.stringify(response.data))
                 navigate('/createProcess')
             }
@@ -53,13 +31,9 @@ export const OrderDetailTable = (props) => {
             })
 
     };
-
-
     let navigate = useNavigate();
-
-    const { listOrderDetail } = props;
+    const { listOrderDetail, status } = props;
     const array = [];
-
     listOrderDetail.forEach(item => {
         array.push(item)
     }, []);
@@ -124,15 +98,12 @@ export const OrderDetailTable = (props) => {
             })
 
     }
-
     const [editDatasDetail, setEditDatasDetail] = useState(null);
     const [openDetail, setOpenDetail] = useState(false);
-
     const handleEditData = (rowData) => {
         setEditDatasDetail(rowData);
         setOpenDetail(true);
     }
-
     function getNoProcess(orderDetailId) {
         let no = 0;
         axios.get("https://localhost:5001/getNoProcess/" + orderDetailId)
@@ -141,7 +112,6 @@ export const OrderDetailTable = (props) => {
                 return no
             })
     }
-
     const newData = array.map((value) => ({ ...value, No_Process: getNoProcess(value.orderDetailId) }));
 
     const MyNewTitle = ({ text = "Table Title", variant = "h6" }) => (
@@ -159,44 +129,36 @@ export const OrderDetailTable = (props) => {
                 <text>*Note: When you want to edit the item of order details, you have to delete this item and add the new one!</text>
             </div>
             <br />
-            {/* <div className="back_button">
-                <Button onClick={() => window.location.href = "http://localhost:3000/orders/"}>
-                    <FaIcons.FaArrowLeft size={40} color="white" />
-                </Button>
-            </div> */}
+
             <MaterialTable title={<MyNewTitle variant="h6" text="Order Details List" />}
                 data={newData}
                 columns={columns}
-                actions={[
-                    rowData => ({
-                        icon: "delete",
-                        tooltip: "Delete this item",
-                        onClick: (event, rowData) => {
-                            confirmDelete(rowData.orderDetailId);
-                        },
-                        disabled: (rowData.isActive == false)
-                    }),
-                    {
-                        icon: "edit",
-                        tooltip: "Edit this order detail",
-                        onClick: (event, rowData) => {
-                            handleEditData(rowData);
-                        },
-                    },
-                    {
-                        icon: () => <AddBoxIcon />,
-                        tooltip: 'Create Plan for this Order Detail',
-                        onClick: (event, rowData) => {
-                            //console.log(rowData);
-                            createProcess(rowData);
-                            // console.log("data: " + createProcess(rowData));
-                            //navigate('/createProcess')
-                            // setAddcomponentBtn(true);
-                            // deleteComponent(rowData.componentId);
-                            // window.location.reload();
-                        }
-                    }
-                ]}
+                actions={
+                    status == 'Completed' ? [] :
+                        [
+                            rowData => ({
+                                icon: "delete",
+                                tooltip: "Delete this item",
+                                onClick: (event, rowData) => {
+                                    confirmDelete(rowData.orderDetailId);
+                                },
+                                disabled: (rowData.isActive == false)
+                            }),
+                            {
+                                icon: "edit",
+                                tooltip: "Edit this order detail",
+                                onClick: (event, rowData) => {
+                                    handleEditData(rowData);
+                                },
+                            },
+                            {
+                                icon: () => <AddBoxIcon />,
+                                tooltip: 'Create Plan for this Order Detail',
+                                onClick: (event, rowData) => {
+                                    createProcess(rowData);
+                                }
+                            }
+                        ]}
                 options={{
                     searchFieldVariant: 'outlined',
                     searchFieldStyle: {
