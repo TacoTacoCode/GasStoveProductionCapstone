@@ -17,6 +17,7 @@ function Components() {
   const [addcomponentBtn, setAddcomponentBtn] = useState(false);
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
   const [listComponent, setListComponent] = useState([]);
+  let role = localStorage.getItem('currentRole')
 
   useEffect(() => {
     const getAllComponents = "https://localhost:5001/getAllComponents";
@@ -35,8 +36,8 @@ function Components() {
 
   return (
     <>
-      {localStorage['currentRole'] == 'Manufacturer Department' ? null :
-        <div>
+      {localStorage['currentRole'] == 'Admin' ?
+        <>
           <ImportExcelButton
             style={{ marginTop: '3%' }}
             type="button"
@@ -69,7 +70,7 @@ function Components() {
             }}>
             <h3 className="popuptitle">Add a component</h3>
           </ComponentPopup>
-        </div>}
+        </> : null}
       <div className="components">
         <Table listComponent={listComponent} setSubmittedTime={() => {
           setNewDataSubmitted((prevState) => prevState + 1);

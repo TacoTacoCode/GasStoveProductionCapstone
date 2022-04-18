@@ -17,6 +17,7 @@ function Materials() {
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
   const [importFile, setImportFile] = useState(false);
   const [listMaterial, setListMaterial] = useState([]);
+  let role = localStorage.getItem('currentRole')
 
   useEffect(() => {
     const getUserAPI = "https://localhost:5001/getAllMaterials";
@@ -34,7 +35,7 @@ function Materials() {
 
   return (
     <>
-      <ImportExcelButton
+      {role === 'Admin' ? <> <ImportExcelButton
         style={{ marginTop: '3%' }}
         type="button"
         onClick={() => {
@@ -48,36 +49,36 @@ function Materials() {
         </div> */}
         Import Material File
       </ImportExcelButton>
-      <ImportFilePopup
-        trigger={importFile}
-        setTrigger={setImportFile}
-        dataType="material"
-      >
-        <h3 className="popuptitle">Import Material File</h3>
-      </ImportFilePopup>
-      <ImportExcelButton
-        style={{ marginTop: '3%', marginRight: '1%' }}
-        type="button"
-        onClick={() => {
-          setaddmaterialBtn(true);
-        }}
-      >
-        {/* <div>
+        <ImportFilePopup
+          trigger={importFile}
+          setTrigger={setImportFile}
+          dataType="material"
+        >
+          <h3 className="popuptitle">Import Material File</h3>
+        </ImportFilePopup>
+        <ImportExcelButton
+          style={{ marginTop: '3%', marginRight: '1%' }}
+          type="button"
+          onClick={() => {
+            setaddmaterialBtn(true);
+          }}
+        >
+          {/* <div>
           <FaPlus size={24} style={{ verticalAlign: "middle" }} />
           &ensp;
           <text style={{ verticalAlign: "middle" }}>Add Material</text>
         </div> */}
-        Add Material
-      </ImportExcelButton>
-      <MaterialPopup
-        trigger={addmaterialBtn}
-        setTrigger={setaddmaterialBtn}
-        setSubmittedTime={() => {
-          setNewDataSubmitted((prev) => prev + 1);
-        }}
-      >
-        <h3 className="popuptitle">Add a material</h3>
-      </MaterialPopup>
+          Add Material
+        </ImportExcelButton>
+        <MaterialPopup
+          trigger={addmaterialBtn}
+          setTrigger={setaddmaterialBtn}
+          setSubmittedTime={() => {
+            setNewDataSubmitted((prev) => prev + 1);
+          }}
+        >
+          <h3 className="popuptitle">Add a material</h3>
+        </MaterialPopup></> : null}
       <div className="materials">
         <Table
           listMaterial={listMaterial}

@@ -1,5 +1,7 @@
 import { Icon } from '@material-ui/core';
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+
 
 export const SideBarAdminData = [
     {
@@ -52,6 +54,41 @@ export const SideBarOrderData = [
         // icon: <DashboardIcon />,
         path: "/delivery",
         cName: 'nav-text'
+    },
+    {
+        title: "Manage Products",
+        // icon: <DashboardIcon />,
+        path: "/dashboard/products",
+        cName: 'nav-text'
+    }
+]
+
+export const SideBarSectionAssembleData = [
+    {
+        title: 'Task List',
+        path: "/section/processDetail",
+        cName: "nav-text"
+    },
+    // {
+    //     title: 'Materials List',
+    //     path: "/section/materials",
+    //     cName: "nav-text"
+    // },
+    {
+        title: 'Workers List',
+        path: "/section/workers",
+        cName: "nav-text"
+    },
+    {
+        title: "Manage Products",
+        // icon: <DashboardIcon />,
+        path: "/dashboard/products",
+        cName: 'nav-text'
+    },
+    {
+        title: "Manage Components",
+        path: "/dashboard/components",
+        cName: 'nav-text'
     }
 ]
 
@@ -70,14 +107,19 @@ export const SideBarSectionData = [
         title: 'Workers List',
         path: "/section/workers",
         cName: "nav-text"
+    },
+    {
+        title: "Component Producting",
+        path: "/section/components",
+        cName: 'nav-text'
     }
 ]
 
 
 export const SideBarManuData = [
     {
-        title: "RequestComponent",
-        path: "/manufacturer/RequestComponent",
+        title: "Request Component",
+        path: "/manufacturer/requestComponent",
         cName: "nav-text"
     },
     {
@@ -85,5 +127,17 @@ export const SideBarManuData = [
         path: "/dashboard/components",
         cName: 'nav-text'
     },
+    {
+        title: "Manage Products",
+        // icon: <DashboardIcon />,
+        path: "/dashboard/products",
+        cName: 'nav-text'
+    },
+    {
+        title: "Manage Materials",
+        // icon: <DashboardIcon />,
+        path: "/dashboard/materials",
+        cName: 'nav-text'
+    }
 
 ]

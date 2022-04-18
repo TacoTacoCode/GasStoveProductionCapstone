@@ -192,16 +192,14 @@ function OrderEditPopup(props) {
   return props.IsOpen ? (
     <div className="orderpopup">
       <div className="popup-inner">
-        <div>
+        {/* <div>
           <button className="close-btn" onClick={() => props.setOpen(false)}>
             <CloseIcon style={{ color: "white" }} />
           </button>
-        </div>
+        </div> */}
         {props.children}
         <div className="popup-body">
           <form>
-            <br />
-            <text className="content_choose">Order : </text>
             <div className="idname">
               <div className="datefield">
                 <CssTextField
@@ -274,10 +272,10 @@ function OrderEditPopup(props) {
             </div>
             <br />
             <br />
-            <text className="content_choose">Order Detail : </text>
-            <div className="idname">
+            <hr style={{ borderTop: "1px solid #EEE2DC", marginLeft: '3%', marginRight: '5%', marginTop: '5%' }} />
+            <text style={{ fontFamily: 'Muli', fontSize: '18px', width: '100%', display: 'inline-block', paddingTop: '2%', paddingBottom: '3%'}} className="content_choose">Order Detail : </text>
 
-              <div className="tablefield">
+              <div className="product-detail-table">
                 <MaterialTable
                   data={orderProduct}
                   columns={columns}
@@ -294,7 +292,6 @@ function OrderEditPopup(props) {
                   }}
                 />
               </div>
-            </div>
 
             <div className="btngr">
               <Button

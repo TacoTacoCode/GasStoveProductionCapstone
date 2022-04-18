@@ -14,6 +14,7 @@ import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 export const Table = (props) => {
   const { listProduct } = props;
   const array = [];
+  let role = localStorage.getItem('currentRole')
 
   listProduct.forEach((item) => {
     array.push(item);
@@ -152,41 +153,59 @@ export const Table = (props) => {
 
   return (
     <React.Fragment>
-      <MaterialTable
-        title={<MyNewTitle variant="h6" text="Products List" />}
-        data={array}
-        columns={columns}
-        actions={[
-          rowData => ({
-            icon: "delete",
-            tooltip: "Delete Product",
-            onClick: (event, rowData) => {
-              deleteProduct(rowData.productId);
+      {role === 'Admin' ?
+        <MaterialTable
+          title={<MyNewTitle variant="h6" text="Products List" />}
+          data={array}
+          columns={columns}
+          actions={[
+            rowData => ({
+              icon: "delete",
+              tooltip: "Delete Product",
+              onClick: (event, rowData) => {
+                deleteProduct(rowData.productId);
+              },
+              disabled: (rowData.status == 'Unactive')
+            }),
+            {
+              icon: "edit",
+              tooltip: "Edit this Product",
+              onClick: (event, rowData) => {
+                handleEditData(rowData);
+              },
             },
-            disabled: (rowData.status == 'Unactive')
-          }),
-          {
-            icon: "edit",
-            tooltip: "Edit this Product",
-            onClick: (event, rowData) => {
-              handleEditData(rowData);
+          ]}
+          options={{
+            searchFieldVariant: 'outlined',
+            searchFieldStyle: {
+              fontFamily: 'Muli',
+              color: '#0E185F',
+              marginTop: '2%',
+              marginBottom: '2%',
             },
-          },
-        ]}
-        options={{
-          searchFieldVariant: 'outlined',
-          searchFieldStyle: {
-            fontFamily: 'Muli',
-            color: '#0E185F',
-            marginTop: '2%',
-            marginBottom: '2%',
-          },
-          addRowPosition: "first",
-          actionsColumnIndex: -1,
-          exportButton: false,
-          headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px' },
-        }}
-      />
+            addRowPosition: "first",
+            actionsColumnIndex: -1,
+            exportButton: false,
+            headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px' },
+          }}
+        /> : <MaterialTable
+          title={<MyNewTitle variant="h6" text="Products List" />}
+          data={array}
+          columns={columns} 
+          options={{
+            searchFieldVariant: 'outlined',
+            searchFieldStyle: {
+              fontFamily: 'Muli',
+              color: '#0E185F',
+              marginTop: '2%',
+              marginBottom: '2%',
+            },
+            addRowPosition: "first",
+            actionsColumnIndex: -1,
+            exportButton: false,
+            headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px' },
+          }}
+        />}
       {editDatas &&
         <ProductEditPopup
           productCompos={productComponent}
@@ -198,7 +217,7 @@ export const Table = (props) => {
             setNewDataSubmitted((prev) => prev + 1);
           }}
         >
-          <h3 className="popuptitle">Edit component : {editDatas.productId} </h3>
+          <h3 className="popuptitle">Edit product : {editDatas.productId} </h3>
         </ProductEditPopup>
       }
     </React.Fragment>

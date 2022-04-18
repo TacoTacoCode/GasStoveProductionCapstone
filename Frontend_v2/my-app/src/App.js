@@ -25,6 +25,7 @@ import { ExportCompo } from './components/SideBarPages/sectiondepartment/Section
 import Delivery from './components/SideBarPages/orderdepartment/Delivery';
 import RequestDetail from './components/SideBarPages/admin/RequestDetail';
 import RequestComponent from './components/SideBarPages/manufacturer/RequestComponent'
+import SectionComponents from './components/SideBarPages/sectiondepartment/SectionCompo/SectionComponents';
 
 const theme = createTheme({
   App: {
@@ -101,6 +102,8 @@ function App() {
               <Route path='/manufacturer/requestComponent' exact element={< RequestComponent />}></Route>
               <Route path='/manufacturer/requestDetail' exact element={< RequestDetail />}></Route>
               <Route path='/dashboard/components' exact element={<Components />}></Route>
+              <Route path='/dashboard/materials' exact element={<Materials />}></Route>
+              <Route path='/dashboard/products' exact element={<Products />}></Route>
             </Routes>
           </BrowserRouter>
         </ThemeProvider>
@@ -123,6 +126,7 @@ function App() {
               <Route path='/createProcess' exact element={<CreateProcess />}></Route>
               <Route path='/divideProcessTabs' exact element={<DivideProcessTabs />}></Route>
               <Route path='/dashboard/attendance' exact element={<Attendance />}></Route>
+              <Route path='/dashboard/products' exact element={<Products />}></Route>
             </Routes>
           </BrowserRouter>
         </ThemeProvider>
@@ -141,6 +145,7 @@ function App() {
               <Route path='/dashboard/attendance' exact element={<Attendance />}></Route>
               <Route path='/profile' exact element={<Profile />}></Route>
               <Route path='/section/materials' exact element={<SectionMaterials />}></Route>
+              <Route path='/section/components' exact element={<SectionComponents />}></Route>
               <Route path='/section/workers' exact element={<WorkerList />}></Route>
               <Route path='/createProcess' exact element={<CreateProcess />}></Route>
               <Route path='/divideProcessTabs' exact element={<DivideProcessTabs />}></Route>
@@ -150,6 +155,8 @@ function App() {
               <Route path='/section/importCompo' exact element={< ImportCompo />}></Route>
               <Route path='/section/exportCompo' exact element={< ExportCompo />}></Route>
               <Route path='/section/attendance' exact element={<Attendance />}></Route>
+              <Route path='/dashboard/products' exact element={<Products />}></Route>
+              <Route path='/dashboard/components' exact element={<Components />}></Route>
             </Routes>
           </BrowserRouter>
         </ThemeProvider>

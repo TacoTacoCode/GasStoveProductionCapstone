@@ -3,6 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import swal from 'sweetalert';
 import './Signin.scss';
 import jwt from 'jwt-decode'
+import axios from 'axios';
 
 async function loginUser(credentials) {
     return fetch('https://localhost:5001/account/login', {
@@ -52,7 +53,17 @@ export default function Signin() {
                             window.location.href = "/orders";
                             break;
                         case "Section Department":
-                            window.location.href = "/section/processDetail";
+                            axios
+                                .get("https://localhost:5001/getSectionBySectionLeadId/" + user.id)
+                                .then((res) => {
+                                    localStorage.setItem('isAssemble', res.data.isAssemble)
+                                })
+                                .catch((err) => {
+                                    //Trường hợp xảy ra lỗi
+                                    console.log(err);
+                                    alert("Xảy ra lỗi");
+                                });
+                           window.location.href = "/section/processDetail";
                             break;
                         default:
                             console.log("Not Admin");
@@ -94,7 +105,7 @@ export default function Signin() {
                                     margin="normal"
                                     required
                                     fullWidth
-                                    
+
                                     id="password"
                                     name="password"
                                     label="Password"

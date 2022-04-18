@@ -407,23 +407,33 @@ function ComponentPopup(props) {
                 />
               </div>
               <div className="btngr">
-                <ImportExcelButton
+                <Button
                   type="submit"
                   variant="contained"
+                  style={{
+                    fontFamily: "Muli",
+                    borderRadius: 10,
+                    backgroundColor: "#bd162c",
+                    marginRight: "0.5rem",
+                  }}
                   size="large"
                   onClick={postData}
                 >
                   Add Component
-                </ImportExcelButton>
-                <ImportExcelButton
-                  style={{ backgroundColor: '#909090' }}
-                  disable={true}
+                </Button>
+                <Button
                   variant="contained"
                   size="large"
+                  style={{
+                    fontFamily: "Muli",
+                    borderRadius: 10,
+                    backgroundColor: "#bd162c",
+                    marginRight: "0.5rem",
+                  }}
                   onClick={handleCancelClick}
                 >
                   Cancel
-                </ImportExcelButton>
+                </Button>
               </div>
             </div>
           </form>

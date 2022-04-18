@@ -14,6 +14,7 @@ import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 export const Table = (props) => {
   const { listMaterial } = props;
   const array = [];
+  let role = localStorage.getItem('currentRole')
 
   listMaterial.forEach((item) => {
     array.push(item);
@@ -79,7 +80,7 @@ export const Table = (props) => {
       field: "materialName",
       cellStyle: {
         fontFamily: "Muli", fontSize: "18px", paddingRight: '2%'
-},
+      },
       align: 'center',
     },
     {
@@ -142,7 +143,7 @@ export const Table = (props) => {
 
   return (
     <React.Fragment>
-      <MaterialTable
+      {role === 'Admin' ? <MaterialTable
         title={<MyNewTitle variant="h6" text="Materials List" />}
         data={array}
         columns={columns}
@@ -176,7 +177,24 @@ export const Table = (props) => {
           exportButton: false,
           headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px' },
         }}
-      />
+      /> : <MaterialTable
+        title={<MyNewTitle variant="h6" text="Materials List" />}
+        data={array}
+        columns={columns}
+        options={{
+          searchFieldVariant: 'outlined',
+          searchFieldStyle: {
+            fontFamily: 'Muli',
+            color: '#0E185F',
+            marginTop: '2%',
+            marginBottom: '2%',
+          },
+          addRowPosition: "first",
+          actionsColumnIndex: -1,
+          exportButton: false,
+          headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px' },
+        }}
+      />}
       {editDatas &&
         <MaterialEditPopup
           data={editDatas}

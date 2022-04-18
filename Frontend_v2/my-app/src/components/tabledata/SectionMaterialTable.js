@@ -57,7 +57,7 @@ export const Table = (props) => {
                     addRowPosition: "first",
                     actionsColumnIndex: -1,
                     exportButton: false,
-                    headerStyle: { backgroundColor: "#bd162c", color: "#fff", textAlign: "center" },
+                    headerStyle: { backgroundColor: "#bd162c", color: "#fff", textAlign: "center", fontSize: '18px' },
                 }}
             />
         </React.Fragment>

@@ -164,20 +164,20 @@ function CreateProcess() {
             >
                 <form className='formm'>
                     <div style={{ display: 'block', marginBottom: '5%' }}>
-                        <h3 className='h3'>Create Process(s) for Order Detail {process.orderDetailId}</h3>
+                        <h3 className='h3'>Create Plan(s) for Order Detail {process.orderDetailId}</h3>
                         {localStorage.getItem("orderType") == 'false' ?
                             <><ImportExcelButton type="button"
                                 onClick={() => {
                                     localStorage.setItem('orderDetail', JSON.stringify(listProcess[0]));
                                     setDivideProcess(true);
                                 }
-                                }>Divide Process</ImportExcelButton>
+                                }>Divide Plan</ImportExcelButton>
                                 <DivideProcessPopup
                                     listProcess={listProcess}
                                     trigger={divideProcess}
                                     setTrigger={setDivideProcess}
                                 >
-                                    <h3 className="popuptitle1">Enter the total amount for each sub process, separated by comma.</h3>
+                                    <h3 className="popuptitle1">Enter the total amount for each plan, separated by comma.</h3>
                                 </DivideProcessPopup></>
                             : <ImportExcelButton type="submit"
                                 onClick={(e) => handleSave(e)}>Submit</ImportExcelButton>}
@@ -288,7 +288,7 @@ function CreateProcess() {
                         </div> */}
                     </div>
                     <div className='processDetailTable'>
-                        <MaterialTable title={<MyNewTitle variant="h6" text="Process Details List" />}
+                        <MaterialTable title={<MyNewTitle variant="h6" text="Tasks List" />}
                             data={tableData}
                             columns={columns}
                             editable={{

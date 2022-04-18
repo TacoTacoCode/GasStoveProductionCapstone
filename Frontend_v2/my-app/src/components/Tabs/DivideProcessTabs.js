@@ -161,18 +161,18 @@ function DivideProcessTabs() {
     const columns = [
         {
             title: 'Component Name', field: 'componentName', editable: 'false',
-            cellStyle: { fontFamily: 'Muli', width: "20%", fontSize: '18px' }, align: 'left'
+            cellStyle: { fontFamily: 'Muli', width: "20%", fontSize: '18px' }, align: 'center'
         },
         {
             title: "Image", field: 'componentImg', align: 'center',
-            cellStyle: { fontFamily: "Muli", fontSize: '18px' }, editable: 'false', align: 'left',
+            cellStyle: { fontFamily: "Muli", fontSize: '18px', width: "37%",}, editable: 'false', align: 'center',
             render: (rowData) =>
                 <img src={`https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F${rowData.componentImg}`}
                     width="100px" height="100px" />
         },
         {
             title: 'Total Amount', field: 'totalAmount', editable: 'false',
-            cellStyle: { fontFamily: 'Muli', width: "20%", fontSize: '18px' }, align: 'left'
+            cellStyle: { fontFamily: 'Muli', width: "15%", fontSize: '18px' }, align: 'center'
         },
         {
             title: 'Expiry Date', field: 'expiryDate', cellStyle: { fontFamily: 'Muli', width: "20%" },
@@ -213,7 +213,7 @@ function DivideProcessTabs() {
                             className={toggleState === (index + 1) ? "tabs active-tabs" : "tabs"}
                             onClick={() => toggleTab(index + 1)}
                         >
-                            Process {index + 1}
+                            Plan {index + 1}
                         </button>
                     ))}
                 </div>
@@ -223,7 +223,7 @@ function DivideProcessTabs() {
                         <div
                             className={toggleState === (index + 1) ? "content  active-content" : "content"}
                         >
-                            <h2>Sub Process {index + 1}</h2>
+                            <h2>Plan {index + 1}</h2>
                             <hr />
                             <div className='number'>
                                 <div className='divprocess'>
@@ -292,7 +292,7 @@ function DivideProcessTabs() {
                             </div>
                             <div className='processDetailTable'>
                                 {listProcess[index] &&
-                                    <MaterialTable title={<MyNewTitle variant="h6" text="Process Details List" /> }
+                                    <MaterialTable title={<MyNewTitle variant="h6" text="Tasks List" /> }
                                         data={tableData[index]}
                                         columns={columns}
                                         editable={{

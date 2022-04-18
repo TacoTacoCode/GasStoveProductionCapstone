@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { SideBarAdminData, SideBarData, SideBarManuData, SideBarOrderData, SideBarSectionData } from "./SideBarData";
+import { SideBarAdminData, SideBarData, SideBarManuData, SideBarOrderData, SideBarSectionAssembleData, SideBarSectionData } from "./SideBarData";
 import "../SideBarComponents/SideBarCss.css";
 import { Link } from "react-router-dom";
 import * as FaIcons from 'react-icons/fa';
@@ -93,6 +93,7 @@ function CustomSideBar() {
     const [currentUser, setCurrentUser] = useState({ id: localStorage.getItem('currentId'), role: localStorage.getItem('currentRole') });
 
     let role = [];
+    let isAssemble = localStorage.getItem('isAssemble')
 
     switch (currentUser.role) {
         case 'Admin':
@@ -104,8 +105,12 @@ function CustomSideBar() {
             currentLink = "orders";
             break;
         case 'Section Department':
-            role = SideBarSectionData.map(obj => ({ ...obj }));
-            currentLink = "section/processDetail";
+            if (isAssemble === 'true') {
+                role = SideBarSectionAssembleData.map(obj => ({ ...obj }));
+            }
+            else {
+                role = SideBarSectionData.map(obj => ({ ...obj }));
+            } currentLink = "section/processDetail";
             break;
         case 'Manufacturer Department':
             role = SideBarManuData.map(obj => ({ ...obj }));

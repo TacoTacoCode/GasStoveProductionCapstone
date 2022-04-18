@@ -141,110 +141,106 @@ function SectionEditPopup(props) {
   return props.IsOpen ? (
     <div className="componentpopup">
       <div className="popup-inner">
-        <div>
-          <button className="close-btn" onClick={() => props.setOpen(false)}>
-            <CloseIcon style={{ color: "white" }} />
-          </button>
-        </div>
         {props.children}
-        <div className="popup-body" style={{ maxHeight: '600px', overflow: 'auto', overflowY: 'scroll' }}>
-          <br />
-          <text className="content_choose">Section : </text>
-          <br />
-          <br />
+        <div className="popup-body">
           <form>
             <div className="idname_section">
-              {/* <div className="datefield"> */}
-              <CssTextField
-                label="Section Leader"
-                select
-                id="fullWidth"
-                required
-                value={sectionLeaderId}
-                onChange={(e) => setSectionLeaderId(e.target.value)}
-              >
-                {listAccountActive.map((leader) => (
-                  <MenuItem key={leader.accountId} value={leader.accountId}>
-                    {leader.name}
-                  </MenuItem>
-                ))}
-              </CssTextField>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <CssTextField
-                label="State"
-                select
-                id="fullWidth"
-                required
-                value={isAssemble}
-                onChange={(e) => setIsAssemble(e.target.value)}
-              >
-                {states.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </CssTextField>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <CssTextField
-                label="Component"
-                select
-                id="fullWidth"
-                disabled={isAssemble}
-                required={!isAssemble}
-                value={isAssemble ? '' : componentId}
-                onChange={(e) => setComponentId(e.target.value)}
-              >
-                {listComponentActive.map((component) => (
-                  <MenuItem key={component.componentId} value={component.componentId}>
-                    {component.componentName}
-                  </MenuItem>
-                ))}
-              </CssTextField>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <CssTextField
-                label="Status"
-                select
-                id="fullWidth"
-                required
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-              >
-                {statuses.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </CssTextField>
-              {/* </div> */}
+              <div className="textfield">
+                <CssTextField
+                  label="Section Leader"
+                  select
+                  id="fullWidth"
+                  required
+                  value={sectionLeaderId}
+                  onChange={(e) => setSectionLeaderId(e.target.value)}
+                >
+                  {listAccountActive.map((leader) => (
+                    <MenuItem key={leader.accountId} value={leader.accountId}>
+                      {leader.name}
+                    </MenuItem>
+                  ))}
+                </CssTextField>
+              </div>
+              <div className="textfield">
+                <CssTextField
+                  label="State"
+                  select
+                  id="fullWidth"
+                  required
+                  value={isAssemble}
+                  onChange={(e) => setIsAssemble(e.target.value)}
+                >
+                  {states.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </CssTextField>
+              </div>
+              <div className="textfield">
+                <CssTextField
+                  label="Component"
+                  select
+                  id="fullWidth"
+                  disabled={isAssemble}
+                  required={!isAssemble}
+                  value={isAssemble ? '' : componentId}
+                  onChange={(e) => setComponentId(e.target.value)}
+                >
+                  {listComponentActive.map((component) => (
+                    <MenuItem key={component.componentId} value={component.componentId}>
+                      {component.componentName}
+                    </MenuItem>
+                  ))}
+                </CssTextField>
+              </div>
+              <div className="textfield">
+                <CssTextField
+                  label="Status"
+                  select
+                  id="fullWidth"
+                  required
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                >
+                  {statuses.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </CssTextField>
+              </div>
             </div>
 
-            <div className="btngr">
-              <Button
-                type="submit"
-                variant="contained"
-                style={{
-                  fontFamily: "Muli",
-                  borderRadius: 10,
-                  backgroundColor: "#bd162c",
-                  marginRight: "0.5rem",
-                }}
-                size="large"
-                onClick={changeData}
-              >
-                Edit Section
-              </Button>
-              <Button
-                variant="contained"
-                style={{
-                  fontFamily: "Muli",
-                  borderRadius: 10,
-                  backgroundColor: "#bd162c",
-                }}
-                size="large"
-                onClick={handleCancelClick}
-              >
-                Cancel
-              </Button>
+            <div className="idname">
+              <div className="btngr">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  style={{
+                    fontFamily: "Muli",
+                    borderRadius: 10,
+                    backgroundColor: "#bd162c",
+                    marginRight: "0.5rem",
+                  }}
+                  size="large"
+                  onClick={changeData}
+                >
+                  Edit Section
+                </Button>
+                <Button
+                  variant="contained"
+                  style={{
+                    fontFamily: "Muli",
+                    borderRadius: 10,
+                    backgroundColor: "#bd162c",
+                  }}
+                  size="large"
+                  onClick={handleCancelClick}
+                >
+                  Cancel
+                </Button>
+              </div>
             </div>
           </form>
         </div>

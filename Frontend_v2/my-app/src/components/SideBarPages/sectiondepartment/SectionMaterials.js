@@ -21,7 +21,7 @@ function SectionMaterials() {
       })
   }, [])
   return (
-    <div className='materials' style={{ padding: '3% 10%' }}>
+    <div className='materials' style={{ padding: '3% 3%' }}>
       <Table listMaterial={listMaterial} />
     </div>
   )

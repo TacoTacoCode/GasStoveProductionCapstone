@@ -185,7 +185,7 @@ export const OrderDetailTable = (props) => {
                     },
                     {
                         icon: () => <AddBoxIcon />,
-                        tooltip: 'Create Process(s) for this Order Detail',
+                        tooltip: 'Create Plan for this Order Detail',
                         onClick: (event, rowData) => {
                             //console.log(rowData);
                             createProcess(rowData);
