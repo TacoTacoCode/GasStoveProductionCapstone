@@ -37,7 +37,7 @@ export const Table = (props) => {
             title: 'ID', field: 'orderId', cellStyle: { fontFamily: 'Arial', fontSize: '18px' },
         },
         {
-            title: 'CustomerName', field: 'customerName', cellStyle: { fontFamily: 'Muli', fontSize: '18px' },
+            title: 'Customer Name', field: 'customerName', cellStyle: { fontFamily: 'Muli', fontSize: '18px' },
             // render:
             //     rowData => (rowData.accountId != null)
             //         ? <TextGetSectionLeader accountID={rowData.accountId} />

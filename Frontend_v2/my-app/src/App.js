@@ -26,6 +26,8 @@ import Delivery from './components/SideBarPages/orderdepartment/Delivery';
 import RequestDetail from './components/SideBarPages/admin/RequestDetail';
 import RequestComponent from './components/SideBarPages/manufacturer/RequestComponent'
 import SectionComponents from './components/SideBarPages/sectiondepartment/SectionCompo/SectionComponents';
+import TrackingProcess from './components/SideBarPages/manufacturer/TrackingProcess';
+import TrackingProcessDetails from './components/SideBarPages/manufacturer/TrackingProcessDetails';
 
 const theme = createTheme({
   App: {
@@ -101,6 +103,8 @@ function App() {
               <Route path='/profile' exact element={<Profile />}></Route>
               <Route path='/manufacturer/requestComponent' exact element={< RequestComponent />}></Route>
               <Route path='/manufacturer/requestDetail' exact element={< RequestDetail />}></Route>
+              <Route path='/manufacturer/process' exact element={< TrackingProcess />}></Route>
+              <Route path='/manufacturer/process/processDetail' exact element={< TrackingProcessDetails />}></Route>
               <Route path='/dashboard/components' exact element={<Components />}></Route>
               <Route path='/dashboard/materials' exact element={<Materials />}></Route>
               <Route path='/dashboard/products' exact element={<Products />}></Route>
@@ -127,6 +131,8 @@ function App() {
               <Route path='/divideProcessTabs' exact element={<DivideProcessTabs />}></Route>
               <Route path='/dashboard/attendance' exact element={<Attendance />}></Route>
               <Route path='/dashboard/products' exact element={<Products />}></Route>
+              <Route path='/manufacturer/process' exact element={< TrackingProcess />}></Route>
+              <Route path='/manufacturer/process/processDetail' exact element={< TrackingProcessDetails />}></Route>
             </Routes>
           </BrowserRouter>
         </ThemeProvider>

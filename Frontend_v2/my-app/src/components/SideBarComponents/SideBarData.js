@@ -60,7 +60,13 @@ export const SideBarOrderData = [
         // icon: <DashboardIcon />,
         path: "/dashboard/products",
         cName: 'nav-text'
-    }
+    },
+    {
+        title: "Tracking Plans",
+        // icon: <DashboardIcon />,
+        path: "/manufacturer/process",
+        cName: 'nav-text'
+    },
 ]
 
 export const SideBarSectionAssembleData = [
@@ -138,6 +144,11 @@ export const SideBarManuData = [
         // icon: <DashboardIcon />,
         path: "/dashboard/materials",
         cName: 'nav-text'
-    }
-
+    },
+    {
+        title: "Tracking Plans",
+        // icon: <DashboardIcon />,
+        path: "/manufacturer/process",
+        cName: 'nav-text'
+    },
 ]
