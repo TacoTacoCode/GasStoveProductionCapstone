@@ -38,6 +38,12 @@ namespace GSP_API.Business.Services
             return datas;
         }
 
+        public async Task<List<ProcessDetail>> GetProcessDetailByProcessId(int processId)
+        {
+            var datas = await _processDetailRepository.GetAll(p => p.ProcessId == processId);
+            return datas;
+        }
+
         public async Task<string> GetTaskName(int processId)
         {
             var process = await _processRepository.FindFirst(p => p.ProcessId == processId);

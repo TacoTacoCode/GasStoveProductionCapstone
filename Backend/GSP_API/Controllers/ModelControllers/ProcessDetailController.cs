@@ -66,6 +66,20 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok(processDetails);
         }
 
+        // GET: getListProcessDetail/1
+        [HttpGet]
+        [Route("getProcessDetails/{processId}")]
+        public async Task<ActionResult<List<ProcessDetailResponse>>> GetProcessDetailByProcessId(int processId)
+        {
+            var data = await _processDetailService.GetProcessDetailByProcessId(processId);
+            if (data == null)
+            {
+                return BadRequest("Not found");
+            }
+            var processDetails = _mapper.Map<List<ProcessDetailResponse>>(data);
+            return Ok(processDetails);
+        }
+
         [HttpGet]
         [Route("getTaskName/{processId}")]
         public async Task<ActionResult<string>> GetTaskName(int processId)
