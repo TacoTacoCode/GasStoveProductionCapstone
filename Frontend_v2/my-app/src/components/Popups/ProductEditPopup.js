@@ -150,6 +150,7 @@ function ProductEditPopup(props) {
     const formData = new FormData();
     formData.append("productId", productID);
     formData.append("productName", productName);
+    formData.append("imageUrl", imageUrl);
     formData.append("amount", amount);
     formData.append("price", price);
     formData.append("status", status);
@@ -220,9 +221,8 @@ function ProductEditPopup(props) {
                 <div className="idfield">
                   <CssTextField
                     label="Product ID"
-
                     value={productID}
-                    required
+                    disabled
                     onChange={(e) => setProductID(e.target.value)}
                   />
                 </div>

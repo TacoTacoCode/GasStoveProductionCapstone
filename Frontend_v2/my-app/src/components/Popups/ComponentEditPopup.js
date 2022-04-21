@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import "../../styles/Popup.scss";
-import MaterialTable from "material-table";
-import { Button, MenuItem, TextField, } from "@mui/material";
-import { alpha, styled } from "@mui/material/styles";
+import { Button, MenuItem, TextField } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import axios from "axios";
+import MaterialTable from "material-table";
+import React, { useEffect, useState } from "react";
 import swal from "sweetalert";
+import "../../styles/Popup.scss";
 import { ImportExcelButton } from "../button/ImportExcelButton";
 
 const statuses = [
@@ -241,7 +241,7 @@ function ComponentEditPopup(props) {
                     label="Component ID"
                     id="fullWidth"
                     value={componentID}
-                    required
+                    disabled
                     onChange={(e) => setComponentID(e.target.value)}
                   />
                 </div>

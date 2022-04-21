@@ -1,8 +1,9 @@
-import React from 'react'
-import './MaterialRequest.scss'
-import CloseIcon from '@mui/icons-material/Close'
-import { Button, InputAdornment, makeStyles, MenuItem, TextField } from '@mui/material';
-import { alpha, styled } from '@mui/material/styles';
+import './MaterialRequest.scss';
+
+import CloseIcon from '@mui/icons-material/Close';
+import { Button, MenuItem, TextField } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import React from 'react';
 
 
 const statuses = [

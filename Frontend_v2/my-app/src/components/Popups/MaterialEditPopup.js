@@ -178,7 +178,6 @@ function MaterialEditPopup(props) {
                     label="Material ID"
                     id="fullWidth"
                     value={materialID}
-                    required
                     disabled
                   />
                 </div>
