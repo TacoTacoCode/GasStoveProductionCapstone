@@ -92,7 +92,7 @@ namespace GSP_API.Business.Services
             var data = await _componentRepository.GetById(p => p.ComponentId == componentId);
             if (data != null)
             {
-                data.Status = "Unactive";
+                data.Status = "Inactive";
                 return await _componentRepository.Update(data);
             }
             return null;

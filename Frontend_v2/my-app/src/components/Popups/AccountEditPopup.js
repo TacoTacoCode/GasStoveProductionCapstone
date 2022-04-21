@@ -20,7 +20,7 @@ const statuses = [
   },
   {
     value: false,
-    label: "Unactive",
+    label: "Inactive",
   },
 ];
 

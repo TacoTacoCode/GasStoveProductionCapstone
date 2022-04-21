@@ -16,7 +16,7 @@ const statuses = [
   },
   {
     value: false,
-    label: 'Unactive'
+    label: 'Inactive'
   }
 ]
 
@@ -271,7 +271,7 @@ function AccountPopup(props) {
               </div>
               <div className='account-name'>
                 <CssTextField
-                 label="Confirm Password" type={'password'}
+                  label="Confirm Password" type={'password'}
                   value={confirmPassword} id="fullWidth" required
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   helperText={password != confirmPassword ? 'Password and Confirm password does not match' : ''} />

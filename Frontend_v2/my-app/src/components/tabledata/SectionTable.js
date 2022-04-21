@@ -67,10 +67,10 @@ export const Table = (props) => {
     {
       title: "Section ID",
       field: "sectionId",
-      cellStyle: { fontFamily: "Muli", paddingRight: '3%'},
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%' },
       align: 'center',
       fontSize: '18px',
-      paddingRight: '5%' 
+      paddingRight: '5%'
     },
     // muốn lấy tên
     {
@@ -87,14 +87,14 @@ export const Table = (props) => {
     {
       title: "Component",
       field: "componentId",
-      cellStyle: { fontFamily: "Muli", paddingRight: '3%'},
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%' },
       align: 'center',
       fontSize: '18px',
     },
     {
       title: "Worker Amount",
       field: "workerAmount",
-      cellStyle: { fontFamily: "Muli", paddingRight: '3%'},
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%' },
       align: 'center',
       fontSize: '18px',
     },
@@ -124,7 +124,7 @@ export const Table = (props) => {
       fontSize: '18px',
       cellStyle: { fontFamily: "Muli", paddingRight: '3%' },
       render:
-        rowData => (rowData.status == 'Unactive')
+        rowData => (rowData.status == 'Inactive')
           ? <IconContext.Provider value={{ color: "red", className: "global-class-name" }}>
             <div className="cancel">
               <HighlightOffRoundedIcon fontSize="large" />
@@ -177,7 +177,7 @@ export const Table = (props) => {
             onClick: (event, rowData) => {
               deleteSection(rowData.sectionId);
             },
-            disabled: (rowData.status == 'Unactive')
+            disabled: (rowData.status == 'Inactive')
           }),
           {
             icon: "edit",
@@ -198,7 +198,7 @@ export const Table = (props) => {
           addRowPosition: "first",
           actionsColumnIndex: -1,
           exportButton: false,
-          headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px'},
+          headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px' },
         }}
       />
       {editDatas &&

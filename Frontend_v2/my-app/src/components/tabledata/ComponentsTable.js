@@ -103,7 +103,7 @@ export const Table = (props) => {
       align: "center",
       cellStyle: { fontFamily: "Muli", paddingRight: '3%', fontSize: '18px' },
       render:
-        rowData => (rowData.status == 'Unactive')
+        rowData => (rowData.status == 'Inactive')
           ? <IconContext.Provider value={{ color: "red", className: "global-class-name" }}>
             <div className="cancel">
               <HighlightOffRoundedIcon fontSize="large" />
@@ -158,7 +158,7 @@ export const Table = (props) => {
                 onClick: (event, rowData) => {
                   deleteComponent(rowData.componentId);
                 },
-                disabled: (rowData.status == 'Unactive')
+                disabled: (rowData.status == 'Inactive')
               }),
               {
                 icon: "edit",

@@ -107,7 +107,7 @@ namespace GSP_API.Business.Services
             var data = await _sectionRepository.GetById(p => p.SectionId == sectionId);
             if (data != null)
             {                
-                data.Status = "Unactive";
+                data.Status = "Inactive";
                 return await _sectionRepository.Update(data);                
             }
             return null;

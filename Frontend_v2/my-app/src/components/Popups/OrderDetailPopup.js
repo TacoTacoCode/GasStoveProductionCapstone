@@ -140,7 +140,7 @@ function OrderDetailPopup(props) {
             <div className="idname">
               <div className="datefield">
                 <CssTextField
-                  label="Product ID"
+                  label="Product"
                   select
                   value={productId}
                   required
@@ -156,17 +156,6 @@ function OrderDetailPopup(props) {
                       {option.productName}
                     </MenuItem>
                   ))}
-                  {/* {listProductActive
-                    .filter((item) => {
-                      return !listProductActive.find(
-                        (item2) => item2.productId === item.productId
-                      );
-                    })
-                    .map((product) => (
-                      <MenuItem key={product.productId} value={product.productId}>
-                        {product.materialName}
-                      </MenuItem>
-                    ))} */}
                 </CssTextField>
               </div>
               <div className='idfield'>

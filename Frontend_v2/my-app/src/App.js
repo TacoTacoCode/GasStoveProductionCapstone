@@ -165,6 +165,8 @@ function App() {
               <Route path='/dashboard/components' exact element={<Components />}></Route>
               <Route path='/section/requests' exact element={<RequestComponent />}></Route>
               <Route path='/manufacturer/requestDetail' exact element={< RequestDetail />}></Route>
+              <Route path='/section/tasks' exact element={< TrackingProcess />}></Route>
+              <Route path='/manufacturer/process/processDetail' exact element={< TrackingProcessDetails />}></Route>
             </Routes>
           </BrowserRouter>
         </ThemeProvider>

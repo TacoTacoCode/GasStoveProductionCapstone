@@ -99,7 +99,7 @@ export const Table = (props) => {
       field: "status",
       align: "center",
       render:
-        rowData => (rowData.status == 'Unactive')
+        rowData => (rowData.status == 'Inactive')
           ? <IconContext.Provider value={{ color: "red", className: "global-class-name" }}>
             <div className="cancel">
               <HighlightOffRoundedIcon fontSize="large" />
@@ -165,7 +165,7 @@ export const Table = (props) => {
               onClick: (event, rowData) => {
                 deleteProduct(rowData.productId);
               },
-              disabled: (rowData.status == 'Unactive')
+              disabled: (rowData.status == 'Inactive')
             }),
             {
               icon: "edit",
@@ -191,7 +191,7 @@ export const Table = (props) => {
         /> : <MaterialTable
           title={<MyNewTitle variant="h6" text="Products List" />}
           data={array}
-          columns={columns} 
+          columns={columns}
           options={{
             searchFieldVariant: 'outlined',
             searchFieldStyle: {

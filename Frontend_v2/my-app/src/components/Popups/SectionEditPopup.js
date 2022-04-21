@@ -30,8 +30,8 @@ const statuses = [
     label: "Active",
   },
   {
-    value: "Unactive",
-    label: "Unactive",
+    value: "Inactive",
+    label: "Inactive",
   },
 ];
 

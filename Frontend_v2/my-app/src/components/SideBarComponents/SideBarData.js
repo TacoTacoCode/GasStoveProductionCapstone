@@ -81,6 +81,11 @@ export const SideBarSectionAssembleData = [
         cName: "nav-text"
     },
     {
+        title: 'Tracking Component',
+        path: "/section/tasks",
+        cName: "nav-text"
+    },
+    {
         title: 'Workers List',
         path: "/section/workers",
         cName: "nav-text"

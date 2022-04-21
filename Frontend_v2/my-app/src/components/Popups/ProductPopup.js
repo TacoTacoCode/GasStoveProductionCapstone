@@ -20,17 +20,17 @@ const columns = [
   {
     title: "ID",
     field: "componentId",
-    cellStyle: { fontFamily: "Muli"},
+    cellStyle: { fontFamily: "Muli" },
   },
   {
     title: "Component Name",
     field: "componentName",
-    cellStyle: { fontFamily: "Muli"},
+    cellStyle: { fontFamily: "Muli" },
   },
   {
     title: "Amount",
     field: "amount",
-    cellStyle: { fontFamily: "Muli"},
+    cellStyle: { fontFamily: "Muli" },
   },
 ];
 
@@ -40,8 +40,8 @@ const statuses = [
     label: "Active",
   },
   {
-    value: "Unactive",
-    label: "Unactive",
+    value: "Inactive",
+    label: "Inactive",
   },
 ];
 
@@ -334,7 +334,7 @@ function ProductPopup(props) {
                     }}
                   >
                     Add
-                    </ImportExcelButton>
+                  </ImportExcelButton>
                 )
                   : <ImportExcelButton
                     style={{ backgroundColor: '#909090' }}
@@ -367,7 +367,7 @@ function ProductPopup(props) {
                     addRowPosition: "first",
                     actionsColumnIndex: -1,
                     exportButton: false,
-                    headerStyle: { backgroundColor: "#bd162c", color: "#fff"},
+                    headerStyle: { backgroundColor: "#bd162c", color: "#fff" },
                   }}
                 />
               </div>

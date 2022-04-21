@@ -56,7 +56,7 @@ export const SectionComponentTable = (props) => {
             align: "center",
             cellStyle: { fontFamily: "Muli", paddingRight: '3%', fontSize: '18px' },
             render:
-                rowData => (rowData.status == 'Unactive')
+                rowData => (rowData.status == 'Inactive')
                     ? <IconContext.Provider value={{ color: "red", className: "global-class-name" }}>
                         <div className="cancel">
                             <HighlightOffRoundedIcon fontSize="large" />

@@ -175,14 +175,14 @@ export const TrackingTaskTable = (props) => {
             title={<MyNewTitle variant="h6" text="Tasks List" />}
             data={array}
             columns={columns}
-            actions={[
+            actions={localStorage['currentRole'] === 'Section Department' ? [] : [
                 rowData => ({
                     icon: "delete",
                     tooltip: "Delete Plan",
                     onClick: (event, rowData) => {
                         deletePlan(rowData.processDetailId);
                     },
-                    disabled: (rowData.status == 'Unactive')
+                    disabled: (rowData.status == 'Inactive')
                 }),
             ]}
             // onRowClick={(event, rowData) => {

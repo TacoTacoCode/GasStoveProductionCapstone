@@ -182,14 +182,14 @@ export const TrackingPlansTable = (props) => {
             title={<MyNewTitle variant="h6" text="Plans List" />}
             data={array}
             columns={columns}
-            actions={[
+            actions={localStorage['currentRole'] === 'Section Department' ? [] : [
                 rowData => ({
                     icon: "delete",
                     tooltip: "Delete Plan",
                     onClick: (event, rowData) => {
                         deletePlan(rowData.processId);
                     },
-                    disabled: (rowData.status == 'Unactive')
+                    disabled: (rowData.status == 'Inactive')
                 }),
             ]}
             onRowClick={(event, rowData) => {
