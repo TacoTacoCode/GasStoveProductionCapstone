@@ -83,7 +83,7 @@ namespace GSP_API.Controllers.ModelControllers
                 component.ComponentMaterial = compoMate;
             }
             Stream fileStream = null;
-            var fileName = "no-image.jpg?alt=media&token=c45f5852-28eb-4b4d-87a8-2caefb10df12";
+            var fileName = component.ImageUrl?? "no-image.jpg?alt=media&token=c45f5852-28eb-4b4d-87a8-2caefb10df12";
             if (file != null)
             {
                 fileStream = file.OpenReadStream();
@@ -128,7 +128,7 @@ namespace GSP_API.Controllers.ModelControllers
                 componentRequest.ComponentMaterial = compoMate;
             }
             Stream fileStream = null;
-            var fileName = "no-image.jpg?alt=media&token=c45f5852-28eb-4b4d-87a8-2caefb10df12";
+            var fileName =componentRequest.ImageUrl ?? "no-image.jpg?alt=media&token=c45f5852-28eb-4b4d-87a8-2caefb10df12";
             if (file != null)
             {
                 fileStream = file.OpenReadStream();

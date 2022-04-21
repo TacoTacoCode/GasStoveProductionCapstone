@@ -150,7 +150,7 @@ export const Table = (props) => {
         data={array}
         columns={columns}
         actions={
-          localStorage['currentRole'] == 'Manufacturer Department' ? []
+          localStorage['currentRole'] != 'Admin' ? []
             : [
               rowData => ({
                 icon: "delete",

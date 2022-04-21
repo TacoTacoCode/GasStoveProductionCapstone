@@ -114,7 +114,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> AddAccount([FromForm] AccountRequest newAccount, IFormFile file)
         {
             Stream fileStream = null;
-            var fileName = "no-face.png?alt=media&token=83eda3a8-5787-4f09-af2b-473462ada9e6";
+            var fileName = newAccount.AvatarUrl ?? "no-face.png?alt=media&token=83eda3a8-5787-4f09-af2b-473462ada9e6";
             if (file != null)
             {   
                 fileStream = file.OpenReadStream();
@@ -139,7 +139,7 @@ namespace GSP_API.Controllers.ModelControllers
         public async Task<ActionResult> UpdateAccount([FromForm] AccountRequest accountRequest, IFormFile file)
         {
             Stream fileStream = null;
-            var fileName = "no-face.png?alt=media&token=83eda3a8-5787-4f09-af2b-473462ada9e6";
+            var fileName =accountRequest.AvatarUrl ?? "no-face.png?alt=media&token=83eda3a8-5787-4f09-af2b-473462ada9e6";
             if (file != null)
             {
                 fileStream = file.OpenReadStream();
