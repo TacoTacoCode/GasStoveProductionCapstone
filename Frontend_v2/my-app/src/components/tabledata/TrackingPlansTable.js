@@ -83,7 +83,7 @@ export const TrackingPlansTable = (props) => {
 
     const columns = [
         {
-            title: "Process ID",
+            title: "Plan ID",
             field: "processId",
             cellStyle: { fontFamily: "Muli", fontSize: "18px" },
             align: 'center',
@@ -117,7 +117,7 @@ export const TrackingPlansTable = (props) => {
                 rowData => <LocalizationProvider dateAdapter={AdapterDateFns}><DesktopDatePicker
                     disableOpenPicker
                     inputFormat="MM/dd/yyyy"
-                    value={array[0].expiryDate}
+                    value={array[rowData.tableData.id].createdDate}
                     renderInput={(params) => <CssTextField
                         inputProps={{ readOnly: true }} style={{ width: "fit-content", textAlign: "center" }} disabled {...params} />}
                 /></LocalizationProvider>,
@@ -128,7 +128,7 @@ export const TrackingPlansTable = (props) => {
                 rowData => <LocalizationProvider dateAdapter={AdapterDateFns}><DesktopDatePicker
                     disableOpenPicker
                     inputFormat="MM/dd/yyyy"
-                    value={array[0].expiryDate}
+                    value={array[rowData.tableData.id].expiryDate}
                     renderInput={(params) => <CssTextField
                         inputProps={{ readOnly: true }} style={{ width: "fit-content", textAlign: "center" }} disabled {...params} />}
                 /></LocalizationProvider>,
@@ -147,6 +147,12 @@ export const TrackingPlansTable = (props) => {
                     }
                     if (rowData.status == 'Inactive') {
                         color = '#E02401'
+                    }
+                    if (rowData.status == 'Processing') {
+                        color = '#F48B29'
+                    }
+                    if (rowData.status == 'Completed') {
+                        color = '#333c83'
                     }
                     return <div style={{ fontWeight: "500", marginTop: "0.5%", border: `1px solid ${color}`, backgroundColor: `${color}` }} className="text_square">
                         <text style={{ color: 'white', fontWeight: "500" }}>{rowData.status}</text>

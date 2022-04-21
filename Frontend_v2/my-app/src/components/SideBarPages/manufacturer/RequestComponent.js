@@ -13,7 +13,11 @@ export default function RequestComponent() {
     const [listRequestComponents, setListRequesComponents] = useState([]);
 
     useEffect(() => {
-        const getRequestComponent = 'https://localhost:5001/getExByType/C'
+        let getRequestComponent = 'https://localhost:5001/getExByType/C'
+        if (localStorage['currentRole'] === 'Section Department') {
+            let section = JSON.parse(localStorage['currentSectionInfo'])
+            getRequestComponent = 'https://localhost:5001/getExsOf/sec/' + section.sectionId
+        }
         //Gọi API bằng axios
         axios.get(getRequestComponent).then((res) => {
             console.log(res.data)

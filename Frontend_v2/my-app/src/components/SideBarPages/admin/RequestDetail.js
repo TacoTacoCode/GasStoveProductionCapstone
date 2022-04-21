@@ -101,9 +101,10 @@ function RequestDetail() {
             title: 'Amount', field: 'amount', cellStyle: { fontFamily: 'Muli', fontSize: '18px', paddingRight: '4%' }, align: "center"
         },
         {
-            title: 'Exported Amount', field: 'exportedAmount', cellStyle: { fontFamily: 'Muli', fontSize: '18px', paddingRight: '4%' }, align: "center"
+            title: 'Exported Amount', field: 'exportedAmount', cellStyle: { fontFamily: 'Muli', fontSize: '18px', paddingRight: '4%' }, align: "center",
+            render: rowData => rowData.exportedAmount ?? 0
         },
-        {
+        localStorage['currentRole'] === 'Section Department' ? {} : {
             title: 'Supplying Amount', field: 'supplyField',
             render: rowData => <Tooltip title={`Maximum is ${rowData.exportedAmount == undefined ? rowData.amount : rowData.amount - rowData.exportedAmount}`}>
                 <CssTextField defaultValue={supplying[rowData.tableData.id] == 0 ? 0 : supplying[rowData.tableData.id]}
@@ -170,7 +171,7 @@ function RequestDetail() {
                         }
                     }}
 
-                    actions={[
+                    actions={localStorage['currentRole'] === 'Section Department' ? [] : [
                         rowData => ({
                             icon: () => <BsFileEarmarkCheck />,
                             tooltip: 'Accept this request',

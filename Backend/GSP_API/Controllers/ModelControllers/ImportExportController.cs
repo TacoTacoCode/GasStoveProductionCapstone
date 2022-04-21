@@ -35,10 +35,10 @@ namespace GSP_API.Controllers.ModelControllers
         
         // GET: getImExsOf/sec/1
         [HttpGet]
-        [Route("getImExsOf/sec/{sectionId}")]
-        public async Task<ActionResult<List<ImportExportResponse>>> GetImExBySection(int sectionId)
+        [Route("getExsOf/sec/{sectionId}")]
+        public async Task<ActionResult<List<ImportExportResponse>>> GetExBySection(int sectionId)
         {
-            var data = await _importExportService.GetImExBySection(sectionId);
+            var data = await _importExportService.GetExBySection(sectionId);
             if (data == null)
             {
                 return BadRequest("Not found");

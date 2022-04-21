@@ -41,9 +41,9 @@ namespace GSP_API.Business.Services
             _importExportDetailService = importExportDetailService;
         }
 
-        public async Task<List<ImportExport>> GetImExBySection(int sectionId)
+        public async Task<List<ImportExport>> GetExBySection(int sectionId)
         {
-            return await _importExportRepository.GetAll(p => p.SectionId == sectionId);
+            return await _importExportRepository.GetAll(p => p.SectionId == sectionId && p.IsImport == false);
         }
 
         public async Task<ImportExport> GetImExtById(int imExId)

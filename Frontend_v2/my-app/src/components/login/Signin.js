@@ -53,17 +53,16 @@ export default function Signin() {
                             window.location.href = "/orders";
                             break;
                         case "Section Department":
-                            axios
-                                .get("https://localhost:5001/getSectionBySectionLeadId/" + user.id)
+                            console.log(user.id)
+                            axios.get(`https://localhost:5001/getSectionBySectionLeadId/${user.id}`)
                                 .then((res) => {
-                                    localStorage.setItem('isAssemble', res.data.isAssemble)
-                                })
-                                .catch((err) => {
+                                    localStorage.setItem('currentSectionInfo', JSON.stringify(res.data));
+                                    window.location.href = "/section/processDetail";
+                                }).catch((err) => {
                                     //Trường hợp xảy ra lỗi
                                     console.log(err);
                                     alert("Xảy ra lỗi");
                                 });
-                           window.location.href = "/section/processDetail";
                             break;
                         default:
                             console.log("Not Admin");

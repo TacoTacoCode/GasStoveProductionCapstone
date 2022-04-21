@@ -45,20 +45,10 @@ export const Table = (props) => {
                 rowData => <LocalizationProvider dateAdapter={AdapterDateFns}><DesktopDatePicker
                     disableOpenPicker
                     inputFormat="MM/dd/yyyy"
-                    value={array[0].expiryDate}
+                    value={array[rowData.tableData.id].createdDate}
                     renderInput={(params) => <CssTextField inputProps={{ readOnly: true }} style={{ width: "50%" }} disabled {...params} />}
                 /></LocalizationProvider>,
             cellStyle: { fontFamily: 'Muli', paddingLeft: '3%', fontSize: '18px' }, align: "center"
-        },
-        {
-            title: 'First Export Date', field: 'firstExportDate',
-            render:
-                rowData => <LocalizationProvider dateAdapter={AdapterDateFns}><DesktopDatePicker
-                    disableOpenPicker
-                    inputFormat="MM/dd/yyyy"
-                    value={array[0].expiryDate}
-                    renderInput={(params) => <CssTextField inputProps={{ readOnly: true }} style={{ width: "50%" }} disabled {...params} />}
-                /></LocalizationProvider>, cellStyle: { fontFamily: 'Muli', paddingLeft: '3%', fontSize: '18px' }, align: "center"
         },
         {
             title: 'Status', field: 'status', cellStyle: { fontFamily: 'Muli', fontSize: '18px' },

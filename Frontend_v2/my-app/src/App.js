@@ -163,6 +163,8 @@ function App() {
               <Route path='/section/attendance' exact element={<Attendance />}></Route>
               <Route path='/dashboard/products' exact element={<Products />}></Route>
               <Route path='/dashboard/components' exact element={<Components />}></Route>
+              <Route path='/section/requests' exact element={<RequestComponent />}></Route>
+              <Route path='/manufacturer/requestDetail' exact element={< RequestDetail />}></Route>
             </Routes>
           </BrowserRouter>
         </ThemeProvider>

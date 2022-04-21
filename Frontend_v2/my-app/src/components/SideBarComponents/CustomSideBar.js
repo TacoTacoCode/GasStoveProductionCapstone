@@ -93,7 +93,6 @@ function CustomSideBar() {
     const [currentUser, setCurrentUser] = useState({ id: localStorage.getItem('currentId'), role: localStorage.getItem('currentRole') });
 
     let role = [];
-    let isAssemble = localStorage.getItem('isAssemble')
 
     switch (currentUser.role) {
         case 'Admin':
@@ -105,7 +104,8 @@ function CustomSideBar() {
             currentLink = "orders";
             break;
         case 'Section Department':
-            if (isAssemble === 'true') {
+            let isAssemble = JSON.parse(localStorage['currentSectionInfo']).isAssemble
+            if (isAssemble) {
                 role = SideBarSectionAssembleData.map(obj => ({ ...obj }));
             }
             else {

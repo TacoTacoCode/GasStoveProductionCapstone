@@ -75,11 +75,11 @@ export const SideBarSectionAssembleData = [
         path: "/section/processDetail",
         cName: "nav-text"
     },
-    // {
-    //     title: 'Materials List',
-    //     path: "/section/materials",
-    //     cName: "nav-text"
-    // },
+    {
+        title: 'Request List',
+        path: "/section/requests",
+        cName: "nav-text"
+    },
     {
         title: 'Workers List',
         path: "/section/workers",
@@ -102,6 +102,11 @@ export const SideBarSectionData = [
     {
         title: 'Task List',
         path: "/section/processDetail",
+        cName: "nav-text"
+    },
+    {
+        title: 'Request List',
+        path: "/section/requests",
         cName: "nav-text"
     },
     {
