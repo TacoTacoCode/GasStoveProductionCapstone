@@ -43,7 +43,7 @@ namespace GSP_API.Business.Services
                 var data = await _attendanceDetailRepository.GetAll(p => p.AttendanceId == attendace.AttendanceId);
                 return data;
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }

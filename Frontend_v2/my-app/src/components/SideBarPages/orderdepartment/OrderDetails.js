@@ -24,7 +24,7 @@ function OrderDetails() {
             console.log(err);
             alert("Xảy ra lỗi");
         })
-        setStatus(location.state.status)
+        setStatus(localStorage['status'])
     }, []);
 
     return (

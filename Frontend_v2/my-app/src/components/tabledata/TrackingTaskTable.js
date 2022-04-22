@@ -6,11 +6,9 @@ import { TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import MaterialTable from 'material-table';
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
 
 export const TrackingTaskTable = (props) => {
-    const navigate = useNavigate();
 
     const CssTextField = styled(TextField)({
         width: "100%",
@@ -87,9 +85,15 @@ export const TrackingTaskTable = (props) => {
             cellStyle: { fontFamily: "Muli", fontSize: "18px" },
             align: 'center',
         },
+        // {
+        //     title: "Section ID",
+        //     field: "sectionId",
+        //     cellStyle: { fontFamily: "Muli", fontSize: "18px" },
+        //     align: 'center',
+        // },
         {
-            title: "Section ID",
-            field: "sectionId",
+            title: "Component",
+            field: "componentName",
             cellStyle: { fontFamily: "Muli", fontSize: "18px" },
             align: 'center',
         },

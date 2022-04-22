@@ -81,7 +81,7 @@ namespace GSP_API.Business.Services
                 //update amount
                 if (itemType == "C")
                 {
-                    var item = await _componentService.GetComponentById(exportDetail.ItemId);
+                    var item = await _componentService.GetComponentById(exportDetail.ItemId[0..^1]);
                     if (!((int)item.Amount < exportDetail.ExportedAmount))
                     {
                         item.Amount -= exportDetail.ExportedAmount;
@@ -100,7 +100,7 @@ namespace GSP_API.Business.Services
                 }
                 else if (itemType == "M")
                 {
-                    var item = await _materialService.GetMaterialById(exportDetail.ItemId);
+                    var item = await _materialService.GetMaterialById(exportDetail.ItemId[0..^1]);
                     if (!((int)item.Amount < exportDetail.ExportedAmount))
                     {
                         item.Amount -= exportDetail.ExportedAmount;
@@ -189,13 +189,13 @@ namespace GSP_API.Business.Services
                 {
                     if (itemType == "C")
                     {
-                        var item = await _componentService.GetComponentById(importDetail.ItemId);
+                        var item = await _componentService.GetComponentById(importDetail.ItemId[0..^1]);
                         item.Amount += amount;
                         await _componentService.UpdateComponent(item, null, item.ImageUrl);
                     }
                     else if (itemType == "P")
                     {
-                        var item = await _productService.GetProductById(importDetail.ItemId);
+                        var item = await _productService.GetProductById(importDetail.ItemId[0..^1]);
                         item.Amount += amount;
                         //import product => section assemble => update process info
                         if(processDetail != null)

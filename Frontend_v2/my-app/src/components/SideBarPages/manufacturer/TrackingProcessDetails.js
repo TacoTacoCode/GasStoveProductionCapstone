@@ -12,11 +12,23 @@ function TrackingProcessDetails() {
 
     useEffect(() => {
         const getAllTasks = "https://localhost:5001/getProcessDetails/" + processId;
-
+        let datas = []
         axios
             .get(getAllTasks)
             .then((res) => {
-                getListTask(res.data);
+                let promises = res.data.map((e) => {
+                    datas.push({ ...e })
+                    return axios.get('https://localhost:5001/getCompos/sec/' + e.sectionId)
+                })
+                Promise.all(promises).then((e) =>
+                    e.map((ele, index) => {
+                        datas[index].componentName = ele.data.componentName ?? 'Assemble Section'
+                        datas[index].componentImg = ele.data.imageUrl ?? 'no-image.jpg?alt=media&token=c45f5852-28eb-4b4d-87a8-2caefb10df12'
+                    })
+                ).then(() => {
+                    getListTask(datas)
+                })
+
             })
             .catch((err) => {
                 //Trường hợp xảy ra lỗi

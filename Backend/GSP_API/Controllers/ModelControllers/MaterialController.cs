@@ -11,6 +11,7 @@ using System;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Newtonsoft.Json;
+using GSP_API.Models;
 
 namespace GSP_API.Controllers.ModelControllers
 {
@@ -82,8 +83,8 @@ namespace GSP_API.Controllers.ModelControllers
                 fileStream = file.OpenReadStream();
                 fileName = file.FileName;
             }
-
-            var data = await _materialService.AddMaterial(_mapper.Map<Material>(materialRequest), fileStream, fileName);
+            var imexItem = _mapper.Map<ImExItem>(materialRequest);
+            var data = await _materialService.AddMaterial(_mapper.Map<Material>(materialRequest), fileStream, fileName, imexItem);
             if (file != null)
             {
                 fileStream.Dispose();

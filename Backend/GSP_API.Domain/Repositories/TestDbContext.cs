@@ -27,6 +27,7 @@ namespace GSP_API.Domain.Repositories
         public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<Component> Components { get; set; }
         public virtual DbSet<ComponentMaterial> ComponentMaterials { get; set; }
+        public virtual DbSet<ImExItem> ImExItems { get; set; }
         public virtual DbSet<ImportExport> ImportExports { get; set; }
         public virtual DbSet<ImportExportDetail> ImportExportDetails { get; set; }
         public virtual DbSet<ItemType> ItemTypes { get; set; }
@@ -37,7 +38,6 @@ namespace GSP_API.Domain.Repositories
         public virtual DbSet<ProcessDetail> ProcessDetails { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductComponent> ProductComponents { get; set; }
-        public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Section> Sections { get; set; }
 
@@ -150,6 +150,10 @@ namespace GSP_API.Domain.Repositories
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
+                entity.Property(e => e.ItemId)
+                    .HasMaxLength(21)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Size)
                     .HasMaxLength(50)
                     .IsUnicode(false);
@@ -157,6 +161,11 @@ namespace GSP_API.Domain.Repositories
                 entity.Property(e => e.Status).HasMaxLength(100);
 
                 entity.Property(e => e.Substance).HasMaxLength(50);
+
+                entity.HasOne(d => d.Item)
+                    .WithMany(p => p.Components)
+                    .HasForeignKey(d => d.ItemId)
+                    .HasConstraintName("FK_Component_ImExItem");
             });
 
             modelBuilder.Entity<ComponentMaterial>(entity =>
@@ -180,6 +189,24 @@ namespace GSP_API.Domain.Repositories
                     .WithMany(p => p.ComponentMaterials)
                     .HasForeignKey(d => d.MaterialId)
                     .HasConstraintName("FK_Component_Material_Material");
+            });
+
+            modelBuilder.Entity<ImExItem>(entity =>
+            {
+                entity.ToTable("ImExItem");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(21)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ItemId)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ItemType)
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
             });
 
             modelBuilder.Entity<ImportExport>(entity =>
@@ -206,13 +233,18 @@ namespace GSP_API.Domain.Repositories
                 entity.ToTable("ImportExportDetail");
 
                 entity.Property(e => e.ItemId)
-                    .HasMaxLength(20)
+                    .HasMaxLength(21)
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.ImportExport)
                     .WithMany(p => p.ImportExportDetails)
                     .HasForeignKey(d => d.ImportExportId)
                     .HasConstraintName("FK_ImportExportDetail_ImportExport");
+
+                entity.HasOne(d => d.Item)
+                    .WithMany(p => p.ImportExportDetails)
+                    .HasForeignKey(d => d.ItemId)
+                    .HasConstraintName("FK_ImportExportDetail_ImExItem");
 
                 entity.HasOne(d => d.ProcessDetail)
                     .WithMany(p => p.ImportExportDetails)
@@ -249,11 +281,20 @@ namespace GSP_API.Domain.Repositories
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
+                entity.Property(e => e.ItemId)
+                    .HasMaxLength(21)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.MaterialName).HasMaxLength(100);
 
                 entity.Property(e => e.Status).HasMaxLength(100);
 
                 entity.Property(e => e.Unit).HasMaxLength(50);
+
+                entity.HasOne(d => d.Item)
+                    .WithMany(p => p.Materials)
+                    .HasForeignKey(d => d.ItemId)
+                    .HasConstraintName("FK_Material_ImExItem");
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -354,9 +395,18 @@ namespace GSP_API.Domain.Repositories
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
+                entity.Property(e => e.ItemId)
+                    .HasMaxLength(21)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.ProductName).HasMaxLength(100);
 
                 entity.Property(e => e.Status).HasMaxLength(100);
+
+                entity.HasOne(d => d.Item)
+                    .WithMany(p => p.Products)
+                    .HasForeignKey(d => d.ItemId)
+                    .HasConstraintName("FK_Product_ImExItem");
             });
 
             modelBuilder.Entity<ProductComponent>(entity =>
@@ -380,24 +430,6 @@ namespace GSP_API.Domain.Repositories
                     .WithMany(p => p.ProductComponents)
                     .HasForeignKey(d => d.ProductId)
                     .HasConstraintName("FK_Product_Component_Product");
-            });
-
-            modelBuilder.Entity<RefreshToken>(entity =>
-            {
-                entity.ToTable("RefreshToken");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.CreatedDate).HasColumnType("date");
-
-                entity.Property(e => e.ExpiryDate).HasColumnType("date");
-
-                entity.Property(e => e.Token).HasMaxLength(16);
-
-                entity.HasOne(d => d.Account)
-                    .WithMany(p => p.RefreshTokens)
-                    .HasForeignKey(d => d.AccountId)
-                    .HasConstraintName("FK_RefreshToken_Account");
             });
 
             modelBuilder.Entity<Role>(entity =>

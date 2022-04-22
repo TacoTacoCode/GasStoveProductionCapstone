@@ -128,6 +128,9 @@ export const ImportCompo = (props) => {
                 }
 
             })
+            arr = arr.map((e) => {
+                return { ...e, 'itemId': e.itemId + 'P' }
+            })
             return arr
         }
     }

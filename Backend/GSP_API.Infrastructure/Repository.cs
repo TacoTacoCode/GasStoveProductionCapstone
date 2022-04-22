@@ -37,7 +37,20 @@ namespace GSP_API.Infrastructure
                 return e.Message.ToString();
             }
         }
-
+        public async Task<T> Add2(T entity)
+        {
+            try
+            {
+                var task = await DbSet.AddAsync(entity);
+                await _dbFactory.DbContext.SaveChangesAsync();
+                return task.Entity;
+            }
+            catch
+            {
+                await _dbFactory.DbContext.DisposeAsync();
+                return null;
+            }
+        }
         public async Task<string> Delete(T entity)
         {
             try

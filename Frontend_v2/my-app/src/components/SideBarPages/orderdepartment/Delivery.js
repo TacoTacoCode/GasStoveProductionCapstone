@@ -34,29 +34,25 @@ function Delivery() {
 
   // Get listOrderNew
   useEffect(() => {
-    const getAllOrders = 'https://localhost:5001/getOrders/isShorTerm/true'
-    //Gọi API bằng axios
+    const getAllOrders = 'https://localhost:5001/getAllOrders'
+    let shortTerm = []
+    let longTerm = []
     axios.get(getAllOrders).then((res) => {
-      setListOrderShortTerm(res.data);
-      setCountListOrderShortTerm(res.data.length);
+      res.data.map(e => {
+        if (e.status != "Waiting" && e.status != 'New')
+          e.isShorTerm ? shortTerm.push(e) : longTerm.push(e)
+      })
+      setListOrderShortTerm(shortTerm);
+      setCountListOrderShortTerm(shortTerm.length);
+
+      setListOrderLongTerm(longTerm);
+      setCountListOrderLongTerm(longTerm.length);
     }).catch((err) => {
       console.log(err);
-      alert("Cannot Load List Order Short Term");
+      alert("Cannot Load List Order");
     })
   }, []);
 
-  // Get listOrderPreparing
-  useEffect(() => {
-    const getAllOrders = 'https://localhost:5001/getOrders/isShorTerm/false'
-    //Gọi API bằng axios
-    axios.get(getAllOrders).then((res) => {
-      setListOrderLongTerm(res.data);
-      setCountListOrderLongTerm(res.data.length);
-    }).catch((err) => {
-      console.log(err);
-      alert("Cannot Load List Order Long Term");
-    })
-  }, []);
 
   // Delay function
   var delay = (function () {

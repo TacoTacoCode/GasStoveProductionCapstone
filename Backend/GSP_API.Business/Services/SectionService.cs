@@ -82,7 +82,17 @@ namespace GSP_API.Business.Services
 
         public async Task<string> AddSection(Section section)
         {
-            return await _sectionRepository.Add(section);
+            var accountLeadId = section.SectionLeadId;
+            if (accountLeadId != null)
+            {
+                section.WorkerAmount = 1;
+                var sec = await _sectionRepository.Add2(section);
+                var account = await _accountRepository.FindFirst(a => a.AccountId == accountLeadId);
+                account.SectionId = sec.SectionId;
+                await _accountRepository.Update(account);
+
+            }
+            return "true";
         }
 
         public async Task<string> UpdateSection(Section newSection)

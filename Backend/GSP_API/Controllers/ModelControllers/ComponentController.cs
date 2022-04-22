@@ -89,8 +89,8 @@ namespace GSP_API.Controllers.ModelControllers
                 fileStream = file.OpenReadStream();
                 fileName = file.FileName;
             }
-
-            var data = await _componentService.AddComponent(_mapper.Map<Component>(component), fileStream, fileName);
+            var imexItem = _mapper.Map<ImExItem>(component);
+            var data = await _componentService.AddComponent(_mapper.Map<Component>(component), fileStream, fileName, imexItem);
             if (file != null)
             {
                 fileStream.Dispose();

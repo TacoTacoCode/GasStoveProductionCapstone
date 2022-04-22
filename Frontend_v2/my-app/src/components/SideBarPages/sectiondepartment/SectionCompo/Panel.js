@@ -68,6 +68,9 @@ const TransportFlow = () => {
                 })
                 localStorage.removeItem(`currItem${index}`)
             })
+            arr = arr.map((e) => {
+                return { ...e, 'itemId': e.itemId + 'M' }
+            })
             return arr
         }
     }

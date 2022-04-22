@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 
 namespace GSP_API.Domain.Interfaces
 {
-    public interface IProcessDetailRepository : IRepository<ProcessDetail>
+    public interface IImExItemRepository : IRepository<ImExItem>
     {
+        
     }
 }

@@ -131,7 +131,9 @@ function AccountEditPopup(props) {
 
   useEffect(() => {
     axios.get("https://localhost:5001/getRoles").then(res => {
-      setRoleList(res.data)
+      let allRole = []
+      res.data.map(e => e.roleId != 'ADM' ? allRole.push(e) : null)
+      setRoleList(allRole)
     });
     axios.get("https://localhost:5001/getAllSections").then(res => {
       var secs = [...res.data]
@@ -320,8 +322,9 @@ function AccountEditPopup(props) {
             <div className='account-gender'>
               <CssTextField
                 label="Role"
-                select
-                value={roleID}
+                select={(roleID != 'ADM')}
+                value={roleID == 'ADM' ? 'Admin' : roleID}
+                disabled={(roleID == 'ADM')}
                 required
                 onChange={(e) => setAccountRole(e.target.value)}
                 helperText="Choose Role"

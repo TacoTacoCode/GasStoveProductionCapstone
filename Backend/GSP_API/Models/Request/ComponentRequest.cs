@@ -17,7 +17,7 @@ namespace GSP_API.Models.Request
         public string Color { get; set; }
         public double? Weight { get; set; }
         public string Description { get; set; }
-
+        public string ItemId { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public virtual ICollection<CompoMateRequest> ComponentMaterial { get; set; }

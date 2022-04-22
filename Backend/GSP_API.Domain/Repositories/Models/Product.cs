@@ -16,11 +16,14 @@ namespace GSP_API.Domain.Repositories.Models
         public string ProductId { get; set; }
         public string ProductName { get; set; }
         public int? Amount { get; set; }
+        public int? Average { get; set; }
         public double? Price { get; set; }
         public string ImageUrl { get; set; }
         public string Status { get; set; }
         public string Description { get; set; }
+        public string ItemId { get; set; }
 
+        public virtual ImExItem Item { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual ICollection<ProductComponent> ProductComponents { get; set; }
     }

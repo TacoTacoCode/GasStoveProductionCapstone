@@ -15,5 +15,6 @@ namespace GSP_API.Domain.Interfaces
         Task<List<T>> GetAll(Expression<Func<T, bool>> expression);
         Task<T> GetById(Expression<Func<T, bool>> expression);
         Task<T> FindFirst(Expression<Func<T, bool>> expression);
+        Task<T> Add2(T entity);
     }
 }

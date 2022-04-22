@@ -2,11 +2,10 @@ import { styled } from '@material-ui/styles';
 import { TextField, Tooltip, Typography } from '@mui/material';
 import axios from 'axios';
 import MaterialTable from 'material-table';
-import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
-import '../../NonSideBarPage/process.css'
+import React, { useEffect, useState } from 'react';
 import { BsFileEarmarkCheck } from 'react-icons/bs';
 import swal from 'sweetalert';
+import '../../NonSideBarPage/process.css';
 function RequestDetail() {
 
     const CssTextField = styled(TextField)({
@@ -63,8 +62,8 @@ function RequestDetail() {
         let datas = []
         let promises = requestDetail.length === 0 ? null : requestDetail.map((e, index) =>
             axios.get(itemType === 'M' ?
-                ('https://localhost:5001/getMaterial/' + e.itemId) :
-                ('https://localhost:5001/getComponent/' + e.itemId))
+                ('https://localhost:5001/getMaterial/' + e.itemId.substr(0, e.itemId.length - 1)) :
+                ('https://localhost:5001/getComponent/' + e.itemId.substr(0, e.itemId.length - 1)))
         )
         if (promises != null) {
             Promise.all(promises).then((e) => e.map((ele, index) =>
@@ -122,7 +121,8 @@ function RequestDetail() {
 
 
 
-    function handleAccept(data) {
+    function handleAccept(e, data) {
+        e.preventDefault();
         if (supplying[data.tableData.id] == 0)
             return
         axios.post('https://localhost:5001/provideItem', {
@@ -139,7 +139,11 @@ function RequestDetail() {
             } else if (response.data.includes('exceed')) {
                 swal("Warning", response.data, "warning");
             } else {
-                window.location.reload();
+                swal("Success", "Provided", "success", {
+                    buttons: false,
+                    timer: 1500,
+                }).then(window.location.reload())
+
             }
 
         }).catch((err) => {
@@ -177,7 +181,7 @@ function RequestDetail() {
                             tooltip: 'Accept this request',
                             disabled: rowData.amount == rowData.exportedAmount,
                             onClick: (event, rowData) => {
-                                handleAccept(rowData)
+                                handleAccept(event, rowData)
                             }
                         })
                     ]}

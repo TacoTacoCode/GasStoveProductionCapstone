@@ -12,12 +12,14 @@ namespace GSP_API.Business.Services
     {
         private readonly IComponentRepository _componentRepository;
         private readonly IComponentMaterialRepository _componentMateRepository;
+        private readonly ImExItemService _imExItemService;
 
         public ComponentService(
-            IComponentRepository componentRepository, IComponentMaterialRepository componentMateRepository)
+            IComponentRepository componentRepository, IComponentMaterialRepository componentMateRepository, ImExItemService imExItemService)
         {
             _componentRepository = componentRepository;
             _componentMateRepository = componentMateRepository;
+            _imExItemService = imExItemService;
         }
 
         public async Task<List<Component>> GetCompoNoSection()
@@ -40,7 +42,7 @@ namespace GSP_API.Business.Services
             return await _componentRepository.GetAll(p => p.Status == status);
         }
 
-        public async Task<string> AddComponent(Component component, Stream fileStream, string fileName)
+        public async Task<string> AddComponent(Component component, Stream fileStream, string fileName, ImExItem imExItem = null)
         {
             var imageUrl = fileName;
             if (fileStream != null)
@@ -56,6 +58,11 @@ namespace GSP_API.Business.Services
                 }
             }
             component.ImageUrl = imageUrl;
+            if (imExItem != null)
+            {
+                component.ItemId = component.ComponentId + "C";
+                await _imExItemService.Add(imExItem);
+            }
             return await _componentRepository.Add(component);
         }
 

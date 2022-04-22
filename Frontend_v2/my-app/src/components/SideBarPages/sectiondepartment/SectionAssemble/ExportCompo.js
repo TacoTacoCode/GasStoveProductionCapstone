@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import MaterialTable from "material-table";
 import { MenuItem, Select, TextField, Tooltip } from "@material-ui/core";
-import DoneOutlineTwoToneIcon from '@mui/icons-material/DoneOutlineTwoTone';
-import swal from "sweetalert";
-import axios from "axios";
 import { Typography } from "@mui/material";
+import axios from "axios";
+import MaterialTable from "material-table";
+import React, { useState } from "react";
+import swal from "sweetalert";
 
 export const ExportCompo = (props) => {
     const datas = JSON.parse(localStorage.getItem('datas'))
@@ -174,6 +173,9 @@ export const ExportCompo = (props) => {
                     })
                 }
 
+            })
+            arr = arr.map((e) => {
+                return { ...e, 'itemId': e.itemId + 'C' }
             })
             return arr
         }

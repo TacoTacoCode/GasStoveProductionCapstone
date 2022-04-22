@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
-import MaterialTable from 'material-table';
-import { useNavigate } from 'react-router-dom';
-import moment from 'moment';
-import { TextField } from '@mui/material';
+import { Tooltip } from '@material-ui/core';
 import { styled } from '@material-ui/styles';
-import OrderEditPopup from '../Popups/OrderEditPopup';
+import { TextField } from '@mui/material';
 import axios from "axios";
+import MaterialTable from 'material-table';
+import moment from 'moment';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Bell from "../../img/bell.png";
 import "../../styles/notifcation.css";
-import { Tooltip } from '@material-ui/core';
-import { TextGetSectionLeader } from "../NonSideBarPage/TextGetSectionLeader";
-import { BsFileEarmarkCheck } from 'react-icons/bs';
+import OrderEditPopup from '../Popups/OrderEditPopup';
 
 const CssTextField = styled(TextField)({
     width: "100%",
@@ -114,7 +112,8 @@ export const Table = (props) => {
                 onRowClick={(event, data) => {
                     localStorage.setItem("orderType", data.isShorTerm)
                     localStorage.setItem("orderId", data.orderId)
-                    navigate('/orders/orderdetails', { state: data });
+                    localStorage.setItem("status", data.status)
+                    navigate('/orders/orderdetails');
                 }}
                 actions={[
                     {

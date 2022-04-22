@@ -54,7 +54,8 @@ namespace GSP_API.Extensions
                 .AddScoped<IImportExportDetailRepository, ImportExportDetailRepository>()
                 .AddScoped<IRefreshTokenRepository,RefreshTokenRepository>()
                 .AddScoped<ISectionRepository, SectionRepository>()
-                .AddScoped<ICartRepository, CartRepository>();
+                .AddScoped<ICartRepository, CartRepository>()
+                .AddScoped<IImExItemRepository, ImExItemRepository>();
         }
 
         public static IServiceCollection AddServices(this IServiceCollection services)
@@ -78,7 +79,8 @@ namespace GSP_API.Extensions
                 .AddScoped<RefreshTokenService>()
                 .AddScoped<SectionService>()
                 .AddScoped<TokenService>()
-                .AddScoped<CartService>();                
+                .AddScoped<CartService>()
+                .AddScoped<ImExItemService>();                
         }
 
         public static IServiceCollection AddSwagger(this IServiceCollection services)

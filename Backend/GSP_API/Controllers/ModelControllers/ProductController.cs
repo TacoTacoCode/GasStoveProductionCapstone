@@ -102,7 +102,8 @@ namespace GSP_API.Controllers.ModelControllers
                 ProductComponents = _mapper.Map<ICollection<ProductComponent>>(productRequest.ProductComponents),
             };
             //var product2 = _mapper.Map<Product>(productRequest);
-            var data = await _productService.AddProduct(product, fileStream, fileName);
+            var imexItem = _mapper.Map<ImExItem>(productRequest);
+            var data = await _productService.AddProduct(product, fileStream, fileName, imexItem);
             if (file != null)
             {
                 fileStream.Dispose();

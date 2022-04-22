@@ -12,7 +12,6 @@ namespace GSP_API.Domain.Repositories.Models
             Attendances = new HashSet<Attendance>();
             Carts = new HashSet<Cart>();
             Orders = new HashSet<Order>();
-            RefreshTokens = new HashSet<RefreshToken>();
             Sections = new HashSet<Section>();
         }
 
@@ -34,7 +33,6 @@ namespace GSP_API.Domain.Repositories.Models
         public virtual ICollection<Attendance> Attendances { get; set; }
         public virtual ICollection<Cart> Carts { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
-        public virtual ICollection<RefreshToken> RefreshTokens { get; set; }
         public virtual ICollection<Section> Sections { get; set; }
     }
 }

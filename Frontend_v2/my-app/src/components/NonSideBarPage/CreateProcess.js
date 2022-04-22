@@ -127,6 +127,15 @@ function CreateProcess() {
             cellStyle: { fontFamily: 'Muli', width: "25%", fontSize: '18px', paddingRight: '3%' }, align: 'center'
         },
         {
+            title: 'Average Amount', field: 'averageAmount', editable: 'false',
+            cellStyle: { fontFamily: 'Muli', width: "25%", fontSize: '18px', paddingRight: '3%' }, align: 'center'
+        },
+        {
+            title: 'Expected Finish Date', field: 'expectedFinishDate', editable: 'false',
+            cellStyle: { fontFamily: 'Muli', width: "25%", fontSize: '18px' }, align: 'center',
+            render: rowData => moment(rowData.expectedFinishDate).format('MM/DD/YYYY')
+        },
+        {
             title: 'Expiry Date', field: 'expiryDate', cellStyle: { fontFamily: 'Muli', width: "25%", fontSize: '18px' }, align: 'center',
             type: 'date', editComponent: props => (
                 < LocalizationProvider dateAdapter={AdapterDateFns} >
@@ -136,7 +145,7 @@ function CreateProcess() {
                         minDate={new Date(createdDate)}
                         maxDate={expiryDate == null ? null : new Date(expiryDate)}
                         onChange={(date) => {
-                            let dateFm = moment(date).format('MM-DD-YYYY')
+                            let dateFm = moment(date).format('MM/DD/YYYY')
                             props.onChange(dateFm)
                         }}
                         renderInput={(params) =>
@@ -197,6 +206,14 @@ function CreateProcess() {
                                     tmp.map((el) => {
                                         let x = el.totalAmount / totalAmount
                                         el.totalAmount = x * e.target.value
+                                        if (el.averageAmount > 0) {
+                                            var date = new Date(createdDate)
+                                            let datePass = Math.floor(el.totalAmount / el.averageAmount)
+                                            date.setDate(date.getDate() + datePass)
+                                            el.expectedFinishDate = moment(date).format('MM-DD-YYYY')
+                                            if (el.componentName == 'Assemble Section')
+                                                setExpectedFinishDate(el.expectedFinishDate)
+                                        }
                                     })
                                     setTableData(tmp)
                                     setTotalAmount(e.target.value)
@@ -276,16 +293,6 @@ function CreateProcess() {
                             /></LocalizationProvider>
                         </div>
 
-                        {/* <div className='divprocess'>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}><DatePicker
-                                inputFormat="MM/dd/yyyy"
-                                defaultValue={finishedDate}
-                                value={finishedDate}
-                                onChange={date => setFinishedDate(date)}
-                                renderInput={(params) => <CssTextField type='date' color='secondary' className='datefield' helperText="Finished Date"
-                                    variant="outlined" {...params} />}
-                            /></LocalizationProvider>
-                        </div> */}
                     </div>
                     <div className='processDetailTable'>
                         <MaterialTable title={<MyNewTitle variant="h6" text="Tasks List" />}

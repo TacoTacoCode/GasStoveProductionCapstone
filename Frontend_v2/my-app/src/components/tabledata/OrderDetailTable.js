@@ -9,9 +9,7 @@ import axios from 'axios';
 
 
 export const OrderDetailTable = (props) => {
-    useEffect(() => {
-        document.title = "UFA - Order Details"
-    }, []);
+    document.title = "UFA - Order Details"
 
     function createProcess(orderDetail) {
         axios.post('https://localhost:5001/createProcess', {
@@ -140,6 +138,7 @@ export const OrderDetailTable = (props) => {
                                 icon: "delete",
                                 tooltip: "Delete this item",
                                 onClick: (event, rowData) => {
+                                    event.preventDefault()
                                     confirmDelete(rowData.orderDetailId);
                                 },
                                 disabled: (rowData.isActive == false)
@@ -148,6 +147,7 @@ export const OrderDetailTable = (props) => {
                                 icon: "edit",
                                 tooltip: "Edit this order detail",
                                 onClick: (event, rowData) => {
+                                    event.preventDefault()
                                     handleEditData(rowData);
                                 },
                             },
@@ -155,6 +155,7 @@ export const OrderDetailTable = (props) => {
                                 icon: () => <AddBoxIcon />,
                                 tooltip: 'Create Plan for this Order Detail',
                                 onClick: (event, rowData) => {
+                                    event.preventDefault()
                                     createProcess(rowData);
                                 }
                             }

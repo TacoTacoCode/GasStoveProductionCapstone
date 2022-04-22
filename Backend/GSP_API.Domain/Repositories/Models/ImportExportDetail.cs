@@ -15,6 +15,7 @@ namespace GSP_API.Domain.Repositories.Models
         public int? ExportedAmount { get; set; }
 
         public virtual ImportExport ImportExport { get; set; }
+        public virtual ImExItem Item { get; set; }
         public virtual ProcessDetail ProcessDetail { get; set; }
     }
 }

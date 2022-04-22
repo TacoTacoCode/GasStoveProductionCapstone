@@ -18,7 +18,7 @@ namespace GSP_API.Models.Response
         public string Color { get; set; }
         public double? Weight { get; set; }
         public string Description { get; set; }
-
+        public string ItemId { get; set; }
 
         //[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         //public virtual ICollection<ComponentMaterial> ComponentMaterial { get; set; }

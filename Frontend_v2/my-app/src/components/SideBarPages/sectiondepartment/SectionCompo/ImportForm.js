@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import IconButton from '@mui/material/IconButton';
+import { FormControl, InputLabel, makeStyles, MenuItem, Select, TextField } from "@material-ui/core";
 import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 import axios from "axios";
-import { ImportExcelButton } from "../../../button/ImportExcelButton";
+import React, { useState } from "react";
 import swal from "sweetalert";
-import { Button, FormControl, InputLabel, MenuItem, Select, makeStyles, TextField } from "@material-ui/core";
+import { ImportExcelButton } from "../../../button/ImportExcelButton";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -64,12 +64,18 @@ const ImportForm = () => {
     const classes = useStyles();
 
     const submit = () => {
+        let arr = selected.map(e => {
+            return {
+                ...e,
+                'itemId': e.itemId + 'C'
+            }
+        })
         const submitData = {
             "sectionId": secInfo.sectionId,
             "createdDate": new Date().toLocaleDateString(),
             "itemType": "C",
             'isImport': true,
-            "importExportDetails": selected
+            "importExportDetails": arr
         }
         axios.post('https://localhost:5001/addImEx', submitData)
             .then(() => {

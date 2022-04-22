@@ -2,6 +2,7 @@
 using GSP_API.Models.Request;
 using GSP_API.Models.Response;
 using GSP_API.Domain.Repositories.Models;
+using GSP_API.Models;
 
 namespace GSP_API.Extensions.Profiles
 {
@@ -20,6 +21,10 @@ namespace GSP_API.Extensions.Profiles
 
             CreateMap<MaterialRequest, Material>();
             CreateMap<Material, MaterialResponse>();
+            CreateMap<MaterialRequest, ImExItem>()
+                .ForMember(dest => dest.Id, act => act.MapFrom(src => src.MaterialId + "M"))
+                .ForMember(dest => dest.ItemId, act => act.MapFrom(src => src.MaterialId))
+                .ForMember(dest => dest.ItemType, act => act.MapFrom(src => "M"));
 
             CreateMap<ComponentRequest, Component>()
                 .ForMember(dest => dest.ComponentMaterials, act => act.MapFrom(src => src.ComponentMaterial));
@@ -44,6 +49,10 @@ namespace GSP_API.Extensions.Profiles
             CreateMap<ProductRequest, Product>()
                 .ForMember(dest => dest.ProductComponents, act => act.MapFrom(src => src.ProductComponents));
             CreateMap<Product, ProductResponse>();
+            CreateMap<ProductRequest, ImExItem>()
+                 .ForMember(dest => dest.Id, act => act.MapFrom(src => src.ProductId + "P"))
+                 .ForMember(dest => dest.ItemId, act => act.MapFrom(src => src.ProductId))
+                 .ForMember(dest => dest.ItemType, act => act.MapFrom(src => "P"));
 
             CreateMap<ProcessRequest, Process>();
             CreateMap<Process, ProcessResponse>();
@@ -59,6 +68,10 @@ namespace GSP_API.Extensions.Profiles
 
             CreateMap<ComponentRequest, ComponentMaterial>();
             CreateMap<ComponentMaterial, CompoMateResponse>();
+            CreateMap<ComponentRequest, ImExItem>()
+                .ForMember(dest => dest.Id, act => act.MapFrom(src => src.ComponentId+"C"))
+                .ForMember(dest => dest.ItemId, act => act.MapFrom(src => src.ComponentId))
+                .ForMember(dest => dest.ItemType, act => act.MapFrom(src => "C"));
 
             CreateMap<ProductComponentRequest, ProductComponent>();
             CreateMap<ProductComponent, ProductCompoResponse>();

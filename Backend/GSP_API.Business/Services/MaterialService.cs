@@ -11,11 +11,13 @@ namespace GSP_API.Business.Services
     public class MaterialService
     {
         private readonly IMaterialRepository _materialRepository;
+        private readonly ImExItemService _imExItemService;
 
         public MaterialService(
-            IMaterialRepository materialRepository)
+            IMaterialRepository materialRepository, ImExItemService imExItemService)
         {
             _materialRepository = materialRepository;
+            _imExItemService = imExItemService;
         }
 
         public async Task<List<Material>> GetAllMaterials()
@@ -33,7 +35,7 @@ namespace GSP_API.Business.Services
             return await _materialRepository.GetById(p => p.MaterialId == materialId);
         }
 
-        public async Task<string> AddMaterial(Material material, Stream fileStream, string fileName)
+        public async Task<string> AddMaterial(Material material, Stream fileStream, string fileName, ImExItem imExItem = null)
         {
             var imageUrl = fileName;
             if (fileStream != null)
@@ -49,6 +51,11 @@ namespace GSP_API.Business.Services
                 }
             }
             material.ImageUrl = imageUrl;
+
+            if(imExItem != null) {
+                material.ItemId = material.MaterialId + "M";
+                await _imExItemService.Add(imExItem);
+            }
             return await _materialRepository.Add(material);
         }
 

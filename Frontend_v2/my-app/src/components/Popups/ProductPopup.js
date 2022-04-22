@@ -325,7 +325,7 @@ function ProductPopup(props) {
                         ...productComponent,
                         createData(
                           componentActive.componentId,
-                          componentActive.materialName,
+                          componentActive.componentName,
                           componentAmount
                         ),
                       ]);

@@ -13,11 +13,13 @@ namespace GSP_API.Business.Services
     {
         private readonly IProductRepository _productRepository;
         private readonly IProductComponentRepository _productCompoRepository;
+        private readonly ImExItemService _imExItemService;
 
-        public ProductService(IProductRepository productRepository, IProductComponentRepository productCompoRepository)
+        public ProductService(IProductRepository productRepository, IProductComponentRepository productCompoRepository, ImExItemService imExItemService)
         {
             _productRepository = productRepository;
             _productCompoRepository = productCompoRepository;
+            _imExItemService = imExItemService;
         }
 
         public async Task<List<Product>> GetAllProducts()
@@ -35,7 +37,7 @@ namespace GSP_API.Business.Services
             return await _productRepository.GetAll(p => p.Status == status);
         }
 
-        public async Task<string> AddProduct(Product product, Stream fileStream, string fileName)
+        public async Task<string> AddProduct(Product product, Stream fileStream, string fileName, ImExItem imExItem = null)
         {
             var imageUrl = fileName;
             if (fileStream != null)
@@ -51,6 +53,11 @@ namespace GSP_API.Business.Services
                 }
             }
             product.ImageUrl = imageUrl;
+            if (imExItem != null)
+            {
+                product.ItemId = product.ProductId + "P";
+                await _imExItemService.Add(imExItem);
+            }
             return await _productRepository.Add(product);
         }
 

@@ -1,5 +1,6 @@
 ﻿using GSP_API.Domain.Interfaces;
 using GSP_API.Domain.Repositories.Models;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace GSP_API.Business.Services
         private readonly OrderService _orderService;
 
         public ProcessService(
-            IProcessRepository processRepository,ProcessDetailService processDetailService,
+            IProcessRepository processRepository, ProcessDetailService processDetailService,
             ProductComponentService productComponentService, SectionService sectionService,
             OrderDetailService orderDetailService, OrderService orderService)
         {
@@ -77,30 +78,38 @@ namespace GSP_API.Business.Services
                 };
             }
             //delete above if not test
+            var listProCompo = await _productComponentService.GetProCompo(orderDetail.ProductId);
+            var average = listProCompo[0].Product.Average ?? 0;
+            DateTime? expected = listProCompo[0].Product.Average == null ? null :
+                GetExpected(orderDetail.Amount, listProCompo[0].Product.Average, null);
+
             var process = new Process()
             {
-                CreatedDate = System.DateTime.Now.Date,
+                CreatedDate = DateTime.Now.Date,
                 Status = "New",
                 NeededAmount = orderDetail.Amount,
                 TotalAmount = orderDetail.Amount,
                 FinishedAmount = 0,
                 OrderDetailId = orderDetail.OrderDetailId,
-
+                ExpectedFinishDate = expected
             };
-            var listProCompo = await _productComponentService.GetProCompoByProId(orderDetail.ProductId);
-
+            
             //Create processDetail based on OrderDetail.Amount
             foreach (var productComponent in listProCompo)
             {
+                var total = orderDetail.Amount * productComponent.Amount;
                 process.ProcessDetails.Add(new ProcessDetail()
                 {
-                    TotalAmount = orderDetail.Amount * productComponent.Amount,
+                    TotalAmount = total,
                     SectionId = _sectionService.GetSectionByComponentId(productComponent.ComponentId).Result.SectionId,
                     Status = "New",
                     FinishedAmount = 0,
-
+                    AverageAmount = productComponent.Component.Average ?? 0,
+                    ExpectedFinishDate = productComponent.Component.Average == null ? null
+                                        : GetExpected(total, productComponent.Component.Average, null)
                 });
             }
+            
             //Add assemble Section
             process.ProcessDetails.Add(new ProcessDetail()
             {
@@ -108,8 +117,19 @@ namespace GSP_API.Business.Services
                 SectionId = (await _sectionService.GetSectionByType(true)).SectionId,
                 Status = "New",
                 FinishedAmount = 0,
+                AverageAmount = average,
+                ExpectedFinishDate = expected
             });
             return process;
+        }
+        private DateTime GetExpected(int? total, int? average, DateTime? createdDate)
+        {
+            int date = Convert.ToInt32(total / average);
+            if (createdDate == null)
+            {
+                createdDate = DateTime.Now.Date;
+            }
+            return ((DateTime)createdDate).AddDays(date);
         }
 
         public async Task<List<Process>> DistributeProcess(Process process, int[] amounts)
@@ -169,7 +189,7 @@ namespace GSP_API.Business.Services
             var processIndex = 1;
             foreach (var process in processList)
             {
-                if(process.TotalAmount < process.NeededAmount)
+                if (process.TotalAmount < process.NeededAmount)
                 {
                     return $"Error: Total amount must greater than needder amount in sub process {processIndex}";
                 }
