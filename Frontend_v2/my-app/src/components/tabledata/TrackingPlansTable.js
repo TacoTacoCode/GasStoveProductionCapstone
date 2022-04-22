@@ -152,9 +152,9 @@ export const TrackingPlansTable = (props) => {
                         color = '#F48B29'
                     }
                     if (rowData.status == 'Completed') {
-                        color = '#333c83'
+                        color = '#E45826'
                     }
-                    return <div style={{ fontWeight: "500", marginTop: "0.5%", border: `1px solid ${color}`, backgroundColor: `${color}` }} className="text_square">
+                    return <div style={{ marginLeft: '18%', fontWeight: "500", marginTop: "0.5%", border: `1px solid ${color}`, backgroundColor: `${color}` }} className="text_square">
                         <text style={{ color: 'white', fontWeight: "500" }}>{rowData.status}</text>
                     </div>
                 }),

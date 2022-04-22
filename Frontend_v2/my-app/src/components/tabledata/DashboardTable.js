@@ -7,6 +7,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { styled } from '@material-ui/styles';
 import { TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import '../../styles/Popup.scss'
 
 export const Table = (props) => {
 
@@ -75,9 +76,9 @@ export const Table = (props) => {
                 ((rowData) => {
                     let color = '#FF1818'
                     if (rowData.status == 'Done') {
-                        color = '#333c83'
+                        color = '#21BF73'
                     }
-                    return <div style={{ fontWeight: "500", marginTop: "0.5%", border: `1px solid ${color}`, backgroundColor: `${color}` }} className="text_square">
+                    return <div style={{ marginLeft: '18%', fontWeight: "500", marginTop: "0.5%", border: `1px solid ${color}`, backgroundColor: `${color}` }} className="text_square">
                         <text style={{ color: 'white', fontWeight: "500" }}>{rowData.status}</text>
                     </div>
                 }),

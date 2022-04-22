@@ -74,7 +74,7 @@ export const Table = (props) => {
       render: (rowData) => (
         (rowData.imageUrl != null)
           ? <img style={{ height: "80px", width: "80px" }} src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.imageUrl} />
-          : <Avatar sx={{ width: 80, height: 80 }} variant="square" />
+          : <div style={{ paddingRight: '5%' }}><Avatar sx={{marginLeft: '26%', width: 80, height: 80 }} variant="square" /></div>
       ),
       cellStyle: { width: '17%', paddingRight: '4%', fontSize: '18px' },
       align: "center",

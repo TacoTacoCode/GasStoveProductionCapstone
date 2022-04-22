@@ -58,7 +58,7 @@ export const Table = (props) => {
             render: ((rowData) => {
                 switch (rowData.status) {
                     case 'Waiting':
-                        return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #FF1818', backgroundColor: '#FF1818' }} className="text_square">
+                        return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #886F6F', backgroundColor: '#886F6F' }} className="text_square">
                             <text style={{ color: 'white', fontWeight: "500" }}>Waiting</text>
                         </div>
                     case 'New':
@@ -74,7 +74,7 @@ export const Table = (props) => {
                             <text style={{ color: 'white', fontWeight: "500" }}>Completed</text>
                         </div>
                     case 'Delivery':
-                        return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #97DBAE', backgroundColor: '#97DBAE' }} className="text_square">
+                        return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #21BF73', backgroundColor: '#21BF73' }} className="text_square">
                             <text style={{ color: 'white', fontWeight: "500" }}>Delivered</text>
                         </div>
                 }

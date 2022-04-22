@@ -55,8 +55,11 @@ export const Table = (props) => {
             render:
                 ((rowData) => {
                     let color = '#FF1818'
+                    if(rowData.status == 'New') {
+                        color = '#333C83'
+                    }
                     if (rowData.status == 'Done') {
-                        color = '#333c83'
+                        color = '#21BF73'
                     }
                     return <div style={{ fontWeight: "500", marginTop: "0.5%", border: `1px solid ${color}`, backgroundColor: `${color}` }} className="text_square">
                         <text style={{ color: 'white', fontWeight: "500" }}>{rowData.status}</text>

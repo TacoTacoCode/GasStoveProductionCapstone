@@ -134,7 +134,7 @@ function MaterialPopup(props) {
     <div className="componentpopup">
       <div className="popup-inner">
         {props.children}
-        <div className="popup-body" style={{ height: '67vh', overflow: 'auto', overflowY: 'hidden', overflowX: 'hidden' }}>
+        <div className="popup-body" style={{ height: '72vh', overflow: 'auto', overflowY: 'hidden', overflowX: 'hidden' }}>
           <form>
             <div className="account-popup">
               <div style={{ fontFamily: 'Muli', fontSize: '18px' }} className='account-imagefield'>
