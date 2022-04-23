@@ -35,6 +35,7 @@ namespace GSP_API.Business.Services
                 return "Error: Dont have this cart";
             }
             oldCart.CartInfo = newCart.CartInfo;
+            oldCart.TotalPrice = newCart.TotalPrice;
             var data = await _cartRepository.Update(oldCart);
             return data;
         }
