@@ -65,19 +65,6 @@ namespace GSP_API.Business.Services
 
         public async Task<Process> CreateProcess(OrderDetail orderDetail)
         {
-            if (orderDetail.OrderDetailId == 0)
-            {
-                orderDetail = new()
-                {
-                    OrderDetailId = 2,
-                    OrderId = 1,
-                    ProductId = "PRO1",
-                    Amount = 10,
-                    Price = 2,
-                    Note = "abc",
-                };
-            }
-            //delete above if not test
             var listProCompo = await _productComponentService.GetProCompo(orderDetail.ProductId);
             var average = listProCompo[0].Product.Average ?? 0;
             DateTime? expected = listProCompo[0].Product.Average == null ? null :
@@ -122,6 +109,7 @@ namespace GSP_API.Business.Services
             });
             return process;
         }
+
         private DateTime GetExpected(int? total, int? average, DateTime? createdDate)
         {
             int date = Convert.ToInt32(total / average);
@@ -138,14 +126,16 @@ namespace GSP_API.Business.Services
             var orderDetail = await _orderDetailService.GetOrderDetailById((int)process.OrderDetailId);
 
             //GetProCompo and map each compoID -> sectionID since ProcessDetail contains sectionID
-            var listProCompo = await _productComponentService.GetProCompoByProId(orderDetail.ProductId);
-            var secDic = listProCompo.ToDictionary(e => _sectionService.GetSectionByComponentId(e.ComponentId).Result.SectionId, e => e.Amount);
-
+            var listProCompo = await _productComponentService.GetProCompo(orderDetail.ProductId);
+            var secDic = listProCompo.ToDictionary(e => _sectionService.GetSectionByComponentId(e.ComponentId).Result.SectionId, e => e);
             var assembleSection = await _sectionService.GetSectionByType(true);
 
-
+            var average = listProCompo[0].Product.Average ?? 0;
+            
             foreach (var number in amounts)
             {
+                DateTime? expected = listProCompo[0].Product.Average == null ? null :
+                    GetExpected(number, listProCompo[0].Product.Average, null);
                 //create process
                 var newProcess = new Process()
                 {
@@ -155,16 +145,22 @@ namespace GSP_API.Business.Services
                     TotalAmount = number,
                     FinishedAmount = number == amounts.First() ? process.FinishedAmount : 0,
                     OrderDetailId = process.OrderDetailId,
+                    ExpectedFinishDate = expected,
+
                 };
                 //Create processDetail
                 foreach (var item in secDic)
                 {
+                    var total = number * item.Value.Amount;
                     newProcess.ProcessDetails.Add(new ProcessDetail()
                     {
-                        TotalAmount = number * item.Value,
+                        TotalAmount = total,
                         SectionId = item.Key,
                         Status = "New",
                         FinishedAmount = 0,
+                        AverageAmount = item.Value.Component.Average ?? 0,
+                        ExpectedFinishDate = item.Value.Component.Average == null ? null
+                                        : GetExpected(total, item.Value.Component.Average, null)
                     });
                 }
                 //add assemble process
@@ -174,6 +170,8 @@ namespace GSP_API.Business.Services
                     SectionId = assembleSection.SectionId,
                     Status = "New",
                     FinishedAmount = 0,
+                    AverageAmount = average,
+                    ExpectedFinishDate = expected
                 });
                 //add to return list
                 processList.Add(newProcess);

@@ -66,7 +66,7 @@ namespace GSP_API.Business.Services
             return await _componentRepository.Add(component);
         }
 
-        public async Task<string> UpdateComponent(Component newComponent, Stream fileStream, string fileName)
+        public async Task<string> UpdateComponent(Component newComponent, Stream fileStream, string fileName, bool fromImEx = false)
         {
             if (fileStream != null)
             {
@@ -84,12 +84,15 @@ namespace GSP_API.Business.Services
             {
                 newComponent.ImageUrl = fileName;
             }
-            var data = await _componentRepository.FindFirst(p => p.ComponentId == newComponent.ComponentId);
-            if (data != null)
+            if (!fromImEx)
             {
-                var compoMates = await _componentMateRepository.GetAll(c => c.ComponentId == data.ComponentId);
-                await _componentMateRepository.RemoveRange(compoMates);
-                return await _componentRepository.Update(newComponent);
+                var data = await _componentRepository.FindFirst(p => p.ComponentId == newComponent.ComponentId);
+                if (data != null)
+                {
+                    var compoMates = await _componentMateRepository.GetAll(c => c.ComponentId == data.ComponentId);
+                    await _componentMateRepository.RemoveRange(compoMates);
+                    return await _componentRepository.Update(newComponent);
+                }
             }
             return null;
         }

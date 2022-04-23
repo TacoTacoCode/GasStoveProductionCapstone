@@ -56,6 +56,14 @@ function DivideProcessTabs() {
         tables[index].map(pd => {
             let mul = pd.totalAmount / newArr[index].totalAmount
             pd.totalAmount = mul * aValue
+            if (pd.averageAmount > 0) {
+                var date = new Date(newArr[index].createdDate)
+                let datePass = Math.floor(pd.totalAmount / pd.averageAmount)
+                date.setDate(date.getDate() + datePass)
+                pd.expectedFinishDate = moment(date).format('MM-DD-YYYY')
+                if (pd.componentName == 'Assemble Section')
+                    newArr[index].expectedFinishDate = pd.expectedFinishDate
+            }
         })
         setTableData(tables)
         newArr[index].totalAmount = aValue
@@ -89,12 +97,6 @@ function DivideProcessTabs() {
         setListProcess(newArr);
     }
 
-    const updateFinishedDateChanged = (index, date) => {
-        let dateFm = moment(date).format('MM-DD-YYYY')
-        var newArr = [...listProcess];
-        newArr[index].finishedDate = dateFm
-        setListProcess(newArr);
-    }
 
     const updateExpectedFinishDateChanged = (index, date) => {
         let dateFm = moment(date).format('MM-DD-YYYY')
@@ -161,21 +163,31 @@ function DivideProcessTabs() {
     const columns = [
         {
             title: 'Component Name', field: 'componentName', editable: 'false',
-            cellStyle: { fontFamily: 'Muli', width: "20%", fontSize: '18px' }, align: 'center'
+            cellStyle: { fontFamily: 'Muli', width: "18%", fontSize: '18px' }, align: 'center'
         },
         {
             title: "Image", field: 'componentImg', align: 'center',
-            cellStyle: { fontFamily: "Muli", fontSize: '18px', width: "37%",}, editable: 'false', align: 'center',
+            cellStyle: { fontFamily: "Muli", fontSize: '18px', width: '10%' }, editable: 'false',
             render: (rowData) =>
                 <img src={`https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F${rowData.componentImg}`}
                     width="100px" height="100px" />
         },
         {
             title: 'Total Amount', field: 'totalAmount', editable: 'false',
-            cellStyle: { fontFamily: 'Muli', width: "15%", fontSize: '18px' }, align: 'center'
+            cellStyle: { fontFamily: 'Muli', width: "14%", fontSize: '18px', paddingRight: '3%' }, align: 'center'
         },
         {
-            title: 'Expiry Date', field: 'expiryDate', cellStyle: { fontFamily: 'Muli', width: "20%" },
+            title: 'Average Amount', field: 'averageAmount', editable: 'false',
+            cellStyle: { fontFamily: 'Muli', width: "16%", fontSize: '18px', paddingRight: '3%' }, align: 'center'
+        },
+        {
+            title: 'Expected Finished Date', field: 'expectedFinishDate', editable: 'false',
+            cellStyle: { fontFamily: 'Muli', width: "15%", fontSize: '18px' }, align: 'center',
+            render: rowData => moment(rowData.expectedFinishDate).format('MM/DD/YYYY')
+        },
+        {
+            title: 'Expiry Date', field: 'expiryDate',
+            cellStyle: { fontFamily: 'Muli', width: "16%" },
             align: 'center', type: 'date', editComponent: props => (
                 < LocalizationProvider dateAdapter={AdapterDateFns} >
                     <DatePicker
@@ -184,7 +196,7 @@ function DivideProcessTabs() {
                         minDate={listProcess[toggleState - 1].createdDate == null ? null : new Date(listProcess[toggleState - 1].createdDate)}
                         maxDate={listProcess[toggleState - 1].expiryDate == null ? null : new Date(listProcess[toggleState - 1].expiryDate)}
                         onChange={(date) => {
-                            let dateFm = moment(date).format('MM-DD-YYYY')
+                            let dateFm = moment(date).format('MM/DD/YYYY')
                             props.onChange(dateFm)
                         }}
                         renderInput={(params) =>
@@ -246,7 +258,7 @@ function DivideProcessTabs() {
                                             endAdornment: <InputAdornment position="end">Unit</InputAdornment>,
                                         }}
                                     /></div>
-                                <div className='divprocess'>
+                                <div className='divprocess' style={{ visibility: 'hidden' }}>
                                     <CssTextField variant="outlined" color='secondary' className='numberfield' type='number' label={'Finished Amount'}
                                         value={listProcess[index] === undefined ? 0 : listProcess[index].finishedAmount}
                                         onChange={(e) =>
@@ -281,6 +293,7 @@ function DivideProcessTabs() {
                                 </div>
                                 <div className='divprocess'>
                                     <LocalizationProvider dateAdapter={AdapterDateFns}><DatePicker
+                                        disableOpenPicker
                                         inputFormat="MM/dd/yyyy"
                                         value={listProcess[index] === undefined ? null : listProcess[index].expectedFinishDate}
                                         minDate={listProcess[index] === undefined ? null : new Date(listProcess[index].createdDate)}
@@ -292,7 +305,7 @@ function DivideProcessTabs() {
                             </div>
                             <div className='processDetailTable'>
                                 {listProcess[index] &&
-                                    <MaterialTable title={<MyNewTitle variant="h6" text="Tasks List" /> }
+                                    <MaterialTable title={<MyNewTitle variant="h6" text="Tasks List" />}
                                         data={tableData[index]}
                                         columns={columns}
                                         editable={{

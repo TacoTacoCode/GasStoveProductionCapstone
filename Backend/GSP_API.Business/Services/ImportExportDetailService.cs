@@ -191,7 +191,7 @@ namespace GSP_API.Business.Services
                     {
                         var item = await _componentService.GetComponentById(importDetail.ItemId[0..^1]);
                         item.Amount += amount;
-                        await _componentService.UpdateComponent(item, null, item.ImageUrl);
+                        await _componentService.UpdateComponent(item, null, item.ImageUrl, true);
                     }
                     else if (itemType == "P")
                     {
@@ -206,7 +206,8 @@ namespace GSP_API.Business.Services
                             process.FinishedAmount = processDetail.FinishedAmount;
                             await _processService.UpdateProcess(process);
                         }
-                        await _productService.UpdateProduct(item, null, item.ImageUrl);
+                        item.ProductComponents = null;
+                        await _productService.UpdateProduct(item, null, item.ImageUrl,true);
                     }
                 }
                 else

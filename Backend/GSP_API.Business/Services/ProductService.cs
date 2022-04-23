@@ -61,7 +61,7 @@ namespace GSP_API.Business.Services
             return await _productRepository.Add(product);
         }
 
-        public async Task<string> UpdateProduct(Product newProduct, Stream fileStream, string fileName)
+        public async Task<string> UpdateProduct(Product newProduct, Stream fileStream, string fileName, bool fromImEx = false)
         {
             if (fileStream != null)
             {
@@ -79,12 +79,15 @@ namespace GSP_API.Business.Services
             {
                 newProduct.ImageUrl = fileName;
             }
-            var data = await _productRepository.FindFirst(p => p.ProductId == newProduct.ProductId);
-            if (data != null)
+            if (!fromImEx)
             {
-                var proCompos = await _productCompoRepository.GetAll(p => p.ProductId == data.ProductId);
-                await _productCompoRepository.RemoveRange(proCompos);
-                return await _productRepository.Update(newProduct);
+                var data = await _productRepository.FindFirst(p => p.ProductId == newProduct.ProductId);
+                if (data != null)
+                {
+                    var proCompos = await _productCompoRepository.GetAll(p => p.ProductId == data.ProductId);
+                    await _productCompoRepository.RemoveRange(proCompos);
+                    return await _productRepository.Update(newProduct);
+                }
             }
             return null;
         }
