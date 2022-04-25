@@ -270,7 +270,7 @@ function Delivery() {
                       >
                         <TextGetOrderDetailByID orderID={data.orderId} />
                         <div style={{ margin: "1%", width: "95%", marginLeft: "3%" }}>
-                          <p className="content_orderdetail_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text style={{ float: 'right' }}>{data.totalPrice} VND</text></p>
+                          <p className="content_orderdetail_content" style={{ fontWeight: "500" }}><text>Total Price: </text>&emsp;<text style={{ float: 'right' }}>{data.totalPrice}x 1000 VND</text></p>
                         </div>
                       </Stack>
                     </Stack>

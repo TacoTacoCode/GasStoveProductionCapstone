@@ -260,6 +260,7 @@ function ProductEditPopup(props) {
                     type={"number"}
                     InputProps={{
                       inputProps: { min: 0, pattern: "[0-9]*" },
+                      endAdornment: <InputAdornment position="end">x1000 VND</InputAdornment>
                     }}
                     onChange={(e) => setProductPrice(e.target.value)}
                   />

@@ -50,7 +50,7 @@ export const OrderDetailTable = (props) => {
             title: 'Amount', field: 'amount', cellStyle: { fontFamily: 'Muli', fontSize: '18px' }, align: 'left'
         },
         {
-            title: 'Price', field: 'price', cellStyle: { fontFamily: 'Muli', fontSize: '18px' }, align: 'left'
+            title: 'Price(x1000VND)', field: 'price', cellStyle: { fontFamily: 'Muli', fontSize: '18px' }, align: 'left'
         },
         {
             title: 'Note', field: 'note', cellStyle: { fontFamily: 'Muli', fontSize: '18px' }, align: 'left'

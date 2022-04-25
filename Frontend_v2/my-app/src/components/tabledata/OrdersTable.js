@@ -49,7 +49,7 @@ export const Table = (props) => {
                 rowData => moment(rowData.expiryDate).format('DD/MM/YYYY'),
         },
         {
-            title: 'Total Price', field: 'totalPrice', cellStyle: { fontFamily: 'Muli', fontSize: '18px' },
+            title: 'Total Price(x1000 VND)', field: 'totalPrice', cellStyle: { fontFamily: 'Muli', fontSize: '18px' },
         },
         {
             title: 'Status', field: 'status', cellStyle: { fontFamily: 'Muli', fontSize: '18px' },

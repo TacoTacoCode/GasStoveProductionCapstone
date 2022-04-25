@@ -28,7 +28,7 @@ const columns = [
     cellStyle: { fontFamily: "Arial" },
   },
   {
-    title: "Price",
+    title: "Price (x1000 VND)",
     field: "price",
     cellStyle: { fontFamily: "Arial" },
   },
@@ -221,6 +221,7 @@ function OrderEditPopup(props) {
                   type={"number"}
                   InputProps={{
                     inputProps: { min: 0, pattern: "[0-9]*" },
+                    endAdornment: <InputAdornment position="end">x1000 VND</InputAdornment>
                   }}
                   onChange={(e) => setTotalPrice(e.target.value)}
                 />

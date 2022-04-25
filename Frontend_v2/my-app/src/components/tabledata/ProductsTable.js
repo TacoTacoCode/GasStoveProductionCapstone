@@ -89,7 +89,7 @@ export const Table = (props) => {
       align: "center",
     },
     {
-      title: "Price",
+      title: "Price (x1000VND)",
       field: "price",
       cellStyle: { fontFamily: "Muli", paddingRight: '3%', fontSize: '18px' },
       align: "center",
