@@ -22,18 +22,18 @@ const columns = [
   {
     title: "ID",
     field: "materialId",
-    cellStyle: { fontFamily: "Muli", fontSize: '18px' },
+    cellStyle: { fontFamily: "Muli"},
   },
   {
     title: "Material Name",
     field: "materialName",
-    cellStyle: { fontFamily: "Muli", fontSize: '18px' },
+    cellStyle: { fontFamily: "Muli"},
     render: rowdata => rowdata.material.materialName,
   },
   {
     title: "Amount",
     field: "amount",
-    cellStyle: { fontFamily: "Muli", fontSize: '18px' },
+    cellStyle: { fontFamily: "Muli"},
   },
 ];
 
@@ -226,11 +226,11 @@ function ComponentEditPopup(props) {
         <div className="popup-body" style={{ height: '600px', overflow: 'auto', overflowY: 'scroll', overflowX: 'hidden' }}>
           <form>
             <div className="account-popup">
-              <div style={{ fontFamily: 'Muli', fontSize: '18px' }} className='account-imagefield'>
+              <div style={{ fontFamily: 'Muli'}} className='account-imagefield'>
                 <div style={{ display: 'inline' }}>
                   <div style={{ display: 'inline-block' }}>
                     <p style={{ marginBottom: '5%' }}>Component Picture</p>
-                    <input style={{ fontFamily: 'Muli', fontSize: '18px', width: '100%', display: 'inline-block' }} type="file" onChange={handlePreviewAvatar} />
+                    <input style={{ fontFamily: 'Muli', width: '100%', display: 'inline-block' }} type="file" onChange={handlePreviewAvatar} />
                   </div>
                   <div style={{ display: 'inline-block', paddingLeft: '2%' }}><img src={curImg} alt='avatar' width="120px" /></div>
                 </div>

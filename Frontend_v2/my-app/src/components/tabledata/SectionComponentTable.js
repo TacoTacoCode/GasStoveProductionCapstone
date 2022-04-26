@@ -18,7 +18,7 @@ export const SectionComponentTable = (props) => {
         {
             title: "ID",
             field: "componentId",
-            cellStyle: { width: '10%', fontFamily: "Muli", paddingRight: '4%', fontSize: '18px' },
+            cellStyle: { width: '10%', fontFamily: "Muli", paddingRight: '4%',  },
             align: "center",
         },
         {
@@ -29,32 +29,32 @@ export const SectionComponentTable = (props) => {
                     ? <img style={{ height: "80px", width: "80px" }} src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.imageUrl} />
                     : <Avatar sx={{ width: 80, height: 80 }} variant="square" />
             ),
-            cellStyle: { width: '17%', paddingRight: '4%', fontSize: '18px' },
+            cellStyle: { width: '17%', paddingRight: '4%',  },
             align: "center",
         },
         {
             title: "Component Name",
             field: "componentName",
-            cellStyle: { fontFamily: "Muli", paddingRight: '4%', fontSize: '18px' },
+            cellStyle: { fontFamily: "Muli", paddingRight: '4%',  },
             align: "center",
         },
         {
             title: "Amount",
             field: "amount",
-            cellStyle: { fontFamily: "Muli", paddingRight: '4%', fontSize: '18px' },
+            cellStyle: { fontFamily: "Muli", paddingRight: '4%',  },
             align: "center",
         },
         {
             title: "Substance",
             field: "substance",
-            cellStyle: { fontFamily: "Muli", paddingRight: '4%', fontSize: '18px' },
+            cellStyle: { fontFamily: "Muli", paddingRight: '4%',  },
             align: "center",
         },
         {
             title: "Status",
             field: "status",
             align: "center",
-            cellStyle: { fontFamily: "Muli", paddingRight: '3%', fontSize: '18px' },
+            cellStyle: { fontFamily: "Muli", paddingRight: '3%',  },
             render:
                 rowData => (rowData.status == 'Inactive')
                     ? <IconContext.Provider value={{ color: "red", className: "global-class-name" }}>
@@ -91,7 +91,7 @@ export const SectionComponentTable = (props) => {
                     addRowPosition: "first",
                     actionsColumnIndex: -1,
                     exportButton: false,
-                    headerStyle: { backgroundColor: "#bd162c", color: "#fff", textAlign: "center", fontSize: '18px' },
+                    headerStyle: { backgroundColor: "#bd162c", color: "#fff", textAlign: "center",  },
                 }}
             />
         </React.Fragment>

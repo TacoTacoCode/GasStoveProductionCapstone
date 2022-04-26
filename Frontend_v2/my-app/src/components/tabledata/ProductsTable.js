@@ -62,7 +62,7 @@ export const Table = (props) => {
     {
       title: "Product ID",
       field: "productId",
-      cellStyle: { fontFamily: "Muli", paddingRight: '4%', fontSize: '18px' },
+      cellStyle: { fontFamily: "Muli", paddingRight: '4%',  },
       align: "center",
     },
     {
@@ -79,19 +79,19 @@ export const Table = (props) => {
     {
       title: "Product Name",
       field: "productName",
-      cellStyle: { fontFamily: "Muli", paddingRight: '3%', fontSize: '18px' },
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%',  },
       align: "center",
     },
     {
       title: "Amount",
       field: "amount",
-      cellStyle: { fontFamily: "Muli", paddingRight: '3%', fontSize: '18px' },
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%',  },
       align: "center",
     },
     {
       title: "Price (x1000VND)",
       field: "price",
-      cellStyle: { fontFamily: "Muli", paddingRight: '3%', fontSize: '18px' },
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%',  },
       align: "center",
     },
     {
@@ -186,7 +186,7 @@ export const Table = (props) => {
             addRowPosition: "first",
             actionsColumnIndex: -1,
             exportButton: false,
-            headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px' },
+            headerStyle: { backgroundColor: "#bd162c", color: "#fff",  },
           }}
         /> : <MaterialTable
           title={<MyNewTitle variant="h6" text="Products List" />}
@@ -203,7 +203,7 @@ export const Table = (props) => {
             addRowPosition: "first",
             actionsColumnIndex: -1,
             exportButton: false,
-            headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px' },
+            headerStyle: { backgroundColor: "#bd162c", color: "#fff",  },
           }}
         />}
       {editDatas &&

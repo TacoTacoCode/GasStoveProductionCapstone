@@ -65,7 +65,7 @@ export const Table = (props) => {
     {
       title: "ID",
       field: "componentId",
-      cellStyle: { width: '10%', fontFamily: "Muli", paddingRight: '4%', fontSize: '18px' },
+      cellStyle: { width: '10%', fontFamily: "Muli", paddingRight: '4%'},
       align: "center",
     },
     {
@@ -76,32 +76,32 @@ export const Table = (props) => {
           ? <img style={{ height: "80px", width: "80px" }} src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.imageUrl} />
           : <div style={{ paddingRight: '5%' }}><Avatar sx={{ marginLeft: '26%', width: 80, height: 80 }} variant="square" /></div>
       ),
-      cellStyle: { width: '17%', paddingRight: '4%', fontSize: '18px' },
+      cellStyle: { width: '17%', paddingRight: '4%'},
       align: "center",
     },
     {
       title: "Component Name",
       field: "componentName",
-      cellStyle: { fontFamily: "Muli", paddingRight: '4%', fontSize: '18px' },
+      cellStyle: { fontFamily: "Muli", paddingRight: '4%' },
       align: "center",
     },
     {
       title: "Amount",
       field: "amount",
-      cellStyle: { fontFamily: "Muli", paddingRight: '4%', fontSize: '18px' },
+      cellStyle: { fontFamily: "Muli", paddingRight: '4%' },
       align: "center",
     },
     {
       title: "Substance",
       field: "substance",
-      cellStyle: { fontFamily: "Muli", paddingRight: '4%', fontSize: '18px' },
+      cellStyle: { fontFamily: "Muli", paddingRight: '4%' },
       align: "center",
     },
     {
       title: "Status",
       field: "status",
       align: "center",
-      cellStyle: { fontFamily: "Muli", paddingRight: '3%', fontSize: '18px' },
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%'},
       render:
         rowData => (rowData.status == 'Inactive')
           ? <IconContext.Provider value={{ color: "red", className: "global-class-name" }}>
@@ -179,7 +179,7 @@ export const Table = (props) => {
           addRowPosition: "first",
           actionsColumnIndex: -1,
           exportButton: false,
-          headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px' },
+          headerStyle: { backgroundColor: "#bd162c", color: "#fff"},
         }}
       />
       {editDatas &&

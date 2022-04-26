@@ -61,13 +61,13 @@ export const Table = (props) => {
     {
       title: "ID",
       field: "accountId",
-      cellStyle: { fontFamily: "Muli", paddingRight: '3%', fontSize: '18px' },
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%' },
       align: "center"
     },
     {
       title: "Employee Name",
       field: "name",
-      cellStyle: { fontFamily: "Muli", paddingRight: '3%', fontSize: '18px' },
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%' },
       align: "center"
     },
     {
@@ -84,7 +84,7 @@ export const Table = (props) => {
     {
       title: "Gender",
       field: "gender",
-      cellStyle: { fontFamily: "Muli", paddingRight: '3%', fontSize: '18px' },
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%'},
       align: "center",
       render:
         rowData => (rowData.gender == true)
@@ -94,7 +94,7 @@ export const Table = (props) => {
       title: "Date of Birth",
       field: "dateOfBirth",
       cellStyle: {
-        fontFamily: "Muli", paddingRight: '3%', fontSize: '18px'
+        fontFamily: "Muli", paddingRight: '3%'
       },
       align: "center",
       render:
@@ -104,7 +104,7 @@ export const Table = (props) => {
       title: "Status",
       field: "status",
       align: "center",
-      cellStyle: { paddingRight: '3%', fontSize: '18px' },
+      cellStyle: { paddingRight: '3%'},
       render:
         rowData => (rowData.isActive == false)
           ? <IconContext.Provider value={{ color: "red", className: "global-class-name" }}>
@@ -181,7 +181,7 @@ export const Table = (props) => {
           addRowPosition: "first",
           actionsColumnIndex: -1,
           exportButton: false,
-          headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px' },
+          headerStyle: { backgroundColor: "#bd162c", color: "#fff" },
         }}
       />
       {editDatas &&

@@ -38,22 +38,22 @@ export const OrderDetailTable = (props) => {
 
     const columns = [
         {
-            title: 'ID', field: 'orderDetailId', cellStyle: { fontFamily: 'Muli', fontSize: '18px' }, align: 'left'
+            title: 'ID', field: 'orderDetailId', cellStyle: { fontFamily: 'Muli',  }, align: 'left'
         },
         {
-            title: 'Order ID', field: 'orderId', cellStyle: { fontFamily: 'Muli', fontSize: '18px' }, align: 'left'
+            title: 'Order ID', field: 'orderId', cellStyle: { fontFamily: 'Muli',  }, align: 'left'
         },
         {
-            title: 'Product ID', field: 'productId', cellStyle: { fontFamily: 'Muli', fontSize: '18px' }, align: 'left'
+            title: 'Product ID', field: 'productId', cellStyle: { fontFamily: 'Muli',  }, align: 'left'
         },
         {
-            title: 'Amount', field: 'amount', cellStyle: { fontFamily: 'Muli', fontSize: '18px' }, align: 'left'
+            title: 'Amount', field: 'amount', cellStyle: { fontFamily: 'Muli',  }, align: 'left'
         },
         {
-            title: 'Price(x1000VND)', field: 'price', cellStyle: { fontFamily: 'Muli', fontSize: '18px' }, align: 'left'
+            title: 'Price(x1000VND)', field: 'price', cellStyle: { fontFamily: 'Muli',  }, align: 'left'
         },
         {
-            title: 'Note', field: 'note', cellStyle: { fontFamily: 'Muli', fontSize: '18px' }, align: 'left'
+            title: 'Note', field: 'note', cellStyle: { fontFamily: 'Muli',  }, align: 'left'
         },
     ]
     function deleteOrderDetail(id) {
@@ -176,7 +176,7 @@ export const OrderDetailTable = (props) => {
                         justifyContent: 'center',
                         width: '100%',
                     },
-                    headerStyle: { backgroundColor: '#bd162c', color: '#fff', fontSize: '18px' }
+                    headerStyle: { backgroundColor: '#bd162c', color: '#fff',  }
                 }}
             />
 

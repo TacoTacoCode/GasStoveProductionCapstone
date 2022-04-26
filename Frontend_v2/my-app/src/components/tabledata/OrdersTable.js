@@ -32,10 +32,10 @@ export const Table = (props) => {
 
     const columns = [
         {
-            title: 'ID', field: 'orderId', cellStyle: { fontFamily: 'Arial', fontSize: '18px' },
+            title: 'ID', field: 'orderId', cellStyle: { fontFamily: 'Arial',  },
         },
         {
-            title: 'Customer Name', field: 'customerName', cellStyle: { fontFamily: 'Muli', fontSize: '18px' },
+            title: 'Customer Name', field: 'customerName', cellStyle: { fontFamily: 'Muli',  },
             // render:
             //     rowData => (rowData.accountId != null)
             //         ? <TextGetSectionLeader accountID={rowData.accountId} />
@@ -44,15 +44,15 @@ export const Table = (props) => {
         {
             title: 'Expiry Date',
             field: 'expiryDate',
-            cellStyle: { fontFamily: 'Muli', fontSize: '18px' },
+            cellStyle: { fontFamily: 'Muli',  },
             render:
                 rowData => moment(rowData.expiryDate).format('DD/MM/YYYY'),
         },
         {
-            title: 'Total Price(x1000 VND)', field: 'totalPrice', cellStyle: { fontFamily: 'Muli', fontSize: '18px' },
+            title: 'Total Price(x1000 VND)', field: 'totalPrice', cellStyle: { fontFamily: 'Muli',  },
         },
         {
-            title: 'Status', field: 'status', cellStyle: { fontFamily: 'Muli', fontSize: '18px' },
+            title: 'Status', field: 'status', cellStyle: { fontFamily: 'Muli',  },
             render: ((rowData) => {
                 switch (rowData.status) {
                     case 'Pending':
@@ -79,7 +79,7 @@ export const Table = (props) => {
             })
         },
         {
-            title: 'Note', field: 'note', cellStyle: { fontFamily: 'Muli', fontSize: '18px' }
+            title: 'Note', field: 'note', cellStyle: { fontFamily: 'Muli',  }
         },
     ]
 
@@ -135,7 +135,7 @@ export const Table = (props) => {
                     addRowPosition: 'first',
                     actionsColumnIndex: -1,
                     exportButton: false,
-                    headerStyle: { backgroundColor: '#bd162c', color: '#fff', fontSize: '18px' }
+                    headerStyle: { backgroundColor: '#bd162c', color: '#fff',  }
                 }} />
             {editDatas &&
                 <OrderEditPopup

@@ -16,17 +16,17 @@ const columns = [
   {
     title: "ID",
     field: "materialId",
-    cellStyle: { fontFamily: "Muli", fontSize: '18px' },
+    cellStyle: { fontFamily: "Muli" },
   },
   {
     title: "Material Name",
     field: "materialName",
-    cellStyle: { fontFamily: "Muli", fontSize: '18px' },
+    cellStyle: { fontFamily: "Muli" },
   },
   {
     title: "Amount",
     field: "amount",
-    cellStyle: { fontFamily: "Muli", fontSize: '18px' },
+    cellStyle: { fontFamily: "Muli"},
   },
 ];
 

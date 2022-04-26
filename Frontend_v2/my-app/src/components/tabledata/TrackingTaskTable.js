@@ -204,7 +204,7 @@ export const TrackingTaskTable = (props) => {
                 addRowPosition: "first",
                 actionsColumnIndex: -1,
                 exportButton: false,
-                headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px' },
+                headerStyle: { backgroundColor: "#bd162c", color: "#fff"},
             }}
         />
     )

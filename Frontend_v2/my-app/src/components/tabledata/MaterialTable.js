@@ -175,7 +175,7 @@ export const Table = (props) => {
           addRowPosition: "first",
           actionsColumnIndex: -1,
           exportButton: false,
-          headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px' },
+          headerStyle: { backgroundColor: "#bd162c", color: "#fff" },
         }}
       /> : <MaterialTable
         title={<MyNewTitle variant="h6" text="Materials List" />}
@@ -192,7 +192,7 @@ export const Table = (props) => {
           addRowPosition: "first",
           actionsColumnIndex: -1,
           exportButton: false,
-          headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px' },
+          headerStyle: { backgroundColor: "#bd162c", color: "#fff" },
         }}
       />}
       {editDatas &&

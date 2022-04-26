@@ -35,10 +35,10 @@ export const Table = (props) => {
 
     const columns = [
         {
-            title: 'Request ID', field: 'importExportId', cellStyle: { fontFamily: 'Muli', paddingRight: '3%', fontSize: '18px' }, align: "center"
+            title: 'Request ID', field: 'importExportId', cellStyle: { fontFamily: 'Muli', paddingRight: '3%',  }, align: "center"
         },
         {
-            title: 'Section Id', field: 'sectionId', cellStyle: { fontFamily: 'Muli', paddingRight: '3%', fontSize: '18px' }, align: "center"
+            title: 'Section Id', field: 'sectionId', cellStyle: { fontFamily: 'Muli', paddingRight: '3%',  }, align: "center"
         },
         {
             title: 'Section Leader', field: 'sectionLeader', cellStyle: { fontFamily: 'Muli', paddingRight: '3%', fontSize: '18px' }, align: "center"
@@ -51,10 +51,10 @@ export const Table = (props) => {
                     value={array[rowData.tableData.id].createdDate}
                     renderInput={(params) => <CssTextField inputProps={{ readOnly: true }} style={{ width: "50%" }} disabled {...params} />}
                 /></LocalizationProvider>,
-            cellStyle: { fontFamily: 'Muli', paddingLeft: '3%', fontSize: '18px' }, align: "center"
+            cellStyle: { fontFamily: 'Muli', paddingLeft: '3%',  }, align: "center"
         },
         {
-            title: 'Status', field: 'status', cellStyle: { fontFamily: 'Muli', fontSize: '18px' },
+            title: 'Status', field: 'status', cellStyle: { fontFamily: 'Muli',  },
             render:
                 ((rowData) => {
                     let color = '#FF1818'
@@ -116,7 +116,7 @@ export const Table = (props) => {
                     addRowPosition: 'first',
                     actionsColumnIndex: -1,
                     exportButton: false,
-                    headerStyle: { backgroundColor: '#bd162c', color: '#fff', fontSize: '18px' }
+                    headerStyle: { backgroundColor: '#bd162c', color: '#fff',  }
                 }} />
         </div>
     )

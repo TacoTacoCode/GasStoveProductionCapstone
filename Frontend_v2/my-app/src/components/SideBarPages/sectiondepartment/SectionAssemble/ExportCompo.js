@@ -14,7 +14,7 @@ export const ExportCompo = (props) => {
         {
             title: "Task",
             field: "taskName",
-            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px' },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%' },
             render: (rowData) =>
                 <div style={{ width: '100%' }}><Select
                     id="demo-simple-select"
@@ -38,13 +38,13 @@ export const ExportCompo = (props) => {
         {
             title: "Product Name",
             field: "productName",
-            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px' },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%' },
             render: (e) => tableData[e.tableData.id].productName
         },
         {
             title: "Component",
             field: "component",
-            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px' },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%' },
             render: (rowData) =>
                 <div style={{ width: '100%', paddingLeft: '10%' }}><Select
                     id="demo-simple-select"
@@ -71,7 +71,7 @@ export const ExportCompo = (props) => {
         {
             title: "Amount",
             field: "amount",
-            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px' },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%'},
             render: (rowData) =>
                 <Tooltip title={`Maximum is ${tableData[rowData.tableData.id].maxAmount}`}>
                     <TextField
@@ -264,7 +264,7 @@ export const ExportCompo = (props) => {
                         actionsColumnIndex: -1,
                         exportButton: false,
                         search: false,
-                        headerStyle: { backgroundColor: "#bd162c", color: "#fff", textAlign: 'center', fontSize: '18px' },
+                        headerStyle: { backgroundColor: "#bd162c", color: "#fff", textAlign: 'center' },
                     }}
                 /> : null}
         </div>

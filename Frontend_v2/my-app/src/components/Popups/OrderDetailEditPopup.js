@@ -170,16 +170,14 @@ function OrderDetailEditPopup(props) {
   return props.IsOpenDetail ? (
     <div className="orderpopup">
       <div className="popup-inner">
-        <div>
+        {/* <div>
           <button className="close-btn" onClick={() => props.setOpenDetail(false)}>
             <CloseIcon style={{ color: "white" }} />
           </button>
-        </div>
+        </div> */}
         {props.children}
-        <div className="popup-body" style={{ height: '600px', overflow: 'auto', overflowY: 'scroll' }}>
+        <div className="popup-body" style={{ height: '30vh', overflow: 'auto', overflowY: 'hidden' }}>
           <form>
-            <br />
-            <text className="content_choose">Detail : </text>
             <div className="idname">
               <div className="datefield">
                 <CssTextField
@@ -233,7 +231,7 @@ function OrderDetailEditPopup(props) {
                 />
               </div>
             </div>
-
+            <br />
             <div className="btngr">
               <Button
                 type="submit"

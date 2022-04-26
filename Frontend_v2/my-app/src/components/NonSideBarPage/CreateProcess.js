@@ -113,31 +113,31 @@ function CreateProcess() {
     const columns = [
         {
             title: 'Component Name', field: 'componentName', editable: 'false',
-            cellStyle: { fontFamily: 'Muli', width: "18%", fontSize: '18px' }, align: 'center'
+            cellStyle: { fontFamily: 'Muli', width: "18%"}, align: 'center'
         },
         {
             title: "Image", field: 'componentImg', align: 'center',
-            cellStyle: { fontFamily: "Muli", fontSize: '18px', width: '10%' }, editable: 'false',
+            cellStyle: { fontFamily: "Muli",  width: '10%' }, editable: 'false',
             render: (rowData) =>
                 <img src={`https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F${rowData.componentImg}`}
                     width="100px" height="100px" />
         },
         {
             title: 'Total Amount', field: 'totalAmount', editable: 'false',
-            cellStyle: { fontFamily: 'Muli', width: "14%", fontSize: '18px', paddingRight: '3%' }, align: 'center'
+            cellStyle: { fontFamily: 'Muli', width: "14%", paddingRight: '3%' }, align: 'center'
         },
         {
             title: 'Average Amount', field: 'averageAmount', editable: 'false',
-            cellStyle: { fontFamily: 'Muli', width: "16%", fontSize: '18px', paddingRight: '3%' }, align: 'center'
+            cellStyle: { fontFamily: 'Muli', width: "16%", paddingRight: '3%' }, align: 'center'
         },
         {
             title: 'Expected Finished Date', field: 'expectedFinishDate', editable: 'false',
-            cellStyle: { fontFamily: 'Muli', width: "16%", fontSize: '18px' }, align: 'center',
+            cellStyle: { fontFamily: 'Muli', width: "16%" }, align: 'center',
             render: rowData => moment(rowData.expectedFinishDate).format('MM/DD/YYYY')
         },
         {
             title: 'Expiry Date', field: 'expiryDate',
-            cellStyle: { fontFamily: 'Muli', width: "16%", fontSize: '18px' },
+            cellStyle: { fontFamily: 'Muli', width: "16%"},
             align: 'center', type: 'date', editComponent: props => (
                 < LocalizationProvider dateAdapter={AdapterDateFns} >
                     <DatePicker
@@ -337,7 +337,7 @@ function CreateProcess() {
                                 addRowPosition: 'first',
                                 actionsColumnIndex: -1,
                                 exportButton: false,
-                                headerStyle: { backgroundColor: '#bd162c', color: '#fff', fontSize: '18px' }
+                                headerStyle: { backgroundColor: '#bd162c', color: '#fff'}
                             }} />
                     </div>
                 </form>

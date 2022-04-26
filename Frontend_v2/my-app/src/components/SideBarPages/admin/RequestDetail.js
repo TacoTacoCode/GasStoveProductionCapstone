@@ -90,16 +90,16 @@ function RequestDetail() {
 
     const columns = [
         {
-            title: 'Process Detail ID', field: 'processDetailId', cellStyle: { fontFamily: 'Muli', fontSize: '18px', paddingRight: '4%' }, align: "center"
+            title: 'Process Detail ID', field: 'processDetailId', cellStyle: { fontFamily: 'Muli', paddingRight: '4%' }, align: "center"
         },
         {
-            title: itemType === 'M' ? 'Material Name' : 'Component Name', field: itemType === 'M' ? 'materialName' : 'componentName', cellStyle: { fontFamily: 'Muli', fontSize: '18px', paddingRight: '3%' }, align: "center"
+            title: itemType === 'M' ? 'Material Name' : 'Component Name', field: itemType === 'M' ? 'materialName' : 'componentName', cellStyle: { fontFamily: 'Muli', paddingRight: '3%' }, align: "center"
         },
         {
-            title: 'Amount', field: 'amount', cellStyle: { fontFamily: 'Muli', fontSize: '18px', paddingRight: '4%' }, align: "center"
+            title: 'Amount', field: 'amount', cellStyle: { fontFamily: 'Muli', paddingRight: '4%' }, align: "center"
         },
         {
-            title: 'Exported Amount', field: 'exportedAmount', cellStyle: { fontFamily: 'Muli', fontSize: '18px', paddingRight: '4%' }, align: "center",
+            title: 'Exported Amount', field: 'exportedAmount', cellStyle: { fontFamily: 'Muli', paddingRight: '4%' }, align: "center",
             render: rowData => rowData.exportedAmount ?? 0
         },
         localStorage['currentRole'] === 'Section Department' ? {} : {
@@ -195,7 +195,7 @@ function RequestDetail() {
                         addRowPosition: 'first',
                         actionsColumnIndex: -1,
                         exportButton: false,
-                        headerStyle: { backgroundColor: '#bd162c', color: '#fff', fontSize: '18px' },
+                        headerStyle: { backgroundColor: '#bd162c', color: '#fff' },
                     }} />
             </div>
         </>

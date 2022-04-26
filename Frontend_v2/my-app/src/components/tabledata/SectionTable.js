@@ -69,7 +69,7 @@ export const Table = (props) => {
       field: "sectionId",
       cellStyle: { fontFamily: "Muli", paddingRight: '3%' },
       align: 'center',
-      fontSize: '18px',
+      
       paddingRight: '5%'
     },
     // muốn lấy tên
@@ -78,7 +78,7 @@ export const Table = (props) => {
       field: "sectionLeadId",
       cellStyle: { fontFamily: "Muli", paddingRight: '3%' },
       align: 'center',
-      fontSize: '18px',
+      
       render:
         rowData => (rowData.sectionLeadId != null)
           ? <TextGetSectionLeader accountID={rowData.sectionLeadId} />
@@ -89,20 +89,20 @@ export const Table = (props) => {
       field: "componentId",
       cellStyle: { fontFamily: "Muli", paddingRight: '3%' },
       align: 'center',
-      fontSize: '18px',
+      
     },
     {
       title: "Worker Amount",
       field: "workerAmount",
       cellStyle: { fontFamily: "Muli", paddingRight: '3%' },
       align: 'center',
-      fontSize: '18px',
+      
     },
     {
       title: "State of Assemble",
       field: "isAssemble",
       align: 'center',
-      fontSize: '18px',
+      
       cellStyle: { fontFamily: "Muli", paddingRight: '3%' },
       render:
         rowData => (rowData.isAssemble == false)
@@ -121,7 +121,7 @@ export const Table = (props) => {
       title: "Status",
       field: "status",
       align: 'center',
-      fontSize: '18px',
+      
       cellStyle: { fontFamily: "Muli", paddingRight: '3%' },
       render:
         rowData => (rowData.status == 'Inactive')
@@ -198,7 +198,7 @@ export const Table = (props) => {
           addRowPosition: "first",
           actionsColumnIndex: -1,
           exportButton: false,
-          headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px' },
+          headerStyle: { backgroundColor: "#bd162c", color: "#fff",  },
         }}
       />
       {editDatas &&
