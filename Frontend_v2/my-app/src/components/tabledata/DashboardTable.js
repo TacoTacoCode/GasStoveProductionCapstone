@@ -74,7 +74,7 @@ export const Table = (props) => {
                 /></LocalizationProvider>, align: "center"
         },
         {
-            title: 'Status', field: 'status', cellStyle: { fontFamily: 'Muli', fontSize: '18px' },
+            title: 'Status', field: 'status', cellStyle: { fontFamily: 'Muli' },
             render:
                 ((rowData) => {
                     let color = '#FF1818'
@@ -125,7 +125,7 @@ export const Table = (props) => {
                     addRowPosition: 'first',
                     actionsColumnIndex: -1,
                     exportButton: false,
-                    headerStyle: { backgroundColor: '#bd162c', color: '#fff ', fontSize: '18px', paddingLeft: '4%' }
+                    headerStyle: { backgroundColor: '#bd162c', color: '#fff ', paddingLeft: '4%' }
                 }} />
         </div>
     )

@@ -43,14 +43,14 @@ export const ExTable = (props) => {
         {
             title: "Task",
             field: "taskName",
-            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px' },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%' },
             render: (e) => `${e.taskName}`
 
         },
         {
             title: "Product Image",
             field: 'productImage',
-            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px' },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%' },
             render: (e) => {
                 return listProCom.length > 0 ?
                     <img src={`https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F${listProCom[e.tableData.id].product.imageUrl}`}
@@ -61,7 +61,7 @@ export const ExTable = (props) => {
         {
             title: "Product Name",
             field: 'productName',
-            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px' },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%' },
             render: (e) =>
                 listProCom.length > 0 ?
                     `${listProCom[e.tableData.id].product.productName}`
@@ -70,24 +70,24 @@ export const ExTable = (props) => {
         {
             title: "Finished Amount",
             field: "finishedAmount",
-            cellStyle: { fontFamily: "Muli", textAlign: 'center', width: '15%', paddingRight: '3%', fontSize: '18px' },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', width: '15%', paddingRight: '3%' },
         },
         {
             title: "Total Amount",
             field: "totalAmount",
-            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px' },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%' },
         },
         {
             title: "Average amount per day",
             field: "averageAmount",
-            cellStyle: { fontFamily: "Muli", textAlign: 'center', width: '20%', paddingRight: '3%', fontSize: '18px' },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', width: '20%', paddingRight: '3%' },
             render:
                 rowData => rowData.averageAmount ? rowData.averageAmount : 0,
         },
         {
             title: "Expiry Date",
             field: "expiryDate",
-            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px' },
+            cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%'},
             render:
                 rowData => moment(rowData.expiryDate).format('DD/MM/YYYY'),
         },
