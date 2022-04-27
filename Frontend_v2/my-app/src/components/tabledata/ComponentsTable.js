@@ -21,6 +21,7 @@ export const Table = (props) => {
 
   const [editDatas, setEditDatas] = useState(null);
   const [open, setOpen] = useState(false);
+  const [isCopy, setIsCopy] = useState(false);
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
   const [componentMaterial, setListComponentMaterial] = useState([]);
 
@@ -65,7 +66,7 @@ export const Table = (props) => {
     {
       title: "ID",
       field: "componentId",
-      cellStyle: { width: '10%', fontFamily: "Muli", paddingRight: '4%'},
+      cellStyle: { width: '10%', fontFamily: "Muli", paddingRight: '4%' },
       align: "center",
     },
     {
@@ -76,7 +77,7 @@ export const Table = (props) => {
           ? <img style={{ height: "80px", width: "80px" }} src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.imageUrl} />
           : <div style={{ paddingRight: '5%' }}><Avatar sx={{ marginLeft: '26%', width: 80, height: 80 }} variant="square" /></div>
       ),
-      cellStyle: { width: '17%', paddingRight: '4%'},
+      cellStyle: { width: '17%', paddingRight: '4%' },
       align: "center",
     },
     {
@@ -101,7 +102,7 @@ export const Table = (props) => {
       title: "Status",
       field: "status",
       align: "center",
-      cellStyle: { fontFamily: "Muli", paddingRight: '3%'},
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%' },
       render:
         rowData => (rowData.status == 'Inactive')
           ? <IconContext.Provider value={{ color: "red", className: "global-class-name" }}>
@@ -120,7 +121,17 @@ export const Table = (props) => {
   const handleEditData = (rowData) => {
     setEditDatas(rowData);
     setOpen(true);
+    setIsCopy(false);
     axios.get(`${process.env.REACT_APP_API_URL}getMateByCompoId/` + rowData.componentId).then(
+      (res) => setListComponentMaterial(res.data)
+    )
+  }
+
+  const handleCopyData = (rowData) => {
+    setEditDatas(rowData);
+    setOpen(true);
+    setIsCopy(true);
+    axios.get(`${process.env.REACT_APP_API_URL}getMateByCompoId/` + rowData.productId).then(
       (res) => setListComponentMaterial(res.data)
     )
   }
@@ -148,6 +159,7 @@ export const Table = (props) => {
       <MaterialTable
         title={<MyNewTitle variant="h6" text="Components List" />}
         data={array}
+        onRowClick={(event, rowData) => handleCopyData(rowData)}
         columns={columns}
         actions={
           localStorage['currentRole'] != 'Admin' ? []
@@ -179,7 +191,7 @@ export const Table = (props) => {
           addRowPosition: "first",
           actionsColumnIndex: -1,
           exportButton: false,
-          headerStyle: { backgroundColor: "#bd162c", color: "#fff"},
+          headerStyle: { backgroundColor: "#bd162c", color: "#fff" },
         }}
       />
       {editDatas &&
@@ -187,13 +199,19 @@ export const Table = (props) => {
           compoMates={componentMaterial}
           data={editDatas}
           setData={setEditDatas}
+          IsCopy={isCopy}
+          setIsCopy={setIsCopy}
           IsOpen={open}
           setOpen={setOpen}
           setSubmittedTime={() => {
             setNewDataSubmitted((prev) => prev + 1);
           }}
         >
-          <h3 className="popuptitle">Edit component : {editDatas.componentId} </h3>
+          {
+            isCopy
+              ? <h3 className="popuptitle">Copy component : {editDatas.componentId} </h3>
+              : <h3 className="popuptitle">Edit component : {editDatas.componentId} </h3>
+          }
         </ComponentEditPopup>
       }
     </React.Fragment>

@@ -66,6 +66,7 @@ function createData(componentId, componentName, amount) {
 function ProductEditPopup(props) {
   const [imageUrl, setProductImage] = useState(props.data.imageUrl);
   const [productID, setProductID] = useState(props.data.productId);
+  const [productCopyID, setProductCopyID] = useState("");
   const [productName, setProductName] = useState(props.data.productName);
   const [price, setProductPrice] = useState(props.data.price);
   const [amount, setProductAmount] = useState(props.data.amount);
@@ -133,6 +134,13 @@ function ProductEditPopup(props) {
     console.log(file.preview);
   };
 
+  useEffect(() => {
+    //clean up function for avatarUrl
+    return () => {
+      return imageUrl && URL.revokeObjectURL(imageUrl.preview);
+    };
+  }, [imageUrl]);
+
   const createMD = () => {
     let compMate = []
     productComponent.map((item) =>
@@ -144,6 +152,46 @@ function ProductEditPopup(props) {
     )
     return compMate;
   }
+
+  const postData = (e) => {
+    e.preventDefault();
+    const jsonObj = createMD();
+    const formData = new FormData();
+    formData.append("productId", productCopyID);
+    formData.append("productName", productName);
+    formData.append("amount", amount);
+    formData.append("price", price);
+    formData.append("status", status);
+    formData.append("description", description);
+    //thêm hình thiết lập khi click onrowtable
+    formData.append("imageUrl", imageUrl);
+    if (jsonObj.length != 0) {
+      formData.append("productComponents", JSON.stringify(jsonObj));
+    }
+    if (file != null) {
+      formData.append("file", file);
+    }
+    axios
+      .post(`${process.env.REACT_APP_API_URL}addProduct`, formData)
+      .then(res => {
+        swal("Success", "Add new product successfully", "success", {
+          buttons: false,
+          timer: 2000,
+        })
+        //reset data
+        handleCancelClick();
+      }).catch(err => {
+        swal("Error", "Add new product failed", "error", {
+          buttons: false,
+          timer: 2000,
+        })
+        console.log(err)
+      }).finally(() => {
+        handleCancelClick();
+        delay(function () { window.location.reload(); }, 1000);
+      });
+  };
+
   const changeData = (e) => {
     e.preventDefault();
     const jsonObj = createMD();
@@ -192,6 +240,7 @@ function ProductEditPopup(props) {
   const handleCancelClick = () => {
     setProductImage('');
     setProductID(props.data.productId);
+    setProductCopyID('');
     setProductName(props.data.productName);
     setProductPrice(props.data.price);
     setProductAmount(props.data.amount);
@@ -218,14 +267,28 @@ function ProductEditPopup(props) {
                 </div>
               </div>
               <div className="idname">
-                <div className="idfield">
-                  <CssTextField
-                    label="Product ID"
-                    value={productID}
-                    disabled
-                    onChange={(e) => setProductID(e.target.value)}
-                  />
-                </div>
+                {
+                  props.IsCopy
+                    ?
+                    <div className="idfield">
+                      <CssTextField
+                        label="Product ID"
+                        required
+                        value={productCopyID}
+                        onChange={(e) => setProductCopyID(e.target.value)}
+                      />
+                    </div>
+                    :
+                    <div className="idfield">
+                      <CssTextField
+                        label="Product ID"
+                        value={productID}
+                        disabled
+                        onChange={(e) => setProductID(e.target.value)}
+                      />
+                    </div>
+                }
+
                 <div className="namefield">
                   <CssTextField
                     label="Product Name"
@@ -395,20 +458,40 @@ function ProductEditPopup(props) {
               </div>
 
               <div className="btngr">
-                <Button
-                  type="submit"
-                  variant="contained"
-                  style={{
-                    fontFamily: "Muli",
-                    borderRadius: 10,
-                    backgroundColor: "#bd162c",
-                    marginRight: "0.5rem",
-                  }}
-                  size="large"
-                  onClick={changeData}
-                >
-                  Edit Product
-                </Button>
+
+                {
+                  props.IsCopy
+                    ?
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      style={{
+                        fontFamily: "Muli",
+                        borderRadius: 10,
+                        backgroundColor: "#bd162c",
+                        marginRight: "0.5rem",
+                      }}
+                      size="large"
+                      onClick={postData}
+                    >
+                      Add Product
+                    </Button>
+                    :
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      style={{
+                        fontFamily: "Muli",
+                        borderRadius: 10,
+                        backgroundColor: "#bd162c",
+                        marginRight: "0.5rem",
+                      }}
+                      size="large"
+                      onClick={changeData}
+                    >
+                      Edit Product
+                    </Button>
+                }
                 <Button
                   variant="contained"
                   style={{

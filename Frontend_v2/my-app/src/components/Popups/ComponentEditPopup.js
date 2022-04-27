@@ -22,18 +22,18 @@ const columns = [
   {
     title: "ID",
     field: "materialId",
-    cellStyle: { fontFamily: "Muli"},
+    cellStyle: { fontFamily: "Muli" },
   },
   {
     title: "Material Name",
     field: "materialName",
-    cellStyle: { fontFamily: "Muli"},
+    cellStyle: { fontFamily: "Muli" },
     render: rowdata => rowdata.material.materialName,
   },
   {
     title: "Amount",
     field: "amount",
-    cellStyle: { fontFamily: "Muli"},
+    cellStyle: { fontFamily: "Muli" },
   },
 ];
 
@@ -65,6 +65,7 @@ function createData(materialId, materialName, amount) {
 function ComponentEditPopup(props) {
   const [imageUrl, setComponentImage] = useState(props.data.imageUrl);
   const [componentID, setComponentID] = useState(props.data.componentId);
+  const [componentCopyID, setComponentCopyID] = useState("");
   const [componentName, setComponentName] = useState(props.data.componentName);
   const [size, setComponentSize] = useState(props.data.size);
   const [amount, setComponentAmount] = useState(props.data.amount);
@@ -145,6 +146,14 @@ function ComponentEditPopup(props) {
     setFileName(e.target.files[0].name);
   };
 
+  useEffect(() => {
+    //clean up function for avatarUrl
+    return () => {
+      return imageUrl && URL.revokeObjectURL(imageUrl.preview);
+    };
+  }, [imageUrl]);
+
+
   const createMD = () => {
     let compMate = []
     componentMaterial.map((item) =>
@@ -156,6 +165,51 @@ function ComponentEditPopup(props) {
     )
     return compMate;
   }
+
+  const postData = (e) => {
+    e.preventDefault();
+    const jsonObj = createMD();
+    const formData = new FormData();
+    formData.append("componentId", componentCopyID);
+    formData.append("componentName", componentName);
+    formData.append("amount", amount);
+    formData.append("status", status);
+    formData.append("substance", substance);
+    formData.append("size", size);
+    formData.append("color", color);
+    formData.append("weight", weight);
+    formData.append("description", description == undefined ? '' : description);
+    //thêm hình thiết lập khi click onrowtable
+    formData.append("imageUrl", imageUrl);
+    if (jsonObj.length != 0) {
+      formData.append("componentMaterial", JSON.stringify(jsonObj));
+    }
+    if (file != null) {
+      formData.append("file", file);
+    }
+    axios
+      .post(`${process.env.REACT_APP_API_URL}addComponent`, formData)
+      .then(res => {
+        swal("Success", "Add new component successfully", "success", {
+          buttons: false,
+          timer: 1500,
+        }).then(() => {
+          handleCancelClick();
+          window.location.reload();
+        })
+        //reset data
+      }).catch(err => {
+        swal("Error", "Add new component failed", "error", {
+          buttons: false,
+          timer: 1500,
+        })
+        console.log(err)
+      }).finally(() => {
+        handleCancelClick();
+        handleClose();
+      })
+  };
+
   const changeData = (e) => {
     e.preventDefault();
     const jsonObj = createMD();
@@ -206,6 +260,7 @@ function ComponentEditPopup(props) {
   const handleCancelClick = () => {
     setComponentImage('');
     setComponentID(props.data.componentId);
+    setComponentCopyID('');
     setComponentName(props.data.componentName);
     setComponentSize(props.data.size);
     setComponentAmount(props.data.amount);
@@ -226,7 +281,7 @@ function ComponentEditPopup(props) {
         <div className="popup-body" style={{ height: '600px', overflow: 'auto', overflowY: 'scroll', overflowX: 'hidden' }}>
           <form>
             <div className="account-popup">
-              <div style={{ fontFamily: 'Muli'}} className='account-imagefield'>
+              <div style={{ fontFamily: 'Muli' }} className='account-imagefield'>
                 <div style={{ display: 'inline' }}>
                   <div style={{ display: 'inline-block' }}>
                     <p style={{ marginBottom: '5%' }}>Component Picture</p>
@@ -236,15 +291,29 @@ function ComponentEditPopup(props) {
                 </div>
               </div>
               <div className="idname">
-                <div className="idfield">
-                  <CssTextField
-                    label="Component ID"
-                    id="fullWidth"
-                    value={componentID}
-                    disabled
-                    onChange={(e) => setComponentID(e.target.value)}
-                  />
-                </div>
+                {
+                  props.IsCopy
+                    ?
+                    <div className="idfield">
+                      <CssTextField
+                        label="Component ID"
+                        required
+                        value={componentCopyID}
+                        onChange={(e) => setComponentCopyID(e.target.value)}
+                      />
+                    </div>
+                    :
+                    <div className="idfield">
+                      <CssTextField
+                        label="Component ID"
+                        id="fullWidth"
+                        value={componentID}
+                        disabled
+                        onChange={(e) => setComponentID(e.target.value)}
+                      />
+                    </div>
+                }
+
                 <div className="namefield">
                   <CssTextField
                     label="Component Name"
@@ -440,20 +509,39 @@ function ComponentEditPopup(props) {
                 />
               </div>
               <div className="btngr">
-                <Button
-                  type="submit"
-                  variant="contained"
-                  style={{
-                    fontFamily: "Muli",
-                    borderRadius: 10,
-                    backgroundColor: "#bd162c",
-                    marginRight: "0.5rem",
-                  }}
-                  size="large"
-                  onClick={changeData}
-                >
-                  Edit Component
-                </Button>
+                {
+                  props.IsCopy
+                    ?
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      style={{
+                        fontFamily: "Muli",
+                        borderRadius: 10,
+                        backgroundColor: "#bd162c",
+                        marginRight: "0.5rem",
+                      }}
+                      size="large"
+                      onClick={postData}
+                    >
+                      Add Component
+                    </Button>
+                    :
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      style={{
+                        fontFamily: "Muli",
+                        borderRadius: 10,
+                        backgroundColor: "#bd162c",
+                        marginRight: "0.5rem",
+                      }}
+                      size="large"
+                      onClick={changeData}
+                    >
+                      Edit Component
+                    </Button>
+                }
                 <Button
                   variant="contained"
                   style={{

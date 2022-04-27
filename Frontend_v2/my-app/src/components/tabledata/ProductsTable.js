@@ -62,7 +62,7 @@ export const Table = (props) => {
     {
       title: "Product ID",
       field: "productId",
-      cellStyle: { fontFamily: "Muli", paddingRight: '4%',  },
+      cellStyle: { fontFamily: "Muli", paddingRight: '4%', },
       align: "center",
     },
     {
@@ -79,19 +79,19 @@ export const Table = (props) => {
     {
       title: "Product Name",
       field: "productName",
-      cellStyle: { fontFamily: "Muli", paddingRight: '3%',  },
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%', },
       align: "center",
     },
     {
       title: "Amount",
       field: "amount",
-      cellStyle: { fontFamily: "Muli", paddingRight: '3%',  },
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%', },
       align: "center",
     },
     {
       title: "Price (x1000VND)",
       field: "price",
-      cellStyle: { fontFamily: "Muli", paddingRight: '3%',  },
+      cellStyle: { fontFamily: "Muli", paddingRight: '3%', },
       align: "center",
     },
     {
@@ -123,12 +123,23 @@ export const Table = (props) => {
 
   const [editDatas, setEditDatas] = useState(null);
   const [open, setOpen] = useState(false);
+  const [isCopy, setIsCopy] = useState(false);
   const [newDataSubmitted, setNewDataSubmitted] = useState(1);
   const [productComponent, setListProductComponent] = useState([]);
 
   const handleEditData = (rowData) => {
     setEditDatas(rowData);
     setOpen(true);
+    setIsCopy(false);
+    axios.get(`${process.env.REACT_APP_API_URL}getProCompo/` + rowData.productId).then(
+      (res) => setListProductComponent(res.data)
+    )
+  }
+
+  const handleCopyData = (rowData) => {
+    setEditDatas(rowData);
+    setOpen(true);
+    setIsCopy(true);
     axios.get(`${process.env.REACT_APP_API_URL}getProCompo/` + rowData.productId).then(
       (res) => setListProductComponent(res.data)
     )
@@ -157,6 +168,7 @@ export const Table = (props) => {
         <MaterialTable
           title={<MyNewTitle variant="h6" text="Products List" />}
           data={array}
+          onRowClick={(event, rowData) => handleCopyData(rowData)}
           columns={columns}
           actions={[
             rowData => ({
@@ -186,7 +198,7 @@ export const Table = (props) => {
             addRowPosition: "first",
             actionsColumnIndex: -1,
             exportButton: false,
-            headerStyle: { backgroundColor: "#bd162c", color: "#fff",  },
+            headerStyle: { backgroundColor: "#bd162c", color: "#fff", },
           }}
         /> : <MaterialTable
           title={<MyNewTitle variant="h6" text="Products List" />}
@@ -203,7 +215,7 @@ export const Table = (props) => {
             addRowPosition: "first",
             actionsColumnIndex: -1,
             exportButton: false,
-            headerStyle: { backgroundColor: "#bd162c", color: "#fff",  },
+            headerStyle: { backgroundColor: "#bd162c", color: "#fff", },
           }}
         />}
       {editDatas &&
@@ -211,13 +223,19 @@ export const Table = (props) => {
           productCompos={productComponent}
           data={editDatas}
           setData={setEditDatas}
+          IsCopy={isCopy}
+          setIsCopy={setIsCopy}
           IsOpen={open}
           setOpen={setOpen}
           setSubmittedTime={() => {
             setNewDataSubmitted((prev) => prev + 1);
           }}
         >
-          <h3 className="popuptitle">Edit product : {editDatas.productId} </h3>
+          {
+            isCopy
+              ? <h3 className="popuptitle">Copy product : {editDatas.productId} </h3>
+              : <h3 className="popuptitle">Edit product : {editDatas.productId} </h3>
+          }
         </ProductEditPopup>
       }
     </React.Fragment>
