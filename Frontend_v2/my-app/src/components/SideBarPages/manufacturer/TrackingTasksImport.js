@@ -14,11 +14,22 @@ function TrackingTasksImport() {
 
     useEffect(() => {
         const getAllTaskImport = 'https://localhost:5001/getImports/' + processDetailId;
-
+        let datas = []
         axios
             .get(getAllTaskImport)
             .then((res) => {
-                setListTaskImport(res.data);
+                let promises = res.data.map((e) => {
+                    datas.push({ ...e })
+                    return axios.get(`${process.env.REACT_APP_API_URL}getImEx/` + e.importExportId)
+                })
+                Promise.all(promises).then((e) =>
+                    e.map((ele, index) => {
+                        datas[index].createdDate = ele.data.createdDate
+                    })
+                ).then(() => {
+                    setListTaskImport(datas)
+                    console.log(datas)
+                })
             })
             .catch((err) => {
                 //Trường hợp xảy ra lỗi

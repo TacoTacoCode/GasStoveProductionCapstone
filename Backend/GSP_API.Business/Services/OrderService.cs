@@ -50,7 +50,8 @@ namespace GSP_API.Business.Services
 
         public async Task<string> AddOrder(Order order)
         {
-            order.Status = "New";
+            if(order.Status != "Waiting")
+                order.Status = "New";
             var total = 0.0;
             foreach (var orderDetail in order.OrderDetails)
             {

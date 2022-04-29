@@ -166,9 +166,10 @@ function OrderDetailPopup(props) {
                   required
                   type={"number"}
                   InputProps={{
-                    inputProps: { min: 0, pattern: "[0-9]*" },
+                    inputProps: { min: 1000, pattern: "[0-9]*" },
                   }}
                   onChange={(e) => setAmount(e.target.value)}
+                  onBlur={(e) => e.target.value < 1000 ? setAmount(1000):null}
                 />
               </div>
               <div className='idfield'>

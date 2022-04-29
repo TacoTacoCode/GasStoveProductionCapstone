@@ -97,19 +97,19 @@ function CreateProcess() {
     const handleSave = (e) => {
         e.preventDefault();
         let datass = generateData()
-        console.log({datass})
-        // axios({
-        //     url: `${process.env.REACT_APP_API_URL}addProcessList`,
-        //     method: 'POST',
-        //     data: datass
-        // }).then((response) => {
-        //     swal("Success", "Submit Data", "success", {
-        //         buttons: false,
-        //         timer: 1500,
-        //     }).then((e) => window.location.href = 'http://localhost:3000/orders')
-        // }).catch((err) => {
-        //     alert('System error, try again later')
-        // })
+        
+        axios({
+            url: `${process.env.REACT_APP_API_URL}addProcessList`,
+            method: 'POST',
+            data: datass
+        }).then((response) => {
+            swal("Success", "Submit Data", "success", {
+                buttons: false,
+                timer: 1500,
+            }).then((e) => window.location.href = 'http://localhost:3000/orders')
+        }).catch((err) => {
+            alert('System error, try again later')
+        })
     };
 
     const handleUpdateTotalAmount = (newTotal)=>{

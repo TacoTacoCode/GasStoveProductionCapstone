@@ -176,8 +176,9 @@ export const TrackingTaskTable = (props) => {
         </Typography>
     );
 
-    function getTaskId(processDetailId) {
+    function getTaskId(processDetailId, componentName) {
         localStorage.setItem('processDetailId', processDetailId)
+        localStorage.setItem('componentName', componentName)
         navigate('/manufacturer/process/processDetailImport'
         )
 
@@ -199,7 +200,7 @@ export const TrackingTaskTable = (props) => {
                 }),
             ]}
             onRowClick={(event, rowData) => {
-                getTaskId(rowData.processDetailId)
+                getTaskId(rowData.processDetailId, rowData.componentName)
             }}
             options={{
                 searchFieldVariant: 'outlined',

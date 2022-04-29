@@ -328,12 +328,13 @@ function OrderPopup(props) {
                   <CssTextField
                     label="Amount"
                     id="fullWidth"
-                    value={productAmount}
+                    value={productAmount == 0? 1000:productAmount}
                     type={"number"}
                     InputProps={{
-                      inputProps: { min: 0, pattern: "[0-9]*" },
+                      inputProps: { min: 1000, pattern: "[0-9]*" },
                     }}
                     onChange={(e) => setOrderProductAmount(e.target.value)}
+                    onBlur={(e) => e.target.value < 1000 ? setOrderProductAmount(1000):null}
                   />
                 </div>
                 <div className="numfield_choose">

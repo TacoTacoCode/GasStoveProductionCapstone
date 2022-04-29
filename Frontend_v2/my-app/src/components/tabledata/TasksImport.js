@@ -5,6 +5,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import MaterialTable from 'material-table';
+import moment from 'moment';
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
@@ -62,9 +63,10 @@ export const TrackingTaskImportTable = (props) => {
             align: 'center',
         },
         {
-            title: "Item Id",
-            field: "itemId",
+            title: "Item Name",
+            field: "itemName",
             cellStyle: { fontFamily: "Muli", fontSize: "18px" },
+            render: rowData => localStorage['componentName'],
             align: 'center',
         },
         {
@@ -73,17 +75,11 @@ export const TrackingTaskImportTable = (props) => {
             cellStyle: { fontFamily: "Muli", fontSize: "18px" },
             align: 'center',
         },
-        // {
-        //     title: 'Created Date', field: 'createdDate', render:
-        //         rowData => <LocalizationProvider dateAdapter={AdapterDateFns}><DesktopDatePicker
-        //             disableOpenPicker
-        //             inputFormat="MM/dd/yyyy"
-        //             value={array[rowData.tableData.id].createdDate}
-        //             renderInput={(params) => <CssTextField
-        //                 inputProps={{ readOnly: true }} style={{ width: "fit-content", textAlign: "center" }} disabled {...params} />}
-        //         /></LocalizationProvider>,
-        //     cellStyle: { fontFamily: 'Muli' }, align: "center"
-        // },
+        {
+            title: 'Created Date', field: 'createdDate', 
+            render:rowData => moment(rowData.createdDate).format('DD/MM/YYYY'),   
+            cellStyle: { fontFamily: 'Muli' }, align: "center"
+        },
     ]
 
     const MyNewTitle = ({ text = "Table Title", variant = "h6" }) => (
@@ -97,7 +93,7 @@ export const TrackingTaskImportTable = (props) => {
 
     return (
         <MaterialTable
-            title={<MyNewTitle variant="h6" text="Importing List" />}
+            title={<MyNewTitle variant="h6" text={`Importing List of ${localStorage['componentName']} `} />}
             data={array}
             columns={columns}
             options={{
