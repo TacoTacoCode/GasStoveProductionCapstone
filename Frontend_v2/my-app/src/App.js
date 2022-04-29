@@ -28,6 +28,7 @@ import RequestComponent from './components/SideBarPages/manufacturer/RequestComp
 import SectionComponents from './components/SideBarPages/sectiondepartment/SectionCompo/SectionComponents';
 import TrackingProcess from './components/SideBarPages/manufacturer/TrackingProcess';
 import TrackingProcessDetails from './components/SideBarPages/manufacturer/TrackingProcessDetails';
+import TrackingTasksImport from './components/SideBarPages/manufacturer/TrackingTasksImport';
 
 const theme = createTheme({
   App: {
@@ -107,6 +108,7 @@ function App() {
               <Route path='/dashboard/components' exact element={<Components />}></Route>
               <Route path='/dashboard/materials' exact element={<Materials />}></Route>
               <Route path='/dashboard/products' exact element={<Products />}></Route>
+              <Route path='/manufacturer/process/processDetailImport' exact element={<TrackingTasksImport />}></Route>
             </Routes>
           </BrowserRouter>
         </ThemeProvider>
@@ -132,6 +134,7 @@ function App() {
               <Route path='/dashboard/products' exact element={<Products />}></Route>
               <Route path='/manufacturer/process' exact element={< TrackingProcess />}></Route>
               <Route path='/manufacturer/process/processDetail' exact element={< TrackingProcessDetails />}></Route>
+              <Route path='/manufacturer/process/processDetailImport' exact element={<TrackingTasksImport />}></Route>
             </Routes>
           </BrowserRouter>
         </ThemeProvider>

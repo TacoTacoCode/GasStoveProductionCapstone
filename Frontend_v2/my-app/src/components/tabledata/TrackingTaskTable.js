@@ -6,9 +6,11 @@ import { TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import MaterialTable from 'material-table';
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
 
 export const TrackingTaskTable = (props) => {
+    const navigate = useNavigate();
 
     const CssTextField = styled(TextField)({
         width: "100%",
@@ -174,6 +176,13 @@ export const TrackingTaskTable = (props) => {
         </Typography>
     );
 
+    function getTaskId(processDetailId) {
+        localStorage.setItem('processDetailId', processDetailId)
+        navigate('/manufacturer/process/processDetailImport'
+        )
+
+    };
+
     return (
         <MaterialTable
             title={<MyNewTitle variant="h6" text="Tasks List" />}
@@ -189,10 +198,9 @@ export const TrackingTaskTable = (props) => {
                     disabled: (rowData.status == 'Inactive')
                 }),
             ]}
-            // onRowClick={(event, rowData) => {
-            //     getPlanTasks(rowData.processId)
-            // }
-            // }
+            onRowClick={(event, rowData) => {
+                getTaskId(rowData.processDetailId)
+            }}
             options={{
                 searchFieldVariant: 'outlined',
                 searchFieldStyle: {
@@ -204,7 +212,7 @@ export const TrackingTaskTable = (props) => {
                 addRowPosition: "first",
                 actionsColumnIndex: -1,
                 exportButton: false,
-                headerStyle: { backgroundColor: "#bd162c", color: "#fff"},
+                headerStyle: { backgroundColor: "#bd162c", color: "#fff" },
             }}
         />
     )
