@@ -170,6 +170,7 @@ export const ExportCompo = (props) => {
                         'processDetailId': value.processDetailId,
                         'amount': value.amount,
                         'itemId': value.itemId,
+                        'exportedAmount':0,
                     })
                 }
 

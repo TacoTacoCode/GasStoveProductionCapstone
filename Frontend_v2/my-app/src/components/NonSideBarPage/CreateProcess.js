@@ -97,19 +97,38 @@ function CreateProcess() {
     const handleSave = (e) => {
         e.preventDefault();
         let datass = generateData()
-        axios({
-            url: `${process.env.REACT_APP_API_URL}addProcessList`,
-            method: 'POST',
-            data: datass
-        }).then((response) => {
-            swal("Success", "Submit Data", "success", {
-                buttons: false,
-                timer: 1500,
-            }).then((e) => window.location.href = 'http://localhost:3000/orders')
-        }).catch((err) => {
-            alert('System error, try again later')
-        })
+        console.log({datass})
+        // axios({
+        //     url: `${process.env.REACT_APP_API_URL}addProcessList`,
+        //     method: 'POST',
+        //     data: datass
+        // }).then((response) => {
+        //     swal("Success", "Submit Data", "success", {
+        //         buttons: false,
+        //         timer: 1500,
+        //     }).then((e) => window.location.href = 'http://localhost:3000/orders')
+        // }).catch((err) => {
+        //     alert('System error, try again later')
+        // })
     };
+
+    const handleUpdateTotalAmount = (newTotal)=>{
+        let tmp = [...tableData]
+        tmp.map((el) => {
+            let x = el.totalAmount / totalAmount
+            el.totalAmount = x * newTotal
+            if (el.averageAmount > 0) {
+                var date = new Date(createdDate)
+                let datePass = Math.floor(el.totalAmount / el.averageAmount)
+                date.setDate(date.getDate() + datePass)
+                el.expectedFinishDate = moment(date).format('MM-DD-YYYY')
+                if (el.componentName == 'Assemble Section')
+                    setExpectedFinishDate(el.expectedFinishDate)
+            }
+        })
+        setTableData(tmp)
+        setTotalAmount(newTotal)
+    }
     const columns = [
         {
             title: 'Component Name', field: 'componentName', editable: 'false',
@@ -202,25 +221,11 @@ function CreateProcess() {
                                 label="Total Amount"
                                 variant="outlined"
                                 defaultValue={totalAmount}
-                                onChange={(e) => {
-                                    let tmp = [...tableData]
-                                    tmp.map((el) => {
-                                        let x = el.totalAmount / totalAmount
-                                        el.totalAmount = x * e.target.value
-                                        if (el.averageAmount > 0) {
-                                            var date = new Date(createdDate)
-                                            let datePass = Math.floor(el.totalAmount / el.averageAmount)
-                                            date.setDate(date.getDate() + datePass)
-                                            el.expectedFinishDate = moment(date).format('MM-DD-YYYY')
-                                            if (el.componentName == 'Assemble Section')
-                                                setExpectedFinishDate(el.expectedFinishDate)
-                                        }
-                                    })
-                                    setTableData(tmp)
-                                    setTotalAmount(e.target.value)
-                                }}
+                                onBlur={e => e.target.value < neededAmount? handleUpdateTotalAmount(neededAmount):null}
+                                onChange={(e) => handleUpdateTotalAmount(e.target.value)}
                                 value={totalAmount}
                                 InputProps={{
+                                    inputProps: { min: neededAmount, pattern: '[0-9]*' },
                                     endAdornment: <InputAdornment position="end">Unit</InputAdornment>,
                                 }}
                             />
@@ -277,6 +282,7 @@ function CreateProcess() {
                                 defaultValue={expiryDate}
                                 value={expiryDate}
                                 minDate={new Date(createdDate)}
+                                maxDate={new Date(localStorage['expiryDate'])}
                                 onChange={date => setExpiryDate(date)}
                                 renderInput={(params) => <CssTextField type='date' color='secondary' className='datefield' helperText="Expiry Date"
                                     variant="outlined" {...params} />}

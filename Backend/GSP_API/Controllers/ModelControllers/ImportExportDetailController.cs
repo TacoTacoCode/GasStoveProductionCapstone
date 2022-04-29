@@ -52,6 +52,21 @@ namespace GSP_API.Controllers.ModelControllers
             return Ok(imExDetail);
         }
 
+        // GET: getImportExportDetail/1
+        [HttpGet]
+        [Route("getImports/{processDetailId}")]
+        public async Task<ActionResult<ImportExportDetailResponse>> GetImports(int processDetailId)
+        {
+            var data = await _importExportDetailService.GetImDetailByProcessDetailId(processDetailId);
+            if (data == null)
+            {
+                return Ok("Not found");
+            }
+            var imExDetail = _mapper.Map<List<ImportExportDetailResponse>>(data);
+            return Ok(imExDetail);
+        }
+
+
         // POST: provideItem/[imExDetail]
         [HttpPost]
         [Route("provideItem")]

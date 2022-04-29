@@ -39,6 +39,13 @@ namespace GSP_API.Business.Services
             return await _importExportDetailRepository.GetAll(p => p.ImportExportId == imExId);
         }
 
+        public async Task<List<ImportExportDetail>> GetImDetailByProcessDetailId(int proDetailId)
+        {
+            var imports = await _importExportDetailRepository.GetAll(i => i.ProcessDetailId == proDetailId
+                                                                            && i.ExportedAmount == null);
+            return imports;
+        }
+
         public async Task<ImportExportDetail> GetImExDetailById(int imExDetailId)
         {
             return await _importExportDetailRepository.GetById(p => p.ImportExportDetailId == imExDetailId);

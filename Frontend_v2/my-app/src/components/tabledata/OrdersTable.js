@@ -113,6 +113,7 @@ export const Table = (props) => {
                     localStorage.setItem("orderType", data.isShorTerm)
                     localStorage.setItem("orderId", data.orderId)
                     localStorage.setItem("status", data.status)
+                    localStorage.setItem("expiryDate", data.expiryDate)
                     navigate('/orders/orderdetails');
                 }}
                 actions={[
