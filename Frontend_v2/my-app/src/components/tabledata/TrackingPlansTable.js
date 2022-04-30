@@ -83,8 +83,8 @@ export const TrackingPlansTable = (props) => {
 
     const columns = [
         {
-            title: "Plan ID",
-            field: "processId",
+            title: "Plan",
+            field: "taskName",
             cellStyle: { fontFamily: "Muli", fontSize: "18px" },
             align: 'center',
         },
@@ -113,7 +113,7 @@ export const TrackingPlansTable = (props) => {
             align: 'center',
         },
         {
-            title: 'Created Date', field: 'createdDate', render:
+            title: 'Start Date', field: 'createdDate', render:
                 rowData => <LocalizationProvider dateAdapter={AdapterDateFns}><DesktopDatePicker
                     disableOpenPicker
                     inputFormat="MM/dd/yyyy"

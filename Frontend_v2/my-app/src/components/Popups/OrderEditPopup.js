@@ -206,20 +206,23 @@ function OrderEditPopup(props) {
                   label="Customer"
                   value={props.data.customerName}
                   id="fullWidth"
-                  disabled
+                  InputProps={{
+                    readOnly:true,
+                  }}
                   onChange={(e) => setAccountId(e.target.value)}
                 >
 
                 </CssTextField>
               </div>
-              <div className="idfield">
+              <div className="idTPrice">
                 <CssTextField
+                
                   label="Total Price"
                   id="fullWidth"
                   value={totalPrice}
-                  disabled
                   type={"number"}
                   InputProps={{
+                    readOnly:true,
                     inputProps: { min: 0, pattern: "[0-9]*" },
                     endAdornment: <InputAdornment position="end">x1000 VND</InputAdornment>
                   }}

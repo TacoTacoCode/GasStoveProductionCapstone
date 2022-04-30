@@ -13,6 +13,7 @@ namespace GSP_API.Business.Services
         private readonly IProcessRepository _processRepository;
         private readonly ProcessDetailService _processDetailService;
         private readonly ProductComponentService _productComponentService;
+        private readonly ProductService _productService;
         private readonly SectionService _sectionService;
         private readonly OrderDetailService _orderDetailService;
         private readonly OrderService _orderService;
@@ -20,7 +21,7 @@ namespace GSP_API.Business.Services
         public ProcessService(
             IProcessRepository processRepository, ProcessDetailService processDetailService,
             ProductComponentService productComponentService, SectionService sectionService,
-            OrderDetailService orderDetailService, OrderService orderService)
+            OrderDetailService orderDetailService, OrderService orderService, ProductService productService)
         {
             _processRepository = processRepository;
             _processDetailService = processDetailService;
@@ -28,6 +29,7 @@ namespace GSP_API.Business.Services
             _sectionService = sectionService;
             _orderDetailService = orderDetailService;
             _orderService = orderService;
+            _productService = productService;
         }
 
         public async Task<List<Process>> GetAllProcesses()
@@ -226,6 +228,18 @@ namespace GSP_API.Business.Services
             var data = await _processRepository.FindFirst(p => p.ProcessId == newProcess.ProcessId);
             if (data != null)
             {
+                if(newProcess.Status == "Delivering")
+                {
+                    var orderDetail = await _orderDetailService.GetOrderDetailById((int)newProcess.OrderDetailId);
+                    if (newProcess.NeededAmount < newProcess.FinishedAmount)
+                    {
+                        var product = await _productService.GetProductById(orderDetail.ProductId);
+                        product.Amount += (newProcess.TotalAmount - newProcess.NeededAmount);
+                        await _productService.UpdateProduct(product, null, product.ImageUrl, true);
+                    }
+                    
+                }
+                    
                 return await _processRepository.Update(newProcess);
             }
             return null;

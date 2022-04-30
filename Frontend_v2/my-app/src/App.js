@@ -109,6 +109,7 @@ function App() {
               <Route path='/dashboard/materials' exact element={<Materials />}></Route>
               <Route path='/dashboard/products' exact element={<Products />}></Route>
               <Route path='/manufacturer/process/processDetailImport' exact element={<TrackingTasksImport />}></Route>
+
             </Routes>
           </BrowserRouter>
         </ThemeProvider>
@@ -169,6 +170,7 @@ function App() {
               <Route path='/manufacturer/requestDetail' exact element={< RequestDetail />}></Route>
               <Route path='/section/tasks' exact element={< TrackingProcess />}></Route>
               <Route path='/manufacturer/process/processDetail' exact element={< TrackingProcessDetails />}></Route>
+              <Route path='/manufacturer/process/processDetailImport' exact element={<TrackingTasksImport />}></Route>
             </Routes>
           </BrowserRouter>
         </ThemeProvider>

@@ -203,7 +203,14 @@ namespace GSP_API.Business.Services
                         item.Amount += amount;
                         item.Average = processDetail.AverageAmount;
                         await _componentService.UpdateComponent(item, null, item.ImageUrl, true);
+
                     }
+                    var process = await _processService.GetProcessById((int)processDetail.ProcessId);
+                    if (process.Status == "New")
+                    {
+                        process.Status = "Processing";
+                    }
+                    await _processService.UpdateProcess(process);
                 }
                 else if (itemType == "P")
                 {

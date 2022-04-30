@@ -67,6 +67,8 @@ namespace GSP_API.Business.Services
             var data = await _orderRepository.FindFirst(p => p.OrderId == newOrder.OrderId);
             if (data != null)
             {
+                if (newOrder.CustomerName == null) newOrder.CustomerName = data.CustomerName;
+                if (newOrder.CustomerAddress == null) newOrder.CustomerAddress = data.CustomerAddress;
                 return await _orderRepository.Update(newOrder);
             }
             return null;

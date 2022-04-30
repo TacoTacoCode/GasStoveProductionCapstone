@@ -12,17 +12,32 @@ function TrackingProcess() {
 
     useEffect(() => {
         const getAllPlans = `${process.env.REACT_APP_API_URL}getAllProcesss`;
-
+        let promises = []
+        let data = []
         axios
             .get(getAllPlans)
             .then((res) => {
-                getListPlan(res.data);
+                res.data.map(e =>{
+                    data.push(e)
+                    promises.push(axios.get(`${process.env.REACT_APP_API_URL}getTaskName/${e.processId}`))
+                })
+                
             })
             .catch((err) => {
                 //Trường hợp xảy ra lỗi
                 console.log(err);
                 alert("Xảy ra lỗi");
-            });
+            }).then(() =>{
+                Promise.all(promises).then(re => re.map((item, index) => {
+                    let tmp = data[index];
+                    data[index] = {
+                        ...tmp,
+                        'taskName': item.data
+                    }
+                })).then(()=>{
+                    getListPlan(data);
+                })
+            })
     }, []);
     return (
         <div className="tracking-plans">

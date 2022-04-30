@@ -36,7 +36,7 @@ export const Table = (props) => {
             field: "expiryDate",
             cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px' },
             render:
-                rowData => moment(rowData.expiryDate).format('DD/MM/YYYY'),
+                rowData => moment(rowData.expiryDate).format('MM/DD/YYYY'),
         },
 
     ];

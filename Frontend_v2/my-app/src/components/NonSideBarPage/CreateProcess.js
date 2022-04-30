@@ -243,6 +243,7 @@ function CreateProcess() {
                                 }}
                                 value={neededAmount}
                                 InputProps={{
+                                    readOnly:true,
                                     endAdornment: <InputAdornment position="end">Unit</InputAdornment>,
                                 }} />
                         </div>
@@ -272,7 +273,7 @@ function CreateProcess() {
                                 defaultValue={createdDate}
                                 value={createdDate}
                                 onChange={date => setCreatedDate(date)}
-                                renderInput={(params) => <CssTextField color='secondary' className='datefield' helperText="Created Date"
+                                renderInput={(params) => <CssTextField color='secondary' className='datefield' helperText="Start Date"
                                     variant="outlined" {...params} />}
                             /></LocalizationProvider>
                         </div>

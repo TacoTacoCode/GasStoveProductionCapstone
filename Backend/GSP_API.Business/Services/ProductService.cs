@@ -61,7 +61,7 @@ namespace GSP_API.Business.Services
             return await _productRepository.Add(product);
         }
 
-        public async Task<string> UpdateProduct(Product newProduct, Stream fileStream, string fileName, bool fromImEx = false)
+        public async Task<string> UpdateProduct(Product newProduct, Stream fileStream, string fileName, bool noUpdateProCompo = false)
         {
             if (fileStream != null)
             {
@@ -79,7 +79,7 @@ namespace GSP_API.Business.Services
             {
                 newProduct.ImageUrl = fileName;
             }
-            if (!fromImEx)
+            if (!noUpdateProCompo)
             {
                 var data = await _productRepository.FindFirst(p => p.ProductId == newProduct.ProductId);
                 if (data != null)

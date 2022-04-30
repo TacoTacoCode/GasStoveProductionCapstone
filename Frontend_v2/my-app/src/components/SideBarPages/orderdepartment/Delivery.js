@@ -277,8 +277,8 @@ function Delivery() {
                   </div>
                   <div style={{ margin: "1%", width: "60%" }}>
                     {/* Long Term Details */}
-                    <text className="content_delivery">Long Term Process </text>
-                    <br /><br />
+                    {/* <text className="content_delivery">Long Term Process </text>
+                    <br /><br /> */}
                     <GetProcessByOrderID orderID={data.orderId} />
                   </div>
                 </Stack>

@@ -25,6 +25,7 @@ export const GetProcessByOrderDetailID = (props) => {
         const jsonObj = {
             processId: data.processId,
             orderDetailId: data.orderDetailId,
+            neededAmount:data.neededAmount,
             totalAmount: data.totalAmount,
             finishedAmount: data.finishedAmount,
             createdDate: new Date(data.createdDate).toISOString(),
@@ -36,7 +37,7 @@ export const GetProcessByOrderDetailID = (props) => {
         axios
             .put(`${process.env.REACT_APP_API_URL}updateProcess`, jsonObj)
             .then((res) => {
-                swal("Success", "This process is accepted to delivery", "success", {
+                swal("Success", "This plan is accepted to delivery", "success", {
                     button: false,
                     timer: 2000,
                 });
@@ -86,7 +87,7 @@ export const GetProcessByOrderDetailID = (props) => {
                                             spacing={0}
                                         >
                                             <div style={{ margin: "1%" }}>
-                                                <text className="content_delivery_longterm" style={{ fontWeight: "500", marginTop: "0.5%", float: 'left' }}>Process: {index + 1}</text>
+                                                <text className="content_delivery_longterm" style={{ fontWeight: "500", marginTop: "0.5%", float: 'left' }}>Plan: {index + 1}</text>
                                                 {(() => {
                                                     switch (data.status) {
                                                         case 'New':
@@ -102,8 +103,8 @@ export const GetProcessByOrderDetailID = (props) => {
                                                                 <text style={{ color: 'white', fontWeight: "500" }}>COMPLETED</text>
                                                             </div>
                                                         case 'Delivering':
-                                                            return <div style={{ fontWeight: "500", marginTop: "0.5%", float: 'right', border: '1px solid #99ff66', backgroundColor: '#99ff66' }} className="text_square">
-                                                                <text style={{ color: 'white', fontWeight: "500" }}>DELIVERIED</text>
+                                                            return <div style={{ fontWeight: "500", marginTop: "0.5%", float: 'right', border: '1px solid #21BF73', backgroundColor: '#21BF73' }} className="text_square">
+                                                                <text style={{ color: 'white', fontWeight: "500" }}>DELIVERING</text>
                                                             </div>
                                                     }
                                                 })()
@@ -115,7 +116,7 @@ export const GetProcessByOrderDetailID = (props) => {
                                                 spacing={0}
                                             >
                                                 <div style={{ margin: "1%", width: '50%' }}>
-                                                    <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Process ID: </text>&ensp;<text>{data.processId}</text></p>
+                                                    <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Plan ID: </text>&ensp;<text>{data.processId}</text></p>
                                                     <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Needed Amount: </text>&ensp;<text>{data.neededAmount}</text></p>
                                                     <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Total Amount: </text>&ensp;<text>{data.totalAmount}</text></p>
                                                     <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Finished Amount: </text>&ensp;<text>{data.finishedAmount}</text></p>
@@ -157,7 +158,7 @@ export const GetProcessByOrderDetailID = (props) => {
                             ))
                         }
                     </div>
-                    : <text className="caution-order-details">*Note: There are currently no process in this order!</text>
+                    : <text className="caution-order-details">*Note: There are currently no plan in this order!</text>
             }
         </div >
     ) : "";

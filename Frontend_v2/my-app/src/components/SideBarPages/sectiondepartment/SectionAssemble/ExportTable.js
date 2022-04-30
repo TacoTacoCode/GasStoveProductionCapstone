@@ -89,7 +89,7 @@ export const ExTable = (props) => {
             field: "expiryDate",
             cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%'},
             render:
-                rowData => moment(rowData.expiryDate).format('DD/MM/YYYY'),
+                rowData => moment(rowData.expiryDate).format('MM/DD/YYYY'),
         },
 
     ];

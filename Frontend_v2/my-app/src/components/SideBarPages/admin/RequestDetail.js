@@ -90,7 +90,7 @@ function RequestDetail() {
 
     const columns = [
         {
-            title: 'Process Detail ID', field: 'processDetailId', cellStyle: { fontFamily: 'Muli', paddingRight: '4%' }, align: "center"
+            title: 'Task ID', field: 'processDetailId', cellStyle: { fontFamily: 'Muli', paddingRight: '4%' }, align: "center"
         },
         {
             title: itemType === 'M' ? 'Material Name' : 'Component Name', field: itemType === 'M' ? 'materialName' : 'componentName', cellStyle: { fontFamily: 'Muli', paddingRight: '3%' }, align: "center"
@@ -122,8 +122,9 @@ function RequestDetail() {
 
     function handleAccept(e, data) {
         e.preventDefault();
-        if (supplying[data.tableData.id] == 0)
+        if (supplying[data.tableData.id] === 0 || supplying[data.tableData.id] === undefined)
             return
+    
         axios.post(`${process.env.REACT_APP_API_URL}provideItem`, {
             "importExportId": importExportId,
             "itemId": data.itemId,

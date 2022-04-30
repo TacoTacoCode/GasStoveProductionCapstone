@@ -99,7 +99,7 @@ const ImportForm = () => {
                             display: 'block', alignItems: 'center',
                             marginBottom: '16px',
                             borderRadius: '25px',
-                            padding: '3% 8%',
+                            padding: '3% 3% 3% 5%',
                             border: '1px solid',
                             boxShadow: '5px 10px #888888',
                         }}
@@ -152,8 +152,10 @@ const ImportForm = () => {
                         <IconButton
                             aria-label="delete" size="large"
                             style={{
-                                display: 'inline', float: 'right',
-                                alignSelf: 'center', margin: '1% auto'
+                                float: 'right',
+                                alignSelf: 'center',
+                                padding:'0%',
+                                marginRight:'2%'
                             }}
                             onClick={() => {
                                 deleteItem(index)

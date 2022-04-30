@@ -93,7 +93,7 @@ export const TrackingTaskImportTable = (props) => {
 
     return (
         <MaterialTable
-            title={<MyNewTitle variant="h6" text={`Importing List of ${localStorage['componentName']} `} />}
+            title={<MyNewTitle variant="h6" text={`Importing List for ${localStorage['componentName']} `} />}
             data={array}
             columns={columns}
             options={{

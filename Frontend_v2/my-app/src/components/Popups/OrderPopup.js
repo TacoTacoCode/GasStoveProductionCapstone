@@ -109,7 +109,7 @@ function OrderPopup(props) {
   const [orderProduct, setListOrderProduct] = useState([]);
   const [listProductActive, setProductList] = useState([]);
   const [productActive, setProductChoice] = useState('');
-  const [productAmount, setOrderProductAmount] = useState(0);
+  const [productAmount, setOrderProductAmount] = useState(1000);
   const [productPrice, setOrderProductPrice] = useState(0);
 
   useEffect(() => {
@@ -237,10 +237,10 @@ function OrderPopup(props) {
                     id="fullWidth"
                     value={totalPrice}
                     required
-                    disabled
                     type={"number"}
                     InputProps={{
                       inputProps: { min: 0, pattern: "[0-9]*" },
+                      readOnly: true,
                       endAdornment: <InputAdornment position="end">x1000 VND</InputAdornment>
                     }}
                     onChange={(e) => setTotalPrice(e.target.value)}
@@ -350,8 +350,7 @@ function OrderPopup(props) {
                     onChange={(e) => setOrderProductPrice(e.target.value)}
                   />
                 </div>
-                {productActive != null &&
-                  productAmount > 0 && productPrice > 0 ? (
+                {productActive != null && productPrice > 0 ? (
                   <ImportExcelButton
                     onClick={() => {
                       setListOrderProduct((orderProduct) => [
@@ -365,7 +364,7 @@ function OrderPopup(props) {
                         ),
                       ]);
                       setTotalPrice(totalPrice+productAmount*productPrice)
-                      setOrderProductAmount('');
+                      setOrderProductAmount(1000);
                       setOrderProductPrice('');
                       setProductChoice('');
                     }}

@@ -255,6 +255,7 @@ function DivideProcessTabs() {
                                             updateNeededAmountChanged(e, index)
                                         }
                                         InputProps={{
+                                            readOnly:true,
                                             endAdornment: <InputAdornment position="end">Unit</InputAdornment>,
                                         }}
                                     /></div>
@@ -277,7 +278,7 @@ function DivideProcessTabs() {
                                         value={listProcess[index] === undefined ? 0 : listProcess[index].createdDate}
                                         minDate={new Date()}
                                         onChange={(date) => updateCreatedDateChanged(index, date)}
-                                        renderInput={(params) => <CssTextField color='secondary' className='datefield' helperText="Created Date"
+                                        renderInput={(params) => <CssTextField color='secondary' className='datefield' helperText="Start Date"
                                             variant="outlined" {...params} />}
                                     /></LocalizationProvider>
                                 </div>
