@@ -21,14 +21,14 @@ const FormMenu = (props) => {
     return (
         <FormControl className={classes.formControl}>
             <InputLabel
-                id="demo-simple-select-label"
+                id="select-component-lable"
                 shrink
             >
                 Choose Task
             </InputLabel>
             <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                labelId="select-component-lable"
+                id="select-component"
                 value={aValue ?? ''}
                 onChange={(e) => {
                     handleFunc(e.target.value)
@@ -39,7 +39,7 @@ const FormMenu = (props) => {
                         value={e.processDetailId}
                         key={e.processDetailId}
                     >
-                        {e.processDetailId}
+                        {e.taskName}
                     </MenuItem>))}
             </Select>
         </FormControl>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import MaterialTable from "material-table";
-import { MenuItem, Select, TextField } from "@material-ui/core";
+import { MenuItem, Select, TextField,Tooltip } from "@material-ui/core";
 import swal from "sweetalert";
 import axios from "axios";
 import { Typography } from "@mui/material";
@@ -47,7 +47,9 @@ export const ImportCompo = (props) => {
             field: "amount",
             cellStyle: { fontFamily: "Muli", textAlign: 'center', paddingRight: '3%', fontSize: '18px' },
             render: (rowData) =>
-                <TextField
+                <Tooltip 
+                title={<h3>{tableData[rowData.tableData.id].remaining} remaining</h3>}>
+                    <TextField
                     variant="outlined"
                     value={tableData[rowData.tableData.id].amount}
                     type={"number"}
@@ -57,6 +59,7 @@ export const ImportCompo = (props) => {
                     }}
                     onChange={(e) => handleChangeAmount(e.target.value, rowData.tableData.id)}
                 />
+                </Tooltip>
 
         }
     ]
@@ -67,6 +70,7 @@ export const ImportCompo = (props) => {
             'productName': '',
             'amount': 0,
             'itemId': '',
+            'remaining':0,
         })
         setTableData(arr)
     }
@@ -76,6 +80,7 @@ export const ImportCompo = (props) => {
         arr[index].processDetailId = value
         arr[index].productName = ele.product.productName
         arr[index].itemId = ele.product.productId
+        arr[index].remaining = ele.remaining
         setTableData(arr)
     }
     const findData = (value) => {

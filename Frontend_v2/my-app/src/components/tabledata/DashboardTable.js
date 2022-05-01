@@ -44,10 +44,13 @@ export const Table = (props) => {
 
     const columns = [
         {
-            title: 'Request ID', field: 'importExportId', cellStyle: { fontFamily: 'Muli', fontSize: '18px', paddingBottom: '1%' }, align: "center"
+            title: 'Request ID', field: 'importExportId', cellStyle: { fontFamily: 'Muli', fontSize: '18px', paddingRight: '3%' }, align: "center"
         },
         {
-            title: 'Section Id', field: 'sectionId', cellStyle: { fontFamily: 'Muli', fontSize: '18px', paddingBottom: '1%' }, align: "center"
+            title: 'Section Id', field: 'sectionId', cellStyle: { fontFamily: 'Muli', fontSize: '18px', paddingRight: '3%' }, align: "center"
+        },
+        {
+            title: 'Section Leader', field: 'sectionLeader', cellStyle: { fontFamily: 'Muli', paddingRight: '3%', fontSize: '18px' }, align: "center"
         },
         {
             title: 'Created Date', field: 'createdDate', render:
@@ -75,6 +78,9 @@ export const Table = (props) => {
             render:
                 ((rowData) => {
                     let color = '#FF1818'
+                    if(rowData.status == 'New') {
+                        color = '#333C83'
+                    }
                     if (rowData.status == 'Done') {
                         color = '#21BF73'
                     }

@@ -89,15 +89,15 @@ export const GetProcessByOrderDetailID = (props) => {
                                                 <text className="content_delivery_longterm" style={{ fontWeight: "500", marginTop: "0.5%", float: 'left' }}>Process: {index + 1}</text>
                                                 {(() => {
                                                     switch (data.status) {
-                                                        case 'new':
+                                                        case 'New':
                                                             return <div style={{ fontWeight: "500", marginTop: "0.5%", float: 'right', border: '1px solid RED', backgroundColor: 'red' }} className="text_square">
                                                                 <text style={{ color: 'white', fontWeight: "500" }}>NEW</text>
                                                             </div>
-                                                        case 'processing':
+                                                        case 'Processing':
                                                             return <div style={{ fontWeight: "500", marginTop: "0.5%", float: 'right', border: '1px solid DARKBLUE', backgroundColor: 'DARKBLUE' }} className="text_square">
                                                                 <text style={{ color: 'white', fontWeight: "500" }}>PROCESSING</text>
                                                             </div>
-                                                        case 'completed':
+                                                        case 'Done':
                                                             return <div style={{ fontWeight: "500", marginTop: "0.5%", float: 'right', border: '1px solid BLUE', backgroundColor: 'BLUE' }} className="text_square">
                                                                 <text style={{ color: 'white', fontWeight: "500" }}>COMPLETED</text>
                                                             </div>
@@ -138,7 +138,7 @@ export const GetProcessByOrderDetailID = (props) => {
                                                 }
                                                 <br />
                                                 {
-                                                    (data.status == 'done' && ((data.finishedAmount / data.totalAmount) * 100) == 100)
+                                                    (data.status == 'Done' && ((data.finishedAmount / data.totalAmount) * 100) == 100)
                                                         ? <Button style={{
                                                             fontFamily: "Muli",
                                                             borderRadius: 10,

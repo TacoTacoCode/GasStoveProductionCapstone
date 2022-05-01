@@ -72,7 +72,7 @@ function Delivery() {
       accountId: data.accountId,
       totalPrice: data.totalPrice,
       expiryDate: new Date(data.expiryDate).toISOString(),
-      status: 'Delivery',
+      status: 'Delivering',
       note: data.note,
       isShorTerm: data.isShorTerm,
     }
@@ -175,8 +175,8 @@ function Delivery() {
                                 return <text style={{ color: 'DARKBLUE', fontWeight: "500" }}>PROCESSING</text>
                               case 'Completed':
                                 return <text style={{ color: 'BLUE', fontWeight: "500" }}>COMPLETED</text>
-                              case 'Delivery':
-                                return <text style={{ color: 'GREEN', fontWeight: "500" }}>DELIVERIED</text>
+                              case 'Delivering':
+                                return <text style={{ color: 'GREEN', fontWeight: "500" }}>DELIVERING</text>
                             }
                           })()
                           }

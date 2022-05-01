@@ -41,6 +41,9 @@ export const Table = (props) => {
             title: 'Section Id', field: 'sectionId', cellStyle: { fontFamily: 'Muli', paddingRight: '3%', fontSize: '18px' }, align: "center"
         },
         {
+            title: 'Section Leader', field: 'sectionLeader', cellStyle: { fontFamily: 'Muli', paddingRight: '3%', fontSize: '18px' }, align: "center"
+        },
+        {
             title: 'Created Date', field: 'createdDate', render:
                 rowData => <LocalizationProvider dateAdapter={AdapterDateFns}><DesktopDatePicker
                     disableOpenPicker
@@ -65,7 +68,6 @@ export const Table = (props) => {
                         <text style={{ color: 'white', fontWeight: "500" }}>{rowData.status}</text>
                     </div>
                 }),
-            //customSort: (a, b) => a.name.length - b.name.length,
             defaultSort: 'desc',
 
         },

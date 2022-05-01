@@ -73,7 +73,7 @@ export const Table = (props) => {
                         </div>
                     case 'Delivering':
                         return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #21BF73', backgroundColor: '#21BF73' }} className="text_square">
-                            <text style={{ color: 'white', fontWeight: "500" }}>Delivered</text>
+                            <text style={{ color: 'white', fontWeight: "500" }}>Delivering</text>
                         </div>
                 }
             })
@@ -118,7 +118,7 @@ export const Table = (props) => {
                 actions={[
                     {
                         icon: "edit",
-                        tooltip: "Edit this order",
+                        tooltip: "View/Edit this order",
                         onClick: (event, rowData) => {
                             handleEditData(rowData);
                         },

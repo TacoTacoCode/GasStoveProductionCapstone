@@ -9,13 +9,12 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import { alpha, styled } from "@mui/material/styles";
+import {styled } from "@mui/material/styles";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import axios from "axios";
 import swal from "sweetalert";
-import { Checkbox } from "@material-ui/core";
 import { ImportExcelButton } from "../button/ImportExcelButton";
 
 function createData(productId, productName, amount, price, description) {
@@ -42,6 +41,11 @@ const columns = [
     title: "Price (x1000 VND)",
     field: "price",
     cellStyle: { fontFamily: "Arial" },
+  },
+  {
+    title: "Total (x1000 VND)",
+    cellStyle: { fontFamily: "Arial" },
+    render: rowData =>rowData.amount*rowData.price
   },
 ];
 
@@ -104,7 +108,7 @@ function OrderPopup(props) {
   //select product
   const [orderProduct, setListOrderProduct] = useState([]);
   const [listProductActive, setProductList] = useState([]);
-  const [productActive, setProductChoice] = useState(null);
+  const [productActive, setProductChoice] = useState('');
   const [productAmount, setOrderProductAmount] = useState(0);
   const [productPrice, setOrderProductPrice] = useState(0);
 
@@ -130,13 +134,6 @@ function OrderPopup(props) {
 
   const postData = (e) => {
     e.preventDefault();
-    // const formData = new FormData();
-    // formData.append("accountId", accountId);
-    // formData.append("totalPrice", totalPrice);
-    // formData.append("expiryDate", expiryDate);
-    // formData.append("status", status);
-    // formData.append("note", note);
-    // formData.append("isShorTerm", isShorTerm);
     const jsonObj = {
       accountId: accountId,
       totalPrice,
@@ -186,7 +183,7 @@ function OrderPopup(props) {
     setOrderProductPrice(0);
     setOrderProductAmount(0);
     setListOrderProduct([]);
-    setProductChoice(null);
+    setProductChoice('');
   };
 
   const handleCancelClick = () => {
@@ -203,18 +200,10 @@ function OrderPopup(props) {
     };
   })();
 
-  const handleDelay = () => {
-    delay(function () { window.location.reload(); }, 1000);
-  };
 
   return (props.trigger) ? (
     <div className="popup">
       <div className="popup-inner">
-        {/* <div>
-          <button className="close-btn" onClick={() => props.setTrigger(false)}>
-            <CloseIcon style={{ color: "white" }} />
-          </button>
-        </div> */}
         {props.children}
         <div className="popup-body" style={{ height: '85vh', overflow: 'auto', overflowY: 'scroll', overflowX: 'hidden' }}>
           <form>
@@ -374,9 +363,10 @@ function OrderPopup(props) {
                           ""
                         ),
                       ]);
+                      setTotalPrice(totalPrice+productAmount*productPrice)
                       setOrderProductAmount('');
                       setOrderProductPrice('');
-                      setProductChoice(null);
+                      setProductChoice('');
                     }}
                   >
                     Add
@@ -400,7 +390,9 @@ function OrderPopup(props) {
                         setTimeout(() => {
                           const dataDelete = [...orderProduct];
                           const index = oldData.tableData.id;
-                          dataDelete.splice(index, 1);
+                          let deleteItem = dataDelete.splice(index, 1)[0];
+                          let minusPrice = deleteItem.amount*deleteItem.price
+                          setTotalPrice(totalPrice-minusPrice)
                           setListOrderProduct([...dataDelete]);
                           resolve();
                         }, 1);

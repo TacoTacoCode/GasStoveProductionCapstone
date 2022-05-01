@@ -164,7 +164,7 @@ export const Table = (props) => {
           }),
           {
             icon: "edit",
-            tooltip: "Edit this Account",
+            tooltip: "View/Edit this Account",
             onClick: (event, rowData) => {
               handleEditData(rowData);
             },

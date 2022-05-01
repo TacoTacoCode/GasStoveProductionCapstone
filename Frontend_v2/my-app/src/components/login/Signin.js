@@ -53,7 +53,6 @@ export default function Signin() {
                             window.location.href = "/orders";
                             break;
                         case "Section Department":
-                            console.log(user.id)
                             axios.get(`${process.env.REACT_APP_API_URL}getSectionBySectionLeadId/${user.id}`)
                                 .then((res) => {
                                     localStorage.setItem('currentSectionInfo', JSON.stringify(res.data));
@@ -65,7 +64,11 @@ export default function Signin() {
                                 });
                             break;
                         default:
-                            console.log("Not Admin");
+                            axios.get(`${process.env.REACT_APP_API_URL}getAccountById/` + user.id)
+                            .then((res)=>{
+                                localStorage.setItem('choiceUser', JSON.stringify(res.data))
+                                window.location.href = "/dashboard/attendance";
+                            })
                             break;
                     }
                 });

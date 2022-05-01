@@ -172,6 +172,21 @@ function App() {
       </div >
     );
   }
+  if (role == 'Worker') {
+    return (
+      <div className="App">
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <CustomSideBar />
+            <Routes>
+              <Route path='/dashboard/attendance' exact element={<Attendance />}></Route>
+              <Route path='/profile' exact element={<Profile />}></Route>
+            </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
+      </div >
+    )
+  }
 }
 export default App;
 //}

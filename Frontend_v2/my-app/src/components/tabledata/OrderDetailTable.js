@@ -132,7 +132,7 @@ export const OrderDetailTable = (props) => {
                 data={newData}
                 columns={columns}
                 actions={
-                    status == 'Completed' ? [] :
+                    status == 'Completed' || status == 'Delivering' ? [] :
                         [
                             rowData => ({
                                 icon: "delete",
@@ -145,7 +145,7 @@ export const OrderDetailTable = (props) => {
                             }),
                             {
                                 icon: "edit",
-                                tooltip: "Edit this order detail",
+                                tooltip: "View/Edit this order detail",
                                 onClick: (event, rowData) => {
                                     event.preventDefault()
                                     handleEditData(rowData);

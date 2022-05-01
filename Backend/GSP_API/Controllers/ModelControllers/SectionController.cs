@@ -71,17 +71,17 @@ namespace GSP_API.Controllers.ModelControllers
 
         // GET: getSectionById/1
         [HttpGet]
-        [Route("getSectionById/{sectionId}")]
-        public async Task<ActionResult<SectionResponse>> GetSectionById(int sectionId)
+        [Route("getSectionLeaderById/{sectionId}")]
+        public async Task<ActionResult<string>> GetSectionLeaderById(int sectionId)
         {
-            var data = await _sectionService.GetSectionById(sectionId);
+            var data = await _sectionService.GetSectionLeaderById(sectionId);
             if (data == null)
             {
                 return BadRequest("Not found");
             }
-            var section = _mapper.Map<SectionResponse>(data);
-            return Ok(section);
+            return Ok(data);
         }
+
         [HttpGet]
         [Route("getSectionBySectionLeadId/{sectionLeadId}")]
         public async Task<ActionResult<SectionResponse>> GetSectionBySectionLeadId(int sectionLeadId)

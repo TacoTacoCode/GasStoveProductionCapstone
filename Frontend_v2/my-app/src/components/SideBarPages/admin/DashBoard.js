@@ -12,13 +12,27 @@ export default function DashBoard() {
 
   useEffect(() => {
     const getRequestMaterials = `${process.env.REACT_APP_API_URL}getExByType/M`
+    let promises =[]
+    let listReqMate = []
     axios.get(getRequestMaterials).then((res) => {
-      setListRequestMaterials(res.data);
-    }).catch((err) => {
+      res.data.map(e =>{
+      listReqMate.push(e)
+      promises.push(axios.get(`${process.env.REACT_APP_API_URL}getSectionLeaderById/` + e.sectionId))
+    })
+  }).catch((err) => {
       console.log(err);
       alert("Xảy ra lỗi");
+    }).then(()=>{
+      Promise.all(promises).then(re => re.map((item, index) =>{
+          let tmp = listReqMate[index];
+          listReqMate[index] = {
+              ...tmp,
+              'sectionLeader': item.data
+          }
+      })).then(()=>{
+        setListRequestMaterials(listReqMate);
+      })
     })
-
   }, []);
 
   return (

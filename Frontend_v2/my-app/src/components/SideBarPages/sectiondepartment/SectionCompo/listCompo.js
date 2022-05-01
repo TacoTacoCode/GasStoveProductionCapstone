@@ -1,6 +1,5 @@
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import Checkbox from '@mui/material/Checkbox';
 import { Input } from '@material-ui/core';
 import { useEffect, useState } from 'react';
@@ -31,7 +30,13 @@ export default function CheckboxList(props) {
     }, [task])
     const handleInputAmount = (index, newAmount) => {
         let arr = [...listMate]
-        arr[index].amount = parseInt(newAmount)
+        if(arr[index].maxAmount < newAmount){
+            arr[index].amount = arr[index].maxAmount 
+        }   
+        else{
+           arr[index].amount = parseInt(newAmount) 
+        }
+            
         setListMate(arr);
         localStorage.setItem(`currItem${indexer}`, JSON.stringify(arr))
     }

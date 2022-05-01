@@ -52,7 +52,7 @@ const TransportFlow = () => {
             values.map((value, index) => {
                 let tmp = JSON.parse(localStorage.getItem(`currItem${index}`))
                 tmp.map((ele) => {
-                    if (ele.amount != 0) {
+                    if (ele.amount != 0 && ele.amount != null) {
                         let obj = arr.find((e) => (e.processDetailId === ele.processDetailId && e.itemId === ele.itemId))
                         if (obj !== undefined) {
                             obj.amount += ele.amount

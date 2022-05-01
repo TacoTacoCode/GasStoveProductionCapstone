@@ -6,8 +6,6 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ListItem from "./formMenu";
 import CheckboxList from "./listCompo";
 
-//import DraggableDialog from './AlertDialog'
-
 const PointPanel = (props) => {
     const [expanded, setExpanded] = useState("");
     const handleChange = (panel) => (evt, isExpanded) => {

@@ -9,5 +9,6 @@ namespace GSP_API.Domain.Interfaces
     public interface IProcessRepository : IRepository<Process>
     {
         Task<List<Process>> FindProcessWithDetails(Expression<Func<Process, bool>> expression);
+        Task<int> GetNotDoneProcessByOrderDetailId(int orderDetailId);
     }
 }

@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, makeStyles, MenuItem, Select, TextField } from "@material-ui/core";
+import { FormControl, InputLabel, makeStyles, MenuItem, Select, TextField, Tooltip } from "@material-ui/core";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import axios from "axios";
@@ -8,9 +8,9 @@ import { ImportExcelButton } from "../../../button/ImportExcelButton";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
-        margin: theme.spacing(1),
+        margin: -5,
         minWidth: 120,
-        float: 'center'
+        marginRight: 30
     },
 }));
 
@@ -25,7 +25,8 @@ const ImportForm = () => {
         arr.push({
             'itemId': secInfo.componentId,
             'processDetailId': '',
-            'amount': 0
+            'amount': 0,            
+            'remaining':0
         })
         setSelected(arr)
     }
@@ -37,8 +38,10 @@ const ImportForm = () => {
     }
 
     const handleSelectedInput = (index, value) => {
+        let curr= listProcessDetail.find(p=>p.processDetailId == value)
         let arr = [...selected]
         arr[index]['processDetailId'] = value
+        arr[index]['remaining'] = curr.totalAmount - curr.finishedAmount
         setSelected(arr)
     }
 
@@ -103,14 +106,15 @@ const ImportForm = () => {
                         key={`item${index}`}>
                         <FormControl className={classes.formControl}>
                             <InputLabel
-                                id="demo-simple-select-label"
+                                id="select-component-lable"
                                 shrink
+                                tool
                             >
                                 Choose Task
                             </InputLabel>
                             <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
+                                labelId="select-component-lable"
+                                id="select-component"
                                 value={value['processDetailId']}
                                 onChange={(e) => handleSelectedInput(index, e.target.value)}
                             >
@@ -119,21 +123,31 @@ const ImportForm = () => {
                                         value={e.processDetailId}
                                         key={e.processDetailId}
                                     >
-                                        {e.processDetailId}
+                                        {e.taskName}
                                     </MenuItem>))}
                             </Select>
                         </FormControl>
-                        <FormControl>
+                        <FormControl className={classes.formControl}>
+                        <InputLabel
+                                id="select-component-lable"
+                                shrink
+                            >
+                                Amount
+                            </InputLabel>
+                            <Tooltip
+                                title={<h3>{value['remaining']} remaining</h3>}>
                             <TextField
+                                labelId="select-component-lable"
                                 value={value['amount']}
                                 type={'number'}
-                                inputProps={{ min: '0' }}
+                                inputProps={{ min: '0'}}
                                 style={{
                                     display: 'inline-block', float: 'center',
                                     marginInline: '5%', marginTop: '5.5%'
                                 }}
                                 onChange={(e) => handleAmountInput(index, e.target.value)}
                             />
+                            </Tooltip>
                         </FormControl>
                         <IconButton
                             aria-label="delete" size="large"

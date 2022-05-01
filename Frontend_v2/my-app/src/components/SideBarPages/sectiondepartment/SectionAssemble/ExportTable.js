@@ -29,6 +29,7 @@ export const ExTable = (props) => {
                     obj['processDetailId'] = listProcessDetail[index].processDetailId
                     obj['taskName'] = listProcessDetail[index].taskName
                     obj['amount'] = listProcessDetail[index].totalAmount
+                    obj['remaining'] = listProcessDetail[index].totalAmount - listProcessDetail[index].finishedAmount
                     datas.push(obj)
                 }))
                 .then((e) => {
@@ -118,7 +119,7 @@ export const ExTable = (props) => {
                     addRowPosition: "first",
                     actionsColumnIndex: -1,
                     exportButton: false,
-                    search: false,
+                    search: true,
                     headerStyle: { backgroundColor: "#bd162c", color: "#fff", fontSize: '18px', textAlign: 'center' },
                 }}
             />

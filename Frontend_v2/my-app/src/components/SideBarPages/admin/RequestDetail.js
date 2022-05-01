@@ -48,7 +48,6 @@ function RequestDetail() {
     }
 
     useEffect(() => {
-        console.log(importExportId);
         axios.get(`${process.env.REACT_APP_API_URL}getDetailsOf/ImEx/` + importExportId)
             .then((response) => {
                 setRequestDetail(response.data)

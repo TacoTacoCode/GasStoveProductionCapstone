@@ -20,5 +20,11 @@ namespace GSP_API.Infrastructure.Repositories
             var data = await DbSet.Where(expression).Include(p => p.ProcessDetails).ToListAsync();
             return data;
         }
+
+        public async Task<int> GetNotDoneProcessByOrderDetailId(int orderDetailId)
+        {
+            var proList = await DbSet.Where(p => p.OrderDetailId == orderDetailId && !p.Status.Equals("Done")).ToListAsync();
+            return proList.Count;
+        }
     }
 }

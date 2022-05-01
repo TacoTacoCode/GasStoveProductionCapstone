@@ -95,10 +95,10 @@ namespace GSP_API.Business.Services
                         var section = (await _sectionRepository.GetAll(s => true)).ToDictionary(s => s.SectionId, s => s.ComponentId);
                         foreach (var process in processes)
                         {
-                            process.Status = "Delete";
+                            process.Status = "Inactive";
                             foreach (var detail in process.ProcessDetails)
                             {
-                                detail.Status = "Delete";
+                                detail.Status = "Inactive";
                                 var compo = await _compoRepository.FindFirst(c => c.ComponentId == section[detail.SectionId.Value]);
                                 if (compo != null)
                                 {
@@ -128,6 +128,31 @@ namespace GSP_API.Business.Services
         public async Task<string> AddRangeOrderDetail(List<OrderDetail> orderDetailsList)
         {
             return await _orderDetailRepository.AddRange(orderDetailsList);
+        }
+
+        public async Task UpdateOrderStatus(int orderDetailId)
+        {
+            var orderDetail = await GetOrderDetailById(orderDetailId);
+            if (orderDetail != null)
+            {
+                var orderDetails = await GetOrderDetailsByOrder((int)orderDetail.OrderId);
+                bool isAllDone = true;
+                foreach (var item in orderDetails)
+                {
+                    var countProcess = await _processRepository.GetNotDoneProcessByOrderDetailId(item.OrderDetailId);
+                    if (countProcess > 0)
+                    {
+                        isAllDone = false;
+                        break;
+                    }
+                }
+                var order = await _orderRepository.FindFirst(o => o.OrderId == orderDetail.OrderId);
+                if (isAllDone)
+                {
+                    order.Status = "Completed";
+                }
+                await _orderRepository.Update(order);
+            }
         }
     }
 }

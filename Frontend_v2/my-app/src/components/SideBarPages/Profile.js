@@ -44,14 +44,6 @@ function Profile() {
 
     return (
         <div className="profile-background">
-            {/* Header */}
-            {/* <HeaderPage /> */}
-            {/* <div className="back_button">
-                <Button onClick={() => window.location.href = "/"}>
-                    <FaIcons.FaArrowLeft size={40} color="white" />
-                </Button>
-            </div> */}
-            {/* Content */}
             <section className="mid_panel">
                 {/* Left */}
                 <NavigationProfile
