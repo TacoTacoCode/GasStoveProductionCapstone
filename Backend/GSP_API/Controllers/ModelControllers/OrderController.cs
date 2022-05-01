@@ -133,6 +133,20 @@ namespace GSP_API.Controllers.ModelControllers
             return BadRequest(result);
         }
 
+        // POST: AddOrder/2/[order]
+        [HttpPost]
+        [Route("addOrder/2")]
+        public async Task<ActionResult> AddOrder2([FromBody] OrderRequest orderRequest)
+        {
+            var data = _mapper.Map<Order>(orderRequest);
+            var result = await _orderService.AddOrder2(data);
+            if (result == "true")
+            {
+                return Ok("Add successfully");
+            }
+            return BadRequest(result);
+        }
+
         // PUT: UpdateOrder/[order]
         [HttpPut]
         [Route("updateOrder")]

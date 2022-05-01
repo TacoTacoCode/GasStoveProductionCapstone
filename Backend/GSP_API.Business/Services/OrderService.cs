@@ -9,11 +9,14 @@ namespace GSP_API.Business.Services
     public class OrderService
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly IProductRepository _productRepository;
 
         public OrderService(
-            IOrderRepository orderRepository)
+            IOrderRepository orderRepository,
+            IProductRepository productRepository)
         {
             _orderRepository = orderRepository;
+            _productRepository = productRepository;
         }
 
         public async Task<List<Order>> GetAllOrders()
@@ -56,6 +59,23 @@ namespace GSP_API.Business.Services
             foreach (var orderDetail in order.OrderDetails)
             {
                 total += (double)(orderDetail.Amount * orderDetail.Price);
+            }
+            order.TotalPrice = total;
+            var data = await _orderRepository.Add(order);
+            return data;
+        }
+
+        public async Task<string> AddOrder2(Order order)
+        {
+            if (order.Status != "Pending")
+                order.Status = "New";
+            var total = 0.0;
+            foreach (var orderDetail in order.OrderDetails)
+            {
+                var product = await _productRepository.FindFirst(p => p.ProductId == orderDetail.ProductId);
+                orderDetail.Price = product.Price;
+                total += (double)(orderDetail.Amount * orderDetail.Price);
+
             }
             order.TotalPrice = total;
             var data = await _orderRepository.Add(order);
