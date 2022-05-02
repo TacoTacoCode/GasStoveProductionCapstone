@@ -25,8 +25,8 @@ const ImportForm = () => {
         arr.push({
             'itemId': secInfo.componentId,
             'processDetailId': '',
-            'amount': 0,            
-            'remaining':0
+            'amount': 0,
+            'remaining': 0
         })
         setSelected(arr)
     }
@@ -38,7 +38,7 @@ const ImportForm = () => {
     }
 
     const handleSelectedInput = (index, value) => {
-        let curr= listProcessDetail.find(p=>p.processDetailId == value)
+        let curr = listProcessDetail.find(p => p.processDetailId == value)
         let arr = [...selected]
         arr[index]['processDetailId'] = value
         arr[index]['remaining'] = curr.totalAmount - curr.finishedAmount
@@ -89,7 +89,7 @@ const ImportForm = () => {
             })
     }
     return (
-        <div className="flow" style={{ margin: "50px 35%" }}>
+        <div className="flow" style={{ margin: "50px 30%", width: '40%', }}>
             <h1 style={{ textAlign: 'center', marginBottom: '32px' }}>{secInfo.isAssemble ? 'Components Import Form' : 'Materials Import Form'}</h1>
             {
                 selected.map((value, index) =>
@@ -128,7 +128,7 @@ const ImportForm = () => {
                             </Select>
                         </FormControl>
                         <FormControl className={classes.formControl}>
-                        <InputLabel
+                            <InputLabel
                                 id="select-component-lable"
                                 shrink
                             >
@@ -136,17 +136,17 @@ const ImportForm = () => {
                             </InputLabel>
                             <Tooltip
                                 title={<h3>{value['remaining']} remaining</h3>}>
-                            <TextField
-                                labelId="select-component-lable"
-                                value={value['amount']}
-                                type={'number'}
-                                inputProps={{ min: '0'}}
-                                style={{
-                                    display: 'inline-block', float: 'center',
-                                    marginInline: '5%', marginTop: '5.5%'
-                                }}
-                                onChange={(e) => handleAmountInput(index, e.target.value)}
-                            />
+                                <TextField
+                                    labelId="select-component-lable"
+                                    value={value['amount']}
+                                    type={'number'}
+                                    inputProps={{ min: '0' }}
+                                    style={{
+                                        display: 'inline-block', float: 'center',
+                                        marginInline: '5%', marginTop: '5.5%'
+                                    }}
+                                    onChange={(e) => handleAmountInput(index, e.target.value)}
+                                />
                             </Tooltip>
                         </FormControl>
                         <IconButton
@@ -154,8 +154,8 @@ const ImportForm = () => {
                             style={{
                                 float: 'right',
                                 alignSelf: 'center',
-                                padding:'0%',
-                                marginRight:'2%'
+                                padding: '0%',
+                                marginRight: '2%'
                             }}
                             onClick={() => {
                                 deleteItem(index)

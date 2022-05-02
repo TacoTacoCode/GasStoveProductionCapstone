@@ -263,7 +263,7 @@ function OrderPopup(props) {
                     ))}
                   </CssTextField>
                 </div>
-                <div className="idfield">
+                <div className="datefield">
                   <CssTextField
                     label="Total Price"
                     id="fullWidth"
