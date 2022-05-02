@@ -200,7 +200,7 @@ function OrderDetailPopup(props) {
               <div className='idfield'>
                 <CssTextField
                   label="Amount"
-                  value={amount}
+                  value={amount == 0 ? 1000 : amount}
                   required
                   type={"number"}
                   InputProps={{
