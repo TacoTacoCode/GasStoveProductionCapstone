@@ -7,6 +7,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import axios from 'axios';
+import moment from 'moment';
 import swal from 'sweetalert';
 
 const statuses = [
@@ -102,55 +103,73 @@ function AccountPopup(props) {
     });
   }, [])
 
-  const postData = (e) => {
-    // uploadFile().then(res => {
-    //   //get the return avatarURL then parse it to object POST
-    // })
-    const jsonObj = {
-      accountId: accountID,
-      password,
-      email,
-      name: accountName,
-      gender,
-      dateOfBirth: new Date(dateOfBirth).toISOString(), //convert to ISO string
-      address,
-      phone,
-      avatarUrl: "string", //parse url here
-      roleId: roleID,
-      sectionId: sectionID,
-      isActive: isActive ? true : false
-    }
-
-    //lúc trước khi gửi dữ liệu thì nên có hàm check những trường dữ liệu bắt buộc nha (bên table nữa)
-    axios.post(`${process.env.REACT_APP_API_URL}addAccount`, jsonObj).then(res => {
-      swal("Success", "Add new account successfully", "success", {
-        buttons: false,
-        timer: 2000,
-      })
-
-      //reset data
-      handleCancelClick();
-    }).catch(err => {
-      swal("Error", "Add new account failed", "error", {
-        buttons: false,
-        timer: 2000,
-      })
-      console.log(err)
-    }).finally(function () {
-      handleDelay();
-    });
-  }
-
   const postData2 = (e) => {
     const formData = new FormData();
     formData.append("accountId", accountID);
-    formData.append("password", password);
-    formData.append("email", email);
-    formData.append("name", accountName);
+
+    // Name Validation
+    if (accountName == null || accountName == "") {
+      swal("Error", "Name is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else {
+      formData.append("name", accountName);
+    }
+    // Password Validation
+    if (password == null || password == "") {
+      swal("Error", "Password is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    }
+    if (confirmPassword == null || confirmPassword == "") {
+      swal("Error", "Confirm Password is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else if (password != confirmPassword) {
+      swal("Error", "Password and Confirm Password is not correct !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else {
+      formData.append("password", password);
+    }
+    // Email Validation
+    if (!email.match("[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")) {
+      swal("Error", "Email is wrong !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else {
+      formData.append("email", email);
+    }
     formData.append("gender", gender);
     formData.append("dateOfBirth", new Date(dateOfBirth).toISOString());
     formData.append("address", address);
-    formData.append("phone", phone);
+    //Phone Validation
+    if (phone == null || phone == "") {
+      swal("Error", "Phone Number is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    }
+    else if (!phone.match("[0-9]{10,11}")) {
+      swal("Error", "Phone Number is wrong !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else {
+      formData.append("phone", phone);
+    }
     formData.append("roleId", roleID);
     if (sectionID != null) {
       formData.append("sectionId", sectionID);
@@ -255,6 +274,8 @@ function AccountPopup(props) {
                   <DatePicker
                     label="Date of Birth"
                     inputFormat="dd/MM/yyyy"
+                    minDate={moment().subtract(100, "years")._d}
+                    maxDate={moment().subtract(18, "years")._d}
                     selected={dateOfBirth}
                     onChange={(e) => setAccountDateOfBirth(e)}
                     value={dateOfBirth}
@@ -281,7 +302,6 @@ function AccountPopup(props) {
               <div className='account-phone'>
                 <CssTextField
                   label="Phone"
-
                   value={phone}
                   required type={'tel'}
                   InputProps={{
@@ -311,7 +331,8 @@ function AccountPopup(props) {
             </div>
             <div className='account-row-3'>
               <div className='account-phone'>
-                <CssTextField label="Email" type={'email'} value={email} required onChange={(e) => setAccountEmail(e.target.value)} />
+                <CssTextField label="Email" type={'email'} value={email} required onChange={(e) => setAccountEmail(e.target.value)}
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
               </div>
               <div className='account-gender'>
                 <CssTextField

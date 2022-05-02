@@ -128,6 +128,24 @@ function OrderEditPopup(props) {
 
   const changeData = (e) => {
     e.preventDefault();
+
+    // accountId Validation
+    if (customerName == null || customerName == "") {
+      swal("Error", "Customer is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    }
+    // expiryDate Validation
+    if (expiryDate == null || expiryDate == "") {
+      swal("Error", "Expiry Date is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    }
+
     const jsonObj = {
       orderId: props.data.orderId,
       customerName,
@@ -207,7 +225,7 @@ function OrderEditPopup(props) {
                   value={props.data.customerName}
                   id="fullWidth"
                   InputProps={{
-                    readOnly:true,
+                    readOnly: true,
                   }}
                   onChange={(e) => setAccountId(e.target.value)}
                 >
@@ -216,13 +234,13 @@ function OrderEditPopup(props) {
               </div>
               <div className="idTPrice">
                 <CssTextField
-                
+
                   label="Total Price"
                   id="fullWidth"
                   value={totalPrice}
                   type={"number"}
                   InputProps={{
-                    readOnly:true,
+                    readOnly: true,
                     inputProps: { min: 0, pattern: "[0-9]*" },
                     endAdornment: <InputAdornment position="end">x1000 VND</InputAdornment>
                   }}

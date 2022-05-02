@@ -102,11 +102,43 @@ function MaterialEditPopup(props) {
     e.preventDefault();
     const formData = new FormData();
     formData.append("materialId", materialID);
-    formData.append("materialName", materialName);
-    formData.append("imageUrl", imageUrl);
-    formData.append("amount", amount);
-    formData.append("unit", unit);
+    // Material Name Validation
+    if (materialName == null || materialName == "") {
+      swal("Error", "Material Name is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else {
+      formData.append("materialName", materialName);
+    }
+    // Amount Validation
+    if (amount == null || amount == "") {
+      swal("Error", "Amount is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else if (parseInt(amount) < 0) {
+      swal("Error", "Amount need equals or more than 0!", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else {
+      formData.append("amount", amount);
+    }
     formData.append("status", status);
+    // Unit Validation
+    if (unit == null || unit == "") {
+      swal("Error", "Unit is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else {
+      formData.append("unit", unit);
+    }
     formData.append("description", description == undefined ? '' : description);
     formData.append("file", file);
     axios.put(`${process.env.REACT_APP_API_URL}updateMaterial`, formData)

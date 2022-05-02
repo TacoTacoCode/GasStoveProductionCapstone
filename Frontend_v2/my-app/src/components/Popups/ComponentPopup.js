@@ -26,7 +26,7 @@ const columns = [
   {
     title: "Amount",
     field: "amount",
-    cellStyle: { fontFamily: "Muli"},
+    cellStyle: { fontFamily: "Muli" },
   },
 ];
 
@@ -128,14 +128,83 @@ function ComponentPopup(props) {
     e.preventDefault();
     const jsonObj = createMD();
     const formData = new FormData();
-    formData.append("componentId", componentID);
-    formData.append("componentName", componentName);
-    formData.append("amount", amount);
+    // Component ID Validation
+    if (componentID == null || componentID == "") {
+      swal("Error", "Component ID is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else {
+      formData.append("componentId", componentID);
+    }
+    // Component Name Validation
+    if (componentName == null || componentName == "") {
+      swal("Error", "Component Name is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else {
+      formData.append("componentName", componentName);
+    }
+    // Amount Validation
+    if (amount == null || amount == "") {
+      swal("Error", "Amount is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else if (parseInt(amount) < 0) {
+      swal("Error", "Amount need equals or more than 0!", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else {
+      formData.append("amount", amount);
+    }
     formData.append("status", status);
-    formData.append("substance", substance);
-    formData.append("size", size);
-    formData.append("color", color);
-    formData.append("weight", weight);
+    // Substance Validation
+    if (substance == null || substance == "") {
+      swal("Error", "Substance is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else {
+      formData.append("substance", substance);
+    }
+    // Size Validation
+    if (size == null || size == "") {
+      swal("Error", "Size is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else {
+      formData.append("size", size);
+    }
+    // Color Validation
+    if (color == null || color == "") {
+      swal("Error", "Color is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else {
+      formData.append("color", color);
+    }
+    // Weight Validation
+    if (parseInt(weight) < 0) {
+      swal("Error", "Weight need equals or more than 0!", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else {
+      formData.append("weight", weight);
+    }
     formData.append("description", description == undefined ? '' : description);
     if (jsonObj.length != 0) {
       formData.append("componentMaterial", JSON.stringify(jsonObj));

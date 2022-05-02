@@ -124,11 +124,53 @@ function ProductPopup(props) {
     e.preventDefault();
     const jsonObj = createMD();
     const formData = new FormData();
-    formData.append("productId", productID);
-    formData.append("productName", productName);
-    formData.append("amount", amount);
-    formData.append("price", price);
+    // Product ID Validation
+    if (productID == null || productID == "") {
+      swal("Error", "Product ID is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else {
+      formData.append("productId", productID);
+    }
+    // Product Name Validation
+    if (productName == null || productName == "") {
+      swal("Error", "Product Name is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else {
+      formData.append("productName", productName);
+    }
+    // Amount Validation
+    if (amount == null || amount == "") {
+      swal("Error", "Amount is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else if (parseInt(amount) < 0) {
+      swal("Error", "Amount need equals or more than 0!", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else {
+      formData.append("amount", amount);
+    }
     formData.append("status", status);
+    // Price Validation
+    if (parseInt(price) < 0) {
+      swal("Error", "Price need equals or more than 0!", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else {
+      formData.append("price", price);
+    }
     formData.append("description", description);
     if (jsonObj.length != 0) {
       formData.append("productComponents", JSON.stringify(jsonObj));

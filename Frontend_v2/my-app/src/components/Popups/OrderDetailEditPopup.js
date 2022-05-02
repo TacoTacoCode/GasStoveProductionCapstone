@@ -117,6 +117,34 @@ function OrderDetailEditPopup(props) {
 
   const changeData = (e) => {
     e.preventDefault();
+    // Amount Validation
+    if (amount == null || amount == "") {
+      swal("Error", "Amount is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else if (parseInt(amount) < 0) {
+      swal("Error", "Amount need equals or more than 0!", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    }
+    // Price Validation
+    if (price == null || price == "") {
+      swal("Error", "Price is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else if (parseInt(price) < 0) {
+      swal("Error", "Price need equals or more than 0!", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    }
     const jsonObj = {
       orderDetailId: props.dataDetail.orderDetailId,
       orderId: props.dataDetail.orderId,

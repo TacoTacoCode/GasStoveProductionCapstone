@@ -11,6 +11,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import { alpha, styled } from "@mui/material/styles";
 import axios from "axios";
+import moment from "moment";
 import swal from "sweetalert";
 
 const statuses = [
@@ -161,13 +162,45 @@ function AccountEditPopup(props) {
     e.preventDefault();
     let formData = new FormData()
     formData.append("accountId", accountID)
-    //formData.append("password", password);
-    formData.append("email", email);
-    formData.append("name", accountName);
+    // Name Validation
+    if (accountName == null || accountName == "") {
+      swal("Error", "Name is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else {
+      formData.append("name", accountName);
+    }
+    // Email Validation
+    if (!email.match("[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")) {
+      swal("Error", "Email is wrong !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else {
+      formData.append("email", email);
+    }
     formData.append("gender", gender);
     formData.append("dateOfBirth", new Date(dateOfBirth).toISOString());
     formData.append("address", address);
-    formData.append("phone", phone);
+    if (phone == null || phone == "") {
+      swal("Error", "Phone Number is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    }
+    else if (!phone.match("[0-9]{10,11}")) {
+      swal("Error", "Phone Number is wrong !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else {
+      formData.append("phone", phone);
+    }
     formData.append("roleId", roleID);
     if (sectionID != null) {
       formData.append("sectionId", sectionID);
@@ -272,6 +305,8 @@ function AccountEditPopup(props) {
                 <DatePicker
                   label="Date of Birth"
                   inputFormat="dd/MM/yyyy"
+                  minDate={moment().subtract(100, "years")._d}
+                  maxDate={moment().subtract(18, "years")._d}
                   selected={dateOfBirth}
                   onChange={(e) => setAccountDateOfBirth(e)}
                   value={dateOfBirth}

@@ -9,7 +9,7 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import {styled } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
@@ -45,7 +45,7 @@ const columns = [
   {
     title: "Total (x1000 VND)",
     cellStyle: { fontFamily: "Arial" },
-    render: rowData =>rowData.amount*rowData.price
+    render: rowData => rowData.amount * rowData.price
   },
 ];
 
@@ -97,7 +97,7 @@ function OrderPopup(props) {
   const [customerAddress, setAddress] = useState("");
   const [customerName, setName] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
-  const [expiryDate, setExpiryDate] = useState("");
+  const [expiryDate, setExpiryDate] = useState(null);
   const [status, setStatus] = useState("");
   const [note, setNote] = useState("");
   const [isShorTerm, setIsShortTerm] = useState(true);
@@ -134,6 +134,38 @@ function OrderPopup(props) {
 
   const postData = (e) => {
     e.preventDefault();
+    // accountId Validation
+    if (accountId == null || accountId == "") {
+      swal("Error", "Customer is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    }
+    // expiryDate Validation
+    if (expiryDate == null || expiryDate == "") {
+      swal("Error", "Expiry Date is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    }
+
+    // totalPrice Validation
+    if (totalPrice == null || totalPrice == "") {
+      swal("Error", "Price is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else if (parseInt(totalPrice) < 0) {
+      swal("Error", "Price need equals or more than 0!", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    }
+
     const jsonObj = {
       accountId: accountId,
       totalPrice,
@@ -328,13 +360,13 @@ function OrderPopup(props) {
                   <CssTextField
                     label="Amount"
                     id="fullWidth"
-                    value={productAmount == 0? 1000:productAmount}
+                    value={productAmount == 0 ? 1000 : productAmount}
                     type={"number"}
                     InputProps={{
                       inputProps: { min: 1000, pattern: "[0-9]*" },
                     }}
                     onChange={(e) => setOrderProductAmount(e.target.value)}
-                    onBlur={(e) => e.target.value < 1000 ? setOrderProductAmount(1000):null}
+                    onBlur={(e) => e.target.value < 1000 ? setOrderProductAmount(1000) : null}
                   />
                 </div>
                 <div className="numfield_choose">
@@ -363,7 +395,7 @@ function OrderPopup(props) {
                           ""
                         ),
                       ]);
-                      setTotalPrice(totalPrice+productAmount*productPrice)
+                      setTotalPrice(totalPrice + productAmount * productPrice)
                       setOrderProductAmount(1000);
                       setOrderProductPrice('');
                       setProductChoice('');
@@ -391,8 +423,8 @@ function OrderPopup(props) {
                           const dataDelete = [...orderProduct];
                           const index = oldData.tableData.id;
                           let deleteItem = dataDelete.splice(index, 1)[0];
-                          let minusPrice = deleteItem.amount*deleteItem.price
-                          setTotalPrice(totalPrice-minusPrice)
+                          let minusPrice = deleteItem.amount * deleteItem.price
+                          setTotalPrice(totalPrice - minusPrice)
                           setListOrderProduct([...dataDelete]);
                           resolve();
                         }, 1);

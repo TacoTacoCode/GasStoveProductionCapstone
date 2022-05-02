@@ -87,6 +87,44 @@ function OrderDetailPopup(props) {
   // console.log(checkList);
 
   const postData = (e) => {
+    e.preventDefault();
+    // Product Validation
+    if (productId == null || productId == "") {
+      swal("Error", "Product ID is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    }
+    // Amount Validation
+    if (amount == null || amount == "") {
+      swal("Error", "Amount is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else if (parseInt(amount) < 0) {
+      swal("Error", "Amount need equals or more than 0!", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    }
+    // Price Validation
+    if (price == null || price == "") {
+      swal("Error", "Price is Empty !", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    } else if (parseInt(price) < 0) {
+      swal("Error", "Price need equals or more than 0!", "error", {
+        buttons: false,
+        timer: 2000,
+      })
+      return;
+    }
+
     const jsonObj = {
       orderId: props.orderId,
       productId,
@@ -169,7 +207,7 @@ function OrderDetailPopup(props) {
                     inputProps: { min: 1000, pattern: "[0-9]*" },
                   }}
                   onChange={(e) => setAmount(e.target.value)}
-                  onBlur={(e) => e.target.value < 1000 ? setAmount(1000):null}
+                  onBlur={(e) => e.target.value < 1000 ? setAmount(1000) : null}
                 />
               </div>
               <div className='idfield'>
