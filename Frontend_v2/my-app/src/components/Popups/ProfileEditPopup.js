@@ -10,6 +10,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import { alpha, styled } from "@mui/material/styles";
+import moment from "moment";
 import axios from "axios";
 import swal from "sweetalert";
 
@@ -313,6 +314,8 @@ function ProfileEditPopup(props) {
                   <DatePicker
                     label="Day of Birth"
                     inputFormat="dd/MM/yyyy"
+                    minDate={moment().subtract(100, "years")._d}
+                    maxDate={moment().subtract(18, "years")._d}
                     selected={dateOfBirth}
                     onChange={(e) => setAccountDateOfBirth(e)}
                     value={dateOfBirth}
