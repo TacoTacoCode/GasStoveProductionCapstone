@@ -102,6 +102,7 @@ function MaterialEditPopup(props) {
     e.preventDefault();
     const formData = new FormData();
     formData.append("materialId", materialID);
+    formData.append("imageUrl", imageUrl);
     // Material Name Validation
     if (materialName == null || materialName == "") {
       swal("Error", "Material Name is Empty !", "error", {
