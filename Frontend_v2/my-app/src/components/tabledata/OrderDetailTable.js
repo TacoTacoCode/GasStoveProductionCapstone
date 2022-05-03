@@ -143,14 +143,15 @@ export const OrderDetailTable = (props) => {
                                 },
                                 disabled: (rowData.isActive == false)
                             }),
-                            {
+                            rowData => ({
                                 icon: "edit",
                                 tooltip: "View/Edit this order detail",
                                 onClick: (event, rowData) => {
                                     event.preventDefault()
                                     handleEditData(rowData);
                                 },
-                            },
+                                disabled: (status == "Processing")
+                            }),
                             {
                                 icon: () => <AddBoxIcon />,
                                 tooltip: 'Create Plan for this Order Detail',

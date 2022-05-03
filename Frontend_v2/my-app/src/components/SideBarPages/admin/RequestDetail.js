@@ -90,7 +90,7 @@ function RequestDetail() {
 
     const columns = [
         {
-            title: 'Task ID', field: 'processDetailId', cellStyle: { fontFamily: 'Muli', paddingRight: '4%' }, align: "center"
+            title: 'Task ID', field: 'processDetailId', cellStyle: { fontFamily: 'Muli', paddingRight: '4%' }, align: "center",
         },
         {
             title: itemType === 'M' ? 'Material Name' : 'Component Name', field: itemType === 'M' ? 'materialName' : 'componentName', cellStyle: { fontFamily: 'Muli', paddingRight: '3%' }, align: "center"

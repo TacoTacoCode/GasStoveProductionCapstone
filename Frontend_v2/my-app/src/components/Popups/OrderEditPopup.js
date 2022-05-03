@@ -87,6 +87,8 @@ const CssTextField = styled(TextField)({
 // }
 
 function OrderEditPopup(props) {
+  const [accountID,] = useState(props.data.accountId);
+  const [customerAddress, setAddress] = useState(props.data.customerAddress);
   const [customerName, setAccountId] = useState(props.data.customerName);
   const [totalPrice, setTotalPrice] = useState(props.data.totalPrice);
   const [expiryDate, setExpiryDate] = useState(props.data.expiryDate);
@@ -148,6 +150,8 @@ function OrderEditPopup(props) {
 
     const jsonObj = {
       orderId: props.data.orderId,
+      accountID,
+      customerAddress,
       customerName,
       totalPrice,
       expiryDate: new Date(expiryDate).toDateString(),
@@ -198,6 +202,7 @@ function OrderEditPopup(props) {
 
   const handleCancelClick = () => {
     setAccountId(props.data.customerName);
+    setAddress(props.data.customerAddress);
     setTotalPrice(props.data.totalPrice);
     setExpiryDate(props.data.expiryDate);
     setStatus(props.data.status);
@@ -266,6 +271,15 @@ function OrderEditPopup(props) {
                     renderInput={(params) => <CssTextField {...params} id="fullWidth" />}
                   />
                 </LocalizationProvider>
+              </div>
+            </div>
+            <div clasName='idname'>
+              <div className="namefield">
+                <CssTextField
+                  label="Address"
+                  value={customerAddress}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
               </div>
             </div>
             <div className="idname">

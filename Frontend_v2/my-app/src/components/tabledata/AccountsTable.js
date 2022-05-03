@@ -16,7 +16,8 @@ export const Table = (props) => {
   const array = [];
 
   listAccount.forEach((item) => {
-    array.push(item);
+    if(item.roleId != "ADM")
+      array.push(item);
   }, []);
 
   function deleteAccount(id) {
@@ -75,7 +76,10 @@ export const Table = (props) => {
       field: "avatarUrl",
       render: (rowData) => (
         (rowData.avatarUrl != null)
-          ? <Avatar sx={{ width: 80, height: 80 }} src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.avatarUrl} />
+          ? <Avatar sx={{ width: 80, height: 80 }} 
+            src={rowData.avatarUrl.includes("https") 
+              ? rowData.avatarUrl
+              : `${ process.env.REACT_APP_Image_URL}` + rowData.avatarUrl} />
           : <Avatar sx={{ width: 80, height: 80 }} />
       ),
       cellStyle: { paddingLeft: '4%' },
@@ -162,13 +166,14 @@ export const Table = (props) => {
             },
             disabled: (rowData.isActive == false || rowData.roleId == 'ADM')
           }),
-          {
+          rowData => ({
             icon: "edit",
             tooltip: "View/Edit this Account",
             onClick: (event, rowData) => {
               handleEditData(rowData);
             },
-          },
+            disabled: (rowData.roleId == 'CUS' || rowData.roleId == 'ADM')
+          }),
         ]}
         options={{
           searchFieldVariant: 'outlined',

@@ -1,6 +1,11 @@
 @font-face {
-  font-family: 'Muli';
+  font-family: 'Mulish';
   src        : local('Muli'), url(./font/muli/Muli.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Muli';
+  src: local('Mulish'), url(./font/Mulish/Mulish-Medium.ttf) format('truetype');
 }
 
 body {

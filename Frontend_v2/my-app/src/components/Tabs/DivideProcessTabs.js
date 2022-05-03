@@ -106,7 +106,7 @@ function DivideProcessTabs() {
     }
 
     const [tableData, setTableData] = useState([])
-
+    console.log(tableData)
     useEffect(() => {
         axios.post(`${process.env.REACT_APP_API_URL}distribute`, {
             "process": curProcess,

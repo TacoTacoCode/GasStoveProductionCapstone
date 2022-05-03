@@ -197,14 +197,18 @@ namespace GSP_API.Business.Services
                 //import to warehouse
                 if (itemType == "C")
                 {
-                    if (amount > 0 || amount == 0)
+                    /*if (amount > 0 || amount == 0)
                     {
                         var item = await _componentService.GetComponentById(importDetail.ItemId[0..^1]);
                         item.Amount += amount;
                         item.Average = processDetail.AverageAmount;
                         await _componentService.UpdateComponent(item, null, item.ImageUrl, true);
 
-                    }
+                    }*/
+                    var item = await _componentService.GetComponentById(importDetail.ItemId[0..^1]);
+                    item.Amount += importDetail.Amount;
+                    item.Average = processDetail.AverageAmount;
+                    await _componentService.UpdateComponent(item, null, item.ImageUrl, true);
                     var process = await _processService.GetProcessById((int)processDetail.ProcessId);
                     if (process.Status == "New")
                     {

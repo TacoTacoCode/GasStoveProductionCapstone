@@ -86,7 +86,7 @@ export default function Signin() {
                     <div className="login-container">
                         <span className='login-form-title'>UFA Management of Gas Stove Production</span>
                         <form className="login-form" noValidate onSubmit={handleSubmit}>
-                            <div className='logo-container'><img className='logo' src='http://uyenphat.com.vn/wp-content/themes/ufa/imgs/logo.png' alt='Bếp Gas Uyên Phát'></img></div>
+                            <div className='logo-container'><img className='logo' src={`${process.env.REACT_APP_Image_URL}logo.png?alt=media&token=11fb1daf-260d-46e3-9941-ec44a09ca168`} alt='Bếp Gas Uyên Phát'></img></div>
                             <div className='wrap-input'>
                                 <TextField
                                     variant="outlined"
