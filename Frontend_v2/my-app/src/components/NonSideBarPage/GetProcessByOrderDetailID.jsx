@@ -122,10 +122,10 @@ export const GetProcessByOrderDetailID = (props) => {
                                                     <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Finished Amount: </text>&ensp;<text>{data.finishedAmount}</text></p>
                                                 </div>
                                                 <div style={{ margin: "1%", width: '50%' }}>
-                                                    <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Created Date: </text>&ensp;<text>{moment(data.createdDate).format('DD/MM/YYYY')}</text></p>
-                                                    <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Experied Date: </text>&ensp;<text>{moment(data.expiryDate).format('DD/MM/YYYY')}</text></p>
-                                                    <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Finished Date: </text>&ensp;<text>{moment(data.finishedDate).format('DD/MM/YYYY')}</text></p>
-                                                    <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Expected Finished Date: </text>&ensp;<text>{moment(data.expectedFinishDate).format('DD/MM/YYYY')}</text></p>
+                                                    <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Created Date: </text>&ensp;<text>{moment(data.createdDate).format('MM/DD/YYYY')}</text></p>
+                                                    <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Experied Date: </text>&ensp;<text>{moment(data.expiryDate).format('MM/DD/YYYY')}</text></p>
+                                                    <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Finished Date: </text>&ensp;<text>{moment(data.finishedDate).format('MM/DD/YYYY')}</text></p>
+                                                    <p className="content_delivery_content" style={{ fontWeight: "450" }}><text>Expected Finished Date: </text>&ensp;<text>{moment(data.expectedFinishDate).format('MM/DD/YYYY')}</text></p>
                                                 </div>
                                             </Stack>
                                             <div style={{ margin: "1%" }}>

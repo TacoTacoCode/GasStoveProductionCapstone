@@ -166,6 +166,10 @@ namespace GSP_API.Business.Services
                 if (importDetail.ProcessDetailId != null)
                 {
                     processDetail = await _processDetailService.GetProcessDetailById((int)importDetail.ProcessDetailId);
+                    if(processDetail.FirstExportDate == null)
+                    {
+                        return $"Error: Item of task No.{processDetail.ProcessId} is not provided";
+                    }
                     processDetail.FinishedAmount = (processDetail.FinishedAmount ?? 0) + importDetail.Amount;
 
                     if (processDetail.FinishedAmount == processDetail.TotalAmount)
@@ -230,16 +234,17 @@ namespace GSP_API.Business.Services
                         if (amount > 0 || amount == 0)
                         {
 
-                            item.Amount += amount;
+                            item.Amount += (process.TotalAmount - process.NeededAmount);
                             process.Status = "Done";
+                            await _processService.UpdateProcess(process);
                             await _orderDetailService.UpdateOrderStatus((int)process.OrderDetailId);
                         }
                         else
                         {
                             process.Status = "Processing";
+                            await _processService.UpdateProcess(process);
                         }
                         await _productService.UpdateProduct(item, null, item.ImageUrl, true);
-                        await _processService.UpdateProcess(process);
                     }
                 }
                 return "Imported";
