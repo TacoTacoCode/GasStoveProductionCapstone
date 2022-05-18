@@ -129,7 +129,7 @@ function ComponentEditPopup(props) {
   }, [props.compoMates])
 
   useEffect(() => {
-    axios.get("https://localhost:5001/getMaterials/Active").then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}getMaterials/Active`).then((res) => {
       setMaterialList(res.data);
     });
   }, []);
@@ -173,7 +173,7 @@ function ComponentEditPopup(props) {
     formData.append("componentMaterial", JSON.stringify(jsonObj));
     formData.append("file", file);
     axios
-      .put("https://localhost:5001/updateComponent", formData)
+      .put(`${process.env.REACT_APP_API_URL}updateComponent`, formData)
       .then((res) => {
         swal("Success", "Update component successfully", "success", {
           button: false,

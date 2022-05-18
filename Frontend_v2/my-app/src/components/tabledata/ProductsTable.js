@@ -31,7 +31,7 @@ export const Table = (props) => {
         if (willDelete) {
           try {
             axios
-              .put("https://localhost:5001/delProduct/" + id)
+              .put(`${process.env.REACT_APP_API_URL}delProduct/` + id)
               .then((response) => {
                 swal("Success", "Delete Product successfully", "success", {
                   button: false,
@@ -129,7 +129,7 @@ export const Table = (props) => {
   const handleEditData = (rowData) => {
     setEditDatas(rowData);
     setOpen(true);
-    axios.get("https://localhost:5001/getProCompo/" + rowData.productId).then(
+    axios.get(`${process.env.REACT_APP_API_URL}getProCompo/` + rowData.productId).then(
       (res) => setListProductComponent(res.data)
     )
   }

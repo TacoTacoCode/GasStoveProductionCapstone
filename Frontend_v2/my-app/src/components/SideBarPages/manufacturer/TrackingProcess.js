@@ -11,7 +11,7 @@ function TrackingProcess() {
     const [listPlan, getListPlan] = useState([]);
 
     useEffect(() => {
-        const getAllPlans = "https://localhost:5001/getAllProcesss";
+        const getAllPlans = `${process.env.REACT_APP_API_URL}getAllProcesss`;
 
         axios
             .get(getAllPlans)

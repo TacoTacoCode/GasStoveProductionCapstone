@@ -36,7 +36,7 @@ export const Table = (props) => {
         if (willDelete) {
           try {
             axios
-              .put("https://localhost:5001/delSection/" + id)
+              .put(`${process.env.REACT_APP_API_URL}delSection/` + id)
               .then((response) => {
                 swal("Success", "Section deleted successfully", "success", {
                   button: false,

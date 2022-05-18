@@ -115,7 +115,7 @@ function ProductEditPopup(props) {
   }, [props.productCompos])
 
   useEffect(() => {
-    axios.get("https://localhost:5001/getComponents/Active").then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}getComponents/Active`).then((res) => {
       setComponentList(res.data);
     });
   }, []);
@@ -158,7 +158,7 @@ function ProductEditPopup(props) {
     formData.append("productComponents", JSON.stringify(jsonObj));
     formData.append("file", file);
     axios
-      .put("https://localhost:5001/updateProduct", formData)
+      .put(`${process.env.REACT_APP_API_URL}updateProduct`, formData)
       .then((res) => {
         swal("Success", "Update product successfully", "success", {
           button: false,

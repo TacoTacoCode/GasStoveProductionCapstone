@@ -18,7 +18,7 @@ function Orders() {
   const [listOrder, setListOrder] = useState([]);
 
   useEffect(() => {
-    const getAllOrders = 'https://localhost:5001/getAllOrders'
+    const getAllOrders = `${process.env.REACT_APP_API_URL}getAllOrders`
     //Gọi API bằng axios
     axios.get(getAllOrders).then((res) => {
       setListOrder(res.data);
@@ -32,7 +32,7 @@ function Orders() {
   return (
     <>
       <ImportExcelButton type="button"
-      style={{marginTop: '2%', marginRight: '2%'}}
+        style={{ marginTop: '2%', marginRight: '2%' }}
         onClick={() => {
           setAddOrderBtn(true)
         }

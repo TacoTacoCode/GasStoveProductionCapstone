@@ -39,7 +39,7 @@ function ImportFilePopup(props) {
   const [file, setFile] = useState();
   const [fileName, setFileName] = useState("");
   const [typeData, setTypeData] = useState(...props.dataType);
-  const stringUrl = "https://localhost:5001/uploadFile/" + typeData;
+  const stringUrl = `${process.env.REACT_APP_API_URL}uploadFile/` + typeData;
 
   useEffect(() => {
     setTypeData(props.dataType)
@@ -70,7 +70,7 @@ function ImportFilePopup(props) {
           })
           delay(function () { }, 1000);
           axios({
-            url: 'https://localhost:5001/downloadFile?name=' + res.data,
+            url: `${process.env.REACT_APP_API_URL}downloadFile?name=` + res.data,
             responseType: 'blob',
             method: 'GET',
           }).then((resp) => {

@@ -84,7 +84,7 @@ function MaterialPopup(props) {
     formData.append("status", status);
     formData.append("description", description == undefined ? '' : description);
     formData.append("file", file);
-    axios.post("https://localhost:5001/addMaterial", formData)
+    axios.post(`${process.env.REACT_APP_API_URL}addMaterial`, formData)
       .then(res => {
         swal("Success", "Add new material successfully", "success", {
           buttons: false,

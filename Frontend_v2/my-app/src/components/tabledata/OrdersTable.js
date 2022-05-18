@@ -24,7 +24,7 @@ export const Table = (props) => {
     const processingOrder = [];
     const waitOrder = [];
     listOrder.forEach(item => {
-        if (item.status == "Waiting")
+        if (item.status == "Pending")
             waitOrder.push(item)
         else
             processingOrder.push(item)
@@ -55,9 +55,9 @@ export const Table = (props) => {
             title: 'Status', field: 'status', cellStyle: { fontFamily: 'Muli', fontSize: '18px' },
             render: ((rowData) => {
                 switch (rowData.status) {
-                    case 'Waiting':
+                    case 'Pending':
                         return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #886F6F', backgroundColor: '#886F6F' }} className="text_square">
-                            <text style={{ color: 'white', fontWeight: "500" }}>Waiting</text>
+                            <text style={{ color: 'white', fontWeight: "500" }}>Pending</text>
                         </div>
                     case 'New':
                         return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #FF1818', backgroundColor: '#FF1818' }} className="text_square">
@@ -71,7 +71,7 @@ export const Table = (props) => {
                         return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #333c83', backgroundColor: '#333c83' }} className="text_square">
                             <text style={{ color: 'white', fontWeight: "500" }}>Completed</text>
                         </div>
-                    case 'Delivery':
+                    case 'Delivering':
                         return <div style={{ fontWeight: "500", marginTop: "0.5%", border: '1px solid #21BF73', backgroundColor: '#21BF73' }} className="text_square">
                             <text style={{ color: 'white', fontWeight: "500" }}>Delivered</text>
                         </div>
@@ -92,7 +92,7 @@ export const Table = (props) => {
     const handleEditData = (rowData) => {
         setEditDatas(rowData);
         setOpen(true);
-        axios.get("https://localhost:5001/getOrderDetailsOf/ord/" + rowData.orderId).then(
+        axios.get(`${process.env.REACT_APP_API_URL}getOrderDetailsOf/ord/` + rowData.orderId).then(
             (res) => setListOrderProduct(res.data)
         );
     }

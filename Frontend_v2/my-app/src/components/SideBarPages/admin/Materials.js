@@ -20,7 +20,7 @@ function Materials() {
   let role = localStorage.getItem('currentRole')
 
   useEffect(() => {
-    const getUserAPI = "https://localhost:5001/getAllMaterials";
+    const getUserAPI = `${process.env.REACT_APP_API_URL}getAllMaterials`;
     //Gọi API bằng axios
     axios
       .get(getUserAPI)

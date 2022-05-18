@@ -39,7 +39,7 @@ function DivideProcessTabs() {
 
     const location = useLocation();
     const arr = location.state;
-    var process = JSON.parse(localStorage['process'])
+    var curProcess = JSON.parse(localStorage['process'])
     var orderDetail = JSON.parse(localStorage.getItem('orderDetail'))
     var listComponent = JSON.parse(localStorage.getItem('listComponent'))
 
@@ -108,8 +108,8 @@ function DivideProcessTabs() {
     const [tableData, setTableData] = useState([])
 
     useEffect(() => {
-        axios.post('https://localhost:5001/distribute', {
-            "process": process,
+        axios.post(`${process.env.REACT_APP_API_URL}distribute`, {
+            "process": curProcess,
             "ProcessAmmounts": arr,
         })
             .then((response) => {
@@ -145,7 +145,7 @@ function DivideProcessTabs() {
         e.preventDefault();
         let datass = generateData()
         axios({
-            url: 'https://localhost:5001/addProcessList',
+            url: `${process.env.REACT_APP_API_URL}addProcessList`,
             method: 'POST',
             data: datass
         }).then((response) => {

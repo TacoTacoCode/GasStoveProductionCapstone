@@ -129,10 +129,10 @@ function ProfileEditPopup(props) {
 
 
   useEffect(() => {
-    axios.get("https://localhost:5001/getRoles").then(res => {
+    axios.get(`${process.env.REACT_APP_API_URL}getRoles`).then(res => {
       setRoleList(res.data)
     });
-    axios.get("https://localhost:5001/getAllSections").then(res => {
+    axios.get(`${process.env.REACT_APP_API_URL}getAllSections`).then(res => {
       setSectionList(res.data)
     });
   }, [])
@@ -170,7 +170,7 @@ function ProfileEditPopup(props) {
     formData.append("file", file);
 
     axios
-      .put("https://localhost:5001/updateAccount", formData)
+      .put(`${process.env.REACT_APP_API_URL}updateAccount`, formData)
       .then((res) => {
         swal("Success", "Update account successfully", "success", {
           button: false,

@@ -6,7 +6,7 @@ import jwt from 'jwt-decode'
 import axios from 'axios';
 
 async function loginUser(credentials) {
-    return fetch('https://localhost:5001/account/login', {
+    return fetch(`${process.env.REACT_APP_API_URL}account/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -54,7 +54,7 @@ export default function Signin() {
                             break;
                         case "Section Department":
                             console.log(user.id)
-                            axios.get(`https://localhost:5001/getSectionBySectionLeadId/${user.id}`)
+                            axios.get(`${process.env.REACT_APP_API_URL}getSectionBySectionLeadId/${user.id}`)
                                 .then((res) => {
                                     localStorage.setItem('currentSectionInfo', JSON.stringify(res.data));
                                     window.location.href = "/section/processDetail";

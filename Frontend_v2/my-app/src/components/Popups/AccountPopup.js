@@ -92,12 +92,12 @@ function AccountPopup(props) {
   }, [avatarUrl])
 
   useEffect(() => {
-    axios.get("https://localhost:5001/getRoles").then(res => {
+    axios.get(`${process.env.REACT_APP_API_URL}getRoles`).then(res => {
       let allRole = []
       res.data.map(e => e.roleId != 'ADM' ? allRole.push(e) : null)
       setRoleList(allRole)
     });
-    axios.get("https://localhost:5001/getAllSections").then(res => {
+    axios.get(`${process.env.REACT_APP_API_URL}getAllSections`).then(res => {
       setSectionList(res.data)
     });
   }, [])
@@ -122,7 +122,7 @@ function AccountPopup(props) {
     }
 
     //lúc trước khi gửi dữ liệu thì nên có hàm check những trường dữ liệu bắt buộc nha (bên table nữa)
-    axios.post("https://localhost:5001/addAccount", jsonObj).then(res => {
+    axios.post(`${process.env.REACT_APP_API_URL}addAccount`, jsonObj).then(res => {
       swal("Success", "Add new account successfully", "success", {
         buttons: false,
         timer: 2000,
@@ -159,7 +159,7 @@ function AccountPopup(props) {
     if (file != null) {
       formData.append("file", file);
     }
-    axios.post("https://localhost:5001/addAccount", formData)
+    axios.post(`${process.env.REACT_APP_API_URL}addAccount`, formData)
       .then(res => {
         swal("Success", "Add new account successfully", "success", {
           buttons: false,

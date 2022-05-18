@@ -12,7 +12,7 @@ function SectionMaterials() {
 
   useEffect(() => {
     //Gọi API bằng axios
-    axios.get(`https://localhost:5001/getMateByCompoId/${curSectionInfo.componentId}`)
+    axios.get(`${process.env.REACT_APP_API_URL}getMateByCompoId/${curSectionInfo.componentId}`)
       .then((res) => {
         setListMaterial(res.data);
       }).catch((err) => {

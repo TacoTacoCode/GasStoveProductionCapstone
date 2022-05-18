@@ -12,7 +12,7 @@ export const ExTable = (props) => {
         if (listProcessDetail) {
             let datas = []
             let promises = listProcessDetail.map((e) =>
-                axios.get('https://localhost:5001/getListProCompo/' + e.processId)
+                axios.get(`${process.env.REACT_APP_API_URL}getListProCompo/` + e.processId)
             )
             Promise.all(promises)
                 .then((e) => e.map((ele, index) => {

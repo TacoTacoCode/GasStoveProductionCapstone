@@ -156,7 +156,7 @@ export const ImportCompo = (props) => {
                 'isImport': true,
                 "importExportDetails": data
             }
-            axios.post('https://localhost:5001/addImEx', submitData)
+            axios.post(`${process.env.REACT_APP_API_URL}addImEx`, submitData)
                 .then(() => {
                     swal("Success", "Submit Data", "success", {
                         buttons: false,

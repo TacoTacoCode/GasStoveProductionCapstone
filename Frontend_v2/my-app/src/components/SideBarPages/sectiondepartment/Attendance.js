@@ -26,7 +26,7 @@ export const Attendance = () => {
     useEffect(() => {
         var date = `${new Date().getUTCMonth() + 1}-01-${new Date().getFullYear()}`
         var eve = []
-        axios.get(`https://localhost:5001/getAttendanceDetails/${curAcc.accountId}/${date}`)
+        axios.get(`${process.env.REACT_APP_API_URL}getAttendanceDetails/${curAcc.accountId}/${date}`)
             .then((res) => {
                 res.data.map((ele) => {
                     if (ele.note !== '')

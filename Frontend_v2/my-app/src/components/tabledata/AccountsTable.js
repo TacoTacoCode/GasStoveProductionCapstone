@@ -30,7 +30,7 @@ export const Table = (props) => {
         if (willDelete) {
           try {
             axios
-              .put("https://localhost:5001/delAccount/" + id)
+              .put(`${process.env.REACT_APP_API_URL}delAccount/` + id)
               .then((response) => {
                 swal("Success", "Account deleted successfully", "success", {
                   buttons: false,

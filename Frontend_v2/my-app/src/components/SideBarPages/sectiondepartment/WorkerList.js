@@ -8,7 +8,7 @@ function WorkerList() {
   const [curSectionInfo,] = useState(() => JSON.parse(localStorage['currentSectionInfo']));
 
   useEffect(() => {
-    axios.get(`https://localhost:5001/getAccountsBySectionId/${curSectionInfo.sectionId}`).then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}getAccountsBySectionId/${curSectionInfo.sectionId}`).then((res) => {
       setListAccount(res.data);
     }).catch((err) => {
       console.log(err);

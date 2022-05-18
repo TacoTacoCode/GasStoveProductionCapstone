@@ -8,7 +8,7 @@ function SectionComponents() {
 
     useEffect(() => {
         //Gọi API bằng axios
-        axios.get(`https://localhost:5001/getComponent/${curSectionInfo.componentId}`)
+        axios.get(`${process.env.REACT_APP_API_URL}getComponent/${curSectionInfo.componentId}`)
             .then((res) => {
                 setComponent(res.data);
                 console.log(res.data);

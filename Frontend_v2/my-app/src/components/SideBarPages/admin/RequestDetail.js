@@ -49,7 +49,7 @@ function RequestDetail() {
 
     useEffect(() => {
         console.log(importExportId);
-        axios.get('https://localhost:5001/getDetailsOf/ImEx/' + importExportId)
+        axios.get(`${process.env.REACT_APP_API_URL}getDetailsOf/ImEx/` + importExportId)
             .then((response) => {
                 setRequestDetail(response.data)
             }
@@ -62,8 +62,8 @@ function RequestDetail() {
         let datas = []
         let promises = requestDetail.length === 0 ? null : requestDetail.map((e, index) =>
             axios.get(itemType === 'M' ?
-                ('https://localhost:5001/getMaterial/' + e.itemId.substr(0, e.itemId.length - 1)) :
-                ('https://localhost:5001/getComponent/' + e.itemId.substr(0, e.itemId.length - 1)))
+                (`${process.env.REACT_APP_API_URL}getMaterial/` + e.itemId.substr(0, e.itemId.length - 1)) :
+                (`${process.env.REACT_APP_API_URL}getComponent/` + e.itemId.substr(0, e.itemId.length - 1)))
         )
         if (promises != null) {
             Promise.all(promises).then((e) => e.map((ele, index) =>
@@ -125,7 +125,7 @@ function RequestDetail() {
         e.preventDefault();
         if (supplying[data.tableData.id] == 0)
             return
-        axios.post('https://localhost:5001/provideItem', {
+        axios.post(`${process.env.REACT_APP_API_URL}provideItem`, {
             "importExportId": importExportId,
             "itemId": data.itemId,
             "importExportDetailId": data.importExportDetailId,

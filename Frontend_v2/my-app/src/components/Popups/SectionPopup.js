@@ -59,10 +59,10 @@ function SectionPopup(props) {
   const [listAccountActive, setAccountList] = useState([]);
 
   useEffect(() => {
-    axios.get("https://localhost:5001/getCompoNoSection").then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}getCompoNoSection`).then((res) => {
       setComponentList(res.data);
     });
-    axios.get("https://localhost:5001/getSecAccountsNoCompo").then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}getSecAccountsNoCompo`).then((res) => {
       setAccountList(res.data);
     });
   }, []);
@@ -83,7 +83,7 @@ function SectionPopup(props) {
       status
     };
     axios
-      .post("https://localhost:5001/addSection", jsonObj)
+      .post(`${process.env.REACT_APP_API_URL}addSection`, jsonObj)
       .then(res => {
         swal("Success", "New section added successfully", "success", {
           buttons: false,

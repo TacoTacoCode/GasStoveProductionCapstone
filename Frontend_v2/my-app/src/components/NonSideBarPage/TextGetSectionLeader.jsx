@@ -5,7 +5,7 @@ export const TextGetSectionLeader = (props) => {
     const [account, setAccount] = useState([]);
 
     useEffect(async () => {
-        const res = await axios.get("https://localhost:5001/getAccountById/" + props.accountID);
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}getAccountById/` + props.accountID);
         setAccount(res.data)
     }, [])
 

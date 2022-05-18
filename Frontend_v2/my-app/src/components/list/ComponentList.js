@@ -7,7 +7,7 @@ export default class ComponentList extends React.Component {
     };
 
     componentDidMount() {
-        axios.get("https://localhost:5001/getComponents/Active").then(res => {
+        axios.get(`${process.env.REACT_APP_API_URL}getComponents/Active`).then(res => {
             const component = res.data;
             this.setState({ component });
         });

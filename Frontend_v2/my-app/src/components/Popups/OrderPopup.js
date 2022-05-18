@@ -109,10 +109,10 @@ function OrderPopup(props) {
   const [productPrice, setOrderProductPrice] = useState(0);
 
   useEffect(() => {
-    axios.get("https://localhost:5001/getProducts/Active").then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}getProducts/Active`).then((res) => {
       setProductList(res.data);
     });
-    axios.get("https://localhost:5001/getAllAccounts")
+    axios.get(`${process.env.REACT_APP_API_URL}getAllAccounts`)
       .then((res) => {
         let accounts = [];
         res.data.map(a => a.roleId == 'CUS' ? accounts.push(a) : null)
@@ -157,7 +157,7 @@ function OrderPopup(props) {
         })
         : [],
     }
-    axios.post("https://localhost:5001/addOrder", jsonObj)
+    axios.post(`${process.env.REACT_APP_API_URL}addOrder`, jsonObj)
       .then(res => {
         swal("Success", "Add new order successfully", "success", {
           buttons: false,

@@ -65,7 +65,7 @@ function CustomSideBar() {
     const [roles, setRoles] = useState([]);
 
     useEffect(() => {
-        axios.get("https://localhost:5001/getAccountById/" + currentUser.id)
+        axios.get(`${process.env.REACT_APP_API_URL}getAccountById/` + currentUser.id)
             .then((res) => {
                 localStorage.setItem('currUser', JSON.stringify(res.data))
                 setCurrentUserBar(res.data);
@@ -73,7 +73,7 @@ function CustomSideBar() {
     }, []);
 
     useEffect(() => {
-        axios.get("https://localhost:5001/getRoles")
+        axios.get(`${process.env.REACT_APP_API_URL}getRoles`)
             .then((res) => {
                 setRoles(res.data);
             });

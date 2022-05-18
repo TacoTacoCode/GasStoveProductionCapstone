@@ -35,7 +35,7 @@ export const Table = (props) => {
         if (willDelete) {
           try {
             axios
-              .put("https://localhost:5001/delComponent/" + id)
+              .put(`${process.env.REACT_APP_API_URL}delComponent/` + id)
               .then((response) => {
                 swal("Success", "Delete Component successfully", "success", {
                   button: false,
@@ -74,7 +74,7 @@ export const Table = (props) => {
       render: (rowData) => (
         (rowData.imageUrl != null)
           ? <img style={{ height: "80px", width: "80px" }} src={"https://firebasestorage.googleapis.com/v0/b/gspspring2022.appspot.com/o/Images%2F" + rowData.imageUrl} />
-          : <div style={{ paddingRight: '5%' }}><Avatar sx={{marginLeft: '26%', width: 80, height: 80 }} variant="square" /></div>
+          : <div style={{ paddingRight: '5%' }}><Avatar sx={{ marginLeft: '26%', width: 80, height: 80 }} variant="square" /></div>
       ),
       cellStyle: { width: '17%', paddingRight: '4%', fontSize: '18px' },
       align: "center",
@@ -120,7 +120,7 @@ export const Table = (props) => {
   const handleEditData = (rowData) => {
     setEditDatas(rowData);
     setOpen(true);
-    axios.get("https://localhost:5001/getMateByCompoId/" + rowData.componentId).then(
+    axios.get(`${process.env.REACT_APP_API_URL}getMateByCompoId/` + rowData.componentId).then(
       (res) => setListComponentMaterial(res.data)
     )
   }

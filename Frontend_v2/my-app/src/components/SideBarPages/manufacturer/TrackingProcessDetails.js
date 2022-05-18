@@ -11,14 +11,14 @@ function TrackingProcessDetails() {
     const [listTask, getListTask] = useState([]);
 
     useEffect(() => {
-        const getAllTasks = "https://localhost:5001/getProcessDetails/" + processId;
+        const getAllTasks = `${process.env.REACT_APP_API_URL}getProcessDetails/` + processId;
         let datas = []
         axios
             .get(getAllTasks)
             .then((res) => {
                 let promises = res.data.map((e) => {
                     datas.push({ ...e })
-                    return axios.get('https://localhost:5001/getCompos/sec/' + e.sectionId)
+                    return axios.get(`${process.env.REACT_APP_API_URL}getCompos/sec/` + e.sectionId)
                 })
                 Promise.all(promises).then((e) =>
                     e.map((ele, index) => {

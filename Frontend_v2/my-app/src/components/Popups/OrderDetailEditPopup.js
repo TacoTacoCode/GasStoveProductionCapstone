@@ -109,7 +109,7 @@ function OrderDetailEditPopup(props) {
   }, [props.dataDetail.note])
 
   useEffect(() => {
-    axios.get("https://localhost:5001/getProducts/Active").then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}getProducts/Active`).then((res) => {
       setProductList(res.data);
     });
     console.log(productList);
@@ -126,7 +126,7 @@ function OrderDetailEditPopup(props) {
       note,
     }
     axios
-      .put("https://localhost:5001/updateOrderDetail", jsonObj)
+      .put(`${process.env.REACT_APP_API_URL}updateOrderDetail`, jsonObj)
       .then((res) => {
         swal("Success", "Update order detail successfully", "success", {
           button: false,

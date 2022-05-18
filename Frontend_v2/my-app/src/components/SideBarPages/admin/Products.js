@@ -21,7 +21,7 @@ function Products() {
   let role = localStorage.getItem('currentRole')
 
   useEffect(() => {
-    const getAllProducts = "https://localhost:5001/getProducts";
+    const getAllProducts = `${process.env.REACT_APP_API_URL}getProducts`;
 
     axios
       .get(getAllProducts)

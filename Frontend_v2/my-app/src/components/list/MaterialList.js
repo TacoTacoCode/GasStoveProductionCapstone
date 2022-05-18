@@ -7,7 +7,7 @@ export default class MaterialList extends React.Component {
   };
 
   componentDidMount() {
-    axios.get("https://localhost:5001/getMaterials/Active").then(res => {
+    axios.get(`${process.env.REACT_APP_API_URL}getMaterials/Active`).then(res => {
       const material = res.data;
       this.setState({ material });
     });

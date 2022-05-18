@@ -109,7 +109,7 @@ function MaterialEditPopup(props) {
     formData.append("status", status);
     formData.append("description", description == undefined ? '' : description);
     formData.append("file", file);
-    axios.put("https://localhost:5001/updateMaterial", formData)
+    axios.put(`${process.env.REACT_APP_API_URL}updateMaterial`, formData)
       .then((res) => {
         swal("Success", "Update material successfully", "success", {
           buttons: false,

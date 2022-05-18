@@ -12,7 +12,7 @@ export const OrderDetailTable = (props) => {
     document.title = "UFA - Order Details"
 
     function createProcess(orderDetail) {
-        axios.post('https://localhost:5001/createProcess', {
+        axios.post(`${process.env.REACT_APP_API_URL}createProcess`, {
             "orderDetailId": orderDetail.orderDetailId,
             "orderId": orderDetail.orderId,
             "productId": orderDetail.productId,
@@ -57,7 +57,7 @@ export const OrderDetailTable = (props) => {
         },
     ]
     function deleteOrderDetail(id) {
-        axios.put("https://localhost:5001/delOrderDetail/" + id)
+        axios.put(`${process.env.REACT_APP_API_URL}delOrderDetail/` + id)
             .then((response) => {
                 swal("Success", "Delete this Order Detail successfully", "success", {
                     button: false,
@@ -73,7 +73,7 @@ export const OrderDetailTable = (props) => {
     }
     function confirmDelete(id) {
         let countProcess = 0;
-        axios.get("https://localhost:5001/getNoProcess/" + id)
+        axios.get(`${process.env.REACT_APP_API_URL}getNoProcess/` + id)
             .then((res) => {
                 countProcess = res.data
                 if (countProcess != 0) {
@@ -104,7 +104,7 @@ export const OrderDetailTable = (props) => {
     }
     function getNoProcess(orderDetailId) {
         let no = 0;
-        axios.get("https://localhost:5001/getNoProcess/" + orderDetailId)
+        axios.get(`${process.env.REACT_APP_API_URL}getNoProcess/` + orderDetailId)
             .then((res) => {
                 no = res.data
                 return no

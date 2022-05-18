@@ -12,15 +12,15 @@ function ProcessDetail() {
     useEffect(() => {
         let promises = []
         document.title = "Section Dashboard";
-        axios.get(`https://localhost:5001/getSectionBySectionLeadId/${sectionLeadId}`)
+        axios.get(`${process.env.REACT_APP_API_URL}getSectionBySectionLeadId/${sectionLeadId}`)
             .then((res) => {
                 localStorage.setItem('currentSectionInfo', JSON.stringify(res.data));
                 setCurSectionInfo(res.data);
-                axios.get(`https://localhost:5001/getListProcessDetail/${res.data.sectionId}`)
+                axios.get(`${process.env.REACT_APP_API_URL}getListProcessDetail/${res.data.sectionId}`)
                     .then((response) => {
                         localStorage.setItem('listProcessDetail', JSON.stringify(response.data))
                         response.data.map((ele) => {
-                            promises.push(axios.get(`https://localhost:5001/getTaskName/${ele.processId}`))
+                            promises.push(axios.get(`${process.env.REACT_APP_API_URL}getTaskName/${ele.processId}`))
                         })
                     }).catch((error) => {
                         localStorage.setItem('listProcessDetail', JSON.stringify(listProcessDetail))

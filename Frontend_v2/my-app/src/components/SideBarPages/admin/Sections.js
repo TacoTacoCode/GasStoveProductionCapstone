@@ -18,7 +18,7 @@ function Sections() {
   const [listSection, setListSection] = useState([]);
 
   useEffect(() => {
-    const getAllSections = "https://localhost:5001/getAllSections";
+    const getAllSections = `${process.env.REACT_APP_API_URL}getAllSections`;
     axios
       .get(getAllSections)
       .then((res) => {
@@ -33,7 +33,7 @@ function Sections() {
   return (
     <>
       <ImportExcelButton
-      style={{marginTop: '2%', marginRight: '2%'}}
+        style={{ marginTop: '2%', marginRight: '2%' }}
         type="button"
         onClick={() => {
           setaddSectionBtn(true);

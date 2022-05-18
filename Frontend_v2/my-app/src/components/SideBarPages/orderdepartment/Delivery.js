@@ -34,12 +34,12 @@ function Delivery() {
 
   // Get listOrderNew
   useEffect(() => {
-    const getAllOrders = 'https://localhost:5001/getAllOrders'
+    const getAllOrders = `${process.env.REACT_APP_API_URL}getAllOrders`
     let shortTerm = []
     let longTerm = []
     axios.get(getAllOrders).then((res) => {
       res.data.map(e => {
-        if (e.status != "Waiting" && e.status != 'New')
+        if (e.status != "Pending" && e.status != 'New')
           e.isShorTerm ? shortTerm.push(e) : longTerm.push(e)
       })
       setListOrderShortTerm(shortTerm);
@@ -77,7 +77,7 @@ function Delivery() {
       isShorTerm: data.isShorTerm,
     }
     axios
-      .put("https://localhost:5001/updateOrder", jsonObj)
+      .put(`${process.env.REACT_APP_API_URL}updateOrder`, jsonObj)
       .then((res) => {
         swal("Success", "Order is accepted to delivery", "success", {
           button: false,

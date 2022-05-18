@@ -148,7 +148,7 @@ function OrderEditPopup(props) {
       //   : [],
     }
     axios
-      .put("https://localhost:5001/updateOrder", jsonObj)
+      .put(`${process.env.REACT_APP_API_URL}updateOrder`, jsonObj)
       .then((res) => {
         swal("Success", "Update order successfully", "success", {
           button: false,
@@ -274,25 +274,25 @@ function OrderEditPopup(props) {
             <br />
             <br />
             <hr style={{ borderTop: "1px solid #EEE2DC", marginLeft: '3%', marginRight: '5%', marginTop: '5%' }} />
-            <text style={{ fontFamily: 'Muli', fontSize: '18px', width: '100%', display: 'inline-block', paddingTop: '2%', paddingBottom: '3%'}} className="content_choose">Order Detail : </text>
+            <text style={{ fontFamily: 'Muli', fontSize: '18px', width: '100%', display: 'inline-block', paddingTop: '2%', paddingBottom: '3%' }} className="content_choose">Order Detail : </text>
 
-              <div className="product-detail-table">
-                <MaterialTable
-                  data={orderProduct}
-                  columns={columns}
-                  options={{
-                    toolbar: false,
-                    maxBodyHeight: 200,
-                    search: false,
-                    paging: false,
-                    addRowPosition: "first",
-                    actionsColumnIndex: -1,
-                    showTitle: false,
-                    exportButton: false,
-                    headerStyle: { backgroundColor: "#bd162c", color: "#fff" },
-                  }}
-                />
-              </div>
+            <div className="product-detail-table">
+              <MaterialTable
+                data={orderProduct}
+                columns={columns}
+                options={{
+                  toolbar: false,
+                  maxBodyHeight: 200,
+                  search: false,
+                  paging: false,
+                  addRowPosition: "first",
+                  actionsColumnIndex: -1,
+                  showTitle: false,
+                  exportButton: false,
+                  headerStyle: { backgroundColor: "#bd162c", color: "#fff" },
+                }}
+              />
+            </div>
 
             <div className="btngr">
               <Button

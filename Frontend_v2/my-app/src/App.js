@@ -64,7 +64,6 @@ function App() {
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('currentRole');
   const userId = localStorage.getItem('currentId');
-
   if (!token) {
     return <Signin />
   }

@@ -130,12 +130,12 @@ function AccountEditPopup(props) {
 
 
   useEffect(() => {
-    axios.get("https://localhost:5001/getRoles").then(res => {
+    axios.get(`${process.env.REACT_APP_API_URL}getRoles`).then(res => {
       let allRole = []
       res.data.map(e => e.roleId != 'ADM' ? allRole.push(e) : null)
       setRoleList(allRole)
     });
-    axios.get("https://localhost:5001/getAllSections").then(res => {
+    axios.get(`${process.env.REACT_APP_API_URL}getAllSections`).then(res => {
       var secs = [...res.data]
       secs.push('null')
       setSectionList(secs)
@@ -177,7 +177,7 @@ function AccountEditPopup(props) {
     formData.append("file", file);
 
     axios
-      .put("https://localhost:5001/updateAccount", formData)
+      .put(`${process.env.REACT_APP_API_URL}updateAccount`, formData)
       .then((res) => {
         swal("Success", "Update account successfully", "success", {
           button: false,

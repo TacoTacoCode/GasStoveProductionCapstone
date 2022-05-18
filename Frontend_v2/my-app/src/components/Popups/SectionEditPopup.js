@@ -82,10 +82,10 @@ function SectionEditPopup(props) {
   }, [props.data.status])
 
   useEffect(() => {
-    axios.get("https://localhost:5001/getCompoNoSection").then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}getCompoNoSection`).then((res) => {
       setComponentList(res.data);
     });
-    axios.get("https://localhost:5001/getSecAccountsNoCompo").then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}getSecAccountsNoCompo`).then((res) => {
       setAccountList(res.data);
     });
   }, []);
@@ -101,7 +101,7 @@ function SectionEditPopup(props) {
       status
     };
     axios
-      .put("https://localhost:5001/updateSection", jsonObj)
+      .put(`${process.env.REACT_APP_API_URL}updateSection`, jsonObj)
       .then((res) => {
         swal("Success", "Update section successfully", "success", {
           button: false,

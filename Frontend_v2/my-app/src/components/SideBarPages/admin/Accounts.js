@@ -18,7 +18,7 @@ function Accounts() {
   const [listAccount, setListAccount] = useState([]);
 
   useEffect(() => {
-    const getAllAccount = "https://localhost:5001/getAllAccounts";
+    const getAllAccount = `${process.env.REACT_APP_API_URL}getAllAccounts`;
     axios
       .get(getAllAccount)
       .then((res) => {
@@ -32,7 +32,7 @@ function Accounts() {
   return (
     <>
       <ImportExcelButton
-        style={{ marginTop: '3%'}}
+        style={{ marginTop: '3%' }}
         type="button"
         onClick={() => {
           setType('attendance')

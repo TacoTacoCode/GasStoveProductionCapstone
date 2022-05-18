@@ -20,7 +20,7 @@ function Components() {
   let role = localStorage.getItem('currentRole')
 
   useEffect(() => {
-    const getAllComponents = "https://localhost:5001/getAllComponents";
+    const getAllComponents = `${process.env.REACT_APP_API_URL}getAllComponents`;
 
     //Gọi API bằng axios
     axios

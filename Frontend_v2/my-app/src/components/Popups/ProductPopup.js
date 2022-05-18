@@ -73,7 +73,7 @@ function ProductPopup(props) {
   const [componentActive, setComponentChoice] = useState(null);
 
   useEffect(() => {
-    axios.get("https://localhost:5001/getComponents/Active").then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}getComponents/Active`).then((res) => {
       setComponentList(res.data);
     });
   }, []);
@@ -137,7 +137,7 @@ function ProductPopup(props) {
       formData.append("file", file);
     }
     axios
-      .post("https://localhost:5001/addProduct", formData)
+      .post(`${process.env.REACT_APP_API_URL}addProduct`, formData)
       .then(res => {
         swal("Success", "Add new product successfully", "success", {
           buttons: false,

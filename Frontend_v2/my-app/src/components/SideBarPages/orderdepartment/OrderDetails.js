@@ -16,7 +16,7 @@ function OrderDetails() {
     const [newDataSubmitted, setNewDataSubmitted] = useState(1);
 
     useEffect(() => {
-        const getAllOrderDetail = 'https://localhost:5001/getOrderDetailsOf/ord/' + localStorage['orderId']
+        const getAllOrderDetail = `${process.env.REACT_APP_API_URL}getOrderDetailsOf/ord/` + localStorage['orderId']
         //Gọi API bằng axios
         axios.get(getAllOrderDetail).then((res) => {
             setListOrderDetail(res.data);

@@ -51,13 +51,13 @@ function OrderDetailPopup(props) {
   const [checkList, setCheckList] = useState([]);
 
   useEffect(() => {
-    axios.get("https://localhost:5001/getProducts/Active").then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}getProducts/Active`).then((res) => {
       setProductList(res.data);
     });
   }, []);
 
   useEffect(() => {
-    const getAllOrderDetail = 'https://localhost:5001/getOrderDetailsOf/ord/' + props.orderId
+    const getAllOrderDetail = `${process.env.REACT_APP_API_URL}getOrderDetailsOf/ord/` + props.orderId
     //Gọi API bằng axios
     axios.get(getAllOrderDetail).then((res) => {
       setOrderProductList(res.data);
@@ -94,7 +94,7 @@ function OrderDetailPopup(props) {
       price,
       note,
     }
-    axios.post("https://localhost:5001/addOrderDetail", jsonObj)
+    axios.post(`${process.env.REACT_APP_API_URL}addOrderDetail`, jsonObj)
       .then(res => {
         swal("Success", "Add new order successfully", "success", {
           buttons: false,

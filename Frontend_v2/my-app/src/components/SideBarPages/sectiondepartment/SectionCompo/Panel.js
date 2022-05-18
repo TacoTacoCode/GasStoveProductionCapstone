@@ -11,7 +11,7 @@ const TransportFlow = () => {
     const [secInfo, setSecInfo] = useState(() => JSON.parse(localStorage['currentSectionInfo']));
     const [listProcessDetail, setListProcessDetail] = useState(() => JSON.parse(localStorage['listProcessDetail']));
     useEffect(() => {
-        axios.get(`https://localhost:5001/getMateByCompoId/${secInfo.componentId}`)
+        axios.get(`${process.env.REACT_APP_API_URL}getMateByCompoId/${secInfo.componentId}`)
             .then((response) => {
                 setListCompoMate(response.data)
             }).catch((error) => {
@@ -84,7 +84,7 @@ const TransportFlow = () => {
                 'isImport': false,
                 "importExportDetails": data
             }
-            axios.post('https://localhost:5001/addImEx', submitData)
+            axios.post(`${process.env.REACT_APP_API_URL}addImEx`, submitData)
                 .then(() => {
                     swal("Success", "Submit Data", "success", {
                         buttons: false,

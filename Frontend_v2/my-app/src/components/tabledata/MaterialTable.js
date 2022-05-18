@@ -31,7 +31,7 @@ export const Table = (props) => {
         if (willDelete) {
           try {
             axios
-              .put("https://localhost:5001/delMaterial/" + id)
+              .put(`${process.env.REACT_APP_API_URL}delMaterial/` + id)
               .then((res) => {
                 swal("Success", "Delete Material successfully", "success", {
                   button: false,

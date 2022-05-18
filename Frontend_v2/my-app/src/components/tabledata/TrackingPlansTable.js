@@ -46,7 +46,7 @@ export const TrackingPlansTable = (props) => {
                 if (willDelete) {
                     try {
                         axios
-                            .put("https://localhost:5001/delProcess/" + id)
+                            .put(`${process.env.REACT_APP_API_URL}delProcess/` + id)
                             .then((res) => {
                                 swal("Success", "Plan deleted successfully", "success", {
                                     button: false,

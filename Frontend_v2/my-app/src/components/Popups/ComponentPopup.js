@@ -69,7 +69,7 @@ function ComponentPopup(props) {
   const [materialActive, setMaterialChoose] = useState('');
 
   useEffect(() => {
-    axios.get("https://localhost:5001/getMaterials/Active").then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}getMaterials/Active`).then((res) => {
       setMaterialList(res.data);
     });
   }, []);
@@ -144,7 +144,7 @@ function ComponentPopup(props) {
       formData.append("file", file);
     }
     axios
-      .post("https://localhost:5001/addComponent", formData)
+      .post(`${process.env.REACT_APP_API_URL}addComponent`, formData)
       .then(res => {
         swal("Success", "Add new component successfully", "success", {
           buttons: false,

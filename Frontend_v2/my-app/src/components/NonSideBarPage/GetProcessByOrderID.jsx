@@ -13,7 +13,7 @@ export const GetProcessByOrderID = (props) => {
     const [openProcess, setOpenProcess] = useState(false);
 
     useEffect(async () => {
-        const res = await axios.get("https://localhost:5001/getOrderDetailsOf/ord/" + props.orderID);
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}getOrderDetailsOf/ord/` + props.orderID);
         setOrderDetail(res.data);
     }, [])
 

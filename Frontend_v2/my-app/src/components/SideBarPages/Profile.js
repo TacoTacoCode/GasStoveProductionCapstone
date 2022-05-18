@@ -21,14 +21,14 @@ function Profile() {
     const [roles, setRoles] = useState([]);
 
     useEffect(() => {
-        axios.get("https://localhost:5001/getAccountById/" + currentUserID)
+        axios.get(`${process.env.REACT_APP_API_URL}getAccountById/` + currentUserID)
             .then((res) => {
                 setCurrentUser(res.data);
             });
     }, []);
 
     useEffect(() => {
-        axios.get("https://localhost:5001/getRoles")
+        axios.get(`${process.env.REACT_APP_API_URL}getRoles`)
             .then((res) => {
                 setRoles(res.data);
             });
@@ -172,7 +172,7 @@ function Profile() {
                         </Tabs>
                     </div>
                 </div>
-            </section>  
+            </section>
             {editDatas &&
                 <ProfileEditPopup
                     data={editDatas}

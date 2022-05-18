@@ -44,7 +44,7 @@ export const TrackingTaskTable = (props) => {
                 if (willDelete) {
                     try {
                         axios
-                            .put("https://localhost:5001/delProcessDetail/" + id)
+                            .put(`${process.env.REACT_APP_API_URL}delProcessDetail/` + id)
                             .then((res) => {
                                 swal("Success", "Task deleted successfully", "success", {
                                     button: false,

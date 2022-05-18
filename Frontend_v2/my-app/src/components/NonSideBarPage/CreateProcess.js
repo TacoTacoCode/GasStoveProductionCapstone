@@ -36,17 +36,17 @@ function CreateProcess() {
         },
     });
 
-    var process = JSON.parse(localStorage.getItem('process'))
+    var curProcess = JSON.parse(localStorage.getItem('process'))
     const [tableData, setTableData] = useState([])
 
 
     useEffect(() => {
-        const processDetail = process.processDetails;
+        const processDetail = curProcess.processDetails;
         let datas = []
         let compos = {}
         let promises = processDetail.map((e) => {
             datas.push({ ...e })
-            return axios.get('https://localhost:5001/getCompos/sec/' + e.sectionId)
+            return axios.get(`${process.env.REACT_APP_API_URL}getCompos/sec/` + e.sectionId)
         })
         Promise.all(promises).then((e) =>
             e.map((ele, index) => {
@@ -63,17 +63,17 @@ function CreateProcess() {
         })
     }, [])
 
-    const orderDetailId = process.orderDetailId
-    const processId = process.processId
+    const orderDetailId = curProcess.orderDetailId
+    const processId = curProcess.processId
 
 
-    const [totalAmount, setTotalAmount] = useState(process.totalAmount)
-    const [finishedAmount, setFinishedAmount] = useState(process.finishedAmount)
-    const [neededAmount, setNeededAmount] = useState(process.neededAmount)
-    const [createdDate, setCreatedDate] = useState(process.createdDate)
-    const [expectedFinishDate, setExpectedFinishDate] = useState(process.expectedFinishDate)
-    const [expiryDate, setExpiryDate] = useState(process.expiryDate)
-    const [status,] = useState(process.status)
+    const [totalAmount, setTotalAmount] = useState(curProcess.totalAmount)
+    const [finishedAmount, setFinishedAmount] = useState(curProcess.finishedAmount)
+    const [neededAmount, setNeededAmount] = useState(curProcess.neededAmount)
+    const [createdDate, setCreatedDate] = useState(curProcess.createdDate)
+    const [expectedFinishDate, setExpectedFinishDate] = useState(curProcess.expectedFinishDate)
+    const [expiryDate, setExpiryDate] = useState(curProcess.expiryDate)
+    const [status,] = useState(curProcess.status)
     const [divideProcess, setDivideProcess] = useState(false);
 
     const listProcess = [
@@ -98,7 +98,7 @@ function CreateProcess() {
         e.preventDefault();
         let datass = generateData()
         axios({
-            url: 'https://localhost:5001/addProcessList',
+            url: `${process.env.REACT_APP_API_URL}addProcessList`,
             method: 'POST',
             data: datass
         }).then((response) => {
@@ -174,7 +174,7 @@ function CreateProcess() {
             >
                 <form className='formm'>
                     <div style={{ display: 'block', marginBottom: '5%' }}>
-                        <h3 className='h3'>Create Plan(s) for Order Detail {process.orderDetailId}</h3>
+                        <h3 className='h3'>Create Plan(s) for Order Detail {curProcess.orderDetailId}</h3>
                         {localStorage.getItem("orderType") == 'false' ?
                             <><ImportExcelButton type="button"
                                 onClick={() => {

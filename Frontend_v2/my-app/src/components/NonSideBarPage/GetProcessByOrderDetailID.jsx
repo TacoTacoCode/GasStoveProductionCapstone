@@ -11,10 +11,10 @@ import {
 } from "@mui/material";
 
 export const GetProcessByOrderDetailID = (props) => {
-    const [process, setProcess] = useState([]);
+    const [curProcess, setProcess] = useState([]);
 
     useEffect(async () => {
-        const res = await axios.get("https://localhost:5001/getProcess/orderDetail/" + props.orderDetailID);
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}getProcess/orderDetail/` + props.orderDetailID);
         setProcess(res.data);
     }, [])
 
@@ -31,10 +31,10 @@ export const GetProcessByOrderDetailID = (props) => {
             expiryDate: new Date(data.expiryDate).toISOString(),
             finishedDate: new Date(data.finishedDate).toISOString(),
             expectedFinishDate: new Date(data.expectedFinishDate).toISOString(),
-            status: 'delivery'
+            status: 'Delivering'
         }
         axios
-            .put("https://localhost:5001/updateProcess", jsonObj)
+            .put(`${process.env.REACT_APP_API_URL}updateProcess`, jsonObj)
             .then((res) => {
                 swal("Success", "This process is accepted to delivery", "success", {
                     button: false,
@@ -63,7 +63,7 @@ export const GetProcessByOrderDetailID = (props) => {
     return (props.open) ? (
         <div>
             {
-                (process.length != 0)
+                (curProcess.length != 0)
                     ?
                     <div style={{
                         display: 'flex',
@@ -71,7 +71,7 @@ export const GetProcessByOrderDetailID = (props) => {
                         justifyContent: 'space-between',
                     }}>
                         {
-                            process.map((data, index) => (
+                            curProcess.map((data, index) => (
                                 <div>
                                     <Card style={{
                                         border: '1px solid red',
@@ -101,7 +101,7 @@ export const GetProcessByOrderDetailID = (props) => {
                                                             return <div style={{ fontWeight: "500", marginTop: "0.5%", float: 'right', border: '1px solid BLUE', backgroundColor: 'BLUE' }} className="text_square">
                                                                 <text style={{ color: 'white', fontWeight: "500" }}>COMPLETED</text>
                                                             </div>
-                                                        case 'delivery':
+                                                        case 'Delivering':
                                                             return <div style={{ fontWeight: "500", marginTop: "0.5%", float: 'right', border: '1px solid #99ff66', backgroundColor: '#99ff66' }} className="text_square">
                                                                 <text style={{ color: 'white', fontWeight: "500" }}>DELIVERIED</text>
                                                             </div>
